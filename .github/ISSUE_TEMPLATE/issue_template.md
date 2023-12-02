@@ -7,6 +7,16 @@ assignees: ''
 
 ---
 
+---
+name: Issue Template
+about: 개발집 막내아들 이슈 관리 템플릿
+title: ''
+labels: ''
+assignees: ''
+
+---
+
+
 ## ⚠️ Issue
 ---
 - 이슈를 설명해주세요.
@@ -19,7 +29,6 @@ assignees: ''
 
 ## ETC
 ---
-
 
 
 ### 🏞 ScreenShot
