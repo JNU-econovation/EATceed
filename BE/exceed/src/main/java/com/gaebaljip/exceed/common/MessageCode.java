@@ -3,7 +3,12 @@ package com.gaebaljip.exceed.common;
 
 public enum MessageCode {
 
-    INTERNAL_SERVER_ERROR("500", "서버 내부 에러");
+    INTERNAL_SERVER_ERROR("500", "서버 내부 에러, BE를 불러주세요"),
+    INVALID_HEIGHT("4444", "키는 음수일 수 없습니다."),
+    INVALID_WEIGHT("4445", "몸무게가 음수일 수 없습니다."),
+    INVALID_AGE("4446", "나이는 음수일 수 없습니다."),
+    ;
+
 
     private final String code;
     private final String value;
