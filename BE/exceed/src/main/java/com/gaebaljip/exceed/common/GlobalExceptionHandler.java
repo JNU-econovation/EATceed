@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,11 @@ import java.net.BindException;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ApiResponse<ApiResponse.CustomBody> handleNoHandlerFoundException(HttpMessageNotReadableException e) {
+        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * 존재하지 않는 경로로 요청할 때 발생
