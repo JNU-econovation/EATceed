@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreateMemberService implements CreateMemberUsecase {
 
+    public static final int MINIMUM_HEIGHT = 0;
+    public static final int MINIMUM_WEIGHT = 0;
+    public static final int MINIMUM_AGE = 0;
     private final RecordMemberPort recordMemberPort;
 
     @Override
@@ -28,19 +31,19 @@ public class CreateMemberService implements CreateMemberUsecase {
     }
 
     private void validateHeight(Integer height) {
-        if (height <= 0) {
+        if (height <= MINIMUM_HEIGHT) {
             throw new InvalidHeightException("height must be greater than 0");
         }
     }
 
     private void validateWeight(Integer weight) {
-        if (weight <= 0) {
+        if (weight <= MINIMUM_WEIGHT) {
             throw new InvalidWeightException("weight must be greater than 0");
         }
     }
 
     private void validateAge(Integer age) {
-        if (age < 0) {
+        if (age < MINIMUM_AGE) {
             throw new InvalidAgeException("age must be greater than 0");
         }
     }
