@@ -29,7 +29,7 @@ public class CreateMemberController {
                 .etc(request.etc())
                 .age(request.age())
                 .activity(request.activity()).build();
-        createMemberUsecase.createMember(command);
+        createMemberUsecase.execute(command);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 }
