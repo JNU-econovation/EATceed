@@ -57,10 +57,10 @@ class CreateMemberServiceTest {
     }
 
     @Test
-    @DisplayName("나이가 0 미만일 경우 예외가 발생한다.")
+    @DisplayName("나이가 0 이하일 경우 예외가 발생한다.")
     void createMember_age() {
         //given
-        CreateMemberCommand command = createMemberCommand(171, 61, -1);
+        CreateMemberCommand command = createMemberCommand(171, 61, 0);
 
         //when then
         Assertions.assertThrows(InvalidAgeException.class, () -> {

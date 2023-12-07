@@ -43,7 +43,7 @@ public class CreateMemberService implements CreateMemberUsecase {
     }
 
     private void validateAge(Integer age) {
-        if (age < MINIMUM_AGE) {
+        if (age <= MINIMUM_AGE) {
             throw new InvalidAgeException("age must be greater than 0");
         }
     }
