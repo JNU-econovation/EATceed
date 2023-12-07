@@ -8,6 +8,7 @@ import com.gaebaljip.exceed.member.exception.InvalidHeightException;
 import com.gaebaljip.exceed.member.exception.InvalidWeightException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,10 +17,12 @@ public class CreateMemberService implements CreateMemberUsecase {
     public static final int MINIMUM_HEIGHT = 0;
     public static final int MINIMUM_WEIGHT = 0;
     public static final int MINIMUM_AGE = 0;
+
     private final RecordMemberPort recordMemberPort;
 
     @Override
-    public void createMember(CreateMemberCommand command) {
+    @Transactional
+    public void execute(CreateMemberCommand command) {
         validateCommand(command);
         recordMemberPort.save();
     }
