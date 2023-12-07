@@ -16,6 +16,10 @@ public enum Activity {
         this.value = value;
     }
 
+    public double getValue() {
+        return value;
+    }
+
     @JsonCreator
     public static Activity from(String value) {
         return Activity.valueOf(value.toUpperCase());
