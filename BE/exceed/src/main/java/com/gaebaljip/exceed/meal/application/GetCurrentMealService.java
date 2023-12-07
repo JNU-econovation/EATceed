@@ -18,12 +18,11 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Override
     public CurrentMeal execute(Long memberId, LocalDate date) {
         MealModel mealModel = loadMealPort.loadMeal(memberId, date);
-        CurrentMeal currentMeal = CurrentMeal.builder()
+        return CurrentMeal.builder()
                 .currentCalorie(mealModel.getCurrentCalorie())
                 .currentCarbohydrate(mealModel.getCurrentCarbohydrate())
                 .currentProtein(mealModel.getCurrentProtein())
                 .currentFat(mealModel.getCurrentFat())
                 .build();
-        return currentMeal;
     }
 }
