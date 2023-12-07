@@ -30,13 +30,13 @@ public class CreateMemberService implements CreateMemberUsecase {
         validateAge(command.age());
     }
 
-    private void validateHeight(Integer height) {
+    private void validateHeight(Double height) {
         if (height <= MINIMUM_HEIGHT) {
             throw new InvalidHeightException("height must be greater than 0");
         }
     }
 
-    private void validateWeight(Integer weight) {
+    private void validateWeight(Double weight) {
         if (weight <= MINIMUM_WEIGHT) {
             throw new InvalidWeightException("weight must be greater than 0");
         }

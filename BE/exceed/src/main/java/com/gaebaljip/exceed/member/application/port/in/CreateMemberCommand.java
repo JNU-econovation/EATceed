@@ -8,12 +8,12 @@ import javax.validation.constraints.NotNull;
 
 public record CreateMemberCommand(
         @NotBlank
-        Integer height,
+        Double height,
         @NotNull
         Boolean gender,
 
         @NotBlank
-        Integer weight,
+        Double weight,
 
         @NotBlank
         Integer age,
