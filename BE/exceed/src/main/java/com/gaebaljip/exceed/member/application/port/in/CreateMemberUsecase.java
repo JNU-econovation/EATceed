@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface CreateMemberUsecase {
-    public void createMember(CreateMemberCommand command);
+    void execute(CreateMemberCommand command);
 
 }
 

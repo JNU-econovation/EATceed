@@ -21,7 +21,7 @@ class CreateMemberServiceTest {
     @InjectMocks
     private CreateMemberService createMemberService;
 
-    private static CreateMemberCommand createMemberCommand(int height, int weight, int age) {
+    private static CreateMemberCommand createMemberCommand(double height, double weight, int age) {
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(height)
                 .weight(weight)
@@ -31,16 +31,15 @@ class CreateMemberServiceTest {
                 .build();
         return command;
     }
-
     @Test
-    @DisplayName("키가 0 이하일 경우 예외가 발생한다.")
+    @DisplayName("몸무게가 0 이하일 경우 예외가 발생한다.")
     void createMember_weight() {
         //given
         CreateMemberCommand command = createMemberCommand(0, 61, 25);
 
         //when then
         Assertions.assertThrows(InvalidHeightException.class, () -> {
-            createMemberService.createMember(command);
+            createMemberService.execute(command);
         });
     }
 
@@ -52,7 +51,7 @@ class CreateMemberServiceTest {
 
         //when then
         Assertions.assertThrows(InvalidWeightException.class, () -> {
-            createMemberService.createMember(command);
+            createMemberService.execute(command);
         });
     }
 
@@ -64,7 +63,7 @@ class CreateMemberServiceTest {
 
         //when then
         Assertions.assertThrows(InvalidAgeException.class, () -> {
-            createMemberService.createMember(command);
+            createMemberService.execute(command);
         });
     }
 }

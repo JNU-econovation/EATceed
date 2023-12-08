@@ -9,10 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class MemberModel {
 
-    private Integer height;
-    private Boolean gender;
-    private Integer weight;
-    private Integer age;
-    private Activity activity;
+    private PhysiqueModel physiqueModel;
     private String etc;
+
 }
