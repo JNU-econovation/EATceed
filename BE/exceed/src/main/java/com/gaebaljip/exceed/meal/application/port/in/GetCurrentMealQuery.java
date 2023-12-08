@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.meal.port.in;
+package com.gaebaljip.exceed.meal.application.port.in;
 
 import com.gaebaljip.exceed.dto.CurrentMeal;
 import org.springframework.stereotype.Component;

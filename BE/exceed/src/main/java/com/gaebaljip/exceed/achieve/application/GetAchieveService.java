@@ -1,10 +1,12 @@
-package com.gaebaljip.exceed.meal.application;
+package com.gaebaljip.exceed.achieve.application;
 
-import com.gaebaljip.exceed.dto.CurrentMeal;
+import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
+import com.gaebaljip.exceed.achieve.domain.Achieve;
+import com.gaebaljip.exceed.dto.GetAchieve;
+import com.gaebaljip.exceed.dto.GetAchieveListResponse;
 import com.gaebaljip.exceed.food.domain.FoodModel;
-import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
-import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
+import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.domain.MealType;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
@@ -17,13 +19,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetCurrentMealService implements GetCurrentMealQuery {
+public class GetAchieveService implements GetAchieveUsecase {
 
     private final LoadMealPort loadMealPort;
 
     @Override
-    public CurrentMeal execute(Long memberId, LocalDate date) {
-        loadMealPort.query(memberId, date);
+    public GetAchieveListResponse execute(Long memberId, LocalDate date) {
+
+        MealModel query = loadMealPort.query(memberId, date);
         PhysiqueModel physiqueModel = PhysiqueModel.builder()
                 .gender(true)
                 .age(25)
@@ -58,11 +61,16 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
                 .foodModels(List.of(foodModel, foodModel1))
                 .build();
 
-        return CurrentMeal.builder()
-                .currentCalorie(mealModel.getCurentCalorie())
-                .currentCarbohydrate(mealModel.getCurrentCarbohydrate())
-                .currentProtein(mealModel.getCurrentProtein())
-                .currentFat(mealModel.getCurrentFat())
+        Achieve achieve = Achieve.builder()
                 .build();
+
+        GetAchieve getAchieve = new GetAchieve(true,
+                LocalDate.now(),
+                achieve.calculateCalorieAchieveRate(mealModel.getCurentCalorie(), physiqueModel.measureTargetCalorie()),
+                achieve.evaluateCarbohydrateAchieve(mealModel.getCurrentCarbohydrate(), physiqueModel.measureTargetCarbohydrate()),
+                achieve.evaluateProteinAchieve(mealModel.getCurrentProtein(), physiqueModel.measureTargetProtein()),
+                achieve.evaluateFatAchieve(mealModel.getCurrentFat(), physiqueModel.measureTargetFat()));
+
+        return new GetAchieveListResponse(List.of(getAchieve));
     }
 }

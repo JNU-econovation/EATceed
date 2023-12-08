@@ -14,10 +14,10 @@ import java.util.List;
 public class MealModel {
 
     private MemberModel memberModel;
-    private String mealType;
+    private MealType mealType;
     private List<FoodModel> foodModels;
 
-    public double getCurrentCalorie() {
+    public double getCurentCalorie() {
         return foodModels.stream().mapToDouble(FoodModel::getCalorie).sum();
     }
 

@@ -17,7 +17,7 @@ public class GetTargetMealService implements GetTargetMealUsecase {
 
     @Override
     public TargetMeal execute(Long memberId) {
-        loadMemberPort.loadMember(memberId);
+        loadMemberPort.query(memberId);
         PhysiqueModel physiqueModel = PhysiqueModel.builder()
                 .gender(true)
                 .age(25)

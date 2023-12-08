@@ -6,7 +6,7 @@ import com.gaebaljip.exceed.dto.CurrentMeal;
 import com.gaebaljip.exceed.dto.GetMealNutritionResponse;
 import com.gaebaljip.exceed.dto.MaintainMeal;
 import com.gaebaljip.exceed.dto.TargetMeal;
-import com.gaebaljip.exceed.meal.port.in.GetCurrentMealQuery;
+import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
 import lombok.RequiredArgsConstructor;

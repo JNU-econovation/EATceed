@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface LoadMemberPort {
 
-    public MemberModel loadMember(Long memberId);
+    MemberModel query(Long memberId);
 }

@@ -24,7 +24,7 @@ public class CreateMemberService implements CreateMemberUsecase {
     @Transactional
     public void execute(CreateMemberCommand command) {
         validateCommand(command);
-        recordMemberPort.save();
+        recordMemberPort.query();
     }
 
     private void validateCommand(CreateMemberCommand command) {
