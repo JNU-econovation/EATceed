@@ -17,7 +17,7 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
 
     @Override
     public MaintainMeal execute(Long memberId) {
-        loadMemberPort.loadMember(memberId);
+        loadMemberPort.query(memberId);
         PhysiqueModel physiqueModel = PhysiqueModel.builder()
                 .gender(true)
                 .age(25)
