@@ -4,9 +4,9 @@ import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPort {
 
