@@ -31,7 +31,7 @@ public class GetMealController {
     private final GetTargetMealUsecase getTargetMealUsecase;
     private final GetCurrentMealQuery getCurrentMealQuery;
 
-    @GetMapping("/meal/{date}/nutrition")
+    @GetMapping("/meal/{date}")
     public ApiResponse<?> getMealNutrition(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
