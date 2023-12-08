@@ -13,7 +13,6 @@ import com.gaebaljip.exceed.member.domain.MemberModel;
 import com.gaebaljip.exceed.member.domain.PhysiqueModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import java.util.List;
 public class GetAchieveService implements GetAchieveUsecase {
 
     private final LoadMealPort loadMealPort;
-
     @Override
     public GetAchieveListResponse execute(Long memberId, LocalDate date) {
 
