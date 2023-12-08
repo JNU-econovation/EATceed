@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface RecordMemberPort {
 
-    public MemberModel save();
+    MemberModel query();
 }
