@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.dto;
 
-public record GetMealNutritionResponse(
+public record GetMealResponse(
         MaintainMeal maintainMeal,
         TargetMeal targetMeal,
         CurrentMeal currentMeal) {

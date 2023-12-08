@@ -24,8 +24,9 @@ public class GetAchieveController {
     private final GetAchieveUsecase getAchieveUsecase;
 
     @GetMapping("/achieve/{date}")
-    public ApiResponse<?> getAchieve(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public ApiResponse<?> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         GetAchieveListResponse achieveListResponse = getAchieveUsecase.execute(1L, date);
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
+
 }
