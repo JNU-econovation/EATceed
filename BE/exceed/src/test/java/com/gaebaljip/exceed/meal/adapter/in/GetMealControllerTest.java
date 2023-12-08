@@ -5,6 +5,8 @@ import com.gaebaljip.exceed.dto.CurrentMeal;
 import com.gaebaljip.exceed.dto.MaintainMeal;
 import com.gaebaljip.exceed.dto.TargetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
+import com.gaebaljip.exceed.meal.application.port.in.GetFoodQuery;
+import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,11 @@ class GetMealControllerTest extends CommonApiTest {
     @MockBean
     private GetCurrentMealQuery getCurrentMealQuery;
 
+    @MockBean
+    private GetSpecificMealQuery getSpecificMealQuery;
+
+    @MockBean
+    private GetFoodQuery getFoodQuery;
 
     @Test
     void getMealNutrition() throws Exception {
