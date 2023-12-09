@@ -30,6 +30,6 @@ public class CreateMemberController {
                 .age(request.age())
                 .activity(request.activity()).build();
         createMemberUsecase.execute(command);
-        return ApiResponseGenerator.success(HttpStatus.OK);
+        return ApiResponseGenerator.success(HttpStatus.CREATED);
     }
 }
