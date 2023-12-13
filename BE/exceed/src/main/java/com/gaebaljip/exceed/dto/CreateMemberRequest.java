@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.dto;
 
+import com.gaebaljip.exceed.common.annotation.Enum;
 import com.gaebaljip.exceed.member.domain.Activity;
 import lombok.Builder;
 
@@ -8,7 +9,8 @@ public record CreateMemberRequest(
         Boolean gender,
         Double weight,
         Integer age,
-        Activity activity,
+        @Enum(enumClass = Activity.class)
+        String activity,
         String etc
 ) {
 
