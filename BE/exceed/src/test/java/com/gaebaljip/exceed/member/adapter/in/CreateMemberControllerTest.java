@@ -42,8 +42,10 @@ class CreateMemberControllerTest extends CommonApiTest {
     void createMember_invalidActivity() throws Exception {
         //given
 
+        String invalidValue = "ACTIVE";
+
         CreateMemberTestRequest request = new CreateMemberTestRequest(
-                171, true, 61, 25, "ACTIVE", "뭐든 잘 먹습니다.");
+                171, true, 61, 25, invalidValue, "뭐든 잘 먹습니다.");
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -54,7 +56,7 @@ class CreateMemberControllerTest extends CommonApiTest {
 
         //then
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("$.error.reason").value("Invalid activity"));
+        resultActions.andExpect(jsonPath("$.error.reason").value(invalidValue + "는 올바르지 않은 값입니다."));
     }
 
 
