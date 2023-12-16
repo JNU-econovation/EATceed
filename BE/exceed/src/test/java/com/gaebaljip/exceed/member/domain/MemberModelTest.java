@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PhysiqueModelTest {
+class MemberModelTest {
 
     @Test
     void measureBMR() {
         //given
-        PhysiqueModel physiqueModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, true);
+        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
-        double bmr = physiqueModel.measureBMR();
+        double bmr = memberModel.measureBMR();
         double roundedBmr = DecimalUtil.roundToTwoDecimals(bmr);
 
         //then
@@ -23,10 +23,10 @@ class PhysiqueModelTest {
     @Test
     void measureTDEE() {
         //given
-        PhysiqueModel physiqueModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, true);
+        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
-        double tdee = physiqueModel.measureTDEE();
+        double tdee = memberModel.measureTDEE();
         double roundedTdee = DecimalUtil.roundToTwoDecimals(tdee);
         //then
         assertEquals(1910.42, roundedTdee);
@@ -35,17 +35,17 @@ class PhysiqueModelTest {
     @Test
     void measureTargetCalorie() {
         //given
-        PhysiqueModel physiqueModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, true);
+        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
-        double targetCalorie = physiqueModel.measureTargetCalorie();
+        double targetCalorie = memberModel.measureTargetCalorie();
         double roundedTargetCalorie = DecimalUtil.roundToTwoDecimals(targetCalorie);
         //then
         assertEquals(2410.42, roundedTargetCalorie);
     }
 
-    private PhysiqueModel createPhysiqueModel(double height, double weight, int age, Activity activity, Boolean gender) {
-        return PhysiqueModel.builder()
+    private MemberModel createPhysiqueModel(double height, double weight, int age, Activity activity, int gender) {
+        return MemberModel.builder()
                 .height(height)
                 .weight(weight)
                 .age(age)
