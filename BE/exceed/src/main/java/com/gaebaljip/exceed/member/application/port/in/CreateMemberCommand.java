@@ -10,7 +10,7 @@ public record CreateMemberCommand(
         @NotBlank
         Double height,
         @NotNull
-        Boolean gender,
+        Integer gender,
 
         @NotBlank
         Double weight,

@@ -29,6 +29,7 @@ public class CreateMemberController {
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(request.height())
                 .weight(request.weight())
+                .gender(request.gender())
                 .etc(request.etc())
                 .age(request.age())
                 .activity(Activity.valueOf(request.activity())).build();

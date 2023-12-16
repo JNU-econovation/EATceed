@@ -24,7 +24,7 @@ class CreateMemberControllerTest extends CommonApiTest {
         //given
 
         CreateMemberTestRequest request = new CreateMemberTestRequest(
-                171, true, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+                171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -45,7 +45,7 @@ class CreateMemberControllerTest extends CommonApiTest {
         String invalidValue = "ACTIVE";
 
         CreateMemberTestRequest request = new CreateMemberTestRequest(
-                171, true, 61, 25, invalidValue, "뭐든 잘 먹습니다.");
+                171, 1, 61, 25, invalidValue, "뭐든 잘 먹습니다.");
 
         //when
         ResultActions resultActions = mockMvc.perform(
