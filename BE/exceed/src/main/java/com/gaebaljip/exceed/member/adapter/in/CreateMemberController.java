@@ -26,9 +26,6 @@ public class CreateMemberController {
 
     @PostMapping("/members")
     public ApiResponse<?> createMember(@Valid @RequestBody CreateMemberRequest request) {
-        if (request.activity() == null) {
-            return ApiResponseGenerator.fail("Invalid activity", HttpStatus.BAD_REQUEST);
-        }
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(request.height())
                 .weight(request.weight())
