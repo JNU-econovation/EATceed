@@ -6,8 +6,8 @@ public class InvalidHeightException extends IllegalArgumentException {
 
     private final MessageCode messageCode;
 
-    public InvalidHeightException(String message) {
-        super(message);
+    public InvalidHeightException() {
+        super(MessageCode.INVALID_HEIGHT.getValue());
         this.messageCode = MessageCode.INVALID_HEIGHT;
     }
 }
