@@ -5,7 +5,6 @@ import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
 import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
-import com.gaebaljip.exceed.member.domain.PhysiqueModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +17,18 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     @Override
     public TargetMeal execute(Long memberId) {
         loadMemberPort.query(memberId);
-        PhysiqueModel physiqueModel = PhysiqueModel.builder()
-                .gender(true)
+        MemberModel memberModel = MemberModel.builder()
+                .gender(1)
                 .age(25)
                 .activity(Activity.NOT_ACTIVE)
                 .height(171.2)
                 .weight(60.2)
                 .build();
-        MemberModel memberModel = MemberModel.builder()
-                .physiqueModel(physiqueModel)
-                .etc("뭐든 다 잘먹음")
-                .build();
         TargetMeal targetMeal = TargetMeal.builder()
-                .targetCalorie(memberModel.getPhysiqueModel().measureTargetCalorie())
-                .targetCarbohydrate(memberModel.getPhysiqueModel().measureTargetCarbohydrate())
-                .targetProtein(memberModel.getPhysiqueModel().measureTargetProtein())
-                .targetFat(memberModel.getPhysiqueModel().measureTargetFat())
+                .targetCalorie(memberModel.measureTargetCalorie())
+                .targetCarbohydrate(memberModel.measureTargetCarbohydrate())
+                .targetProtein(memberModel.measureTargetProtein())
+                .targetFat(memberModel.measureTargetFat())
                 .build();
         return targetMeal;
     }

@@ -8,7 +8,6 @@ import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.domain.MealType;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
-import com.gaebaljip.exceed.member.domain.PhysiqueModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +23,12 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Override
     public CurrentMeal execute(Long memberId, LocalDate date) {
         loadMealPort.query(memberId, date);
-        PhysiqueModel physiqueModel = PhysiqueModel.builder()
-                .gender(true)
+        MemberModel memberModel = MemberModel.builder()
+                .gender(1)
                 .age(25)
                 .activity(Activity.NOT_ACTIVE)
                 .height(171.2)
                 .weight(60.2)
-                .build();
-        MemberModel memberModel = MemberModel.builder()
-                .physiqueModel(physiqueModel)
-                .etc("뭐든 다 잘먹음")
                 .build();
 
         FoodModel foodModel = FoodModel.builder()
