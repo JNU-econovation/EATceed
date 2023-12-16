@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 public record CreateMemberCommand(
         @NotBlank
         Double height,
-        @NotNull
+        @NotBlank
         Integer gender,
 
         @NotBlank

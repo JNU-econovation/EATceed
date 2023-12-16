@@ -4,6 +4,7 @@ import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
+import com.gaebaljip.exceed.member.exception.InvalidGenderException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
 import com.gaebaljip.exceed.member.exception.InvalidWeightException;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,13 @@ public class CreateMemberService implements CreateMemberUsecase {
         validateHeight(command.height());
         validateWeight(command.weight());
         validateAge(command.age());
+        validGender(command.gender());
+    }
+
+    private void validGender(Integer gender) {
+        if (gender < 0 || gender > 1) {
+            throw new InvalidGenderException();
+        }
     }
 
     private void validateHeight(Double height) {
