@@ -6,7 +6,7 @@ import lombok.Builder;
 
 public record CreateMemberRequest(
         Double height,
-        Boolean gender,
+        Integer gender,
         Double weight,
         Integer age,
         @Enum(enumClass = Activity.class)

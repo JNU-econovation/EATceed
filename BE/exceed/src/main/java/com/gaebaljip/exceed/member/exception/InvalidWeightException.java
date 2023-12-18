@@ -6,8 +6,8 @@ public class InvalidWeightException extends IllegalArgumentException {
 
     private final MessageCode messageCode;
 
-    public InvalidWeightException(String message) {
-        super(message);
+    public InvalidWeightException() {
+        super(MessageCode.INVALID_WEIGHT.getValue());
         this.messageCode = MessageCode.INVALID_WEIGHT;
     }
 }

@@ -10,7 +10,6 @@ import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.domain.MealType;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
-import com.gaebaljip.exceed.member.domain.PhysiqueModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -25,16 +24,12 @@ public class GetAchieveService implements GetAchieveUsecase {
     public GetAchieveListResponse execute(Long memberId, LocalDate date) {
 
         MealModel query = loadMealPort.query(memberId, date);
-        PhysiqueModel physiqueModel = PhysiqueModel.builder()
-                .gender(true)
+        MemberModel memberModel = MemberModel.builder()
+                .gender(1)
                 .age(25)
                 .activity(Activity.NOT_ACTIVE)
                 .height(171.2)
                 .weight(60.2)
-                .build();
-        MemberModel memberModel = MemberModel.builder()
-                .physiqueModel(physiqueModel)
-                .etc("뭐든 다 잘먹음")
                 .build();
 
         FoodModel foodModel = FoodModel.builder()
@@ -64,10 +59,10 @@ public class GetAchieveService implements GetAchieveUsecase {
 
         GetAchieve getAchieve = new GetAchieve(true,
                 LocalDate.now(),
-                achieve.calculateCalorieAchieveRate(mealModel.getCurentCalorie(), physiqueModel.measureTargetCalorie()),
-                achieve.evaluateCarbohydrateAchieve(mealModel.getCurrentCarbohydrate(), physiqueModel.measureTargetCarbohydrate()),
-                achieve.evaluateProteinAchieve(mealModel.getCurrentProtein(), physiqueModel.measureTargetProtein()),
-                achieve.evaluateFatAchieve(mealModel.getCurrentFat(), physiqueModel.measureTargetFat()));
+                achieve.calculateCalorieAchieveRate(mealModel.getCurentCalorie(), memberModel.measureTargetCalorie()),
+                achieve.evaluateCarbohydrateAchieve(mealModel.getCurrentCarbohydrate(), memberModel.measureTargetCarbohydrate()),
+                achieve.evaluateProteinAchieve(mealModel.getCurrentProtein(), memberModel.measureTargetProtein()),
+                achieve.evaluateFatAchieve(mealModel.getCurrentFat(), memberModel.measureTargetFat()));
 
         return new GetAchieveListResponse(List.of(getAchieve));
     }

@@ -7,15 +7,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public record CreateMemberCommand(
-        @NotBlank
+        @NotBlank(message = "height must not be null")
         Double height,
-        @NotNull
-        Boolean gender,
+        @NotBlank(message = "gender must not be null")
+        Integer gender,
 
-        @NotBlank
+        @NotBlank(message = "weight must not be null")
         Double weight,
 
-        @NotBlank
+        @NotBlank(message = "age must not be null")
         Integer age,
 
         @NotNull(message = "activity must not be null")

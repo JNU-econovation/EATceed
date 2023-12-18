@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPort {
 
+    private final MemberRepository memberRepository;
     @Override
     public MemberModel query(Long memberId) {
         return null;
     }
 
     @Override
-    public MemberModel query() {
-        return null;
+    public void query(MemberEntity memberEntity) {
+        memberRepository.save(memberEntity);
     }
 }
