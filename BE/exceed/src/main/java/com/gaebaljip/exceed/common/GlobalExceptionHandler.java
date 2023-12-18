@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.common;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -27,6 +28,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     protected ApiResponse<?> handleNoHandlerFoundException(NoHandlerFoundException e) {
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    protected ApiResponse<?> handleInvalidFormatExceptionException(InvalidFormatException e) {
+        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     /**
