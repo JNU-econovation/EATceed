@@ -1,5 +1,6 @@
-package com.gaebaljip.exceed.member.adapter.out.persistence;
+package com.gaebaljip.exceed.member.application;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import org.springframework.stereotype.Component;
 
