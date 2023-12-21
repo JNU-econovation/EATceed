@@ -7,8 +7,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public interface LoadFoodsSpecificDate {
+public interface LoadFoodPort {
 
     List<FoodModel> query(Long memberId, LocalDate date);
+
+    List<FoodModel> query(List<Long> foodIds);
 
 }
