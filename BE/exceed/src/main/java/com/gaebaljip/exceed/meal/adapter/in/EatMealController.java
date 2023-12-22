@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.meal.adapter.in;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.EatMealRequest;
+import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.in.GetPreSignedUrlUsecase;

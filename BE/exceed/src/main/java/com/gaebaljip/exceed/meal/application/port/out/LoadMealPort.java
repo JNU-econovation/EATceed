@@ -4,8 +4,9 @@ import com.gaebaljip.exceed.meal.domain.MealModel;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public interface LoadMealPort {
-    MealModel query(Long memberId, LocalDate date);
+    List<MealModel> query(Long memberId, LocalDate date);
 }

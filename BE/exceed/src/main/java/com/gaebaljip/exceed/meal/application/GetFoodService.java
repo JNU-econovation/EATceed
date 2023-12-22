@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.application;
 
-import com.gaebaljip.exceed.dto.GetFood;
+import com.gaebaljip.exceed.dto.response.GetFood;
 import com.gaebaljip.exceed.food.application.out.LoadFoodPort;
 import com.gaebaljip.exceed.food.domain.FoodModel;
 import com.gaebaljip.exceed.meal.application.port.in.GetFoodQuery;

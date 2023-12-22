@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.application.port.in;
 
-import com.gaebaljip.exceed.dto.CurrentMeal;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

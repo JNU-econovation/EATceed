@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
-import com.gaebaljip.exceed.dto.CurrentMeal;
-import com.gaebaljip.exceed.dto.MaintainMeal;
-import com.gaebaljip.exceed.dto.TargetMeal;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
+import com.gaebaljip.exceed.dto.response.MaintainMeal;
+import com.gaebaljip.exceed.dto.response.TargetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;

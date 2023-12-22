@@ -19,24 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CreateMemberIntegrationTest extends IntegrationTest {
 
     @Autowired
-    private CreateMemberController createMemberController;
-
-    @Autowired
-    private CreateMemberService createMemberService;
-
-    @Autowired
-    private MemberConverter memberConverter;
-
-    @Autowired
-    private MemberPersistenceAdapter memberPersistenceAdapter;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @Test
     void createMember() throws Exception {
         //given
-
+        int beforeCnt = memberRepository.findAll().size();
         CreateMemberTestRequest request = new CreateMemberTestRequest(
                 171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
@@ -50,8 +38,10 @@ public class CreateMemberIntegrationTest extends IntegrationTest {
         long cnt = memberRepository.findAll().stream().count();
 
         //then
+        int afterCnt = memberRepository.findAll().size();
         resultActions.andExpect(status().isCreated());
-        Assertions.assertThat(cnt).isEqualTo(1);
+        Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
+        Assertions.assertThat(afterCnt).isGreaterThan(1);
     }
 
 

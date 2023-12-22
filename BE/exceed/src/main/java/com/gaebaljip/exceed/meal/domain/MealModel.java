@@ -1,11 +1,8 @@
 package com.gaebaljip.exceed.meal.domain;
 
 import com.gaebaljip.exceed.food.domain.FoodModel;
-import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.List;
 
 @Getter
@@ -18,7 +15,7 @@ public class MealModel {
     private MealType mealType;
     private List<FoodModel> foodModels;
 
-    public double getCurentCalorie() {
+    public double getCurrentCalorie() {
         return foodModels.stream().mapToDouble(FoodModel::getCalorie).sum();
     }
 

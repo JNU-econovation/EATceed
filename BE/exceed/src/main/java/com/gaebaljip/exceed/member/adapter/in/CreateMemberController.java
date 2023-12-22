@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.member.adapter.in;
 
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.CreateMemberRequest;
+import com.gaebaljip.exceed.dto.request.CreateMemberRequest;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
 import com.gaebaljip.exceed.member.domain.Activity;

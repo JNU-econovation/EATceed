@@ -1,13 +1,10 @@
 package com.gaebaljip.exceed.meal.application;
 
-import com.gaebaljip.exceed.dto.CurrentMeal;
-import com.gaebaljip.exceed.food.domain.FoodModel;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
-import com.gaebaljip.exceed.meal.domain.MealType;
-import com.gaebaljip.exceed.member.domain.Activity;
-import com.gaebaljip.exceed.member.domain.MemberModel;
+import com.gaebaljip.exceed.meal.domain.MealsModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,41 +19,15 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
 
     @Override
     public CurrentMeal execute(Long memberId, LocalDate date) {
-        loadMealPort.query(memberId, date);
-        MemberModel memberModel = MemberModel.builder()
-                .gender(1)
-                .age(25)
-                .activity(Activity.NOT_ACTIVE)
-                .height(171.2)
-                .weight(60.2)
+        List<MealModel> mealModels = loadMealPort.query(memberId, date);
+        MealsModel mealsModel = MealsModel.builder()
+                .mealModels(mealModels)
                 .build();
-
-        FoodModel foodModel = FoodModel.builder()
-                .name("밥")
-                .calorie(400)
-                .carbohydrate(300)
-                .protein(800)
-                .fat(20)
-                .build();
-
-        FoodModel foodModel1 = FoodModel.builder()
-                .name("된장찌개")
-                .calorie(1000)
-                .carbohydrate(600)
-                .protein(300)
-                .fat(100)
-                .build();
-
-        MealModel mealModel = MealModel.builder()
-                .mealType(MealType.LUNCH)
-                .foodModels(List.of(foodModel, foodModel1))
-                .build();
-
         return CurrentMeal.builder()
-                .currentCalorie(mealModel.getCurentCalorie())
-                .currentCarbohydrate(mealModel.getCurrentCarbohydrate())
-                .currentProtein(mealModel.getCurrentProtein())
-                .currentFat(mealModel.getCurrentFat())
+                .currentCalorie(mealsModel.calculateCurrentCalorie())
+                .currentCarbohydrate(mealsModel.calculateCurrentCarbohydrate())
+                .currentFat(mealsModel.calculateCurrentFat())
+                .currentProtein(mealsModel.calculateCurrentProtein())
                 .build();
     }
 }
