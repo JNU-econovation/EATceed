@@ -1,10 +1,8 @@
 package com.gaebaljip.exceed.meal.adapter;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.dto.EatMealRequest;
+import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
-import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
-import com.gaebaljip.exceed.meal.application.port.in.GetPreSignedUrlUsecase;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

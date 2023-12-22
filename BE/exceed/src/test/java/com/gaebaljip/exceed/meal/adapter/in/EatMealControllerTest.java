@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
-import com.gaebaljip.exceed.dto.EatMealRequest;
+import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.in.GetPreSignedUrlUsecase;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
