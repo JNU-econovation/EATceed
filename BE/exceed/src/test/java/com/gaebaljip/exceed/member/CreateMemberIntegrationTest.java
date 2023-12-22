@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.member;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.member.adapter.in.CreateMemberController;
 import com.gaebaljip.exceed.member.adapter.in.CreateMemberTestRequest;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberConverter;
+import com.gaebaljip.exceed.member.application.MemberConverter;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberPersistenceAdapter;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 import com.gaebaljip.exceed.member.application.CreateMemberService;
