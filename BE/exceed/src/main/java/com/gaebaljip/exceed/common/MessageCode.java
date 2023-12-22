@@ -9,7 +9,9 @@ public enum MessageCode {
     INVALID_AGE("4446", "나이는 음수일 수 없습니다."),
 
     INVALID_GENDER("4447", "성별은 1과 0으로만 표현됩니다."),
-    ;
+    INVALID_MEMBER("4448", "존재하지 않는 회원입니다."),
+    INVALID_MULTIPLE("4449", "0인분보다 커야하고, 100인분보다 작아야합니다."),
+    INVALID_FOOD("4450", "존재하지 않는 음식입니다.");
 
 
     private final String code;
