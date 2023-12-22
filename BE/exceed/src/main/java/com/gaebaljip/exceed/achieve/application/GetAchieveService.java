@@ -2,8 +2,8 @@ package com.gaebaljip.exceed.achieve.application;
 
 import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
 import com.gaebaljip.exceed.achieve.domain.Achieve;
-import com.gaebaljip.exceed.dto.GetAchieve;
-import com.gaebaljip.exceed.dto.GetAchieveListResponse;
+import com.gaebaljip.exceed.dto.response.GetAchieve;
+import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
 import com.gaebaljip.exceed.food.domain.FoodModel;
 import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
 import com.gaebaljip.exceed.meal.domain.MealModel;
@@ -12,6 +12,7 @@ import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class GetAchieveService implements GetAchieveUsecase {
     @Override
     public GetAchieveListResponse execute(Long memberId, LocalDate date) {
 
-        MealModel query = loadMealPort.query(memberId, date);
+        List<MealModel> mealModels = loadMealPort.query(memberId, date);
         MemberModel memberModel = MemberModel.builder()
                 .gender(1)
                 .age(25)
@@ -58,7 +59,7 @@ public class GetAchieveService implements GetAchieveUsecase {
 
         GetAchieve getAchieve = new GetAchieve(true,
                 LocalDate.now(),
-                achieve.calculateCalorieAchieveRate(mealModel.getCurentCalorie(), memberModel.measureTargetCalorie()),
+                achieve.calculateCalorieAchieveRate(mealModel.getCurrentCalorie(), memberModel.measureTargetCalorie()),
                 achieve.evaluateCarbohydrateAchieve(mealModel.getCurrentCarbohydrate(), memberModel.measureTargetCarbohydrate()),
                 achieve.evaluateProteinAchieve(mealModel.getCurrentProtein(), memberModel.measureTargetProtein()),
                 achieve.evaluateFatAchieve(mealModel.getCurrentFat(), memberModel.measureTargetFat()));

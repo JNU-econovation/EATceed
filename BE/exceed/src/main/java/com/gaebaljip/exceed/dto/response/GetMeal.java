@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto;
+package com.gaebaljip.exceed.dto.response;
 
 import com.gaebaljip.exceed.meal.domain.MealType;
 import lombok.Builder;

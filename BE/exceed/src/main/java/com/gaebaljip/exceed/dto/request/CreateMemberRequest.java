@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto;
+package com.gaebaljip.exceed.dto.request;
 
 import com.gaebaljip.exceed.common.annotation.Enum;
 import com.gaebaljip.exceed.member.domain.Activity;

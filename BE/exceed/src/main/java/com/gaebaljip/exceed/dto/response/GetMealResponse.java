@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto;
+package com.gaebaljip.exceed.dto.response;
 
 public record GetMealResponse(
         MaintainMeal maintainMeal,

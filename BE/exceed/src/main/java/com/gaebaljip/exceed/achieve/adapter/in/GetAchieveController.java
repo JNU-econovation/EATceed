@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.achieve.adapter.in;
 import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.GetAchieveListResponse;
+import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
