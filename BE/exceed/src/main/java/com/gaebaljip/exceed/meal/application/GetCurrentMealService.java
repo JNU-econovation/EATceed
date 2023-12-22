@@ -48,7 +48,6 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
                 .build();
 
         MealModel mealModel = MealModel.builder()
-                .memberModel(memberModel)
                 .mealType(MealType.LUNCH)
                 .foodModels(List.of(foodModel, foodModel1))
                 .build();
