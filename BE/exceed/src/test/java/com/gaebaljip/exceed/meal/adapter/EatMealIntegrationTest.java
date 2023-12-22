@@ -30,6 +30,8 @@ public class EatMealIntegrationTest extends IntegrationTest {
     @Test
     void eatMeal() throws Exception {
         //given
+
+        long beforeCnt = mealRepository.findAll().stream().count();
         EatMealRequest eatMealRequest = EatMealRequest.builder()
                 .mealType("LUNCH")
                 .multiple(1.5)
@@ -43,11 +45,12 @@ public class EatMealIntegrationTest extends IntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON));
 
 
-        long cnt = mealRepository.findAll().stream().count();
+        long afterCnt = mealRepository.findAll().stream().count();
 
         //then
         resultActions.andExpect(status().isCreated());
-        Assertions.assertThat(cnt).isEqualTo(1);
+        Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
+        Assertions.assertThat(afterCnt).isGreaterThan(0);
     }
 
 
