@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.food.application.out;
 
+import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.domain.FoodModel;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,6 @@ public interface LoadFoodPort {
 
     List<FoodModel> query(Long memberId, LocalDate date);
 
-    List<FoodModel> query(List<Long> foodIds);
+    List<FoodEntity> query(List<Long> foodIds);
 
 }
