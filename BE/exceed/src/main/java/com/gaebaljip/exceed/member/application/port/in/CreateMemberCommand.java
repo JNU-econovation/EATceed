@@ -2,7 +2,6 @@ package com.gaebaljip.exceed.member.application.port.in;
 
 import com.gaebaljip.exceed.member.domain.Activity;
 import lombok.Builder;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
