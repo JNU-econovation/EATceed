@@ -19,18 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CreateMemberIntegrationTest extends IntegrationTest {
 
     @Autowired
-    private CreateMemberController createMemberController;
-
-    @Autowired
-    private CreateMemberService createMemberService;
-
-    @Autowired
-    private MemberConverter memberConverter;
-
-    @Autowired
-    private MemberPersistenceAdapter memberPersistenceAdapter;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @Test

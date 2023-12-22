@@ -19,12 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EatMealIntegrationTest extends IntegrationTest {
 
     @Autowired
-    private EatMealUsecase eatMealUsecase;
-
-    @Autowired
-    private GetPreSignedUrlUsecase getPreSignedUrlUsecase;
-
-    @Autowired
     private MealRepository mealRepository;
 
     @Test
