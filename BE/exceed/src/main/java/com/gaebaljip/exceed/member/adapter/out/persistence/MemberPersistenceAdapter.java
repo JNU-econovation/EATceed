@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
-import com.gaebaljip.exceed.member.domain.MemberModel;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPort {
 
     private final MemberRepository memberRepository;
+
     @Override
-    public MemberModel query(Long memberId) {
-        return null;
+    public MemberEntity query(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
     }
 
     @Override

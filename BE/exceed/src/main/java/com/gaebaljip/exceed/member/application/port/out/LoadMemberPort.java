@@ -1,10 +1,10 @@
 package com.gaebaljip.exceed.member.application.port.out;
 
-import com.gaebaljip.exceed.member.domain.MemberModel;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface LoadMemberPort {
 
-    MemberModel query(Long memberId);
+    MemberEntity query(Long memberId);
 }
