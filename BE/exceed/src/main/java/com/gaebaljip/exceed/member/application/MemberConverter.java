@@ -19,6 +19,12 @@ public class MemberConverter {
     }
 
     public MemberModel toModel(MemberEntity memberEntity) {
-        return null;
+        return MemberModel.builder()
+                .height(memberEntity.getHeight())
+                .weight(memberEntity.getWeight())
+                .gender(memberEntity.getGender())
+                .activity(memberEntity.getActivity())
+                .age(memberEntity.getAge())
+                .build();
     }
 }
