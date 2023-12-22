@@ -36,7 +36,7 @@ public class MealEntity extends BaseEntity {
     private Double multiple;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = ENTITY_PREFIX + "_MEAL_TYPE", nullable = false)
+    @Column(name = ENTITY_PREFIX + "_TYPE", nullable = false)
     private MealType mealType;
 
     public static MealEntity createMeal(MemberEntity memberEntity, Double multiple, MealType mealType, List<MealFoodEntity> mealFoodEntities) {
