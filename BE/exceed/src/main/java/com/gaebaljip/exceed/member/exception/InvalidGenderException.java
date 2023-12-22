@@ -1,7 +1,9 @@
 package com.gaebaljip.exceed.member.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
+import lombok.Getter;
 
+@Getter
 public class InvalidGenderException extends IllegalArgumentException {
     private final MessageCode messageCode;
 
