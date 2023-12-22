@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberConverter;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;

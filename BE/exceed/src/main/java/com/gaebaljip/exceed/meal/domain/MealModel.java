@@ -4,6 +4,8 @@ import com.gaebaljip.exceed.food.domain.FoodModel;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 
 @Getter
@@ -13,7 +15,6 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class MealModel {
 
-    private MemberModel memberModel;
     private MealType mealType;
     private List<FoodModel> foodModels;
 

@@ -11,18 +11,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class MemberExceptionHandler {
 
+    @ExceptionHandler(InvalidGenderException.class)
+    public ApiResponse<?> handleInvalidGenderException(InvalidGenderException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ApiResponse<?> handleMemberNotFoundException(MemberNotFoundException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(InvalidHeightException.class)
     public ApiResponse<?> handleInvalidHeightException(InvalidHeightException e) {
-        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidWeightException.class)
     public ApiResponse<?> handleInvalidWeightException(InvalidWeightException e) {
-        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidAgeException.class)
     public ApiResponse<?> handleInvalidAgeException(InvalidAgeException e) {
-        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
 }
