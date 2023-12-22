@@ -12,3 +12,10 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      data-locations: classpath:db/testSetup.sql
+      # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
+      # mode: always
