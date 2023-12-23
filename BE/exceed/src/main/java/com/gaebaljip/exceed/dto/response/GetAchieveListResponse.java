@@ -4,9 +4,6 @@ import lombok.Builder;
 
 import java.util.List;
 
-public record GetAchieveListResponse(List<GetAchieve> getAchieve) {
+public record GetAchieveListResponse(List<GetAchieve> getAchieves) {
 
-    @Builder
-    public GetAchieveListResponse {
-    }
 }
