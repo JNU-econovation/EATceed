@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.meal.application;
 
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.meal.domain.MealModel;
-import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
+import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.domain.MealsModel;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetCurrentMealService implements GetCurrentMealQuery {
 
-    private final LoadMealPort loadMealPort;
+    private final LoadDailyMealPort loadDailyMealPort;
 
     @Override
     public CurrentMeal execute(Long memberId, LocalDate date) {
-        List<MealModel> mealModels = loadMealPort.query(memberId, date);
-        MealsModel mealsModel = MealsModel.builder()
-                .mealModels(mealModels)
-                .build();
+        List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, date);
+        MealsModel mealsModel = new MealsModel(mealModels);
         return CurrentMeal.builder()
                 .currentCalorie(mealsModel.calculateCurrentCalorie())
                 .currentCarbohydrate(mealsModel.calculateCurrentCarbohydrate())

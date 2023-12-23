@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.time.LocalDate;
 
 @RestController
@@ -24,9 +23,8 @@ public class GetAchieveController {
     private final GetAchieveUsecase getAchieveUsecase;
 
     @GetMapping("/achieve/{date}")
-    public ApiResponse<?> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public ApiResponse<ApiResponse.CustomBody<GetAchieveListResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         GetAchieveListResponse achieveListResponse = getAchieveUsecase.execute(1L, date);
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
-
 }

@@ -7,6 +7,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public interface LoadMealPort {
-    List<MealModel> query(Long memberId, LocalDate date);
+public interface LoadDailyMealPort {
+    List<MealModel> queryMealsForDate(Long memberId, LocalDate date);
 }

@@ -1,69 +1,68 @@
 package com.gaebaljip.exceed.achieve.application;
 
 import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
-import com.gaebaljip.exceed.achieve.domain.Achieve;
+import com.gaebaljip.exceed.achieve.application.port.out.LoadMonthMealPort;
+import com.gaebaljip.exceed.achieve.application.port.out.LoadMonthTargetPort;
+import com.gaebaljip.exceed.achieve.domain.AchieveModel;
+import com.gaebaljip.exceed.achieve.domain.DailyRecord;
+import com.gaebaljip.exceed.achieve.domain.DailyTarget;
 import com.gaebaljip.exceed.dto.response.GetAchieve;
 import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
-import com.gaebaljip.exceed.food.domain.FoodModel;
-import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
-import com.gaebaljip.exceed.meal.domain.MealModel;
-import com.gaebaljip.exceed.meal.domain.MealType;
-import com.gaebaljip.exceed.member.domain.Activity;
-import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class GetAchieveService implements GetAchieveUsecase {
 
-    private final LoadMealPort loadMealPort;
+    public static final int DAY_OF_MONTH = 1;
+    public static final int DAYS_TO_ADD = 1;
+    private final LoadMonthMealPort loadMonthMealPort;
+    private final LoadMonthTargetPort loadMonthTargetPort;
+
     @Override
+    @Transactional(readOnly = true)
     public GetAchieveListResponse execute(Long memberId, LocalDate date) {
+        List<DailyRecord> dailyRecords = loadMonthMealPort.queryForMonthAchievements(memberId, date);
+        DailyTarget dailyTarget = loadMonthTargetPort.queryForMonthTargets(memberId);
+        AchieveModel achieveModel = AchieveModel.createAchieveModel(dailyRecords, dailyTarget);
+        List<GetAchieve> getAchieves = makeGetAchieves(dailyRecords, achieveModel, getStart(date), getEnd(date));
+        return new GetAchieveListResponse(getAchieves);
+    }
 
-        List<MealModel> mealModels = loadMealPort.query(memberId, date);
-        MemberModel memberModel = MemberModel.builder()
-                .gender(1)
-                .age(25)
-                .activity(Activity.NOT_ACTIVE)
-                .height(171.2)
-                .weight(60.2)
+    private LocalDate getEnd(LocalDate date) {
+        return LocalDate.of(date.getYear(), date.getMonth(), date.getMonth().maxLength());
+    }
+
+    private LocalDate getStart(LocalDate date) {
+        return LocalDate.of(date.getYear(), date.getMonth(), DAY_OF_MONTH);
+    }
+
+    private List<GetAchieve> makeGetAchieves(List<DailyRecord> dailyRecords, AchieveModel achieveModel, LocalDate start, LocalDate end) {
+        List<GetAchieve> getAchieves = new ArrayList<>();
+        for (LocalDate day = start; day.isBefore(end); day = day.plusDays(DAYS_TO_ADD)) {
+            LocalDate find = day;
+            GetAchieve getAchieve = makeGetAchieve(dailyRecords, achieveModel, day, find);
+            getAchieves.add(getAchieve);
+        }
+        return getAchieves;
+    }
+
+    private GetAchieve makeGetAchieve(List<DailyRecord> dailyRecords, AchieveModel achieveModel, LocalDate day, LocalDate find) {
+        GetAchieve getAchieve = GetAchieve.builder()
+                .date(day)
+                .isVisited(dailyRecords.stream()
+                        .anyMatch(record -> record.getDate().equals(find)))
+                .proteinAchieve(achieveModel.evaluateProteinAchieve(day))
+                .fatAchieve(achieveModel.evaluateFatAchieve(day))
+                .carbohydrateAchieve(achieveModel.evaluateCarbohydrateAchieve(day))
+                .calorieRate(achieveModel.calculateCalorieAchieveRate(day))
                 .build();
-
-        FoodModel foodModel = FoodModel.builder()
-                .name("밥")
-                .calorie(400)
-                .carbohydrate(300)
-                .protein(800)
-                .fat(20)
-                .build();
-
-        FoodModel foodModel1 = FoodModel.builder()
-                .name("된장찌개")
-                .calorie(1000)
-                .carbohydrate(600)
-                .protein(300)
-                .fat(100)
-                .build();
-
-        MealModel mealModel = MealModel.builder()
-                .mealType(MealType.LUNCH)
-                .foodModels(List.of(foodModel, foodModel1))
-                .build();
-
-        Achieve achieve = Achieve.builder()
-                .build();
-
-        GetAchieve getAchieve = new GetAchieve(true,
-                LocalDate.now(),
-                achieve.calculateCalorieAchieveRate(mealModel.getCurrentCalorie(), memberModel.measureTargetCalorie()),
-                achieve.evaluateCarbohydrateAchieve(mealModel.getCurrentCarbohydrate(), memberModel.measureTargetCarbohydrate()),
-                achieve.evaluateProteinAchieve(mealModel.getCurrentProtein(), memberModel.measureTargetProtein()),
-                achieve.evaluateFatAchieve(mealModel.getCurrentFat(), memberModel.measureTargetFat()));
-
-        return new GetAchieveListResponse(List.of(getAchieve));
+        return getAchieve;
     }
 }

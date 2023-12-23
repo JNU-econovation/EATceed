@@ -8,7 +8,6 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder = true)
 public class MealsModel {
 
     private List<MealModel> mealModels;
