@@ -18,7 +18,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
 
     @Override
     public GetMeal execute(Long memberId, LocalDate date) {
-        loadDailyMealPort.query(memberId, date);
+        loadDailyMealPort.queryMealsForDate(memberId, date);
         return GetMeal.builder()
                 .time(LocalTime.now())
                 .mealType(MealType.SNACK)
