@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.achieve.adapter.in;
 
-import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
+import com.gaebaljip.exceed.achieve.application.port.in.GetMonthMealUsecase;
 import com.gaebaljip.exceed.common.CommonApiTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GetAchieveControllerTest extends CommonApiTest {
 
     @MockBean
-    private GetAchieveUsecase getAchieveUsecase;
+    private GetMonthMealUsecase getMonthMealUsecase;
 
     @Test
     void getAchieve() throws Exception {

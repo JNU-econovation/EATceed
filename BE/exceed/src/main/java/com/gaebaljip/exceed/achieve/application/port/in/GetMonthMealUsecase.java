@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-public interface GetAchieveUsecase {
+public interface GetMonthMealUsecase {
     GetAchieveListResponse execute(Long memberId, LocalDate date);
 }
