@@ -45,4 +45,6 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_ACTIVITY", nullable = false)
     private Activity activity;
 
+    // todo : MemberEntity의 History 테이블 필요
+
 }
