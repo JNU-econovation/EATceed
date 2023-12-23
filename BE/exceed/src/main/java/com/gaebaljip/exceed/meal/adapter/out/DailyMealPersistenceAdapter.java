@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
 import com.gaebaljip.exceed.config.DateConverter;
-import com.gaebaljip.exceed.meal.application.port.out.LoadMealPort;
+import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.RecordMealPort;
 import com.gaebaljip.exceed.meal.domain.MealModel;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MealPersistenceAdapter implements RecordMealPort, LoadMealPort {
+public class DailyMealPersistenceAdapter implements RecordMealPort, LoadDailyMealPort {
 
     private final MealRepository mealRepository;
     private final MealConverter mealConverter;
