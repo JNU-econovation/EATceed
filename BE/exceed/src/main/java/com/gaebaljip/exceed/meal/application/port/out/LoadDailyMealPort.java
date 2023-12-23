@@ -8,5 +8,5 @@ import java.util.List;
 
 @Component
 public interface LoadDailyMealPort {
-    List<MealModel> query(Long memberId, LocalDate date);
+    List<MealModel> queryMealsForDate(Long memberId, LocalDate date);
 }
