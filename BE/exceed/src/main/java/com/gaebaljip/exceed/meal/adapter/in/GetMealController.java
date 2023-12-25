@@ -44,7 +44,7 @@ public class GetMealController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/meal/{date}/food")
+    @GetMapping("/meal/{date}")
     public ApiResponse<?> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
