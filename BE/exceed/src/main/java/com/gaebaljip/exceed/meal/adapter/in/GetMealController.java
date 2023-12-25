@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,47 +32,25 @@ public class GetMealController {
     private final GetTargetMealUsecase getTargetMealUsecase;
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
-    private final GetFoodQuery getFoodQuery;
 
-    @GetMapping("/meal/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    @GetMapping("/meal")
+    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal() {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId, date);
+        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
                 new GetMealResponse(maintainMeal, targetMeal, currentMeal),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/meal/{date}/food")
-    public ApiResponse<?> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    @GetMapping("/meal/{date}")
+    public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId, date);
-
-        GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, currentMeal);
-
-        GetFood getFood = getFoodQuery.execute(memberId, date); //
         GetMeal getMeal = getSpecificMealQuery.execute(memberId, date);
-
-        GetMealFood getMealFood = GetMealFood.builder()
-                .foodName(getFood.name())
-                .foodImageUri("test.img")
-                .mealType(getMeal.mealType().toString())
-                .mealTime(getMeal.time())
-                .build();
-
-        GetMealFood getMealFood1 = GetMealFood.builder()
-                .foodName(getFood.name())
-                .foodImageUri("test1.img")
-                .mealType(getMeal.mealType().toString())
-                .mealTime(getMeal.time())
-                .build();
-
-        List<GetMealFood> getMealFoodList = List.of(getMealFood, getMealFood1);
-        GetMealFoodResponse getMealFoodResponse = new GetMealFoodResponse(getMealResponse, getMealFoodList);
-        return ApiResponseGenerator.success(getMealFoodResponse, HttpStatus.OK);
+        GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, getMeal.currentMeal());
+        return ApiResponseGenerator.success(new GetMealFoodResponse(getMealResponse, getMeal.dailyMeals()), HttpStatus.OK);
     }
 }

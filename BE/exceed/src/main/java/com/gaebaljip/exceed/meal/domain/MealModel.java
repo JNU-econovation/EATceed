@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.meal.domain;
 import com.gaebaljip.exceed.food.domain.FoodModel;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,7 @@ import java.util.List;
 public class MealModel {
 
     private MealType mealType;
+    private LocalDateTime mealDateTime;
     private List<FoodModel> foodModels;
 
     public double getCurrentCalorie() {

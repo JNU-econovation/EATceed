@@ -21,6 +21,7 @@ public class MealConverter {
     public MealModel toModel(MealEntity mealEntity) {
         return MealModel.builder()
                 .mealType(mealEntity.getMealType())
+                .mealDateTime(mealEntity.getCreatedDate().toLocalDateTime())
                 .foodModels(mealEntity.getMealFoodEntity().stream()
                         .map(mealFoodEntity -> foodConverter.toModel(mealFoodEntity.getFoodEntity()))
                         .toList())

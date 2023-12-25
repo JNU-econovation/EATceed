@@ -10,6 +10,7 @@ public class FoodConverter {
 
     public FoodModel toModel(FoodEntity foodEntity) {
         return FoodModel.builder()
+                .id(foodEntity.getId())
                 .name(foodEntity.getName())
                 .calorie(foodEntity.getCalorie())
                 .carbohydrate(foodEntity.getCarbohydrate())

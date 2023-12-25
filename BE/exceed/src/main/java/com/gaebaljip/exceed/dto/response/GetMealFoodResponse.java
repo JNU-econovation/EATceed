@@ -6,7 +6,7 @@ import java.util.List;
 
 public record GetMealFoodResponse(
         GetMealResponse getMealResponse,
-        List<GetMealFood> getMealFoodList
+        List<DailyMeal> dailyMeals
 ) {
     @Builder
     public GetMealFoodResponse {

@@ -6,12 +6,13 @@ import lombok.Builder;
 import java.time.LocalTime;
 import java.util.List;
 
-public record GetMeal(
-        CurrentMeal currentMeal,
-        List<DailyMeal> dailyMeals
+public record DailyMeal(
+        LocalTime time,
+        MealType mealType,
+        List<GetFood> foods
 ) {
 
     @Builder
-    public GetMeal {
+    public DailyMeal {
     }
 }

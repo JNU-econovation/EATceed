@@ -21,6 +21,9 @@ public class GetFoodService implements GetFoodQuery {
         FoodModel foodModel = FoodModel.builder()
                 .name("쭈꾸미")
                 .build();
-        return new GetFood(foodModel.getName());
+        return GetFood.builder()
+                .id(foodModel.getId())
+                .name(foodModel.getName())
+                .build();
     }
 }

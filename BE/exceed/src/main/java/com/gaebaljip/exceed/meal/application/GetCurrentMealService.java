@@ -18,8 +18,8 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     private final LoadDailyMealPort loadDailyMealPort;
 
     @Override
-    public CurrentMeal execute(Long memberId, LocalDate date) {
-        List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, date);
+    public CurrentMeal execute(Long memberId) {
+        List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, LocalDate.now());
         MealsModel mealsModel = new MealsModel(mealModels);
         return CurrentMeal.builder()
                 .currentCalorie(mealsModel.calculateCurrentCalorie())
