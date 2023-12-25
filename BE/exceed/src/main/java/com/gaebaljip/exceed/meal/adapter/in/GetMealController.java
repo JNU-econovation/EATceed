@@ -33,12 +33,12 @@ public class GetMealController {
     private final GetSpecificMealQuery getSpecificMealQuery;
     private final GetFoodQuery getFoodQuery;
 
-    @GetMapping("/meal/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    @GetMapping("/meal")
+    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal() {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId, date);
+        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
                 new GetMealResponse(maintainMeal, targetMeal, currentMeal),
                 HttpStatus.OK);
@@ -49,7 +49,7 @@ public class GetMealController {
         Long memberId = 1L;
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId, date);
+        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
 
         GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, currentMeal);
 

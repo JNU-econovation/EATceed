@@ -16,7 +16,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     @Test
     void getMeal() throws Exception {
         //when
-        ResultActions resultActions = mockMvc.perform(get("/v1/meal/2023-12-22")
+        ResultActions resultActions = mockMvc.perform(get("/v1/meal")
                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

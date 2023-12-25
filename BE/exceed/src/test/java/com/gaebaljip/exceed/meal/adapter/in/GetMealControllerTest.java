@@ -49,7 +49,7 @@ class GetMealControllerTest extends CommonApiTest {
         //when
         Mockito.when(getMaintainMealUsecase.execute(any())).thenReturn(maintainMeal);
         Mockito.when(getTargetMealUsecase.execute(any())).thenReturn(targetMeal);
-        Mockito.when(getCurrentMealQuery.execute(any(), any())).thenReturn(currentMeal);
+        Mockito.when(getCurrentMealQuery.execute(any())).thenReturn(currentMeal);
 
         ResultActions resultActions = mockMvc.perform(get("/v1/meal/2023-12-07")
                 .contentType(MediaType.APPLICATION_JSON));

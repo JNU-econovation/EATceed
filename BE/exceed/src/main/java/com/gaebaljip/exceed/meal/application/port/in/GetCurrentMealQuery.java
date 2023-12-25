@@ -7,5 +7,5 @@ import java.time.LocalDate;
 
 @Component
 public interface GetCurrentMealQuery {
-    CurrentMeal execute(Long memberId, LocalDate date);
+    CurrentMeal execute(Long memberId);
 }
