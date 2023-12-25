@@ -1,6 +1,13 @@
 package com.gaebaljip.exceed.dto.response;
 
-public record GetFood(
-        String name) {
+import lombok.Builder;
 
+public record GetFood(
+        Long id,
+        String name,
+        String imageUri) {
+
+    @Builder
+    public GetFood {
+    }
 }
