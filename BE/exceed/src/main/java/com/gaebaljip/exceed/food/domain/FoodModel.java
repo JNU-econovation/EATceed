@@ -9,6 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class FoodModel {
 
+    private Long id;
     private String name;
     private double calorie;
     private double carbohydrate;
