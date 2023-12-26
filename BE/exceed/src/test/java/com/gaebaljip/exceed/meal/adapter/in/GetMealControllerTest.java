@@ -5,7 +5,6 @@ import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.dto.response.MaintainMeal;
 import com.gaebaljip.exceed.dto.response.TargetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
-import com.gaebaljip.exceed.meal.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
@@ -34,10 +33,6 @@ class GetMealControllerTest extends CommonApiTest {
 
     @MockBean
     private GetSpecificMealQuery getSpecificMealQuery;
-
-    @MockBean
-    private GetFoodQuery getFoodQuery;
-
     @Test
     void getMealNutrition() throws Exception {
 
@@ -51,7 +46,7 @@ class GetMealControllerTest extends CommonApiTest {
         Mockito.when(getTargetMealUsecase.execute(any())).thenReturn(targetMeal);
         Mockito.when(getCurrentMealQuery.execute(any())).thenReturn(currentMeal);
 
-        ResultActions resultActions = mockMvc.perform(get("/v1/meal/2023-12-07")
+        ResultActions resultActions = mockMvc.perform(get("/v1/meal")
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
