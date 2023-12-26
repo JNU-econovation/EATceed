@@ -4,7 +4,6 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.dto.response.*;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
-import com.gaebaljip.exceed.meal.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
