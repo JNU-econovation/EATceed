@@ -1,16 +1,3 @@
--- 외래키 제약 조건을 일시적으로 비활성화
-SET FOREIGN_KEY_CHECKS = 0;
-
--- 테이블의 데이터 삭제
-TRUNCATE TABLE MEMBER_TB;
-TRUNCATE TABLE MEAL_FOOD_TB;
-TRUNCATE TABLE MEAL_TB;
-TRUNCATE TABLE FOOD_TB;
-
--- 외래키 제약 조건을 다시 활성화
-SET FOREIGN_KEY_CHECKS = 1;
-
-
 INSERT INTO member_tb (created_date, updated_date, member_activity, member_age, member_etc, member_gender,
                        member_height, member_identification, member_weight)
 VALUES ('2023-12-01 08:00:00', '2023-12-01 08:00:00', 'NOT_ACTIVE', 30, '비고 없음', 1, 175.0, 'user001', 70.0);
