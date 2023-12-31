@@ -3,14 +3,15 @@ spring:
     url: jdbc:mariadb://localhost:3306/exceed
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
-    password: eotjs
+    password: root
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     defer-datasource-initialization: true
 
   sql:
     init:
-      data-locations: classpath:db/mockData.sql
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
       mode: always
