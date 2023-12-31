@@ -6,6 +6,9 @@ spring:
     password: ${RDS_DATABASE_PASSWORD}
   jpa:
     hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      dialect: org.hibernate.dialect.MariaDBDialect
       ddl-auto: none
     show-sql: true
     defer-datasource-initialization: true
