@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}
+    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}?serverTimezone=Asia/Seoul
     driver-class-name: org.mariadb.jdbc.Driver
     username: ${RDS_DATABASE_USERNAME}
     password: ${RDS_DATABASE_PASSWORD}
