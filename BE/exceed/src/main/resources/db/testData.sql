@@ -5,6 +5,7 @@ TRUNCATE TABLE MEAL_TB;
 TRUNCATE TABLE FOOD_TB;
 SET REFERENTIAL_INTEGRITY True;
 
+
 INSERT INTO member_tb (created_date, updated_date, member_activity, member_age, member_etc, member_gender,
                        member_height, member_identification, member_weight)
 VALUES ('2023-12-01 08:00:00', '2023-12-01 08:00:00', 'NOT_ACTIVE', 30, '비고 없음', 1, 175.0, 'user001', 70.0);

@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/exceed
+    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}
     driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: root
+    username: ${RDS_DATABASE_USERNAME}
+    password: ${RDS_DATABASE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none

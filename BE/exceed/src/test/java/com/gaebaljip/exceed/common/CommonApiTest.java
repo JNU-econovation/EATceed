@@ -11,7 +11,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 public abstract class CommonApiTest {
     @Autowired
     protected MockMvc mockMvc;

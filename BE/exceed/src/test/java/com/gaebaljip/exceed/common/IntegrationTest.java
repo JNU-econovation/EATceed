@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ExtendWith(DatabaseClearExtension.class)
-@Sql("classpath:db/testSetup.sql")
-@ActiveProfiles("local")
+@Sql("classpath:db/testData.sql")
+@ActiveProfiles("test")
 public abstract class IntegrationTest {
 
     @Autowired
