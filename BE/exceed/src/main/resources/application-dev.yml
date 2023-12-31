@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${RDS_DATABASE_USERNAME}
+    password: ${RDS_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+      mode: always
