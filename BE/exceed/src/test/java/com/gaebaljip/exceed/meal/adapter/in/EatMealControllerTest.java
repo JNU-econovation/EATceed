@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.meal.adapter.in;
 import com.gaebaljip.exceed.common.CommonApiTest;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
-import com.gaebaljip.exceed.meal.application.port.in.GetPreSignedUrlUsecase;
+import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,14 +21,14 @@ class EatMealControllerTest extends CommonApiTest {
     @MockBean
     private EatMealUsecase eatMealUsecase;
     @MockBean
-    private GetPreSignedUrlUsecase getPreSignedUrlUsecase;
+    private UploadImageUsecase uploadImageUsecase;
 
     @Test
     void eatMeal() throws Exception {
 
         List<Long> foodIds = List.of(1L, 2L, 3L);
         //given
-        EatMealRequest request = new EatMealRequest(1.5, foodIds, "LUNCH");
+        EatMealRequest request = new EatMealRequest(1.5, foodIds, "LUNCH", "test.jpeg");
 
         //when
         ResultActions resultActions = mockMvc.perform(
