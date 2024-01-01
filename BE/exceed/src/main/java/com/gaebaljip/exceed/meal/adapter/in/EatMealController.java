@@ -4,6 +4,7 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.dto.response.EatMealResponse;
 import com.gaebaljip.exceed.dto.response.UploadImage;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
@@ -29,7 +30,7 @@ public class EatMealController {
     private final UploadImageUsecase uploadImageUsecase;
 
     @PostMapping("/meal")
-    public ApiResponse<CustomBody<String>> eatMeal(@Valid @RequestBody EatMealRequest request) {
+    public ApiResponse<CustomBody<EatMealResponse>> eatMeal(@Valid @RequestBody EatMealRequest request) {
         EatMealCommand eatMealCommand = EatMealCommand.builder()
                 .foodIds(request.foodIds())
                 .mealType(MealType.valueOf(request.mealType()))
@@ -43,6 +44,6 @@ public class EatMealController {
                 .fileName(request.fileName())
                 .build();
         String presignedUrl = uploadImageUsecase.execute(uploadImage);
-        return ApiResponseGenerator.success(presignedUrl, HttpStatus.CREATED);
+        return ApiResponseGenerator.success(new EatMealResponse(presignedUrl), HttpStatus.CREATED);
     }
 }
