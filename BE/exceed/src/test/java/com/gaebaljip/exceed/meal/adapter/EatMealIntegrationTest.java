@@ -28,6 +28,7 @@ public class EatMealIntegrationTest extends IntegrationTest {
                 .mealType("LUNCH")
                 .multiple(1.5)
                 .foodIds(List.of(1L, 2L))
+                .fileName("test.jpeg")
                 .build();
 
         //when
