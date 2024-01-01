@@ -6,12 +6,26 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     defer-datasource-initialization: true
+  cloud:
+    aws:
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      credentials:
+        access-key: ${CLOUD_AWS_ACCESS_KEY}
+        secret-key: ${CLOUD_AWS_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   sql:
     init:
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
+      data-locations: classpath:db/mockData.sql
       mode: always
