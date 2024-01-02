@@ -13,6 +13,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class MealModel {
 
+    private Long id;
     private MealType mealType;
     private LocalDateTime mealDateTime;
     private List<FoodModel> foodModels;
