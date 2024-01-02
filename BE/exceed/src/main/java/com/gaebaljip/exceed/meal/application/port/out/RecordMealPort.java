@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface RecordMealPort {
-    Long query(MealEntity mealEntity);
+    MealEntity query(MealEntity mealEntity);
 }
