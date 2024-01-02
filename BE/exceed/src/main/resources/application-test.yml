@@ -13,7 +13,17 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     defer-datasource-initialization: true
-
+  cloud:
+    aws:
+      s3:
+        bucket: test-bucket
+      credentials:
+        access-key: test-access-key
+        secret-key: test-secret-key
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
   sql:
     init:
       data-locations: classpath:db/testData.sql

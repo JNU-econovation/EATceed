@@ -39,14 +39,12 @@ public class MealEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_TYPE", nullable = false)
     private MealType mealType;
 
-    public static MealEntity createMeal(MemberEntity memberEntity, Double multiple, MealType mealType, List<MealFoodEntity> mealFoodEntities) {
+    public static MealEntity createMeal(MemberEntity memberEntity, Double multiple, MealType mealType) {
         return MealEntity.builder()
                 .memberEntity(memberEntity)
                 .multiple(multiple)
                 .mealType(mealType)
-                .mealFoodEntity(mealFoodEntities)
                 .build();
-
     }
 
 }

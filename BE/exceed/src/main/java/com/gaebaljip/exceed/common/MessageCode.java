@@ -12,7 +12,8 @@ public enum MessageCode {
     INVALID_MEMBER("4448", "존재하지 않는 회원입니다."),
     INVALID_MULTIPLE("4449", "0인분보다 커야하고, 100인분보다 작아야합니다."),
     INVALID_FOOD("4450", "존재하지 않는 음식입니다."),
-    INVALID_MEAL("4451", "존재하지 않는 식사입니다.");
+    INVALID_MEAL("4451", "존재하지 않는 식사입니다."),
+    EXTENTION_NOT_ALLOWED("4452", "이미지의 확장자는 jpg, jpeg, png만 가능합니다.");
 
 
     private final String code;

@@ -3,61 +3,64 @@ drop table if exists MEAL_TB;
 drop table if exists MEMBER_TB;
 drop table if exists FOOD_TB;
 
-create table MEMBER_TB
+CREATE TABLE `MEMBER_TB`
 (
-    MEMBER_PK             bigint auto_increment
-        primary key,
-    CREATED_DATE          datetime(6)  not null,
-    UPDATED_DATE          datetime(6)  not null,
-    MEMBER_ACTIVITY       varchar(255) not null,
-    MEMBER_AGE            int          not null,
-    MEMBER_ETC            varchar(255) not null,
-    MEMBER_GENDER         tinyint(1)   not null,
-    MEMBER_HEIGHT         double       not null,
-    MEMBER_IDENTIFICATION varchar(255) not null,
-    MEMBER_WEIGHT         double       not null
-);
+    `MEMBER_PK`             bigint(20)   NOT NULL AUTO_INCREMENT,
+    `CREATED_DATE`          datetime(6)  NOT NULL,
+    `UPDATED_DATE`          datetime(6)  NOT NULL,
+    `MEMBER_ACTIVITY`       varchar(255) NOT NULL,
+    `MEMBER_AGE`            int(11)      NOT NULL,
+    `MEMBER_ETC`            varchar(255) NOT NULL,
+    `MEMBER_GENDER`         tinyint(1)   NOT NULL,
+    `MEMBER_HEIGHT`         double       NOT NULL,
+    `MEMBER_IDENTIFICATION` varchar(255) NOT NULL,
+    `MEMBER_WEIGHT`         double       NOT NULL,
+     PRIMARY KEY (`MEMBER_PK`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table food_tb
+CREATE TABLE `FOOD_TB`
 (
-    FOOD_PK            bigint auto_increment
-        primary key,
-    FOOD_CALORIE       double       not null,
-    FOOD_CARBOHYDRATE  double       not null,
-    FOOD_FAT           double       not null,
-    FOOD_MAIN_CATEGORY varchar(255) not null,
-    FOOD_NAME          varchar(255) not null,
-    FOOD_PROTEIN       double       not null,
-    FOOD_SERVING_SIZE  double       not null,
-    FOOD_SUB_CATEGORY  varchar(255) not null
-);
+    `FOOD_PK`            bigint(20)   NOT NULL AUTO_INCREMENT,
+    `FOOD_CALORIE`       double       NOT NULL,
+    `FOOD_CARBOHYDRATE`  double       NOT NULL,
+    `FOOD_FAT`           double       NOT NULL,
+    `FOOD_MAIN_CATEGORY` varchar(255) NOT NULL,
+    `FOOD_NAME`          varchar(255) NOT NULL,
+    `FOOD_PROTEIN`       double       NOT NULL,
+    `FOOD_SERVING_SIZE`  double       NOT NULL,
+    `FOOD_SUB_CATEGORY`  varchar(255) NOT NULL,
+    PRIMARY KEY (`FOOD_PK`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table MEAL_TB
+CREATE TABLE `MEAL_TB`
 (
-    MEAL_PK            bigint auto_increment
-        primary key,
-    CREATED_DATE       datetime(6)  not null,
-    UPDATED_DATE       datetime(6)  not null,
-    MEAL_TYPE          varchar(255) not null,
-    MEAL_FOOD_MULTIPLE double       not null,
-    MEMBER_FK          bigint       null,
-    constraint FK5napxbpjxsev8lnx004fcrqrn
-        foreign key (MEMBER_FK) references MEMBER_TB (MEMBER_PK)
-);
+    `MEAL_PK`            bigint(20)   NOT NULL AUTO_INCREMENT,
+    `CREATED_DATE`       datetime(6)  NOT NULL,
+    `UPDATED_DATE`       datetime(6)  NOT NULL,
+    `MEAL_TYPE`          varchar(255) NOT NULL,
+    `MEAL_FOOD_MULTIPLE` double       NOT NULL,
+    `MEMBER_FK`          bigint(20) DEFAULT NULL,
+    PRIMARY KEY (`MEAL_PK`),
+    KEY `FK5napxbpjxsev8lnx004fcrqrn` (`MEMBER_FK`),
+    CONSTRAINT `FK5napxbpjxsev8lnx004fcrqrn` FOREIGN KEY (`MEMBER_FK`) REFERENCES `MEMBER_TB` (`MEMBER_PK`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 31
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
-create table MEAL_FOOD_TB
+CREATE TABLE `MEAL_FOOD_TB`
 (
-    MEAL_FOOD_PK bigint auto_increment
-        primary key,
-    CREATED_DATE datetime(6) not null,
-    UPDATED_DATE datetime(6) not null,
-    FOOD_FK      bigint      null,
-    MEAL_FK      bigint      null,
-    constraint FKdipb7hg6jdu5764nq3wcnviua
-        foreign key (FOOD_FK) references FOOD_TB (FOOD_PK),
-    constraint FKr2altmd95kev38n36mno92lsi
-        foreign key (MEAL_FK) references MEAL_TB (MEAL_PK)
-);
+    `MEAL_FOOD_PK` bigint(20)  NOT NULL AUTO_INCREMENT,
+    `CREATED_DATE` datetime(6) NOT NULL,
+    `UPDATED_DATE` datetime(6) NOT NULL,
+    `FOOD_FK`      bigint(20) DEFAULT NULL,
+    `MEAL_FK`      bigint(20) DEFAULT NULL,
+    PRIMARY KEY (`MEAL_FOOD_PK`),
+    KEY `FKdipb7hg6jdu5764nq3wcnviua` (`FOOD_FK`),
+    KEY `FKr2altmd95kev38n36mno92lsi` (`MEAL_FK`),
+    CONSTRAINT `FKdipb7hg6jdu5764nq3wcnviua` FOREIGN KEY (`FOOD_FK`) REFERENCES `FOOD_TB` (`FOOD_PK`),
+    CONSTRAINT `FKr2altmd95kev38n36mno92lsi` FOREIGN KEY (`MEAL_FK`) REFERENCES `MEAL_TB` (`MEAL_PK`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
