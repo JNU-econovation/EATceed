@@ -3,16 +3,28 @@ package com.gaebaljip.exceed.meal.adapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.dto.response.GetMeal;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
+import com.gaebaljip.exceed.meal.application.GetSpecificMealService;
+import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.time.LocalDate;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GetMealIntegrationTest extends IntegrationTest {
+
+    @MockBean
+    private GetPresignedUrlPort getPresignedUrlPort;
 
     @Test
     void getMeal() throws Exception {
@@ -35,6 +47,8 @@ public class GetMealIntegrationTest extends IntegrationTest {
 
     @Test
     void getMealFood() throws Exception {
+
+        given(getPresignedUrlPort.command(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
 
         //when
         String date = "2023-12-10";
