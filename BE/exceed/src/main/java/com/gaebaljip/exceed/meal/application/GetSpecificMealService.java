@@ -5,6 +5,7 @@ import com.gaebaljip.exceed.dto.response.DailyMeal;
 import com.gaebaljip.exceed.dto.response.GetFood;
 import com.gaebaljip.exceed.dto.response.GetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
+import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
 import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
 import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.domain.MealsModel;
@@ -27,10 +28,8 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class GetSpecificMealService implements GetSpecificMealQuery {
 
-    private final S3Presigner s3Presigner;
     private final LoadDailyMealPort loadDailyMealPort;
-    @Value("${spring.cloud.aws.s3.bucket}")
-    private String bucketName;
+    private final GetPresignedUrlPort getPresignedUrlPort;
 
     @Override
     public GetMeal execute(Long memberId, LocalDate date) {
@@ -49,24 +48,11 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                     .foods(mealModels.get(i).getFoodModels().stream().map(foodModel -> GetFood.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())
-                            .imageUri(getPresignedUrl(memberId, mealModels.get(i).getId()))
+                            .imageUri(getPresignedUrlPort.command(memberId, mealModels.get(i).getId()))
                             .build()).toList()
                     ).build();
             dailyMeals.add(dailyMeal);
         });
-    }
-
-    private String getPresignedUrl(Long memberId, Long mealId) {
-        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket(bucketName)
-                .key(memberId + "_" + mealId)
-                .build();
-        GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                .signatureDuration(Duration.ofMinutes(10))
-                .getObjectRequest(getObjectRequest)
-                .build();
-
-        return s3Presigner.presignGetObject(presignRequest).url().toString();
     }
 
     private GetMeal getGetMeal(MealsModel mealsModel, List<DailyMeal> dailyMeals) {
