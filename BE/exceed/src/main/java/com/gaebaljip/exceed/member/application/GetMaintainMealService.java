@@ -20,10 +20,10 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
         MemberEntity memberEntity = loadMemberPort.query(memberId);
         MemberModel memberModel = memberConverter.toModel(memberEntity);
         return MaintainMeal.builder()
-                .maintainCalorie(memberModel.measureTDEE())
-                .maintainCarbohydrate(memberModel.measureMaintainCarbohydrate())
-                .maintainProtein(memberModel.measureMaintainProtein())
-                .maintainFat(memberModel.measureMaintainFat())
+                .calorie(memberModel.measureTDEE())
+                .carbohydrate(memberModel.measureMaintainCarbohydrate())
+                .protein(memberModel.measureMaintainProtein())
+                .fat(memberModel.measureMaintainFat())
                 .build();
     }
 }

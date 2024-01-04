@@ -45,10 +45,10 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
             DailyMeal dailyMeal = DailyMeal.builder()
                     .mealType(mealModels.get(i).getMealType())
                     .time(mealModels.get(i).getMealDateTime().toLocalTime())
+                    .imageUri(getPresignedUrlPort.command(memberId, mealModels.get(i).getId()))
                     .foods(mealModels.get(i).getFoodModels().stream().map(foodModel -> GetFood.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())
-                            .imageUri(getPresignedUrlPort.command(memberId, mealModels.get(i).getId()))
                             .build()).toList()
                     ).build();
             dailyMeals.add(dailyMeal);
@@ -64,10 +64,10 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
 
     private CurrentMeal getCurrentMeal(MealsModel mealsModel) {
         return CurrentMeal.builder()
-                .currentCalorie(mealsModel.calculateCurrentCalorie())
-                .currentCarbohydrate(mealsModel.calculateCurrentCarbohydrate())
-                .currentFat(mealsModel.calculateCurrentFat())
-                .currentProtein(mealsModel.calculateCurrentProtein())
+                .calorie(mealsModel.calculateCurrentCalorie())
+                .carbohydrate(mealsModel.calculateCurrentCarbohydrate())
+                .fat(mealsModel.calculateCurrentFat())
+                .protein(mealsModel.calculateCurrentProtein())
                 .build();
     }
 }

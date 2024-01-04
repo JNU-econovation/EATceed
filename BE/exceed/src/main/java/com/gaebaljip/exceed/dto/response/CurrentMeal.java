@@ -6,13 +6,13 @@ import lombok.Builder;
 
 public record CurrentMeal(
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double currentCalorie,
+        Double calorie,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double currentCarbohydrate,
+        Double carbohydrate,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double currentProtein,
+        Double protein,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double currentFat) {
+        Double fat) {
 
     @Builder
     public CurrentMeal {

@@ -22,10 +22,10 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
         List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, LocalDate.now());
         MealsModel mealsModel = new MealsModel(mealModels);
         return CurrentMeal.builder()
-                .currentCalorie(mealsModel.calculateCurrentCalorie())
-                .currentCarbohydrate(mealsModel.calculateCurrentCarbohydrate())
-                .currentFat(mealsModel.calculateCurrentFat())
-                .currentProtein(mealsModel.calculateCurrentProtein())
+                .calorie(mealsModel.calculateCurrentCalorie())
+                .carbohydrate(mealsModel.calculateCurrentCarbohydrate())
+                .fat(mealsModel.calculateCurrentFat())
+                .protein(mealsModel.calculateCurrentProtein())
                 .build();
     }
 }

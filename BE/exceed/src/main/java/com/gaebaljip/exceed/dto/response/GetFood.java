@@ -4,8 +4,7 @@ import lombok.Builder;
 
 public record GetFood(
         Long id,
-        String name,
-        String imageUri) {
+        String name) {
 
     @Builder
     public GetFood {

@@ -25,7 +25,6 @@ public class GetFoodService implements GetFoodQuery {
         return GetFood.builder()
                 .id(foodModel.getId())
                 .name(foodModel.getName())
-                .imageUri("https://exceed.s3.ap-northeast-2.amazonaws.com/food/test.jpg")
                 .build();
     }
 
