@@ -10,7 +10,9 @@ public record EatMealRequest(
         Double multiple,
         List<Long> foodIds,
         @Enum(enumClass = MealType.class)
-        String mealType
+        String mealType,
+
+        String fileName
 ) {
     @Builder
     public EatMealRequest {

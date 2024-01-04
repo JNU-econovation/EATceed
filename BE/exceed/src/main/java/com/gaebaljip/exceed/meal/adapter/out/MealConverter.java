@@ -20,6 +20,7 @@ public class MealConverter {
 
     public MealModel toModel(MealEntity mealEntity) {
         return MealModel.builder()
+                .id(mealEntity.getId())
                 .mealType(mealEntity.getMealType())
                 .mealDateTime(mealEntity.getCreatedDate().toLocalDateTime())
                 .foodModels(mealEntity.getMealFoodEntity().stream()

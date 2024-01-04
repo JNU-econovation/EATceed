@@ -3,14 +3,18 @@ package com.gaebaljip.exceed.meal.adapter;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
+import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,6 +22,9 @@ public class EatMealIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MealRepository mealRepository;
+
+    @MockBean
+    private GetPresignedUrlPort getPresignedUrlPort;
 
     @Test
     void eatMeal() throws Exception {
@@ -28,14 +35,16 @@ public class EatMealIntegrationTest extends IntegrationTest {
                 .mealType("LUNCH")
                 .multiple(1.5)
                 .foodIds(List.of(1L, 2L))
+                .fileName("test.jpeg")
                 .build();
+
+        given(getPresignedUrlPort.command(any(Long.class), any(Long.class), any(String.class))).willReturn("http://uploadYourImage.com");
 
         //when
         ResultActions resultActions = mockMvc.perform(
                 post("/v1/meal")
                         .content(om.writeValueAsString(eatMealRequest))
                         .contentType(MediaType.APPLICATION_JSON));
-
 
         long afterCnt = mealRepository.findAll().stream().count();
 

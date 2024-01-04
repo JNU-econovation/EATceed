@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
+import com.gaebaljip.exceed.achieve.exception.MealNotFoundException;
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
@@ -33,14 +34,18 @@ public class MealFoodEntity extends BaseEntity {
     @JoinColumn(name = "FOOD_FK", referencedColumnName = "FOOD_PK")
     private FoodEntity foodEntity;
 
-    public static List<MealFoodEntity> createMealFoods(List<FoodEntity> foodEntities) {
+    public static List<MealFoodEntity> createMealFoods(List<FoodEntity> foodEntities, MealEntity mealEntity) {
         if (foodEntities.isEmpty()) {
             throw new FoodNotFoundException();
+        }
+        if (mealEntity == null) {
+            throw new MealNotFoundException();
         }
         List<MealFoodEntity> mealFoodEntities = new ArrayList<>();
         for (FoodEntity foodEntity : foodEntities) {
             mealFoodEntities.add(MealFoodEntity.builder()
                     .foodEntity(foodEntity)
+                    .mealEntity(mealEntity)
                     .build());
         }
         return mealFoodEntities;

@@ -31,9 +31,10 @@ public class EatMealService implements EatMealUsecase {
     public Long execute(EatMealCommand command) {
         validateMultiple(command.multiple());
         List<FoodEntity> foodEntities = loadFoodPort.query(command.foodIds());
-        List<MealFoodEntity> mealFoodEntities = recordMealFoodPort.query(MealFoodEntity.createMealFoods(foodEntities));
         MemberEntity memberEntity = loadMemberPort.query(command.memberId());
-        return recordMealPort.query(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType(), mealFoodEntities));
+        MealEntity mealEntity = recordMealPort.query(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
+        recordMealFoodPort.query(MealFoodEntity.createMealFoods(foodEntities, mealEntity));
+        return mealEntity.getId();
     }
 
     private void validateMultiple(Double multiple) {

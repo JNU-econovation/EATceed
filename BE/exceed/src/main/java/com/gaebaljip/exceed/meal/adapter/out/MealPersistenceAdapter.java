@@ -22,8 +22,8 @@ public class MealPersistenceAdapter implements RecordMealPort, LoadDailyMealPort
     private final int FIRST_DAY = 1;
 
     @Override
-    public Long query(MealEntity mealEntity) {
-        return mealRepository.save(mealEntity).getId();
+    public MealEntity query(MealEntity mealEntity) {
+        return mealRepository.save(mealEntity);
     }
 
     @Override

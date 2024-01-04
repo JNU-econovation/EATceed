@@ -6,13 +6,13 @@ import lombok.Builder;
 
 public record TargetMeal(
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double targetCalorie,
+        Double calorie,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double targetCarbohydrate,
+        Double carbohydrate,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double targetProtein,
+        Double protein,
         @JsonSerialize(using = CustomDoubleSerializer.class)
-        Double targetFat
+        Double fat
 ) {
         @Builder
         public TargetMeal {

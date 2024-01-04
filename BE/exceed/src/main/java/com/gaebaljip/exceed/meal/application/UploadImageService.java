@@ -1,0 +1,30 @@
+package com.gaebaljip.exceed.meal.application;
+
+import com.gaebaljip.exceed.dto.response.UploadImage;
+import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;
+import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
+import com.gaebaljip.exceed.meal.exception.ExtentionNotAllowedException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UploadImageService implements UploadImageUsecase {
+    public static final List<String> FILE_EXTS = List.of("jpg", "jpeg", "png");
+    public final GetPresignedUrlPort getPresignedUrlPort;
+
+    @Override
+    public String execute(UploadImage uploadImage) {
+        validateExt(uploadImage.fileName());
+        return getPresignedUrlPort.command(uploadImage.memberId(), uploadImage.mealId(), uploadImage.fileName());
+    }
+
+    private void validateExt(String fileName) {
+        int pos = fileName.lastIndexOf(".");
+        String ext = fileName.substring(pos + 1);
+        if (!FILE_EXTS.contains(ext)) {
+            throw new ExtentionNotAllowedException();
+        }
+    }
+}

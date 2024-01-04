@@ -20,10 +20,10 @@ public class GetTargetMealService implements GetTargetMealUsecase {
         MemberEntity memberEntity = loadMemberPort.query(memberId);
         MemberModel memberModel = memberConverter.toModel(memberEntity);
         return TargetMeal.builder()
-                .targetCalorie(memberModel.measureTargetCalorie())
-                .targetCarbohydrate(memberModel.measureTargetCarbohydrate())
-                .targetProtein(memberModel.measureTargetProtein())
-                .targetFat(memberModel.measureTargetFat())
+                .calorie(memberModel.measureTargetCalorie())
+                .carbohydrate(memberModel.measureTargetCarbohydrate())
+                .protein(memberModel.measureTargetProtein())
+                .fat(memberModel.measureTargetFat())
                 .build();
     }
 }
