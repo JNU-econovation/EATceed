@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="gauge_background">#E4E4E4</color>
+    <color name="gauge_ongoing_percentage">#8A8A8A</color>
+    <color name="carbohydrate_color">#FFCBCB</color>
+    <color name="protein_color">#CFD1FF</color>
+    <color name="fat_color">#CDFFC5</color>
+    <color name="gauge_percentage_carbohydrate_color">#FF7070</color>
+    <color name="gauge_percentage_protein_color">#8186FF</color>
+    <color name="gauge_percentage_fat_color">#5BFF48</color>
 </resources>
