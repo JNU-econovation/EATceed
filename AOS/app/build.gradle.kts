@@ -71,4 +71,9 @@ dependencies {
     //firebase sdk
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+    //Bottom Navigation sdk
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.compose.material:material:1.4.3")
+    implementation("androidx.compose.material3:material3:1.1.2")
 }
