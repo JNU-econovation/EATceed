@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:exceed;MODE=MariaDB
+    driver-class-name: org.h2.Driver
+    username: exceed
+    password: exceed
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+  cloud:
+    aws:
+      s3:
+        bucket: test-bucket
+      credentials:
+        access-key: test-access-key
+        secret-key: test-secret-key
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+  sql:
+    init:
+      data-locations: classpath:db/testData.sql
+      # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
+      # mode: always

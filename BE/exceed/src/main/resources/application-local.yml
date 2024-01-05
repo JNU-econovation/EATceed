@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/exceed
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  cloud:
+    aws:
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      credentials:
+        access-key: ${CLOUD_AWS_ACCESS_KEY}
+        secret-key: ${CLOUD_AWS_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  sql:
+    init:
+      data-locations: classpath:db/mockData.sql
+      mode: always
