@@ -17,16 +17,15 @@ assignees: ''
 ---
 
 
-## ⚠️ Issue
+## 🚨 Issue
 - 이슈를 설명해주세요.
 
 
-## ✏️ To Do List
+## ✅ To Do List
 - [ ] 할 일1
 - [ ] 할 일2
 
-## ETC
+## 🎸 ETC
 
 
 ### 🏞 ScreenShot
-- Add any other context or screenshots about the feature request here.
