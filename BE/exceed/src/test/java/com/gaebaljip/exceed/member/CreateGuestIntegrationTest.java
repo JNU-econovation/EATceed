@@ -1,6 +1,9 @@
 package com.gaebaljip.exceed.member;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
 import com.gaebaljip.exceed.member.adapter.in.CreateGuestTestRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -26,16 +29,24 @@ public class CreateGuestIntegrationTest extends IntegrationTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post("/v1/members")
+                post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 
 
         long cnt = memberRepository.findAll().stream().count();
 
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+        ApiResponse.CustomBody<CreateGuestResponse> getMealFoodResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<CreateGuestResponse>>() {
+        });
+
+
         //then
         int afterCnt = memberRepository.findAll().size();
         resultActions.andExpect(status().isCreated());
+        Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().loginId()).isNotNull();
+        Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().password()).isNotNull();
         Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
         Assertions.assertThat(afterCnt).isGreaterThan(1);
     }

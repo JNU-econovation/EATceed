@@ -28,7 +28,7 @@ class CreateGuestControllerTest extends CommonApiTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post("/v1/members")
+                post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 
