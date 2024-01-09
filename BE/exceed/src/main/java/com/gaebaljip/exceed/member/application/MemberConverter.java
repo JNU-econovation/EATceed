@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class MemberConverter {
     public MemberEntity toEntity(MemberModel memberModel, String etc) {
         return MemberEntity.builder()
-                .identification("test")
+                .loginId("testId1234+GUEST")
+                .password("testId1234+GUEST")
                 .weight(memberModel.getWeight())
                 .height(memberModel.getHeight())
                 .age(memberModel.getAge())
