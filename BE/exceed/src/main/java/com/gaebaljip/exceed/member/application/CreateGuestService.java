@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.member.application;
 
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
-import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
+import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CreateMemberService implements CreateMemberUsecase {
+public class CreateGuestService implements CreateGuestUsecase {
 
     public static final int MINIMUM_HEIGHT = 0;
     public static final int MINIMUM_WEIGHT = 0;

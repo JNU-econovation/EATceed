@@ -1,12 +1,8 @@
 package com.gaebaljip.exceed.member;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.member.adapter.in.CreateMemberController;
-import com.gaebaljip.exceed.member.adapter.in.CreateMemberTestRequest;
-import com.gaebaljip.exceed.member.application.MemberConverter;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberPersistenceAdapter;
+import com.gaebaljip.exceed.member.adapter.in.CreateGuestTestRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
-import com.gaebaljip.exceed.member.application.CreateMemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +12,16 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateMemberIntegrationTest extends IntegrationTest {
+public class CreateGuestIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MemberRepository memberRepository;
 
     @Test
-    void createMember() throws Exception {
+    void createGuest() throws Exception {
         //given
         int beforeCnt = memberRepository.findAll().size();
-        CreateMemberTestRequest request = new CreateMemberTestRequest(
+        CreateGuestTestRequest request = new CreateGuestTestRequest(
                 171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
         //when
