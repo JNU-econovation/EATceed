@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
+import com.gaebaljip.exceed.member.domain.MemberRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -47,6 +48,10 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = ENTITY_PREFIX + "_ACTIVITY", nullable = false)
     private Activity activity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = ENTITY_PREFIX + "_ROLE", nullable = false)
+    private MemberRole role;
 
     // todo : MemberEntity의 History 테이블 필요
 
