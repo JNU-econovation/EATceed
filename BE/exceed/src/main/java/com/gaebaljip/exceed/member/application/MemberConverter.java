@@ -17,6 +17,7 @@ public class MemberConverter {
                 .gender(guestModel.getGender())
                 .etc(etc)
                 .activity(guestModel.getActivity())
+                .role(guestModel.getRole())
                 .build();
     }
 
