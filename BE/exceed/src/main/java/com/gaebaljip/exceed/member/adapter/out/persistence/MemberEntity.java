@@ -35,8 +35,11 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_AGE", nullable = false)
     private Integer age;
 
-    @Column(name = ENTITY_PREFIX + "_IDENTIFICATION", nullable = false)
-    private String identification;
+    @Column(name = ENTITY_PREFIX + "_LOGIN_ID", nullable = false)
+    private String loginId;
+
+    @Column(name = ENTITY_PREFIX + "_PASSWORD", nullable = false)
+    private String password;
 
     @Column(name = ENTITY_PREFIX + "_ETC", nullable = false)
     private String etc;
