@@ -23,8 +23,8 @@ public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPor
     }
 
     @Override
-    public void query(MemberEntity memberEntity) {
-        memberRepository.save(memberEntity);
+    public MemberEntity query(MemberEntity memberEntity) {
+        return memberRepository.save(memberEntity);
     }
 
     @Override

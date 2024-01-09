@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Import;
 
 @Import(MemberExceptionHandler.class)
 @ExtendWith(MockitoExtension.class)
-class CreateMemberServiceTest {
+class CreateGuestServiceTest {
 
     @InjectMocks
-    private CreateMemberService createMemberService;
+    private CreateGuestService createGuestService;
 
     private static CreateMemberCommand createMemberCommand(double height, double weight, int age) {
         CreateMemberCommand command = CreateMemberCommand.builder()
@@ -39,7 +39,7 @@ class CreateMemberServiceTest {
 
         //when then
         Assertions.assertThrows(InvalidHeightException.class, () -> {
-            createMemberService.execute(command);
+            createGuestService.execute(command);
         });
     }
 
@@ -51,7 +51,7 @@ class CreateMemberServiceTest {
 
         //when then
         Assertions.assertThrows(InvalidWeightException.class, () -> {
-            createMemberService.execute(command);
+            createGuestService.execute(command);
         });
     }
 
@@ -63,7 +63,7 @@ class CreateMemberServiceTest {
 
         //when then
         Assertions.assertThrows(InvalidAgeException.class, () -> {
-            createMemberService.execute(command);
+            createGuestService.execute(command);
         });
     }
 }
