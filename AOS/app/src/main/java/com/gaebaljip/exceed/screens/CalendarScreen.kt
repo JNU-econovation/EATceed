@@ -171,9 +171,53 @@ fun CalendarLayout(
 
             }
 
+            CalendarItems()
 
         }
     }
+
+}
+
+@Composable
+fun CalendarItems() {
+    val dayOfWeek = listOf<String>("S", "M", "T", "W", "T", "F", "S")
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(7)
+
+        ) {
+            itemsIndexed(dayOfWeek) { index, days ->
+                val textColor = when (index) {
+                    0 -> Color.Red
+                    dayOfWeek.lastIndex -> Color.Blue
+                    else -> Color.Black
+                }
+                Text(
+                    text = "$days",
+                    fontSize = 24.sp,
+                    color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp)
+                )
+            }
+        }
+
+
+    }
+}
+
+@Composable
+fun HorizontalCalendar(
+    modifier: Modifier = Modifier,
+    currentDate: LocalDate = LocalDate.now(),
+    onSelectedDate: (LocalDate) -> Unit
+) {
+
 }
 
 @Preview(showBackground = true)
@@ -181,6 +225,6 @@ fun CalendarLayout(
 fun GreetingPreview() {
     ExceedTheme {
         ColorBox()
-        
+
     }
 }
