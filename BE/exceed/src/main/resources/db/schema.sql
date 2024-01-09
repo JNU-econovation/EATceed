@@ -5,17 +5,18 @@ drop table if exists FOOD_TB;
 
 CREATE TABLE `MEMBER_TB`
 (
-    `MEMBER_PK`             bigint(20)   NOT NULL AUTO_INCREMENT,
-    `CREATED_DATE`          datetime(6)  NOT NULL,
-    `UPDATED_DATE`          datetime(6)  NOT NULL,
-    `MEMBER_ACTIVITY`       varchar(255) NOT NULL,
-    `MEMBER_AGE`            int(11)      NOT NULL,
-    `MEMBER_ETC`            varchar(255) NOT NULL,
-    `MEMBER_GENDER`         tinyint(1)   NOT NULL,
-    `MEMBER_HEIGHT`         double       NOT NULL,
-    `MEMBER_IDENTIFICATION` varchar(255) NOT NULL,
-    `MEMBER_WEIGHT`         double       NOT NULL,
-     PRIMARY KEY (`MEMBER_PK`)
+    `MEMBER_PK`       bigint(20)   NOT NULL AUTO_INCREMENT,
+    `CREATED_DATE`    datetime(6)  NOT NULL,
+    `UPDATED_DATE`    datetime(6)  NOT NULL,
+    `MEMBER_ACTIVITY` varchar(255) NOT NULL,
+    `MEMBER_AGE`      int(11)      NOT NULL,
+    `MEMBER_ETC`      varchar(255) NOT NULL,
+    `MEMBER_GENDER`   tinyint(1)   NOT NULL,
+    `MEMBER_HEIGHT`   double       NOT NULL,
+    `MEMBER_LOGIN_ID` varchar(255) NOT NULL,
+    'MEMBER_PASSWORD' varchar(255) NOT NULL,
+    `MEMBER_WEIGHT`   double       NOT NULL,
+    PRIMARY KEY (`MEMBER_PK`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `FOOD_TB`
