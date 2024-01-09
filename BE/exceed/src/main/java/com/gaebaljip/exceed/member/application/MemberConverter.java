@@ -1,21 +1,22 @@
 package com.gaebaljip.exceed.member.application;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.member.domain.GuestModel;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberConverter {
-    public MemberEntity toEntity(MemberModel memberModel, String etc) {
+    public MemberEntity toEntity(GuestModel guestModel, String etc) {
         return MemberEntity.builder()
-                .loginId("testId1234+GUEST")
-                .password("testId1234+GUEST")
-                .weight(memberModel.getWeight())
-                .height(memberModel.getHeight())
-                .age(memberModel.getAge())
-                .gender(memberModel.getGender())
+                .loginId(guestModel.getLoginId())
+                .password(guestModel.getPassword())
+                .weight(guestModel.getWeight())
+                .height(guestModel.getHeight())
+                .age(guestModel.getAge())
+                .gender(guestModel.getGender())
                 .etc(etc)
-                .activity(memberModel.getActivity())
+                .activity(guestModel.getActivity())
                 .build();
     }
 

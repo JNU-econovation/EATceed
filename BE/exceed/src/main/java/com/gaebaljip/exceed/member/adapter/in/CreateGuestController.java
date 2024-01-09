@@ -1,10 +1,12 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
 import com.gaebaljip.exceed.common.ApiResponse;
+import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.request.CreateMemberRequest;
+import com.gaebaljip.exceed.dto.request.CreateGuestRequest;
+import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
-import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
+import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.domain.Activity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +22,12 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1")
-public class CreateMemberController {
+public class CreateGuestController {
 
-    private final CreateMemberUsecase createMemberUsecase;
+    private final CreateGuestUsecase createGuestUsecase;
 
-    @PostMapping("/members")
-    public ApiResponse<?> createMember(@Valid @RequestBody CreateMemberRequest request) {
+    @PostMapping("/members-guest")
+    public ApiResponse<CustomBody<CreateGuestResponse>> createGuest(@Valid @RequestBody CreateGuestRequest request) {
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(request.height())
                 .weight(request.weight())
@@ -33,7 +35,7 @@ public class CreateMemberController {
                 .etc(request.etc())
                 .age(request.age())
                 .activity(Activity.valueOf(request.activity())).build();
-        createMemberUsecase.execute(command);
-        return ApiResponseGenerator.success(HttpStatus.CREATED);
+        CreateGuestResponse createGuestResponse = createGuestUsecase.execute(command);
+        return ApiResponseGenerator.success(createGuestResponse, HttpStatus.CREATED);
     }
 }

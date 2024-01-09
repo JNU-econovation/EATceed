@@ -1,9 +1,11 @@
 package com.gaebaljip.exceed.member.application;
 
+import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
-import com.gaebaljip.exceed.member.domain.MemberModel;
+import com.gaebaljip.exceed.member.domain.GuestModel;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
@@ -25,10 +27,14 @@ public class CreateGuestService implements CreateGuestUsecase {
 
     @Override
     @Transactional
-    public void execute(CreateMemberCommand command) {
+    public CreateGuestResponse execute(CreateMemberCommand command) {
         validateCommand(command);
-        MemberModel memberModel = MemberModel.create(command.height(), command.gender(), command.weight(), command.age(), command.activity());
-        recordMemberPort.query(memberConverter.toEntity(memberModel, command.etc()));
+        GuestModel guestModel = GuestModel.create(command.height(), command.gender(), command.weight(), command.age(), command.activity());
+        MemberEntity memberEntity = recordMemberPort.query(memberConverter.toEntity(guestModel, command.etc()));
+        return CreateGuestResponse.builder()
+                .loginId(memberEntity.getLoginId())
+                .password(memberEntity.getPassword())
+                .build();
     }
 
     private void validateCommand(CreateMemberCommand command) {
