@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.achieve.adapter.in;
 import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ public class GetAchieveController {
     private final GetAchieveUsecase getAchieveUsecase;
 
     @GetMapping("/achieve/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetAchieveListResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        GetAchieveListResponse achieveListResponse = getAchieveUsecase.execute(1L, date);
+    public ApiResponse<ApiResponse.CustomBody<GetAchieveListResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
+        GetAchieveListResponse achieveListResponse = getAchieveUsecase.execute(memberId, date);
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }
