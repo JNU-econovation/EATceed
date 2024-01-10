@@ -38,11 +38,7 @@ fun HomeScreen() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Text(
-            text = "Home",
-            textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.Center)
-        )
+        PhysicsEngineComponent(count = 14, radius = 24)
     }
 }
 @Composable
