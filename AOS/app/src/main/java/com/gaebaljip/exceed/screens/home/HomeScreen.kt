@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -92,13 +93,13 @@ fun TopBarComponent(modifier: Modifier) {
         Icon(
             painter = painterResource(id = R.drawable.share_icon),
             modifier = Modifier.clickable { /*TODO*/ },
-            contentDescription = "공유 버튼"
+            contentDescription = stringResource(R.string.home_share_btn_description)
         )
         Spacer(Modifier.width(16.dp))
         Icon(
             painter = painterResource(id = R.drawable.settings_icon),
             modifier = Modifier.clickable { /*TODO*/ },
-            contentDescription = "설정 버튼"
+            contentDescription = stringResource(R.string.home_setting_btn_description)
         )
         Spacer(Modifier.width(8.dp))
     }
@@ -123,7 +124,7 @@ fun PercentageComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(80.dp))
                 Text(
-                    text = "목표 칼로리",
+                    text = stringResource(R.string.home_target_calorie),
                     fontFamily = pretendard,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
@@ -162,7 +163,7 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                 Column(Modifier.weight(1f)) {
                     Spacer(Modifier.height(22.dp))
                     AchieveGauge(
-                        title = "탄수화물",
+                        title = stringResource(R.string.carbohydrate),
                         gaugeColor = colorResource(id = R.color.carbohydrate_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_carbohydrate_color),
                         targetValue = state.targetMeal.targetCarbohydrate.toInt(),
@@ -171,7 +172,7 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
 
                     Spacer(Modifier.height(32.dp))
                     AchieveGauge(
-                        title = "단백질",
+                        title = stringResource(R.string.protein),
                         gaugeColor = colorResource(id = R.color.protein_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_protein_color),
                         targetValue = state.targetMeal.targetProtein.toInt(),
@@ -180,7 +181,7 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
 
                     Spacer(Modifier.height(32.dp))
                     AchieveGauge(
-                        title = "지방",
+                        title = stringResource(R.string.fat),
                         gaugeColor = colorResource(id = R.color.fat_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_fat_color),
                         targetValue = state.targetMeal.targetFat.toInt(),
