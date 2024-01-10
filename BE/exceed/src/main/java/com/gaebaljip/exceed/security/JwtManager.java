@@ -17,36 +17,23 @@ import java.util.Date;
 public class JwtManager {
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 1일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
-
-    private static final String USER_AUTHORITY = "authority";
-
     private final Key key;
+
+    private static final String MEMBER_ID = "memberId";
 
     public JwtManager(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateAccessToken(String loginId, String authority) {
+    public String generateAccessToken(String loginId, Long memberId) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .claim(MEMBER_ID, memberId)
                 .setSubject(loginId)
                 .setIssuedAt(now)
-                .claim(USER_AUTHORITY, authority)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public String generateRefreshToken(String loginId, String authority) {
-        Date now = new Date();
-        return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setSubject(loginId)
-                .claim(USER_AUTHORITY, authority)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -70,6 +57,17 @@ public class JwtManager {
         return false;
     }
 
+    public String generateRefreshToken(String loginId) {
+        Date now = new Date();
+        return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setSubject(loginId)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public boolean validateRefreshToken(String refreshToken) throws AuthenticationException {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken);
@@ -89,19 +87,4 @@ public class JwtManager {
         return false;
     }
 
-
-    private Claims parseClaims(String Token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(Token)
-                .getBody();
-    }
-
-    public String extractToken(String bearerToken) {
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AuthConstants.TOKEN_TYPE.getValue())) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
 }
