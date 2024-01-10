@@ -65,6 +65,131 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
             .background(colorResource(id = R.color.home_background))
     ) {
         PhysicsEngineComponent(state = homeState, count = 14, radius = 23)
+
+        GaugeBoardComponent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f)
+                .align(Alignment.BottomCenter),
+            state = homeState
+        )
+
+        PercentageComponent(
+            Modifier.align(Alignment.TopCenter),
+            homeState
+        )
+
+        TopBarComponent(
+            Modifier.align(Alignment.TopCenter)
+        )
+    }
+}
+
+@Composable
+fun TopBarComponent(modifier: Modifier) {
+    Row(modifier = modifier.offset(0.dp, 12.dp)) {
+        Spacer(Modifier.weight(1f))
+        Icon(
+            painter = painterResource(id = R.drawable.share_icon),
+            modifier = Modifier.clickable { /*TODO*/ },
+            contentDescription = "공유 버튼"
+        )
+        Spacer(Modifier.width(16.dp))
+        Icon(
+            painter = painterResource(id = R.drawable.settings_icon),
+            modifier = Modifier.clickable { /*TODO*/ },
+            contentDescription = "설정 버튼"
+        )
+        Spacer(Modifier.width(8.dp))
+    }
+}
+
+@Composable
+fun PercentageComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
+    var visibleState by remember {
+        mutableStateOf(false)
+    }
+    if (state != null) visibleState = true
+
+    AnimatedVisibility(
+        visible = visibleState,
+        enter = fadeIn(
+            animationSpec = tween(durationMillis = 3000, easing = LinearOutSlowInEasing)
+        ),
+        modifier = modifier
+    ) {
+        if (state != null) {
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.height(80.dp))
+                Text(
+                    text = "목표 칼로리",
+                    fontFamily = pretendard,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "${(state.currentMeal.currentCalorie / state.targetMeal.targetCalorie * 100).toInt()}%",
+                    fontFamily = gmarket,
+                    fontSize = 37.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(
+                    text = "${state.currentMeal.currentCalorie.toInt()} / ${state.targetMeal.targetCalorie.toInt()}",
+                    fontFamily = gmarket,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
+    Card(
+        modifier = modifier.background(colorResource(id = R.color.home_board_background)),
+        elevation = 10.dp
+
+    ) {
+        if (state != null) {
+            Row {
+                Spacer(Modifier.width(16.dp))
+                Column(Modifier.weight(1f)) {
+                    Spacer(Modifier.height(22.dp))
+                    AchieveGauge(
+                        title = "탄수화물",
+                        gaugeColor = colorResource(id = R.color.carbohydrate_color),
+                        gaugeTextColor = colorResource(id = R.color.gauge_percentage_carbohydrate_color),
+                        targetValue = state.targetMeal.targetCarbohydrate.toInt(),
+                        currentValue = state.currentMeal.currentCarbohydrate.toInt(),
+                    )
+
+                    Spacer(Modifier.height(32.dp))
+                    AchieveGauge(
+                        title = "단백질",
+                        gaugeColor = colorResource(id = R.color.protein_color),
+                        gaugeTextColor = colorResource(id = R.color.gauge_percentage_protein_color),
+                        targetValue = state.targetMeal.targetProtein.toInt(),
+                        currentValue = state.currentMeal.currentProtein.toInt(),
+                    )
+
+                    Spacer(Modifier.height(32.dp))
+                    AchieveGauge(
+                        title = "지방",
+                        gaugeColor = colorResource(id = R.color.fat_color),
+                        gaugeTextColor = colorResource(id = R.color.gauge_percentage_fat_color),
+                        targetValue = state.targetMeal.targetFat.toInt(),
+                        currentValue = state.currentMeal.currentFat.toInt(),
+                    )
+                }
+                Spacer(Modifier.width(16.dp))
+            }
+        }
     }
 }
 
