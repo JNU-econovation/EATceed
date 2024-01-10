@@ -17,7 +17,7 @@ class JwtManagerTest {
 
     @Test
     void validateAccessToken() throws AuthenticationException {
-        String accessToken = jwtManager.generateAccessToken("test", MemberRole.GUEST.name());
+        String accessToken = jwtManager.generateAccessToken("test", 2L);
         boolean validated = jwtManager.validateAccessToken(accessToken);
         assertTrue(validated);
     }

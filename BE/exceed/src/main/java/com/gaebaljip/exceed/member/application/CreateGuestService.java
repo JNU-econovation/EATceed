@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
@@ -27,13 +27,14 @@ public class CreateGuestService implements CreateGuestUsecase {
 
     @Override
     @Transactional
-    public CreateGuestResponse execute(CreateMemberCommand command) {
+    public CreateGuest execute(CreateMemberCommand command) {
         validateCommand(command);
         GuestModel guestModel = GuestModel.create(command.height(), command.gender(), command.weight(), command.age(), command.activity());
         MemberEntity memberEntity = recordMemberPort.query(memberConverter.toEntity(guestModel, command.etc()));
-        return CreateGuestResponse.builder()
+        return CreateGuest.builder()
                 .loginId(memberEntity.getLoginId())
-                .password(memberEntity.getPassword())
+                .password(guestModel.getPassword())
+                .memberId(memberEntity.getId())
                 .build();
     }
 

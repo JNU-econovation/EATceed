@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.member;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.adapter.in.CreateGuestTestRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -38,7 +38,7 @@ public class CreateGuestIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
-        ApiResponse.CustomBody<CreateGuestResponse> getMealFoodResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<CreateGuestResponse>>() {
+        ApiResponse.CustomBody<CreateGuest> getMealFoodResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<CreateGuest>>() {
         });
 
 

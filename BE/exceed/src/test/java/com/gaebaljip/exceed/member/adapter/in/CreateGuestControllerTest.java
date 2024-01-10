@@ -1,13 +1,19 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
+import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
+import com.gaebaljip.exceed.security.JwtManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +23,8 @@ class CreateGuestControllerTest extends CommonApiTest {
 
     @MockBean
     private CreateGuestUsecase createGuestUsecase;
+    @MockBean
+    private JwtManager jwtManager;
 
     @Test
     @DisplayName("회원가입 성공")
@@ -26,7 +34,13 @@ class CreateGuestControllerTest extends CommonApiTest {
         CreateGuestTestRequest request = new CreateGuestTestRequest(
                 171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
+        given(createGuestUsecase.execute(any(CreateMemberCommand.class))).willReturn(CreateGuest.builder()
+                .loginId("testId1234")
+                .password("testPassword1234")
+                .build());
+
         //when
+
         ResultActions resultActions = mockMvc.perform(
                 post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
@@ -49,7 +63,7 @@ class CreateGuestControllerTest extends CommonApiTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post("/v1/members")
+                post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 

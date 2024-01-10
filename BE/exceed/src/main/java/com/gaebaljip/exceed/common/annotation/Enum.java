@@ -1,7 +1,5 @@
 package com.gaebaljip.exceed.common.annotation;
 
-import com.gaebaljip.exceed.common.EnumValidator;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;

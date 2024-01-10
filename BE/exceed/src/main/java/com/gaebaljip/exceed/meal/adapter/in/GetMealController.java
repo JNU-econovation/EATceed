@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.dto.response.*;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
@@ -31,8 +32,7 @@ public class GetMealController {
     private final GetSpecificMealQuery getSpecificMealQuery;
 
     @GetMapping("/meal")
-    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal() {
-        Long memberId = 1L;
+    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(@AuthenticationMemberId Long memberId) {
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
         CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
@@ -42,8 +42,7 @@ public class GetMealController {
     }
 
     @GetMapping("/meal/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        Long memberId = 1L;
+    public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
         GetMeal getMeal = getSpecificMealQuery.execute(memberId, date);

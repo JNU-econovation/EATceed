@@ -4,11 +4,10 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.dto.request.CreateGuestRequest;
-import com.gaebaljip.exceed.dto.response.CreateGuestResponse;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.domain.Activity;
-import com.gaebaljip.exceed.member.domain.MemberRole;
 import com.gaebaljip.exceed.security.AuthConstants;
 import com.gaebaljip.exceed.security.JwtManager;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class CreateGuestController {
     private final JwtManager jwtManager;
 
     @PostMapping("/members-guest")
-    public ApiResponse<CustomBody<CreateGuestResponse>> createGuest(@Valid @RequestBody CreateGuestRequest request, HttpServletResponse response) {
+    public ApiResponse<CustomBody<CreateGuest>> createGuest(@Valid @RequestBody CreateGuestRequest request, HttpServletResponse response) {
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(request.height())
                 .weight(request.weight())
@@ -40,8 +39,8 @@ public class CreateGuestController {
                 .etc(request.etc())
                 .age(request.age())
                 .activity(Activity.valueOf(request.activity())).build();
-        CreateGuestResponse createGuestResponse = createGuestUsecase.execute(command);
-        response.addHeader(AuthConstants.AUTH_HEADER.getValue(), AuthConstants.TOKEN_TYPE.getValue() + jwtManager.generateAccessToken(createGuestResponse.loginId(), MemberRole.GUEST.name()));
-        return ApiResponseGenerator.success(createGuestResponse, HttpStatus.CREATED);
+        CreateGuest createGuest = createGuestUsecase.execute(command);
+        response.addHeader(AuthConstants.AUTH_HEADER.getValue(), jwtManager.generateAccessToken(createGuest.loginId(), createGuest.memberId()));
+        return ApiResponseGenerator.success(createGuest, HttpStatus.CREATED);
     }
 }

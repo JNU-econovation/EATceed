@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common;
+package com.gaebaljip.exceed.common.annotation;
 
 import com.gaebaljip.exceed.common.annotation.Enum;
 
