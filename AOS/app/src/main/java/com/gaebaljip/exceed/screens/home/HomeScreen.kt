@@ -25,6 +25,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gaebaljip.exceed.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -153,11 +154,9 @@ fun PhysicsEngineComponent(
                     .graphicsLayer(
                         rotationZ = item.rotate.toFloat()
                     ),
-                text = if (item.isWall) "" else "😋",
-                fontSize = (radius * 2 - 10).sp,
-
-
-                )
+                text = if (item.isWall) "" else "🍊",
+                fontSize = (radius * 2 - 10).sp
+            )
         }
     }
 }

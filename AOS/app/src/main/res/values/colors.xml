@@ -29,4 +29,7 @@
     <color name="primary_font_color">#FF9E1B</color>
     <color name="alarm_button_stroke_color">#FF9E1B</color>
     <color name="sub_color">#FF9E1B</color>
+
+    <color name="home_physics_background">#FFF6F6F6</color>
+    <color name="home_physics_border">#FFE1E1E1</color>
 </resources>
