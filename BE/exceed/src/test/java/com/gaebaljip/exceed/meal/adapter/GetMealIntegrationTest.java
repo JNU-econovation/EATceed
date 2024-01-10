@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.meal.adapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
 import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
@@ -10,7 +11,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -23,6 +27,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     private GetPresignedUrlPort getPresignedUrlPort;
 
     @Test
+    @WithMockGuestUser
     void getMeal() throws Exception {
         //when
         ResultActions resultActions = mockMvc.perform(get("/v1/meal")
@@ -42,6 +47,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    @WithMockGuestUser
     void getMealFood() throws Exception {
 
         given(getPresignedUrlPort.command(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
@@ -52,12 +58,12 @@ public class GetMealIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-
         ApiResponse.CustomBody<GetMealFoodResponse> getMealFoodResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<GetMealFoodResponse>>() {
         });
         Double maintainCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().maintainMeal().calorie();
         Double targetCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().targetMeal().calorie();
         int size = getMealFoodResponseCustomBody.getResponse().dailyMeals().size();
+
         //then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
