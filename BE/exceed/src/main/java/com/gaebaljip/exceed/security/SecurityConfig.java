@@ -12,7 +12,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -22,6 +21,8 @@ public class SecurityConfig {
     private final JwtManager jwtManager;
     private final JwtResolver jwtResolver;
     private final MemberDetailService memberDetailService;
+    private final JwtAuthenticationPoint jwtAuthenticationPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,9 +48,15 @@ public class SecurityConfig {
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
-//                .and()
-//                .exceptionHandling()
-//                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationPoint)
+
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
                 .and()
                 .headers()
                 .frameOptions()
