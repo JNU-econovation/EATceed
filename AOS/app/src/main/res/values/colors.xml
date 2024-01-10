@@ -16,4 +16,17 @@
     <color name="gauge_percentage_carbohydrate_color">#FF7070</color>
     <color name="gauge_percentage_protein_color">#8186FF</color>
     <color name="gauge_percentage_fat_color">#5BFF48</color>
+
+    <color name="calendar_main_color">#FDAC53</color>
+    <color name="calendar_month_color">#BBBBBB</color>
+    <color name="calendar_goal_color">#5B5B5B</color>
+    <color name="calendar_week_color">#828282</color>
+    <color name="calendar_day_color">#6A6A6A</color>
+    <color name="calendar_day_stroke_color">#808080</color>
+
+    <color name="primary_color">#FDA601</color>
+    <color name="primary_background_color">#FDFBF8</color>
+    <color name="primary_font_color">#FF9E1B</color>
+    <color name="alarm_button_stroke_color">#FF9E1B</color>
+    <color name="sub_color">#FF9E1B</color>
 </resources>
