@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.screens
+package com.gaebaljip.exceed.screens.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
