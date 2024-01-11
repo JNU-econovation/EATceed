@@ -1,21 +1,23 @@
 package com.gaebaljip.exceed.security;
 
+import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
+import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
+import com.gaebaljip.exceed.security.exception.UnsupportedAuthenticationException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import javax.security.sasl.AuthenticationException;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 @Slf4j
 public class JwtManager {
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 1일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 3; // 3일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key key;
 
@@ -44,13 +46,13 @@ public class JwtManager {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid Access Token.");
-            throw new AuthenticationException("Invalid JWT signature.", e); // 토큰의 서명이 유효하지 않은 경우
+            throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
             log.info("Expired Access token.");
-            throw new AuthenticationException("Expired JWT token.", e); // 토큰이 만료된 경우
+            throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token.");
-            throw new AuthenticationException("Unsupported JWT token.", e); // 지원되지 않는 토큰
+            throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.info("Access Token is empty.");
         }
@@ -74,13 +76,13 @@ public class JwtManager {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid Refresh Token", e);
-            throw new AuthenticationException("Invalid JWT signature.", e); // 토큰의 서명이 유효하지 않은 경우
+            throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
             log.info("Expired Refresh Token", e);
-            throw new AuthenticationException("Expired JWT token.", e); // 토큰이 만료된 경우
+            throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            throw new AuthenticationException("Unsupported JWT token.", e); // 지원되지 않는 토큰
+            throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.info("Access Token is empty.", e);
         }
