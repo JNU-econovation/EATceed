@@ -1,9 +1,13 @@
 package com.gaebaljip.exceed.common;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
+import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
+import com.gaebaljip.exceed.security.exception.UnsupportedAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +20,6 @@ import java.net.BindException;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ApiResponse<?> handleNoHandlerFoundException(HttpMessageNotReadableException e) {
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -59,6 +62,26 @@ public class GlobalExceptionHandler {
     protected ApiResponse<?> handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException e) {
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(ExpiredJwtAuthenticationException.class)
+    protected ApiResponse<?> handleExpiredJwtAuthenticationException(ExpiredJwtAuthenticationException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    protected ApiResponse<?> handleExpiredJwtAuthenticationException(InvalidJwtAuthenticationException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnsupportedAuthenticationException.class)
+    protected ApiResponse<?> handleExpiredJwtAuthenticationException(UnsupportedAuthenticationException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ApiResponse<?> handleExpiredJwtAuthenticationException(AuthenticationException e) {
+        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     /**
