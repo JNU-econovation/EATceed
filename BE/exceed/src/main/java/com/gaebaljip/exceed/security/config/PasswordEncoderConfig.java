@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
