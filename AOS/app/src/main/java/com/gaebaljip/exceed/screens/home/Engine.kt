@@ -14,6 +14,8 @@ class Engine(private val maxY: Double, private val maxX: Double) {
     private val maxVelocity = 1400.0//초당
     private val mutex = Mutex()
     private val g = 20.0F//0.01초당
+    private val additionalDistance = 0.5
+    private val percentageOfPower = 85
 
     init {
         objList.add(
@@ -74,7 +76,8 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                         if (target.isWall) { // 만약 벽이라면
                             if (target.isHorizontal) {
                                 if (target.y in base.y - base.r..base.y + base.r && base.x in target.x - target.r..target.x + target.r) {
-                                    val duplicationDistance = base.y + base.r - target.y + 1
+                                    val duplicationDistance =
+                                        base.y + base.r - target.y + additionalDistance
                                     base.velocityX /= 2
                                     base.velocityY *= -1
                                     base.velocityY /= 2
@@ -83,7 +86,7 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                             } else {
                                 if (target.x in base.x - base.r..base.x + base.r && base.y in target.y - target.r..target.y + target.r) {
                                     val duplicationDistance =
-                                        if (base.x < target.x) (base.x + base.r - target.x + 1) else -(target.x - (base.x - base.r) + 1)
+                                        if (base.x < target.x) (base.x + base.r - target.x + additionalDistance) else -(target.x - (base.x - base.r) + additionalDistance)
                                     base.velocityY /= 2
                                     base.velocityX *= -1
                                     base.velocityX /= 2
@@ -97,7 +100,9 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                                 (base.x - target.x).square() + (base.y - target.y).square()
                             )
                             if (base.r + target.r > distance) {
-                                val duplicationDistance = base.r + target.r - distance + 4
+                                val duplicationDistance =
+                                    base.r + target.r - distance + additionalDistance
+
                                 //base 먼저 진행
                                 var directionVectorX = target.x - base.x
                                 var directionVectorY = target.y - base.y
@@ -110,12 +115,12 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                                 )
                                 //base는 이제 속도를 완전히 잃음
                                 var cosSeta = cos(setaDirectionAndVelocity)//충돌당한 물체의 비율 계산
-                                cosSeta = cosSeta / 10 * 8
+                                cosSeta = cosSeta / 100 * percentageOfPower
                                 target.temporalVelocityX += velocitySize * cosSeta * (directionVectorX / directionVectorSize) // 적용
                                 target.temporalVelocityY += velocitySize * cosSeta * (directionVectorY / directionVectorSize)
 
                                 var sinSeta = sin(PI.toFloat() / 2 - setaDirectionAndVelocity)
-                                sinSeta = sinSeta / 10 * 8
+                                sinSeta = sinSeta / 100 * percentageOfPower
                                 var verticalVectorX = directionVectorY
                                 var verticalVectorY = directionVectorX
                                 var setaVerticalAndBase =
@@ -142,11 +147,11 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                                 )
                                 //target는 이제 속도를 완전히 잃음
                                 cosSeta = cos(setaDirectionAndVelocity)
-                                cosSeta = cosSeta / 10 * 8
+                                cosSeta = cosSeta / 100 * percentageOfPower
                                 base.temporalVelocityX += velocitySize * cosSeta * (directionVectorX / directionVectorSize)
                                 base.temporalVelocityY += velocitySize * cosSeta * (directionVectorY / directionVectorSize)
                                 sinSeta = sin(PI.toFloat() / 2 - setaDirectionAndVelocity)
-                                sinSeta = sinSeta / 10 * 8
+                                sinSeta = sinSeta / 100 * percentageOfPower
                                 verticalVectorX = directionVectorY
                                 verticalVectorY = directionVectorX
                                 setaVerticalAndBase =
@@ -179,29 +184,31 @@ class Engine(private val maxY: Double, private val maxX: Double) {
                     }
                 }
 
-                for (item in objList) {
-                    if (item.temporalVelocityY > 0 || item.temporalVelocityX > 0) {
-                        item.apply()
-                    }
-                    item.temporalVelocityY = 0.0
-                    item.temporalVelocityX = 0.0
-                    if (item.isWall.not()) item.velocityY += g
-                    if (item.velocityY > maxVelocity) {
-                        item.velocityY = maxVelocity
-                    } else if (item.velocityY < -maxVelocity) {
-                        item.velocityY = -maxVelocity
-                    }
 
-
-                    if (item.velocityX > maxVelocity) {
-                        item.velocityX = maxVelocity
-                    } else if (item.velocityX < -maxVelocity) {
-                        item.velocityX = -maxVelocity
-                    }
-
-                    item.update(0.015)
-                }
             }
+            for (item in objList) {
+                if (item.temporalVelocityY > 0 || item.temporalVelocityX > 0) {
+                    item.apply()
+                }
+                item.temporalVelocityY = 0.0
+                item.temporalVelocityX = 0.0
+                if (item.isWall.not()) item.velocityY += g
+                if (item.velocityY > maxVelocity) {
+                    item.velocityY = maxVelocity
+                } else if (item.velocityY < -maxVelocity) {
+                    item.velocityY = -maxVelocity
+                }
+
+
+                if (item.velocityX > maxVelocity) {
+                    item.velocityX = maxVelocity
+                } else if (item.velocityX < -maxVelocity) {
+                    item.velocityX = -maxVelocity
+                }
+
+                item.update(0.015)
+            }
+
         }
     }
 
