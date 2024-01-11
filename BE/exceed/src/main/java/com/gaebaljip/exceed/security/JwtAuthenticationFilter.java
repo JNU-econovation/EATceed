@@ -31,12 +31,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String accessToken = jwtResolver.extractToken(bearerToken);
-
-        if (jwtManager.validateAccessToken(accessToken)) {
-            MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(jwtResolver.getLoginIdFromToken(accessToken));
-            Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities(), jwtResolver.getMemberIdFromToken(accessToken));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
+        try {
+            if (jwtManager.validateAccessToken(accessToken)) {
+                MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(jwtResolver.getLoginIdFromToken(accessToken));
+                Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities(), jwtResolver.getMemberIdFromToken(accessToken));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+            }
+        } catch (Exception e) {
+            log.error("JwtAuthenticationFilter error : {}", e.getMessage());
+            request.setAttribute("exception", e);
         }
+        filterChain.doFilter(request, response);
     }
 }
