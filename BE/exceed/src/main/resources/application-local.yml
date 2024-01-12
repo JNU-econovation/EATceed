@@ -29,3 +29,6 @@ spring:
     init:
       data-locations: classpath:db/mockData.sql
       mode: always
+
+jwt:
+  secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse

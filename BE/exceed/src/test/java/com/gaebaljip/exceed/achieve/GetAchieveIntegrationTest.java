@@ -3,12 +3,14 @@ package com.gaebaljip.exceed.achieve;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
 import com.gaebaljip.exceed.meal.adapter.out.MealPersistenceAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
     @Test
     @Transactional
+    @WithMockGuestUser
     void getAchieves() throws Exception {
         //given
         String year = "2023";

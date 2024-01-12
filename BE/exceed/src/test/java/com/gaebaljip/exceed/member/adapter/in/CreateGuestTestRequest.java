@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
-public record CreateMemberTestRequest(
+public record CreateGuestTestRequest(
         Integer height,
         Integer gender,
         Integer weight,

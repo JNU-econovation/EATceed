@@ -1,12 +1,11 @@
 package com.gaebaljip.exceed.member;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.member.adapter.in.CreateMemberController;
-import com.gaebaljip.exceed.member.adapter.in.CreateMemberTestRequest;
-import com.gaebaljip.exceed.member.application.MemberConverter;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberPersistenceAdapter;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
+import com.gaebaljip.exceed.member.adapter.in.CreateGuestTestRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
-import com.gaebaljip.exceed.member.application.CreateMemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +15,38 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateMemberIntegrationTest extends IntegrationTest {
+public class CreateGuestIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MemberRepository memberRepository;
 
     @Test
-    void createMember() throws Exception {
+    void createGuest() throws Exception {
         //given
         int beforeCnt = memberRepository.findAll().size();
-        CreateMemberTestRequest request = new CreateMemberTestRequest(
+        CreateGuestTestRequest request = new CreateGuestTestRequest(
                 171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post("/v1/members")
+                post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 
 
         long cnt = memberRepository.findAll().stream().count();
 
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+        ApiResponse.CustomBody<CreateGuest> getMealFoodResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<CreateGuest>>() {
+        });
+
+
         //then
         int afterCnt = memberRepository.findAll().size();
         resultActions.andExpect(status().isCreated());
+        Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().loginId()).isNotNull();
+        Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().password()).isNotNull();
         Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
         Assertions.assertThat(afterCnt).isGreaterThan(1);
     }

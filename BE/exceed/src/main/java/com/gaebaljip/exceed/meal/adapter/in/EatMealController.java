@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.meal.adapter.in;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.dto.response.EatMealResponse;
 import com.gaebaljip.exceed.dto.response.UploadImage;
@@ -30,17 +31,17 @@ public class EatMealController {
     private final UploadImageUsecase uploadImageUsecase;
 
     @PostMapping("/meal")
-    public ApiResponse<CustomBody<EatMealResponse>> eatMeal(@Valid @RequestBody EatMealRequest request) {
+    public ApiResponse<CustomBody<EatMealResponse>> eatMeal(@Valid @RequestBody EatMealRequest request, @AuthenticationMemberId Long memberId) {
         EatMealCommand eatMealCommand = EatMealCommand.builder()
                 .foodIds(request.foodIds())
                 .mealType(MealType.valueOf(request.mealType()))
                 .multiple(request.multiple())
-                .memberId(1L)
+                .memberId(memberId)
                 .build();
         Long mealId = eatMealUsecase.execute(eatMealCommand);
         UploadImage uploadImage = UploadImage.builder()
                 .mealId(mealId)
-                .memberId(1L)
+                .memberId(memberId)
                 .fileName(request.fileName())
                 .build();
         String presignedUrl = uploadImageUsecase.execute(uploadImage);
