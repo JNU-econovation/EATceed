@@ -68,7 +68,7 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = gmarket,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
+        fontSize = 16.sp
     ),
 
     bodySmall = TextStyle(
