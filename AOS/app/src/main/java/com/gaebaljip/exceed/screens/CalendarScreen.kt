@@ -287,6 +287,57 @@ fun CalendarDays(
                     .size(32.dp)
             ) {
 
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
+                        .fillMaxHeight(0.6f)
+                        .align(Alignment.BottomStart)
+                        .offset(0.dp, (-1).dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Color(0xB3FFBABA),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
+                        .fillMaxHeight(0.6f)
+                        .align(Alignment.BottomEnd)
+                        .offset(0.dp, (-1).dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Color(0xB3BDC0FF),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
+                        .fillMaxHeight(0.6f)
+                        .align(Alignment.TopCenter)
+                        .offset(0.dp, 1.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Color(0xB3BEFFB4),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    )
+                }
+
                 Text(
                     text = date.dayOfMonth.toString(),
                     style = Typography.bodyMedium,
