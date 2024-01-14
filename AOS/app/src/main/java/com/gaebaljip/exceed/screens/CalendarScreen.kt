@@ -280,12 +280,13 @@ fun CalendarDays(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Spacer(modifier = Modifier.weight(1.2f))
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .size(32.dp)
             ) {
+
 
                 Text(
                     text = date.dayOfMonth.toString(),
@@ -295,16 +296,7 @@ fun CalendarDays(
                 )
 
             }
-            Spacer(modifier = Modifier.weight(1f))
 
-            Text(
-                text = "150%",
-                style = Typography.labelMedium,
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp
-            )
-
-            Spacer(modifier = Modifier.weight(.5f))
 
         }
     }
