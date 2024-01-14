@@ -23,6 +23,8 @@
     <color name="calendar_week_color">#828282</color>
     <color name="calendar_day_color">#6A6A6A</color>
     <color name="calendar_day_stroke_color">#808080</color>
+    <color name="calendar_sunday_color">#FF7070</color>
+    <color name="calendar_saturday_color">#8186FF</color>
 
     <color name="primary_color">#FDA601</color>
     <color name="primary_background_color">#FDFBF8</color>
