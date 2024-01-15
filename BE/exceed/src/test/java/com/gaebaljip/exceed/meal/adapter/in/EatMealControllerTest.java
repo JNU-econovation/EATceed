@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +37,8 @@ class EatMealControllerTest extends CommonApiTest {
         //given
         EatMealRequest request = new EatMealRequest(1.5, foodIds, "LUNCH", "test.jpeg");
 
+        given(uploadImageUsecase.execute(any())).willReturn("https://gaebaljip.s3.ap-northeast-2.amazonaws.com/test.jpeb_presignedUrl임");
+
         //when
         ResultActions resultActions = mockMvc.perform(
                 post("/v1/meal")
@@ -41,6 +46,7 @@ class EatMealControllerTest extends CommonApiTest {
                         .contentType(MediaType.APPLICATION_JSON));
 
         //then
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().isCreated())
+                .andDo(document("eat-meal-success"));;
     }
 }
