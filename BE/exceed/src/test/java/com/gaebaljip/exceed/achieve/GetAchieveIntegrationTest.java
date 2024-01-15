@@ -10,12 +10,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +39,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/v1/achieve/" + date)
+                RestDocumentationRequestBuilders.get("/v1/achieve/" + date)
                         .contentType(MediaType.APPLICATION_JSON));
         //then
 
@@ -52,7 +53,8 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
         System.out.println("comparedSize = " + comparedSize);
         System.out.println("comparisonSize = " + comparisonSize);
         Assertions.assertThat(comparedSize).isEqualTo(comparisonSize);
-        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(status().isOk())
+                .andDo(document("get-achieves-success"));;
     }
 
 }

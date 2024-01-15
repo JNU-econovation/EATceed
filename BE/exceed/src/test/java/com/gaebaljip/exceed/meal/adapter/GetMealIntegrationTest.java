@@ -11,6 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +32,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     @WithMockGuestUser
     void getMeal() throws Exception {
         //when
-        ResultActions resultActions = mockMvc.perform(get("/v1/meal")
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/v1/meal")
                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -43,7 +45,8 @@ public class GetMealIntegrationTest extends IntegrationTest {
 
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
-        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(status().isOk())
+                .andDo(document("get-meal-success"));
     }
 
     @Test
@@ -54,7 +57,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
 
         //when
         String date = "2023-12-10";
-        ResultActions resultActions = mockMvc.perform(get("/v1/meal/" + date)
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/v1/meal/" + date)
                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -68,6 +71,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
         Assertions.assertThat(size).isGreaterThan(0);
-        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(status().isOk())
+                .andDo(document("get-meal-food-success"));;
     }
 }
