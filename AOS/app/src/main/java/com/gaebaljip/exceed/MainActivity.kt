@@ -27,7 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.gaebaljip.exceed.screens.AddScreen
 import com.gaebaljip.exceed.screens.AlarmScreen
-import com.gaebaljip.exceed.screens.CalendarScreen
+import com.gaebaljip.exceed.screens.calendar.CalendarScreen
 import com.gaebaljip.exceed.screens.FoodScreen
 import com.gaebaljip.exceed.screens.home.HomeScreen
 import com.gaebaljip.exceed.ui.theme.ExceedTheme
