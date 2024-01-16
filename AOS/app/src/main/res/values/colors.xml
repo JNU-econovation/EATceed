@@ -39,4 +39,6 @@
 
     <color name="alarm_background">#FDFBF8</color>
     <color name="reverse_font_color">#FFFFFF</color>
+    <color name="enable_color">#9A000000</color>
+    <color name="font_color">#000000</color>
 </resources>
