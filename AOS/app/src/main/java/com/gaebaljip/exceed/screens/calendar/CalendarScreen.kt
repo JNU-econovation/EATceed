@@ -1,11 +1,10 @@
-package com.gaebaljip.exceed.screens
+package com.gaebaljip.exceed.screens.calendar
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,13 +20,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -39,19 +38,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gaebaljip.exceed.R
+import com.gaebaljip.exceed.model.dto.response.CalendarAchieveInfoDTO
 import com.gaebaljip.exceed.ui.theme.ExceedTheme
 import com.gaebaljip.exceed.ui.theme.Typography
-import org.intellij.lang.annotations.JdkConstants.VerticalScrollBarPolicy
 import java.time.LocalDate
+import java.util.Calendar
+import kotlin.math.round
+import kotlin.time.Duration.Companion.days
 
 @Composable
-fun CalendarScreen() {
-    ColorBox()
-}
+fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
+    val calendarData by calendarViewModel.calendarData.collectAsStateWithLifecycle()
 
-@Composable
-fun ColorBox() {
+    LaunchedEffect(true) {
+        calendarViewModel.getData()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,16 +85,13 @@ fun ColorBox() {
                     .background(Color.White, shape = RoundedCornerShape(5.dp))
 
             ) {
-                CalendarLayout(
-                    onDayClick = {},
-                    modifier = Modifier,
-                    month = "December"
-                )
+                CalendarLayout(calendarData)
 
             }
         }
     }
 }
+
 
 @Composable
 fun Header() {
@@ -129,9 +131,9 @@ fun Header() {
 
 @Composable
 fun CalendarLayout(
-    modifier: Modifier = Modifier,
-    onDayClick: (Int) -> Unit,
-    month: String
+
+    state: List<CalendarAchieveInfoDTO?>,
+    calendarViewModel: CalendarViewModel = viewModel()
 
 ) {
     Column(
@@ -186,7 +188,13 @@ fun CalendarLayout(
                 }
             }
 
-            CalendarItems(currentDate = LocalDate.of(2024, 1, 1))
+            CalendarItems(
+                currentDate = LocalDate.of(
+                    calendarViewModel.currentYear,
+                    calendarViewModel.currentMonth,
+                    1
+                ), state
+            )
 
         }
     }
@@ -196,6 +204,7 @@ fun CalendarLayout(
 @Composable
 fun CalendarItems(
     currentDate: LocalDate,
+    state: List<CalendarAchieveInfoDTO?>
 ) {
     val dayOfWeek = listOf<String>("S", "M", "T", "W", "T", "F", "S")
     val firstDayOfWeek by remember { mutableStateOf(currentDate.dayOfWeek.value) }
@@ -256,6 +265,7 @@ fun CalendarItems(
                 CalendarDays(
                     date = date,
                     isToday = date == LocalDate.now(),
+                    state
 
                 )
 
@@ -268,7 +278,9 @@ fun CalendarItems(
 fun CalendarDays(
     date: LocalDate,
     isToday: Boolean,
+    state: List<CalendarAchieveInfoDTO?>
 ) {
+    val dayInt = date.dayOfMonth
 
     Box(
         modifier = Modifier
@@ -298,7 +310,11 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                Color(0xB3FFBABA),
+                                if (state[dayInt]?.carbohydrateAchieve == true) {
+                                    Color(0xB3FFBABA)
+                                } else {
+                                    Color(0x00FFFFFF)
+                                },
                                 shape = RoundedCornerShape(20.dp)
                             )
                     )
@@ -315,7 +331,11 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                Color(0xB3BDC0FF),
+                                if (state[dayInt]?.proteinAchieve == true) {
+                                    Color(0xB3BDC0FF)
+                                } else {
+                                    Color(0x00FFFFFF)
+                                },
                                 shape = RoundedCornerShape(20.dp)
                             )
                     )
@@ -332,7 +352,11 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                Color(0xB3BEFFB4),
+                                if (state[dayInt]?.fatAchieve == true) {
+                                    Color(0xB3BEFFB4)
+                                } else {
+                                    Color(0x00FFFFFF)
+                                },
                                 shape = RoundedCornerShape(20.dp)
                             )
                     )
@@ -348,8 +372,9 @@ fun CalendarDays(
             }
             Spacer(modifier = Modifier.weight(1f))
 
+            val achieveRate = state[dayInt]?.calorieRate?.let { round(it) }.toString()
             Text(
-                text = "150%",
+                text = "$achieveRate%",
                 style = Typography.labelMedium,
                 textAlign = TextAlign.Center,
                 fontSize = 12.sp
@@ -367,7 +392,6 @@ fun CalendarDays(
 @Composable
 fun GreetingPreview() {
     ExceedTheme {
-        ColorBox()
-
+        CalendarScreen()
     }
 }
