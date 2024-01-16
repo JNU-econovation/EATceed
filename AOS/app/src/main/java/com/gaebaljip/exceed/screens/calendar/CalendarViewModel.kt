@@ -15,4 +15,38 @@ class CalendarViewModel : ViewModel() {
     val calendarData : StateFlow<List<CalendarAchieveInfoDTO?>>
         get() = _calendarData
 
+
+    val currentYear: Int
+    val currentMonth: Int
+
+    init {
+        val calendar = Calendar.getInstance()
+        currentYear = calendar.get(Calendar.YEAR)
+        currentMonth = calendar.get(Calendar.MONTH) + 1
+
+    }
+
+    fun getData() {
+        val lastDayOfMonth = Calendar.getInstance().apply {
+            set(Calendar.YEAR, currentYear)
+            set(Calendar.MONTH, currentMonth -1)
+            set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+        }.get(Calendar.DAY_OF_MONTH)
+
+        val initialData = List(lastDayOfMonth) {dayOfMonth ->
+            CalendarAchieveInfoDTO(
+                isVisited = false,
+                date = "$currentYear-${String.format("%02d", currentMonth)}-${String.format("%02d", dayOfMonth + 1)}",
+                calorieRate = 0.0,
+                proteinAchieve = false,
+                fatAchieve = false,
+                carbohydrateAchieve = false
+            )
+        }
+
+        _calendarData.update {
+            initialData
+        }
+    }
+
 }
