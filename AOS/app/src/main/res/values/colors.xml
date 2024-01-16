@@ -36,4 +36,7 @@
     <color name="home_physics_border">#FFE1E1E1</color>
     <color name="home_background">#FFFDFBF8</color>
     <color name="home_board_background">#FFFFFF</color>
+
+    <color name="alarm_background">#FDFBF8</color>
+    <color name="reverse_font_color">#FFFFFF</color>
 </resources>
