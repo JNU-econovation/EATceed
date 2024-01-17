@@ -99,7 +99,9 @@ fun AlarmScreen(alarmViewModel: AlarmViewModel = viewModel()) {
         ) {
             Spacer(modifier = Modifier.height(84.dp))
             AlarmListComponent(dataList) {
-                alarmViewModel.changeFocus(it)
+                if (focusItem == null) {
+                    alarmViewModel.changeFocus(it)
+                }
             }
         }
 
