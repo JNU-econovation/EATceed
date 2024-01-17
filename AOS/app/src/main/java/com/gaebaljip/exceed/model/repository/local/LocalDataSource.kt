@@ -4,6 +4,9 @@ import androidx.room.Room
 import com.gaebaljip.exceed.MainApplication
 import com.gaebaljip.exceed.MealTypeEnum
 import com.gaebaljip.exceed.screens.alarm.AlarmInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LocalDataSource {
     private val db = Room.databaseBuilder(
@@ -17,10 +20,20 @@ class LocalDataSource {
         return list.map { it.transform() }
     }
 
-    fun getAlarmListByCurrentWeek(weekNum: Int): List<AlarmInfo> {
+    fun getAlarmListByCurrentWeek(weekNum: Int, imgDate: String): List<AlarmInfo> {
         val dao = db.alarmDao()
         val list: List<AlarmEntity> = dao.getTargetWeekALL(weekNum)
-        return list.map { it.transform() }
+        return list.map {
+            val temp = it.transform()
+            if(temp.imgDate != "" && temp.imgDate!=imgDate){
+                GlobalScope.launch {
+                    updateAlarmImage(temp.id, "", null )
+                }
+                temp.copy(imgDate = "", imgString = null)
+            }else{
+                temp
+            }
+        }
     }
 
     fun updateAlarmTime(

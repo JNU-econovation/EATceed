@@ -19,8 +19,8 @@ object MainRepository {
     fun getAllAlarm():List<AlarmInfo>{
         return localDataSource.getAllAlarm()
     }
-    fun getAlarmListByCurrentWeek(weekNum: Int):List<AlarmInfo>{
-        return localDataSource.getAlarmListByCurrentWeek(weekNum)
+    fun getAlarmListByCurrentWeek(weekNum: Int, imgDate: String):List<AlarmInfo>{
+        return localDataSource.getAlarmListByCurrentWeek(weekNum, imgDate)
     }
 
     fun updateAlarm(id: String, hour:Int, minute:Int, weekNum:Int, mealTypeEnum: MealTypeEnum) {
