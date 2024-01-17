@@ -47,7 +47,7 @@ class RegistrationActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RegistrationScreen(id, uri, mealType, onFinished)
+                    RegistrationScreen(uri, mealType, onFinished)
                 }
             }
         }

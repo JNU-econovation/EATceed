@@ -35,7 +35,6 @@ import java.util.Base64
 
 @Composable
 fun RegistrationScreen(
-    id: String,
     uri: Uri,
     mealType: MealTypeEnum,
     onFinished : (Boolean) -> Unit,
