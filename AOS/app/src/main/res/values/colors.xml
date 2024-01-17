@@ -41,4 +41,5 @@
     <color name="reverse_font_color">#FFFFFF</color>
     <color name="enable_color">#9A000000</color>
     <color name="font_color">#000000</color>
+    <color name="alarm_item_divider">#DDDDDD</color>
 </resources>
