@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
@@ -45,7 +46,7 @@ fun AddScreen(addViewModel: AddViewModel = viewModel()) {
     val dataList by addViewModel.dataList.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        //TODO
+        addViewModel.getListCurrentWeek()
     }
     Column(
         modifier = Modifier
@@ -116,9 +117,13 @@ fun AddScreenAlarmItem(item: AlarmInfo, onClick: (AlarmInfo) -> Unit) {
                     )
 
                 }
+                Box(modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+                    .background(colorResource(id = R.color.alarm_item_divider)))
                 Spacer(Modifier.width(20.dp))
                 Text(
-                    text = "${item.hour}:${item.minute}",
+                    text = "${if (item.hour/10==0) "0" else ""}${item.hour}:${if (item.minute/10==0) "0" else ""}${item.minute}",
                     style = Typography.displayMedium
                 )
                 Spacer(Modifier.width(40.dp))
