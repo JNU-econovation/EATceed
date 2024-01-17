@@ -17,4 +17,5 @@
     <string name="week_thu">목</string>
     <string name="week_fri">금</string>
     <string name="week_sat">토</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 </resources>
