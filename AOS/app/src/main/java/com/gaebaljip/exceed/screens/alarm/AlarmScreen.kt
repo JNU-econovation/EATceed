@@ -68,6 +68,10 @@ fun AlarmScreen(alarmViewModel: AlarmViewModel = viewModel()) {
     val dataList by alarmViewModel.dataList.collectAsStateWithLifecycle()
     val focusItem by alarmViewModel.focusAlarm.collectAsStateWithLifecycle()
 
+    LaunchedEffect(true){
+        alarmViewModel.getAllAlarm()
+    }
+
     LaunchedEffect(focusItem) {
         if (focusItem != null) showBottomSheet = true
     }
@@ -148,7 +152,7 @@ fun AlarmItem(item: AlarmInfo, onClick: (AlarmInfo) -> Unit) {
         {
             Spacer(Modifier.width(20.dp))
             Text(
-                text = "${item.hour}:${item.minute}",
+                text = "${if (item.hour/10==0) "0" else ""}${item.hour}:${if (item.minute/10==0) "0" else ""}${item.minute}",
                 style = Typography.displayMedium
             )
             Spacer(Modifier.width(40.dp))
@@ -237,7 +241,7 @@ fun AlarmSettingWeekComponent(isChecked: Boolean, text: String, onClick: () -> U
 
 
 @Composable
-fun AlarmSettingBoard(focusedItem: AlarmInfo?, onDismiss: () -> Unit) {
+fun AlarmSettingBoard(alarmViewModel: AlarmViewModel = viewModel(), focusedItem: AlarmInfo?, onDismiss: () -> Unit, ) {
     var hour by remember { mutableStateOf(focusedItem?.hour ?: 8) }
     var minute by remember { mutableStateOf(focusedItem?.minute ?: 0) }
     var mealType by remember { mutableStateOf(focusedItem?.mealType) }
@@ -253,7 +257,10 @@ fun AlarmSettingBoard(focusedItem: AlarmInfo?, onDismiss: () -> Unit) {
                 Icon(painter = painterResource(id = R.drawable.delete_icon),
                     contentDescription = "제거",
                     tint = colorResource(id = R.color.primary_color),
-                    modifier = Modifier.clickable { /*TODO*/ })
+                    modifier = Modifier.clickable {
+                        alarmViewModel.deleteAlarm()
+                        onDismiss()
+                    })
                 Spacer(modifier = Modifier.width(22.dp))
             }
         }
@@ -394,7 +401,15 @@ fun AlarmSettingBoard(focusedItem: AlarmInfo?, onDismiss: () -> Unit) {
                     .weight(1f)
                     .clickable(
                         enabled = mealType != null && weekFlag != 0
-                    ) { /*TODO*/ }
+                    ) {
+                        alarmViewModel.changeOrUpdateAlarm(
+                            hour = hour,
+                            minute = minute,
+                            weekNum = weekFlag,
+                            mealTypeEnum = mealType!!
+                        )
+                        onDismiss()
+                    }
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
@@ -421,7 +436,7 @@ fun TimePicker(
 ) {
     val pagerState = rememberPagerState(initValue)
 
-    LaunchedEffect(pagerState) {
+    LaunchedEffect(pagerState.currentPage){
         onChange(pagerState.currentPage)
     }
     VerticalPager(
@@ -434,7 +449,6 @@ fun TimePicker(
         pageSize = PageSize.Fixed(100.dp),
         modifier = modifier.height(100.dp)
     ) { page ->
-        // Our page content
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "${if (page / 10 == 0) "0" else ""}$page",
