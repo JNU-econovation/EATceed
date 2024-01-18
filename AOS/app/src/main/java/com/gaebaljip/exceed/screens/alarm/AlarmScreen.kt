@@ -436,7 +436,7 @@ fun TimePicker(
     modifier: Modifier,
     onChange: (Int) -> Unit
 ) {
-    val pagerState = rememberPagerState(initValue)
+    val pagerState = rememberPagerState(initialPage = initValue)
 
     LaunchedEffect(pagerState.currentPage){
         onChange(pagerState.currentPage)

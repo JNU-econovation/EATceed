@@ -12,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
-@Preview(showBackground = true)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -23,9 +23,11 @@ fun LoginScreen() {
         verticalAlignment = Alignment.Bottom
     ) {
         Spacer(modifier = Modifier.weight(0.5f))
-        Button(onClick = { /*TODO*/ }, modifier = Modifier
+        Button(onClick = {
+                         navController.navigate("onboarding")
+        }, modifier = Modifier
             .padding(16.dp)
-            .width(130.dp)) {
+            .weight(3f)) {
             Text(text = "게스트 로그인")
         }
 
@@ -33,7 +35,7 @@ fun LoginScreen() {
 
         Button(onClick = { /*TODO*/ }, modifier = Modifier
             .padding(16.dp)
-            .width(130.dp)) {
+            .weight(3f)) {
             Text(text = "일반 로그인")
         }
         Spacer(modifier = Modifier.weight(0.5f))

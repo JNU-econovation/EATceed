@@ -1,5 +1,8 @@
 package com.gaebaljip.exceed.screens
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,12 +15,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,11 +30,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ComponentActivity
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.gaebaljip.exceed.MainActivity
 import com.gaebaljip.exceed.ui.theme.pretendard
 
-@Preview(showBackground = true)
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(navController: NavController) {
 
     var heightInput by remember { mutableStateOf(TextFieldValue()) }
     var weightInput by remember { mutableStateOf(TextFieldValue()) }
@@ -122,15 +130,22 @@ fun OnboardingScreen() {
                 .padding(horizontal = 16.dp),
 
             )
-
         Button(
-            onClick = { /*TODO*/ }, modifier = Modifier
+            onClick = {
+                navController.navigate("main") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }, modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 16.dp, top = 16.dp)
         ) {
             Text(text = "완료")
         }
-
     }
 }
 
