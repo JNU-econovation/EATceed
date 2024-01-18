@@ -10,8 +10,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
 @Slf4j
+@Component
 public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override
