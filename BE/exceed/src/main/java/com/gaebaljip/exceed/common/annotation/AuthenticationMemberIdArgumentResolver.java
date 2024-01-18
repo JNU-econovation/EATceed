@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.common.annotation;
 
-import com.gaebaljip.exceed.security.CustomUsernamePasswordAuthenticationToken;
+import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.core.Authentication;

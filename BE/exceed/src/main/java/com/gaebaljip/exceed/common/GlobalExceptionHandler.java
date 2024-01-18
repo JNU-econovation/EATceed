@@ -89,7 +89,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     protected ApiResponse<?> handleException(Exception e) {
-        log.error("Exception", e);
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

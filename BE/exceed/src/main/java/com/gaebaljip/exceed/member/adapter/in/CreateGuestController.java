@@ -9,21 +9,18 @@ import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.security.AuthConstants;
-import com.gaebaljip.exceed.security.JwtManager;
+import com.gaebaljip.exceed.security.domain.JwtManager;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/v1")
 public class CreateGuestController {
 
