@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ComponentActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.gaebaljip.exceed.ActiveTypeEnum
 import com.gaebaljip.exceed.MainActivity
+import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
 import com.gaebaljip.exceed.ui.theme.pretendard
 
 @Composable
@@ -43,6 +45,8 @@ fun OnboardingScreen(navController: NavController) {
     var weightInput by remember { mutableStateOf(TextFieldValue()) }
     var ageInput by remember { mutableStateOf(TextFieldValue()) }
     var etcInput by remember { mutableStateOf(TextFieldValue()) }
+    var genderInput by remember { mutableStateOf(2) }
+    var activityInput by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -85,7 +89,7 @@ fun OnboardingScreen(navController: NavController) {
                 .padding(horizontal = 16.dp)
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { },
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .padding(end = 16.dp)
@@ -95,7 +99,7 @@ fun OnboardingScreen(navController: NavController) {
             }
 
             Button(
-                onClick = { /*TODO*/ }, modifier = Modifier.padding(vertical = 8.dp)
+                onClick = { }, modifier = Modifier.padding(vertical = 8.dp)
             ) {
                 Text(text = "여성")
             }
@@ -109,7 +113,7 @@ fun OnboardingScreen(navController: NavController) {
             fontSize = 20.sp
         )
 
-        ActivityTypeComponent()
+        ActivityTypeComponent(selectedActivity = {activityInput = it})
 
         Text(
             text = "특이사항",
@@ -123,7 +127,7 @@ fun OnboardingScreen(navController: NavController) {
             value = etcInput,
             onValueChange = { newValue -> etcInput = newValue },
             label = { Text(text = "특이사항") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             singleLine = false,
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,29 +154,27 @@ fun OnboardingScreen(navController: NavController) {
 }
 
 @Composable
-private fun ActivityTypeComponent() {
-    val activeType = listOf("활동 안함", "조금 움직임", "보통", "활동적임", "매우 활동적임")
+private fun ActivityTypeComponent(selectedActivity: (String) -> Unit) {
+    val activeTypes = ActiveTypeEnum.values()
     val selectedValue = remember { mutableStateOf("") }
-    val isSelected: (String) -> Boolean = { selectedValue.value == it }
-    val onChanged: (String) -> Unit = { selectedValue.value = it }
 
     Column(modifier = Modifier.padding(start = 16.dp)) {
-        activeType.forEach { item ->
+        activeTypes.forEach { type ->
             Column {
                 Row(
                     modifier = Modifier
                         .selectable(
-                            selected = isSelected(item),
-                            onClick = { onChanged(item) },
+                            selected = selectedValue.value == type.engName,
+                            onClick = { selectedValue.value = type.engName; selectedActivity(type.engName) },
                             role = Role.RadioButton
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = isSelected(item),
-                        onClick = { /*TODO*/ }
+                        selected = selectedValue.value == type.engName,
+                        onClick = { selectedValue.value = type.engName; selectedActivity(type.engName) }
                     )
-                    Text(text = item)
+                    Text(text = type.krName)
 
                 }
             }
