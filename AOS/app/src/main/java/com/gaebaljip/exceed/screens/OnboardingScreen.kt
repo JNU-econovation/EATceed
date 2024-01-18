@@ -89,7 +89,7 @@ fun OnboardingScreen(navController: NavController) {
                 .padding(horizontal = 16.dp)
         ) {
             Button(
-                onClick = { },
+                onClick = { genderInput = 1 },
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .padding(end = 16.dp)
@@ -99,7 +99,10 @@ fun OnboardingScreen(navController: NavController) {
             }
 
             Button(
-                onClick = { }, modifier = Modifier.padding(vertical = 8.dp)
+                onClick = { genderInput = 0 },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+
             ) {
                 Text(text = "여성")
             }
