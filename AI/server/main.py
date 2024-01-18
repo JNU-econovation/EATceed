@@ -32,3 +32,11 @@ async def chat(user_input: UserInput):
 
     bot_response = responses.choices[0].message.content
     chat_log.append({'role': 'assistant', 'content': bot_response})
+    delivery_format = {
+            "success": True,
+            "responses" : {
+                "answer" : bot_response
+            },
+            "error": None
+        }
+    return delivery_format
