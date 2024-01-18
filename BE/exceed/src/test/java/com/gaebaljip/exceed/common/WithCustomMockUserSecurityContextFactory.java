@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.common;
 
-import com.gaebaljip.exceed.security.CustomUsernamePasswordAuthenticationToken;
+import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;

@@ -1,5 +1,10 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.filter;
 
+import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
+import com.gaebaljip.exceed.security.domain.JwtManager;
+import com.gaebaljip.exceed.security.domain.JwtResolver;
+import com.gaebaljip.exceed.security.domain.MemberDetails;
+import com.gaebaljip.exceed.security.service.MemberDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,13 +40,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String accessToken = jwtResolver.extractToken(bearerToken);
         try {
-            if (jwtManager.validateAccessToken(accessToken)) {
+            if (jwtManager.validateAccessToken(accessToken,request)) {
                 MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(jwtResolver.getLoginIdFromToken(accessToken));
                 Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities(), jwtResolver.getMemberIdFromToken(accessToken));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("user ={}, uri ={}, method = {}, time={}, message={}",
+                        request.getRemoteUser(), request.getRequestURL(), request.getMethod(), LocalDateTime.now(), "인증 성공");
             }
         } catch (Exception e) {
-            log.error("JwtAuthenticationFilter error : {}", e.getMessage());
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());
             request.setAttribute("exception", e);
         }
         filterChain.doFilter(request, response);

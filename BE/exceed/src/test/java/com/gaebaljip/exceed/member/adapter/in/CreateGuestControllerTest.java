@@ -4,7 +4,7 @@ import com.gaebaljip.exceed.common.CommonApiTest;
 import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
-import com.gaebaljip.exceed.security.JwtManager;
+import com.gaebaljip.exceed.security.domain.JwtManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
