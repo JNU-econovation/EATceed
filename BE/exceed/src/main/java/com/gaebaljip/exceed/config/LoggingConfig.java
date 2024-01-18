@@ -10,9 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class LoggingConfig implements WebMvcConfigurer {
 
+    private final LoggingInterceptor loggingInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor())
+        registry.addInterceptor(loggingInterceptor)
             .addPathPatterns("/**");
     }
 }
