@@ -68,6 +68,7 @@ fun OnboardingScreen(
     var weightInput by remember { mutableStateOf(TextFieldValue()) }
     var ageInput by remember { mutableStateOf(TextFieldValue()) }
     var etcInput by remember { mutableStateOf(TextFieldValue()) }
+
     var genderInput by remember { mutableStateOf<Int?>(null) }
     var activityInput by remember { mutableStateOf("") }
 
@@ -141,6 +142,7 @@ fun OnboardingScreen(
 
         ActivityTypeComponent(selectedActivity = { activityInput = it })
 
+
         Text(
             text = "특이사항",
             modifier = Modifier.padding(16.dp),
@@ -196,18 +198,15 @@ private fun ActivityTypeComponent(selectedActivity: (String) -> Unit) {
                     modifier = Modifier
                         .selectable(
                             selected = selectedValue.value == type.engName,
-                            onClick = {
-                                selectedValue.value = type.engName; selectedActivity(type.engName)
-                            },
+                            onClick = { selectedValue.value = type.engName; selectedActivity(type.engName) },
                             role = Role.RadioButton
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = selectedValue.value == type.engName,
-                        onClick = {
-                            selectedValue.value = type.engName; selectedActivity(type.engName)
-                        }
+
+                        onClick = { selectedValue.value = type.engName; selectedActivity(type.engName) }
                     )
                     Text(text = type.krName)
 
