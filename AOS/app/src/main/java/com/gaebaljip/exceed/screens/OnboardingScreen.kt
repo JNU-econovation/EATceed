@@ -2,6 +2,8 @@ package com.gaebaljip.exceed.screens
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +18,9 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,18 +35,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ComponentActivity
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.gaebaljip.exceed.ActiveTypeEnum
 import com.gaebaljip.exceed.MainActivity
+import com.gaebaljip.exceed.MainApplication.Companion.context
+import com.gaebaljip.exceed.OnboardingViewModel
+import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
 import com.gaebaljip.exceed.ui.theme.pretendard
 
 @Composable
-fun OnboardingScreen(navController: NavController) {
+fun OnboardingScreen(
+    navController: NavController,
+    onboardViewModel: OnboardingViewModel = viewModel()
+) {
+    val onboardingInfoState by onboardViewModel.onboardInfo.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(onboardingInfoState) {
+        if (onboardingInfoState == true) {
+            Toast.makeText(context, "통신 성공!!!!!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(context, intent, null)
+            (context as? Activity)?.finish()
+        }
+    }
 
     var heightInput by remember { mutableStateOf(TextFieldValue()) }
     var weightInput by remember { mutableStateOf(TextFieldValue()) }
     var ageInput by remember { mutableStateOf(TextFieldValue()) }
     var etcInput by remember { mutableStateOf(TextFieldValue()) }
+    var genderInput by remember { mutableStateOf<Int?>(null) }
+    var activityInput by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -85,7 +112,7 @@ fun OnboardingScreen(navController: NavController) {
                 .padding(horizontal = 16.dp)
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { genderInput = 1 },
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .padding(end = 16.dp)
@@ -95,7 +122,10 @@ fun OnboardingScreen(navController: NavController) {
             }
 
             Button(
-                onClick = { /*TODO*/ }, modifier = Modifier.padding(vertical = 8.dp)
+                onClick = { genderInput = 0 },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+
             ) {
                 Text(text = "여성")
             }
@@ -109,7 +139,7 @@ fun OnboardingScreen(navController: NavController) {
             fontSize = 20.sp
         )
 
-        ActivityTypeComponent()
+        ActivityTypeComponent(selectedActivity = { activityInput = it })
 
         Text(
             text = "특이사항",
@@ -123,7 +153,7 @@ fun OnboardingScreen(navController: NavController) {
             value = etcInput,
             onValueChange = { newValue -> etcInput = newValue },
             label = { Text(text = "특이사항") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             singleLine = false,
             modifier = Modifier
                 .fillMaxWidth()
@@ -132,14 +162,19 @@ fun OnboardingScreen(navController: NavController) {
             )
         Button(
             onClick = {
-                navController.navigate("main") {
-                    popUpTo(navController.graph.startDestinationId) {
-                        saveState = true
-                        inclusive = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
+                val height: Double? = heightInput.text.toDoubleOrNull()
+                val weight: Double? = weightInput.text.toDoubleOrNull()
+                val age: Int? = ageInput.text.toIntOrNull()
+                val gender: Int? = genderInput
+                val activity: String = activityInput
+                val etc: String = etcInput.text
+
+                if (height != null && weight != null && age != null && gender != null) {
+                    onboardViewModel.sendOnboardingData(height, gender, weight, age, activity, etc)
                 }
+
+
+
             }, modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 16.dp, top = 16.dp)
@@ -150,29 +185,31 @@ fun OnboardingScreen(navController: NavController) {
 }
 
 @Composable
-private fun ActivityTypeComponent() {
-    val activeType = listOf("활동 안함", "조금 움직임", "보통", "활동적임", "매우 활동적임")
+private fun ActivityTypeComponent(selectedActivity: (String) -> Unit) {
+    val activeTypes = ActiveTypeEnum.values()
     val selectedValue = remember { mutableStateOf("") }
-    val isSelected: (String) -> Boolean = { selectedValue.value == it }
-    val onChanged: (String) -> Unit = { selectedValue.value = it }
 
     Column(modifier = Modifier.padding(start = 16.dp)) {
-        activeType.forEach { item ->
+        activeTypes.forEach { type ->
             Column {
                 Row(
                     modifier = Modifier
                         .selectable(
-                            selected = isSelected(item),
-                            onClick = { onChanged(item) },
+                            selected = selectedValue.value == type.engName,
+                            onClick = {
+                                selectedValue.value = type.engName; selectedActivity(type.engName)
+                            },
                             role = Role.RadioButton
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = isSelected(item),
-                        onClick = { /*TODO*/ }
+                        selected = selectedValue.value == type.engName,
+                        onClick = {
+                            selectedValue.value = type.engName; selectedActivity(type.engName)
+                        }
                     )
-                    Text(text = item)
+                    Text(text = type.krName)
 
                 }
             }
