@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
 import com.gaebaljip.exceed.member.domain.MemberModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     private final MemberConverter memberConverter;
 
     @Override
+    @Transactional(readOnly = true)
     public TargetMeal execute(Long memberId) {
         MemberEntity memberEntity = loadMemberPort.query(memberId);
         MemberModel memberModel = memberConverter.toModel(memberEntity);
