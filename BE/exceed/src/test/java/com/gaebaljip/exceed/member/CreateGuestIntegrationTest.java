@@ -11,12 +11,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,6 +61,21 @@ public class CreateGuestIntegrationTest extends IntegrationTest {
         Assertions.assertThat(afterCnt).isGreaterThan(1);
         resultActions.andExpect(status().isCreated())
                 .andDo(document("create-guest-success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("height").type(JsonFieldType.NUMBER).description("키"),
+                                fieldWithPath("gender").type(JsonFieldType.NUMBER).description("성별 1:남자, 0:여자"),
+                                fieldWithPath("weight").type(JsonFieldType.NUMBER).description("몸무게"),
+                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
+                                fieldWithPath("activity").type(JsonFieldType.STRING).description("활동량 \n" +
+                                        "NOT_ACTIVE: 활동이 적은 경우\n" +
+                                        "LIGHTLY_ACTIVE: 가벼운 활동을 하는 경우\n" +
+                                        "NORMAL_ACTIVE: 보통 활동을 하는 경우\n" +
+                                        "VERY_ACTIVE: 많은 활동을 하는 경우\n" +
+                                        "EXTREMELY_ACTIVE: 매우 많은 활동을 하는 경우"),
+                                fieldWithPath("etc").type(JsonFieldType.STRING).description("기타")
+                        ),
                         responseHeaders(
                                 headerWithName("Authorization").description("Access Token")
                         )));
