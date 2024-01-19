@@ -12,13 +12,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CreateGuestController.class)
 class CreateGuestControllerTest extends CommonApiTest {
@@ -44,14 +43,13 @@ class CreateGuestControllerTest extends CommonApiTest {
         //when
 
         ResultActions resultActions = mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/v1/members-guest")
+                MockMvcRequestBuilders.post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 
 
         //then
-        resultActions.andExpect(status().isCreated())
-                .andDo(document("create-guest-success"));
+        resultActions.andExpect(status().isCreated());
 
     }
 

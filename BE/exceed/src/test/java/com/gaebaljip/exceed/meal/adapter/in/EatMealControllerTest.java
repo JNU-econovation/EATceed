@@ -9,15 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
+
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +48,17 @@ class EatMealControllerTest extends CommonApiTest {
                         .contentType(MediaType.APPLICATION_JSON));
 
         //then
-        resultActions.andExpect(status().isCreated())
-                .andDo(document("eat-meal-success"));;
+        resultActions.andExpect(status().isCreated());
+        resultActions.andDo(document("eat-meal-success",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestFields(
+                        fieldWithPath("multiple").type(JsonFieldType.NUMBER).description("몇 인분"),
+                        fieldWithPath("foodIds").type(JsonFieldType.ARRAY).description("음식 아이디 리스트"),
+                        fieldWithPath("mealType").type(JsonFieldType.STRING).description("식사 타입" +
+                                "BREAKFAST, LUNCH, DINNER, SNACK"),
+                        fieldWithPath("fileName").type(JsonFieldType.STRING).description("파일 이름 + 확장자 있어야함")
+                )
+        ));
     }
 }
