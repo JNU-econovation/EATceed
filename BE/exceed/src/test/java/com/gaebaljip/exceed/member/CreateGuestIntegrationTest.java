@@ -10,9 +10,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CreateGuestIntegrationTest extends IntegrationTest {
@@ -29,7 +34,7 @@ public class CreateGuestIntegrationTest extends IntegrationTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post("/v1/members-guest")
+                RestDocumentationRequestBuilders.post("/v1/members-guest")
                         .content(om.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON));
 
@@ -45,10 +50,17 @@ public class CreateGuestIntegrationTest extends IntegrationTest {
         //then
         int afterCnt = memberRepository.findAll().size();
         resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(header().exists("Authorization"));
         Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().loginId()).isNotNull();
         Assertions.assertThat(getMealFoodResponseCustomBody.getResponse().password()).isNotNull();
         Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
         Assertions.assertThat(afterCnt).isGreaterThan(1);
+        resultActions.andExpect(status().isCreated())
+                .andDo(document("create-guest-success",
+                        responseHeaders(
+                                headerWithName("Authorization").description("Access Token")
+                        )));
+
     }
 
 
