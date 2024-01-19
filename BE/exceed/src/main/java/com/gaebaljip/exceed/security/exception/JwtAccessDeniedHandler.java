@@ -3,7 +3,6 @@ package com.gaebaljip.exceed.security.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.Error;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class JwtAccessDeniedHandler implements org.springframework.security.web.access.AccessDeniedHandler {
 
     @Override

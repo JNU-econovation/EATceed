@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.domain;
 
 import lombok.Getter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

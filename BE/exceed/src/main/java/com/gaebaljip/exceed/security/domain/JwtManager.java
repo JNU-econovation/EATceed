@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.domain;
 
 import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
 import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -40,21 +42,27 @@ public class JwtManager {
                 .compact();
     }
 
-    public boolean validateAccessToken(String accessToken) throws AuthenticationException {
+    public boolean validateAccessToken(String accessToken, HttpServletRequest request) throws AuthenticationException {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
+            log.info("method ={}, URL = {}, time={}, message={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(), "엑세스 토큰 검증 성공");
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid Access Token.");
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
-            log.info("Expired Access token.");
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT token.");
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
-            log.info("Access Token is empty.");
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
         }
         return false;
     }
@@ -70,21 +78,27 @@ public class JwtManager {
                 .compact();
     }
 
-    public boolean validateRefreshToken(String refreshToken) throws AuthenticationException {
+    public boolean validateRefreshToken(String refreshToken, HttpServletRequest request) throws AuthenticationException {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken);
+            log.info("method ={}, URL = {}, time={}, message={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(), "리프레시 토큰 검증 성공");
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid Refresh Token", e);
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
-            log.info("Expired Refresh Token", e);
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
             throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
-            log.info("Access Token is empty.", e);
+            log.error("method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(), request.getRequestURL(), LocalDateTime.now(),e.getMessage());;
         }
         return false;
     }

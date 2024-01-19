@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.domain;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import lombok.RequiredArgsConstructor;

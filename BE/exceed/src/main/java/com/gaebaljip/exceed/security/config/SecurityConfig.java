@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.security.config;
 
-import com.gaebaljip.exceed.security.JwtAuthenticationFilter;
-import com.gaebaljip.exceed.security.JwtManager;
-import com.gaebaljip.exceed.security.JwtResolver;
-import com.gaebaljip.exceed.security.MemberDetailService;
+import com.gaebaljip.exceed.security.filter.JwtAuthenticationFilter;
+import com.gaebaljip.exceed.security.domain.JwtManager;
+import com.gaebaljip.exceed.security.domain.JwtResolver;
+import com.gaebaljip.exceed.security.service.MemberDetailService;
 import com.gaebaljip.exceed.security.exception.JwtAccessDeniedHandler;
 import com.gaebaljip.exceed.security.exception.JwtAuthenticationPoint;
 import lombok.RequiredArgsConstructor;

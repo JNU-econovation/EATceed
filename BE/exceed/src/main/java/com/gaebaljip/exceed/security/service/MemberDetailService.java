@@ -1,8 +1,9 @@
-package com.gaebaljip.exceed.security;
+package com.gaebaljip.exceed.security.service;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
+import com.gaebaljip.exceed.security.domain.MemberDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
