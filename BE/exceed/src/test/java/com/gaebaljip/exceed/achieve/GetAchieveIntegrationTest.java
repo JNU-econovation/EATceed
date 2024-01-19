@@ -16,8 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GetAchieveIntegrationTest extends IntegrationTest {
@@ -54,7 +55,9 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
         System.out.println("comparisonSize = " + comparisonSize);
         Assertions.assertThat(comparedSize).isEqualTo(comparisonSize);
         resultActions.andExpect(status().isOk())
-                .andDo(document("get-achieves-success"));;
+                .andDo(document("get-achieves-success",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
     }
 
 }
