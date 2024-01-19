@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
+import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GetMealIntegrationTest extends IntegrationTest {
@@ -46,7 +46,25 @@ public class GetMealIntegrationTest extends IntegrationTest {
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
         resultActions.andExpect(status().isOk())
-                .andDo(document("get-meal-success"));
+                .andDo(document("get-meal-success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                                fieldWithPath("response.maintainMeal.calorie").type(JsonFieldType.NUMBER).description("유지 칼로리"),
+                                fieldWithPath("response.maintainMeal.carbohydrate").type(JsonFieldType.NUMBER).description("유지 탄수화물"),
+                                fieldWithPath("response.maintainMeal.protein").type(JsonFieldType.NUMBER).description("유지 단백질"),
+                                fieldWithPath("response.maintainMeal.fat").type(JsonFieldType.NUMBER).description("유지 지방"),
+                                fieldWithPath("response.targetMeal.calorie").type(JsonFieldType.NUMBER).description("목표 칼로리"),
+                                fieldWithPath("response.targetMeal.carbohydrate").type(JsonFieldType.NUMBER).description("목표 탄수화물"),
+                                fieldWithPath("response.targetMeal.protein").type(JsonFieldType.NUMBER).description("목표 단백질"),
+                                fieldWithPath("response.targetMeal.fat").type(JsonFieldType.NUMBER).description("목표 지방"),
+                                fieldWithPath("response.currentMeal.calorie").type(JsonFieldType.NUMBER).description("현재 칼로리"),
+                                fieldWithPath("response.currentMeal.carbohydrate").type(JsonFieldType.NUMBER).description("현재 탄수화물"),
+                                fieldWithPath("response.currentMeal.protein").type(JsonFieldType.NUMBER).description("현재 단백질"),
+                                fieldWithPath("response.currentMeal.fat").type(JsonFieldType.NUMBER).description("현재 지방"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 정보")
+                        )));
     }
 
     @Test
@@ -72,6 +90,8 @@ public class GetMealIntegrationTest extends IntegrationTest {
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
         Assertions.assertThat(size).isGreaterThan(0);
         resultActions.andExpect(status().isOk())
-                .andDo(document("get-meal-food-success"));;
+                .andDo(document("get-meal-food-success",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
     }
 }
