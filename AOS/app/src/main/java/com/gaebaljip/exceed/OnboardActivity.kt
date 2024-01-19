@@ -31,9 +31,6 @@ class OnboardActivity : ComponentActivity() {
                 composable("onboarding") {
                     OnboardingScreen(navController)
                 }
-                composable("main") {
-                    MainScreenView()
-                }
             }
         }
     }
