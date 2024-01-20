@@ -86,6 +86,17 @@ def handle_exception(e: Exception) -> HTTPException:
         detail={"success": False, "error": str(e)},
     )
 
+def handle_jwt_verification_failure(token: str):
+    # 서명 검증 실패 시 수행할 작업을 정의합니다.
+    logger.error(f"JWT Signature Verification Failed for token: {token}")
+    
+    # 클라이언트에게 적절한 응답을 반환합니다.
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="JWT Signature Verification Failed",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
 
 @app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
 async def chat(
