@@ -2,6 +2,8 @@ import openai
 from fastapi import FastAPI, HTTPException, Depends
 from typing import Annotated
 from pydantic import BaseModel
+from starlette import status
+import logging
 
 
 app = FastAPI(
@@ -36,3 +38,51 @@ chat_responses = []
 
 chat_log = [{'role':'system',
             'content': prompt}]
+
+# 로깅 설정 추가
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+def handle_exception(e: Exception) -> HTTPException:
+    # 디버깅을 위해 예외 세부 정보를 로그에 남깁니다.
+    logger.error(f"An error occured: {str(e)}")
+
+    # HTTPException으로 변환
+    if isinstance(e, HTTPException):
+        return e
+
+    # 에러가 발생한 경우 더 구체적인 HTTP 응답을 반환합니다.
+    return HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail={"success": False, "error": str(e)},
+    )
+
+
+@app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
+async def chat(user_input: UserInput):
+    try:
+        chat_log.append({'role': 'user', 'content': user_input.user_input})
+        chat_responses.append(user_input.user_input)
+
+        # 속성들 추가 및 조정하기
+        responses = openai.chat.completions.create(
+            model=model, # 'gpt-3.5-turbo-1106'
+            messages=chat_log,
+            temperature=0.1,
+            max_tokens=500
+        )
+
+        bot_response = responses.choices[0].message.content
+        chat_log.append({'role': 'assistant', 'content': bot_response})
+        delivery_format = {
+            "success": True,
+            "responses" : {
+                "answer" : bot_response
+            },
+            "error": None
+        }
+
+        create_chat_message(db, user_input.user_input, bot_response, member_id)
+        return delivery_format
+    except Exception as e:
+        return handle_exception(e)
