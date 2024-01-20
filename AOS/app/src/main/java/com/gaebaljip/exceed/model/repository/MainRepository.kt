@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.model.repository
 
 import com.gaebaljip.exceed.APIService
 import com.gaebaljip.exceed.MealTypeEnum
+import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
 import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
 import com.gaebaljip.exceed.model.repository.local.LocalDataSource
@@ -38,7 +39,12 @@ object MainRepository {
         localDataSource.deleteAlarm(id)
     }
 
-    suspend fun createApi(data: OnboardingRequestDTO) : Result<Unit> {
-        return remoteDataSource.createApi(data)
+    suspend fun createApi1(data: OnboardingRequestDTO) : Result<Unit> {
+        return remoteDataSource.createApi1(data)
     }
+
+    suspend fun createApi2(data: ChattingRequestDTO) : Result<Unit> {
+        return remoteDataSource.createApi2(data)
+    }
+
 }

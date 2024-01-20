@@ -69,8 +69,17 @@ fun FoodScreen() {
 @Composable
 fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
 
-    val keyboardOnDone = LocalSoftwareKeyboardController.current
+    val chatInfoState by foodViewModel.chatRequestData.observeAsState()
+    val context = LocalContext.current
     
+    val keyboardOnDone = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(chatInfoState) {
+        if (chatInfoState == true) {
+            Toast.makeText(context, "채팅 전송 성공!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     var chatInput by remember { mutableStateOf(TextFieldValue()) }
     Column(
         modifier = Modifier
@@ -154,7 +163,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         Button(
                             onClick = {
                                 val breakfast = "아침 메뉴 추천해 줘"
-
+                                foodViewModel.sendQuestionData(breakfast)
                             }, modifier = Modifier
                                 .weight(1f),
                             colors = ButtonDefaults.buttonColors(
