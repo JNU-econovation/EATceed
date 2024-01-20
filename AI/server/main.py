@@ -4,6 +4,7 @@ from typing import Annotated
 from pydantic import BaseModel
 from starlette import status
 import logging
+from sqlalchemy.orm import Session
 
 
 app = FastAPI(
