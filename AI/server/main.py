@@ -9,11 +9,16 @@ from db.crud import create_chat_message
 from db.database import SessionLocal, engine, get_db, Base
 from db.models import Member
 from core.config import settings
+from jose import JWTError, jwt
+from fastapi.security import OAuth2AuthorizationCodeBearer
+
 
 Base.metadata.create_all(bind=engine)
 
 openai.api_key = settings.OPENAI_API_KEY
 model = settings.MODEL
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = "HS256"
 
 app = FastAPI(
     title="Exceed Food-Chatbot",
@@ -52,6 +57,21 @@ chat_log = [{'role':'system',
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+@app.middleware("http")
+async def log_errors(request, call_next):
+    try:
+        return await call_next(request)
+    except HTTPException as exc:
+        logger.error(f"HTTPException: {exc.detail}")
+        raise
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+        raise
+
+
+oauth2_scheme = OAuth2AuthorizationCodeBearer(tokenUrl="token", authorizationUrl="authorize")
+
+
 def handle_exception(e: Exception) -> HTTPException:
     # 디버깅을 위해 예외 세부 정보를 로그에 남깁니다.
     logger.error(f"An error occured: {str(e)}")
@@ -64,6 +84,50 @@ def handle_exception(e: Exception) -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         detail={"success": False, "error": str(e)},
+    )
+
+def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
+    try:
+        logger.debug(f"Received token: {token}")
+
+        # 디코딩된 payload를 인쇄하는 이 줄을 추가하세요.
+        decoded_payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_signature": False})
+        logger.debug(f"Decoded payload: {decoded_payload}")
+
+        member_id: int = decoded_payload.get("memberId")
+        if member_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return member_id
+    except jwt.ExpiredSignatureError as expired_error:
+        logger.error(f"Expired Signature Error: {expired_error}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Expired Signature Error",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    except JWTError as jwt_error:
+        logger.error(f"JWT Error: {jwt_error}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="JWT Error",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+
+def handle_jwt_verification_failure(token: str):
+    # 서명 검증 실패 시 수행할 작업을 정의합니다.
+    logger.error(f"JWT Signature Verification Failed for token: {token}")
+    
+    # 클라이언트에게 적절한 응답을 반환합니다.
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="JWT Signature Verification Failed",
+        headers={"WWW-Authenticate": "Bearer"},
     )
 
 
