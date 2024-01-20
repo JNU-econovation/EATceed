@@ -4,7 +4,16 @@ from typing import Annotated
 from pydantic import BaseModel
 from starlette import status
 import logging
+from sqlalchemy.orm import Session
+from db.crud import create_chat_message
+from db.database import SessionLocal, engine, get_db, Base
+from db.models import Member
+from core.config import settings
 
+Base.metadata.create_all(bind=engine)
+
+openai.api_key = settings.OPENAI_API_KEY
+model = settings.MODEL
 
 app = FastAPI(
     title="Exceed Food-Chatbot",
@@ -59,7 +68,11 @@ def handle_exception(e: Exception) -> HTTPException:
 
 
 @app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
-async def chat(user_input: UserInput):
+async def chat(
+    user_input: UserInput,
+    member_id: int = Depends(get_current_member),
+    db: Session = Depends(get_db),
+):
     try:
         chat_log.append({'role': 'user', 'content': user_input.user_input})
         chat_responses.append(user_input.user_input)
