@@ -1,16 +1,15 @@
 package com.gaebaljip.exceed.model.repository
 
-import com.gaebaljip.exceed.APIService
+
+import android.net.Uri
 import com.gaebaljip.exceed.MealTypeEnum
 import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
+import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
-import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
+import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
 import com.gaebaljip.exceed.model.repository.local.LocalDataSource
 import com.gaebaljip.exceed.model.repository.remote.RemoteDataSource
 import com.gaebaljip.exceed.screens.alarm.AlarmInfo
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object MainRepository {
     private val localDataSource = LocalDataSource()
@@ -46,5 +45,15 @@ object MainRepository {
     suspend fun createApi2(data: ChattingRequestDTO) : Result<Unit> {
         return remoteDataSource.createApi2(data)
     }
+    suspend fun getFoodListWith(lastItem: String?, size: Int): List<FoodNameAndId> {
+        return remoteDataSource.getFoodListWith(lastItem, size)
+    }
 
+    suspend fun registerRequest(data: FoodRegistrationRequestDTO):String? {
+        return remoteDataSource.registerRequest(data)
+    }
+
+    suspend fun uploadFile(url: String, fileUri: Uri) : Boolean{
+        return remoteDataSource.uploadFile(url, fileUri)
+    }
 }
