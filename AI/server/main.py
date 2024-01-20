@@ -86,6 +86,39 @@ def handle_exception(e: Exception) -> HTTPException:
         detail={"success": False, "error": str(e)},
     )
 
+def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
+    try:
+        logger.debug(f"Received token: {token}")
+
+        # 디코딩된 payload를 인쇄하는 이 줄을 추가하세요.
+        decoded_payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_signature": False})
+        logger.debug(f"Decoded payload: {decoded_payload}")
+
+        member_id: int = decoded_payload.get("memberId")
+        if member_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return member_id
+    except jwt.ExpiredSignatureError as expired_error:
+        logger.error(f"Expired Signature Error: {expired_error}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Expired Signature Error",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    except JWTError as jwt_error:
+        logger.error(f"JWT Error: {jwt_error}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="JWT Error",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+
 def handle_jwt_verification_failure(token: str):
     # 서명 검증 실패 시 수행할 작업을 정의합니다.
     logger.error(f"JWT Signature Verification Failed for token: {token}")
