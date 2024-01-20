@@ -38,7 +38,7 @@ val Typography = Typography(
         fontFamily = gmarket,
         fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
-        letterSpacing = (-0.1).em
+        letterSpacing = (-0.08).em
     ),
 
     headlineSmall = TextStyle(
