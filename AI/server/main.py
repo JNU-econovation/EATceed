@@ -5,6 +5,9 @@ from pydantic import BaseModel
 from starlette import status
 import logging
 from sqlalchemy.orm import Session
+from db.crud import create_chat_message
+from db.database import SessionLocal, engine, get_db, Base
+from db.models import Member
 
 
 app = FastAPI(
