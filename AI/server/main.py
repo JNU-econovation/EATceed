@@ -57,6 +57,21 @@ chat_log = [{'role':'system',
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+@app.middleware("http")
+async def log_errors(request, call_next):
+    try:
+        return await call_next(request)
+    except HTTPException as exc:
+        logger.error(f"HTTPException: {exc.detail}")
+        raise
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+        raise
+
+
+oauth2_scheme = OAuth2AuthorizationCodeBearer(tokenUrl="token", authorizationUrl="authorize")
+
+
 def handle_exception(e: Exception) -> HTTPException:
     # 디버깅을 위해 예외 세부 정보를 로그에 남깁니다.
     logger.error(f"An error occured: {str(e)}")
