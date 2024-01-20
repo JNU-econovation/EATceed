@@ -9,6 +9,9 @@ from db.crud import create_chat_message
 from db.database import SessionLocal, engine, get_db, Base
 from db.models import Member
 from core.config import settings
+from jose import JWTError, jwt
+from fastapi.security import OAuth2AuthorizationCodeBearer
+
 
 Base.metadata.create_all(bind=engine)
 
