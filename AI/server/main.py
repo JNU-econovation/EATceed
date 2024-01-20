@@ -15,10 +15,12 @@ from fastapi.security import OAuth2AuthorizationCodeBearer
 
 Base.metadata.create_all(bind=engine)
 
+
 openai.api_key = settings.OPENAI_API_KEY
 model = settings.MODEL
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = "HS256"
+
 
 app = FastAPI(
     title="Exceed Food-Chatbot",
@@ -116,7 +118,6 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
             detail="JWT Error",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
 
 
 def handle_jwt_verification_failure(token: str):
