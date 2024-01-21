@@ -8,9 +8,16 @@ import com.gaebaljip.exceed.MainApplication.Companion.context
 import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
 import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.net.URI
 
 class RemoteDataSource {
     companion object{
@@ -95,10 +102,11 @@ class RemoteDataSource {
 
         val serviceT = retrofitT.create(APIService::class.java)
 
-        context.contentResolver.getType(fileUri)?.let { mimeType ->
-            val requestBody = InputStreamRequestBody(context.contentResolver, fileUri)
-            val result = serviceT.uploadFile(mimeType, url, requestBody)
-            return result.isSuccessful
-        } ?: return false
+        val file = File(URI(fileUri.toString()));
+        val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull());
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile);
+
+        val result = serviceT.uploadFile(url, body)
+        return result.isSuccessful
     }
 }

@@ -11,6 +11,7 @@ import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.RegisterFoodInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
 import com.google.android.gms.measurement.api.AppMeasurementSdk.EventInterceptor
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -20,8 +21,10 @@ import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
@@ -45,10 +48,9 @@ interface APIService {
     @POST("/v1/meal")
     suspend fun registerRequest(@Body data: FoodRegistrationRequestDTO): Response<CommonResponseDTO<RegisterFoodInfoResponseDTO>>
 
+    @Multipart
     @PUT
     suspend fun uploadFile(
-        @Header("Content-Type") contentType: String,
-        @Url uploadUrl: String,
-        @Body file: RequestBody
+        @Url url : String, @Part part : MultipartBody.Part
     ): Response<Unit>
 }
