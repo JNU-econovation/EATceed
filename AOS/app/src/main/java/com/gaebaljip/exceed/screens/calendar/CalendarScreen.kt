@@ -36,7 +36,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -87,6 +90,7 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
 
             ) {
                 CalendarLayout(calendarData)
+
 
             }
         }
@@ -374,11 +378,19 @@ fun CalendarDays(
             Spacer(modifier = Modifier.weight(1f))
 
             val achieveRate = state.getOrNull(dayInt)?.calorieRate?.let { round(it) }.toString()
+
+            val achieveRateString = buildAnnotatedString {
+                withStyle(style = SpanStyle(fontSize = 12.sp)) {
+                    append(achieveRate)
+                }
+                withStyle(style = SpanStyle(fontSize = 10.sp)) {
+                    append(" %")
+                }
+            }
             Text(
-                text = "$achieveRate%",
+                text = achieveRateString,
                 style = Typography.labelMedium,
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp
+                textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.weight(.5f))
