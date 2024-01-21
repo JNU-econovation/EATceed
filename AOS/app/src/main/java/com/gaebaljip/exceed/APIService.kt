@@ -1,7 +1,9 @@
 package com.gaebaljip.exceed
 
 import android.telecom.Call
+import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
+import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
 import com.google.android.gms.measurement.api.AppMeasurementSdk.EventInterceptor
@@ -18,4 +20,8 @@ interface APIService {
     @POST("/v1/members-guest")
     suspend fun sendOnboardData(@Body data: OnboardingRequestDTO)
     : Response<CommonResponseDTO<OnboardingResponseDTO>>
+
+    @POST("/v1/chat")
+    suspend fun sendChatData(@Body data: ChattingRequestDTO)
+    : Response<CommonResponseDTO<ChattingResponseDTO>>
 }

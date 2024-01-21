@@ -25,7 +25,7 @@ class OnboardingViewModel : ViewModel() {
     ) {
         viewModelScope.launch {
 
-            val result = mainRepository.createApi(
+            val result = mainRepository.createApi1(
                 data = OnboardingRequestDTO(
                     height,
                     gender,
