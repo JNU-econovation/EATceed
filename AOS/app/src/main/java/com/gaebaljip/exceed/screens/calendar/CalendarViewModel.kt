@@ -33,7 +33,7 @@ class CalendarViewModel : ViewModel() {
             set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
         }.get(Calendar.DAY_OF_MONTH)
 
-        val initialData = List(lastDayOfMonth) {dayOfMonth ->
+        val initialData = List(lastDayOfMonth+1) {dayOfMonth ->
             CalendarAchieveInfoDTO(
                 isVisited = false,
                 date = "$currentYear-${String.format("%02d", currentMonth)}-${String.format("%02d", dayOfMonth + 1)}",
