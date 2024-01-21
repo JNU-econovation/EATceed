@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -90,7 +93,27 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
 
             ) {
                 CalendarLayout(calendarData)
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp).offset(0.dp, 70.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.back_icon),
+                        contentDescription = "이전",
+                        tint = colorResource(id = R.color.alarm_button_stroke_color),
+                        modifier = Modifier.size(30.dp)
+                    )
 
+                    Spacer(modifier = Modifier.size(30.dp))
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.forward_icon),
+                        contentDescription = "다음",
+                        tint = colorResource(id = R.color.alarm_button_stroke_color),
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
 
             }
         }
