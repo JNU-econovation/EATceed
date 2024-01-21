@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.screens.calendar
 
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +54,6 @@ import kotlin.time.Duration.Companion.days
 @Composable
 fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
     val calendarData by calendarViewModel.calendarData.collectAsStateWithLifecycle()
-
     LaunchedEffect(true) {
         calendarViewModel.getData()
     }
@@ -310,7 +311,7 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                if (state[dayInt]?.carbohydrateAchieve == true) {
+                                if (state.getOrNull(dayInt)?.carbohydrateAchieve == true) {
                                     Color(0xB3FFBABA)
                                 } else {
                                     Color(0x00FFFFFF)
@@ -331,7 +332,7 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                if (state[dayInt]?.proteinAchieve == true) {
+                                if (state.getOrNull(dayInt)?.proteinAchieve == true) {
                                     Color(0xB3BDC0FF)
                                 } else {
                                     Color(0x00FFFFFF)
@@ -352,7 +353,7 @@ fun CalendarDays(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                if (state[dayInt]?.fatAchieve == true) {
+                                if (state.getOrNull(dayInt)?.fatAchieve == true) {
                                     Color(0xB3BEFFB4)
                                 } else {
                                     Color(0x00FFFFFF)
@@ -372,7 +373,7 @@ fun CalendarDays(
             }
             Spacer(modifier = Modifier.weight(1f))
 
-            val achieveRate = state[dayInt]?.calorieRate?.let { round(it) }.toString()
+            val achieveRate = state.getOrNull(dayInt)?.calorieRate?.let { round(it) }.toString()
             Text(
                 text = "$achieveRate%",
                 style = Typography.labelMedium,
@@ -384,7 +385,6 @@ fun CalendarDays(
 
         }
     }
-
 }
 
 
