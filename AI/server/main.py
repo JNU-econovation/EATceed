@@ -16,7 +16,7 @@ Base.metadata.create_all(bind=engine)
 
 openai.api_key = settings.OPENAI_API_KEY
 model = settings.MODEL
-SECRET_KEY = settings.SECRET_KEY
+SECRET_KEY = settings.JWT_SECRET
 ALGORITHM = "HS256"
 
 
