@@ -47,6 +47,11 @@ You are a food recommendation chatbot. The purpose of this chatbot is to make fo
 12. Write a detailed reason for your food recommendation
 """
 
+chat_responses = []
+
+chat_log = [{'role':'system',
+            'content': prompt}]
+
 
 def setup_logger():
     # 로깅 설정 추가
@@ -70,7 +75,6 @@ def setup_logger():
 logger = setup_logger()
 
 
-
 @app.middleware("http")
 async def log_errors(request, call_next):
     try:
@@ -81,7 +85,6 @@ async def log_errors(request, call_next):
     except Exception as e:
         logger.error(f"An error occurred: {str(e)}")
         raise
-
 
 oauth2_scheme = OAuth2AuthorizationCodeBearer(tokenUrl="token", authorizationUrl="authorize")
 
@@ -111,6 +114,8 @@ def handle_exception(e: Exception) -> HTTPException:
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         detail={"success": False, "error": str(e)},
     )
+
+
 
 def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
     try:
@@ -144,12 +149,6 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-
-
-chat_responses = []
-
-chat_log = [{'role':'system',
-            'content': prompt}]
 
 
 @app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
