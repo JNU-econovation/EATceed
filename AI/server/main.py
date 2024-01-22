@@ -86,6 +86,18 @@ async def log_errors(request, call_next):
 oauth2_scheme = OAuth2AuthorizationCodeBearer(tokenUrl="token", authorizationUrl="authorize")
 
 
+def handle_jwt_verification_failure(token: str):
+    # 서명 검증 실패 시 수행할 작업을 정의합니다.
+    logger.error(f"JWT Signature Verification Failed for token: {token}")
+    
+    # 클라이언트에게 적절한 응답을 반환합니다.
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="JWT Signature Verification Failed",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+
 def handle_exception(e: Exception) -> HTTPException:
     # 디버깅을 위해 예외 세부 정보를 로그에 남깁니다.
     logger.error(f"An error occured: {str(e)}")
@@ -110,6 +122,7 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
 
         member_id: int = decoded_payload.get("memberId")
         if member_id is None:
+            logger.error("Could not validate credentials - Member ID not found")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
@@ -132,16 +145,6 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
         )
 
 
-def handle_jwt_verification_failure(token: str):
-    # 서명 검증 실패 시 수행할 작업을 정의합니다.
-    logger.error(f"JWT Signature Verification Failed for token: {token}")
-    
-    # 클라이언트에게 적절한 응답을 반환합니다.
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="JWT Signature Verification Failed",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
 
 chat_responses = []
 
