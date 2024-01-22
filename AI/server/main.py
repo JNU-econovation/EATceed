@@ -47,15 +47,33 @@ You are a food recommendation chatbot. The purpose of this chatbot is to make fo
 12. Write a detailed reason for your food recommendation
 """
 
-
 chat_responses = []
 
 chat_log = [{'role':'system',
             'content': prompt}]
 
-# 로깅 설정 추가
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+
+def setup_logger():
+    # 로깅 설정 추가
+    logging.basicConfig(level=logging.DEBUG)
+    
+    # logger 객체 생성
+    logger = logging.getLogger(__name__)
+    
+    # 포맷터 생성
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    
+    # 핸들러 생성
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    
+    # 핸들러를 logger에 추가
+    logger.addHandler(stream_handler)
+
+    return logger
+
+logger = setup_logger()
+
 
 @app.middleware("http")
 async def log_errors(request, call_next):
@@ -68,8 +86,19 @@ async def log_errors(request, call_next):
         logger.error(f"An error occurred: {str(e)}")
         raise
 
-
 oauth2_scheme = OAuth2AuthorizationCodeBearer(tokenUrl="token", authorizationUrl="authorize")
+
+
+def handle_jwt_verification_failure(token: str):
+    # 서명 검증 실패 시 수행할 작업을 정의합니다.
+    logger.error(f"JWT Signature Verification Failed for token: {token}")
+    
+    # 클라이언트에게 적절한 응답을 반환합니다.
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="JWT Signature Verification Failed",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
 
 def handle_exception(e: Exception) -> HTTPException:
@@ -86,6 +115,8 @@ def handle_exception(e: Exception) -> HTTPException:
         detail={"success": False, "error": str(e)},
     )
 
+
+
 def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
     try:
         logger.debug(f"Received token: {token}")
@@ -96,6 +127,7 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
 
         member_id: int = decoded_payload.get("memberId")
         if member_id is None:
+            logger.error("Could not validate credentials - Member ID not found")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
@@ -117,17 +149,6 @@ def get_current_member(token: str = Depends(oauth2_scheme)) -> int:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-
-def handle_jwt_verification_failure(token: str):
-    # 서명 검증 실패 시 수행할 작업을 정의합니다.
-    logger.error(f"JWT Signature Verification Failed for token: {token}")
-    
-    # 클라이언트에게 적절한 응답을 반환합니다.
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="JWT Signature Verification Failed",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
 
 
 @app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
