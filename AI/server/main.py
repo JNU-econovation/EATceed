@@ -48,14 +48,28 @@ You are a food recommendation chatbot. The purpose of this chatbot is to make fo
 """
 
 
-chat_responses = []
+def setup_logger():
+    # 로깅 설정 추가
+    logging.basicConfig(level=logging.DEBUG)
+    
+    # logger 객체 생성
+    logger = logging.getLogger(__name__)
+    
+    # 포맷터 생성
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    
+    # 핸들러 생성
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    
+    # 핸들러를 logger에 추가
+    logger.addHandler(stream_handler)
 
-chat_log = [{'role':'system',
-            'content': prompt}]
+    return logger
 
-# 로깅 설정 추가
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = setup_logger()
+
+
 
 @app.middleware("http")
 async def log_errors(request, call_next):
@@ -128,6 +142,11 @@ def handle_jwt_verification_failure(token: str):
         detail="JWT Signature Verification Failed",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
+chat_responses = []
+
+chat_log = [{'role':'system',
+            'content': prompt}]
 
 
 @app.post("/v1/chat", status_code=status.HTTP_201_CREATED)
