@@ -1,31 +1,34 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
 import com.gaebaljip.exceed.common.ApiResponse;
+import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.request.CreateMemberRequest;
+import com.gaebaljip.exceed.dto.request.CreateGuestRequest;
+import com.gaebaljip.exceed.dto.response.CreateGuest;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
-import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
+import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
 import com.gaebaljip.exceed.member.domain.Activity;
+import com.gaebaljip.exceed.security.AuthConstants;
+import com.gaebaljip.exceed.security.domain.JwtManager;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/v1")
-public class CreateMemberController {
+public class CreateGuestController {
 
-    private final CreateMemberUsecase createMemberUsecase;
+    private final CreateGuestUsecase createGuestUsecase;
+    private final JwtManager jwtManager;
 
-    @PostMapping("/members")
-    public ApiResponse<?> createMember(@Valid @RequestBody CreateMemberRequest request) {
+    @PostMapping("/members-guest")
+    public ApiResponse<CustomBody<CreateGuest>> createGuest(@Valid @RequestBody CreateGuestRequest request, HttpServletResponse response) {
         CreateMemberCommand command = CreateMemberCommand.builder()
                 .height(request.height())
                 .weight(request.weight())
@@ -33,7 +36,8 @@ public class CreateMemberController {
                 .etc(request.etc())
                 .age(request.age())
                 .activity(Activity.valueOf(request.activity())).build();
-        createMemberUsecase.execute(command);
-        return ApiResponseGenerator.success(HttpStatus.CREATED);
+        CreateGuest createGuest = createGuestUsecase.execute(command);
+        response.addHeader(AuthConstants.AUTH_HEADER.getValue(), jwtManager.generateAccessToken(createGuest.loginId(), createGuest.memberId()));
+        return ApiResponseGenerator.success(createGuest, HttpStatus.CREATED);
     }
 }
