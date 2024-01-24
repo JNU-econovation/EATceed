@@ -2,6 +2,7 @@
 
 package com.gaebaljip.exceed.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -59,6 +62,7 @@ import com.gaebaljip.exceed.R
 import com.gaebaljip.exceed.ui.theme.ExceedTheme
 import com.gaebaljip.exceed.ui.theme.Typography
 import com.gaebaljip.exceed.ui.theme.pretendard
+import kotlinx.coroutines.launch
 
 @Composable
 fun FoodScreen() {
@@ -77,6 +81,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
     LaunchedEffect(chatInfoState) {
         if (chatInfoState == true) {
             Toast.makeText(context, "채팅 전송 성공!", Toast.LENGTH_SHORT).show()
+            Log.d("asdf", "sendchat")
         }
     }
 
@@ -112,8 +117,9 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(1) {
-                            TextBoxItem(text = "Answer. Answer. Answer. Answer. Answer. Answer. Answer. Answer. ")
+                        val chatResponse = foodViewModel.chatResponseData.value
+                        items(chatResponse?.let { listOf(it) } ?: emptyList()) { response ->
+                            TextBoxItem(text = response.answer)
                         }
                     }
 
@@ -151,7 +157,9 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         tint = colorResource(id = R.color.primary_color),
 
                         modifier = Modifier
-                            .clickable { }
+                            .clickable {
+                                foodViewModel.sendQuestionData(chatInput.toString())
+                            }
                             .size(35.dp))
                     Spacer(modifier = Modifier.weight(0.05f))
                 }
@@ -164,6 +172,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                             onClick = {
                                 val breakfast = "아침 메뉴 추천해 줘"
                                 foodViewModel.sendQuestionData(breakfast)
+
                             }, modifier = Modifier
                                 .weight(1f),
                             colors = ButtonDefaults.buttonColors(
@@ -180,6 +189,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         Button(
                             onClick = {
                                 val launch = "점심 메뉴 추천해 줘"
+                                foodViewModel.sendQuestionData(launch)
 
                             }, modifier = Modifier.weight(1f),
                             colors = ButtonDefaults.buttonColors(
@@ -199,7 +209,8 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         Spacer(modifier = Modifier.weight(0.5f))
                         Button(
                             onClick = {
-                                val dinner = "저녁메뉴 추천해 줘"
+                                val dinner = "저녁 메뉴 추천해 줘"
+                                foodViewModel.sendQuestionData(dinner)
 
                             }, modifier = Modifier.weight(1f),
                             colors = ButtonDefaults.buttonColors(
@@ -215,7 +226,8 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         Spacer(modifier = Modifier.weight(0.5f))
                         Button(
                             onClick = {
-                                val snack = "간식 메뉴 추천해 줘"
+                                val snack = "식사 중간에 먹을 간단한 간식 메뉴 추천해 줘"
+                                foodViewModel.sendQuestionData(snack)
 
                             }, modifier = Modifier.weight(1f),
                             colors = ButtonDefaults.buttonColors(

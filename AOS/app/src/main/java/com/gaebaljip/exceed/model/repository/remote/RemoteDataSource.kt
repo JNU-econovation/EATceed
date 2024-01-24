@@ -1,28 +1,38 @@
 package com.gaebaljip.exceed.model.repository.remote
 
+import android.content.Context
 import android.net.Uri
+import android.provider.MediaStore
+import android.util.Log
 import com.gaebaljip.exceed.APIService
 import com.gaebaljip.exceed.MainApplication
 import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
 import com.gaebaljip.exceed.MainApplication.Companion.context
 import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
+import com.gaebaljip.exceed.model.dto.response.CalendarAchieveInfoDTO
+import com.gaebaljip.exceed.model.dto.response.CalendarInfoResponseDTO
+import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
+import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
+import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.net.URI
+import java.util.Date
 
 class RemoteDataSource {
     companion object{
-        private const val BASE_URL_MAIN = "http://43.203.82.233:8080/"
-        private const val BASE_URL_CHAT = "http://127.0.0.1:8000/"
+        private const val BASE_URL_MAIN = "http://43.202.172.135/"
+        private const val BASE_URL_CHAT = "http://43.202.172.135/"
 
     }
 
@@ -42,6 +52,7 @@ class RemoteDataSource {
         .build()
     val retrofit_chat = Retrofit.Builder()
         .baseUrl(BASE_URL_CHAT)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -61,12 +72,12 @@ class RemoteDataSource {
 
     }
 
-    suspend fun createApi2(data: ChattingRequestDTO): Result<Unit>{
+    suspend fun createApi2(data: ChattingRequestDTO): Result<CommonResponseDTO<ChattingResponseDTO>?> {
         val result = service_chat.sendChatData(data)
 
         return if (result.isSuccessful) {
             MainApplication.prefs.token = result.headers()["Authorization"]
-            Result.success(Unit)
+            Result.success(result.body())
         } else {
             Result.failure(Exception("답변 조회 실패"))
         }
@@ -108,5 +119,14 @@ class RemoteDataSource {
 
         val result = serviceT.uploadFile(url, body)
         return result.isSuccessful
+    }
+    suspend fun updateCalendarData(date: String): List<CalendarAchieveInfoDTO>? {
+        val result = service_main.getCalendarInfo(date)
+        return if (result.isSuccessful) {
+            result.body()!!.response!!.getAchieves
+        } else {
+            null
+        }
+
     }
 }

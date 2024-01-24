@@ -6,10 +6,14 @@ import com.gaebaljip.exceed.MealTypeEnum
 import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
 import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
+import com.gaebaljip.exceed.model.dto.response.CalendarAchieveInfoDTO
+import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
+import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
 import com.gaebaljip.exceed.model.repository.local.LocalDataSource
 import com.gaebaljip.exceed.model.repository.remote.RemoteDataSource
 import com.gaebaljip.exceed.screens.alarm.AlarmInfo
+import java.util.Date
 
 object MainRepository {
     private val localDataSource = LocalDataSource()
@@ -42,7 +46,7 @@ object MainRepository {
         return remoteDataSource.createApi1(data)
     }
 
-    suspend fun createApi2(data: ChattingRequestDTO) : Result<Unit> {
+    suspend fun createApi2(data: ChattingRequestDTO) : Result<CommonResponseDTO<ChattingResponseDTO>?> {
         return remoteDataSource.createApi2(data)
     }
     suspend fun getFoodListWith(lastItem: String?, size: Int): List<FoodNameAndId> {
@@ -55,5 +59,9 @@ object MainRepository {
 
     suspend fun uploadFile(url: String, fileUri: Uri) : Boolean{
         return remoteDataSource.uploadFile(url, fileUri)
+    }
+
+    suspend fun updateCalendarData(date: String): List<CalendarAchieveInfoDTO>? {
+        return remoteDataSource.updateCalendarData(date)
     }
 }
