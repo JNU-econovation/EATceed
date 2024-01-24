@@ -58,7 +58,7 @@ import kotlin.random.Random
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val homeState by homeViewModel.homeInfoState.collectAsStateWithLifecycle()
     LaunchedEffect(true) {
-        //TODO 요청
+        homeViewModel.getData()
     }
     Box(
         modifier = Modifier
@@ -131,7 +131,7 @@ fun PercentageComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "${(state.currentMeal.currentCalorie / state.targetMeal.targetCalorie * 100).toInt()}%",
+                    text = "${(state.currentMeal.calorie / state.targetMeal.calorie * 100).toInt()}%",
                     fontFamily = gmarket,
                     fontSize = 37.sp,
                     textAlign = TextAlign.Center,
@@ -139,7 +139,7 @@ fun PercentageComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                 )
 
                 Text(
-                    text = "${state.currentMeal.currentCalorie.toInt()} / ${state.targetMeal.targetCalorie.toInt()}",
+                    text = "${state.currentMeal.calorie.toInt()} / ${state.targetMeal.calorie.toInt()}",
                     fontFamily = gmarket,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
@@ -166,8 +166,8 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                         title = stringResource(R.string.carbohydrate),
                         gaugeColor = colorResource(id = R.color.carbohydrate_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_carbohydrate_color),
-                        targetValue = state.targetMeal.targetCarbohydrate.toInt(),
-                        currentValue = state.currentMeal.currentCarbohydrate.toInt(),
+                        targetValue = state.targetMeal.carbohydrate.toInt(),
+                        currentValue = state.currentMeal.carbohydrate.toInt(),
                     )
 
                     Spacer(Modifier.height(32.dp))
@@ -175,8 +175,8 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                         title = stringResource(R.string.protein),
                         gaugeColor = colorResource(id = R.color.protein_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_protein_color),
-                        targetValue = state.targetMeal.targetProtein.toInt(),
-                        currentValue = state.currentMeal.currentProtein.toInt(),
+                        targetValue = state.targetMeal.protein.toInt(),
+                        currentValue = state.currentMeal.protein.toInt(),
                     )
 
                     Spacer(Modifier.height(32.dp))
@@ -184,8 +184,8 @@ fun GaugeBoardComponent(modifier: Modifier, state: HomeInfoResponseDTO?) {
                         title = stringResource(R.string.fat),
                         gaugeColor = colorResource(id = R.color.fat_color),
                         gaugeTextColor = colorResource(id = R.color.gauge_percentage_fat_color),
-                        targetValue = state.targetMeal.targetFat.toInt(),
-                        currentValue = state.currentMeal.currentFat.toInt(),
+                        targetValue = state.targetMeal.fat.toInt(),
+                        currentValue = state.currentMeal.fat.toInt(),
                     )
                 }
                 Spacer(Modifier.width(16.dp))
@@ -224,7 +224,7 @@ fun PhysicsEngineComponent(
         if (state != null) {
             val percentageCount = (min(
                 1.0,
-                (state.currentMeal.currentCalorie / state.targetMeal.targetCalorie)
+                (state.currentMeal.calorie / state.targetMeal.calorie)
             ) * count).toInt()
 
             for (i in 1..percentageCount) {
