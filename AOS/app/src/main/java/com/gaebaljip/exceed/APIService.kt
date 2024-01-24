@@ -8,6 +8,7 @@ import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
 import com.gaebaljip.exceed.model.dto.response.CalendarInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodListPagingResponseDTO
+import com.gaebaljip.exceed.model.dto.response.HomeInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.RegisterFoodInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
@@ -34,28 +35,38 @@ import java.util.Date
 interface APIService {
     @POST("/v1/members-guest")
     suspend fun sendOnboardData(@Body data: OnboardingRequestDTO)
-    : Response<CommonResponseDTO<OnboardingResponseDTO>>
+            : Response<CommonResponseDTO<OnboardingResponseDTO>>
 
     @POST("/v1/chat")
     suspend fun sendChatData(@Body data: ChattingRequestDTO)
-    : Response<CommonResponseDTO<ChattingResponseDTO>>
-    @GET("/v1/foods")
-    suspend fun getFoodListWithLastItem(@Query("lastFoodName")lastItem: String, @Query("size")size: Int) : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
+            : Response<CommonResponseDTO<ChattingResponseDTO>>
 
     @GET("/v1/foods")
-    suspend fun getFoodList() : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
+    suspend fun getFoodListWithLastItem(@Query("lastFoodName")lastItem: String, @Query("keyword") keyword:String, @Query("size") size:Int) : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
+
+    @GET("/v1/foods")
+    suspend fun getFoodListWithLastItem(@Query("lastFoodName")lastItem: String, @Query("size") size:Int) : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
+
+    @GET("/v1/foods")
+    suspend fun getFoodList(@Query("keyword") keyword:String, @Query("size") size:Int) : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
+    @GET("/v1/foods")
+    suspend fun getFoodList( @Query("size") size:Int) : Response<CommonResponseDTO<FoodListPagingResponseDTO>>
 
     @GET("/v1/food/{id}")
     suspend fun getFoodInfoById(@Path("id") foodId: Int): Response<CommonResponseDTO<FoodInfoResponseDTO>>
     @POST("/v1/meal")
     suspend fun registerRequest(@Body data: FoodRegistrationRequestDTO): Response<CommonResponseDTO<RegisterFoodInfoResponseDTO>>
 
-    @Multipart
     @PUT
     suspend fun uploadFile(
-        @Url url : String, @Part part : MultipartBody.Part
+        @Header("Content-Type") contentType: String,
+        @Url uploadUrl: String,
+        @Body file: RequestBody
     ): Response<Unit>
 
     @GET("/v1/achieve/{date}")
     suspend fun getCalendarInfo(@Path("date") date: String) : Response<CommonResponseDTO<CalendarInfoResponseDTO>>
+
+    @GET("/v1/meal")
+    suspend fun getHomeData(): Response<CommonResponseDTO<HomeInfoResponseDTO>>
 }
