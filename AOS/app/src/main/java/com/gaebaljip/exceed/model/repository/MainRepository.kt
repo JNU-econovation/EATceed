@@ -10,6 +10,7 @@ import com.gaebaljip.exceed.model.dto.response.CalendarAchieveInfoDTO
 import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
 import com.gaebaljip.exceed.model.dto.response.common.CommonResponseDTO
+import com.gaebaljip.exceed.model.dto.response.HomeInfoResponseDTO
 import com.gaebaljip.exceed.model.repository.local.LocalDataSource
 import com.gaebaljip.exceed.model.repository.remote.RemoteDataSource
 import com.gaebaljip.exceed.screens.alarm.AlarmInfo
@@ -49,8 +50,8 @@ object MainRepository {
     suspend fun createApi2(data: ChattingRequestDTO) : Result<ChattingResponseDTO?> {
         return remoteDataSource.createApi2(data)
     }
-    suspend fun getFoodListWith(lastItem: String?, size: Int): List<FoodNameAndId> {
-        return remoteDataSource.getFoodListWith(lastItem, size)
+    suspend fun getFoodListWith(lastItem: String?, size: Int, keyword: String): List<FoodNameAndId> {
+        return remoteDataSource.getFoodListWith(lastItem, size, keyword)
     }
 
     suspend fun registerRequest(data: FoodRegistrationRequestDTO):String? {
@@ -63,5 +64,9 @@ object MainRepository {
 
     suspend fun updateCalendarData(date: String): List<CalendarAchieveInfoDTO>? {
         return remoteDataSource.updateCalendarData(date)
+    }
+
+    suspend fun getHomeInfo(): HomeInfoResponseDTO? {
+        return remoteDataSource.getHomeData()
     }
 }
