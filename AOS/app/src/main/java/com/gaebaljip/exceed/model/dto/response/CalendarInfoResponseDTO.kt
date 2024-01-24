@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.model.dto.response
 
 data class CalendarInfoResponseDTO(
-    val getAchieve: List<CalendarAchieveInfoDTO>
+    val getAchieves: List<CalendarAchieveInfoDTO>
 )
 
 data class CalendarAchieveInfoDTO(

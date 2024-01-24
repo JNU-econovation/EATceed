@@ -5,6 +5,7 @@ import com.gaebaljip.exceed.model.dto.request.ChattingRequestDTO
 import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.request.OnboardingRequestDTO
+import com.gaebaljip.exceed.model.dto.response.CalendarInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodInfoResponseDTO
 import com.gaebaljip.exceed.model.dto.response.FoodListPagingResponseDTO
 import com.gaebaljip.exceed.model.dto.response.OnboardingResponseDTO
@@ -28,6 +29,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
+import java.util.Date
 
 interface APIService {
     @POST("/v1/members-guest")
@@ -53,4 +55,7 @@ interface APIService {
     suspend fun uploadFile(
         @Url url : String, @Part part : MultipartBody.Part
     ): Response<Unit>
+
+    @GET("/v1/achieve/{date}")
+    suspend fun getCalendarInfo(@Path("date") date: String) : Response<CommonResponseDTO<CalendarInfoResponseDTO>>
 }

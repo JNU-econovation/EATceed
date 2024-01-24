@@ -2,7 +2,9 @@ package com.gaebaljip.exceed.screens.calendar
 
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,14 +24,19 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -53,6 +60,7 @@ import com.gaebaljip.exceed.model.dto.response.CalendarAchieveInfoDTO
 import com.gaebaljip.exceed.ui.theme.ExceedTheme
 import com.gaebaljip.exceed.ui.theme.Typography
 import java.time.LocalDate
+import java.time.YearMonth
 import java.util.Calendar
 import kotlin.math.round
 import kotlin.time.Duration.Companion.days
@@ -60,8 +68,33 @@ import kotlin.time.Duration.Companion.days
 @Composable
 fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
     val calendarData by calendarViewModel.calendarData.collectAsStateWithLifecycle()
-    LaunchedEffect(true) {
-        calendarViewModel.getData()
+
+    var moveCount by remember { mutableIntStateOf(0) }
+
+    val currentM = calendarViewModel.currentMonth + (moveCount.mod(12))
+    val currentY = if (moveCount < 0) {
+        calendarViewModel.currentYear + (moveCount.div(12)) - 1
+    } else {
+        calendarViewModel.currentYear + (moveCount.div(12))
+    }
+    val monthList = listOf(
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    )
+    val monthName = monthList[currentM - 1]
+
+    LaunchedEffect(moveCount) {
+        calendarViewModel.getData(moveCount)
     }
 
     Box(
@@ -71,7 +104,6 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
     ) {
         Box(
             modifier = Modifier
-//                .padding(bottom = 207.dp)
                 .fillMaxWidth()
                 .height(643.dp)
                 .background(
@@ -92,17 +124,37 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
                     .background(Color.White, shape = RoundedCornerShape(5.dp))
 
             ) {
-                CalendarLayout(calendarData)
+                Column(modifier = Modifier.padding(bottom = 7.dp)) {
+                    Header(
+                        currentMonth = currentM,
+                        currentYear = currentY,
+                        currentMonthName = monthName
+                    )
+                    CalendarLayout(
+                        calendarData,
+                        currentYear = currentY,
+                        currentMonth = currentM,
+                        moveCount = moveCount
+                    )
+                }
+
                 Row(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(8.dp).offset(0.dp, 70.dp)
+                        .padding(8.dp)
+                        .offset(0.dp, 70.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.back_icon),
                         contentDescription = "이전",
                         tint = colorResource(id = R.color.alarm_button_stroke_color),
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                moveCount--
+                                calendarViewModel.getData(moveCount)
+
+                            }
                     )
 
                     Spacer(modifier = Modifier.size(30.dp))
@@ -111,10 +163,18 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
                         painter = painterResource(id = R.drawable.forward_icon),
                         contentDescription = "다음",
                         tint = colorResource(id = R.color.alarm_button_stroke_color),
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                moveCount++
+                                calendarViewModel.getData(moveCount)
+
+                            }
                     )
                 }
-
+                LaunchedEffect(currentM, currentY) {
+                    calendarViewModel.getData(moveCount)
+                }
             }
         }
     }
@@ -122,25 +182,29 @@ fun CalendarScreen(calendarViewModel: CalendarViewModel = viewModel()) {
 
 
 @Composable
-fun Header() {
+fun Header(
+    currentMonth: Int,
+    currentYear: Int,
+    currentMonthName: String
+) {
     Column(
         modifier = Modifier.padding(8.dp)
 
     ) {
         Text(
-            text = "2024",
+            text = "$currentYear",
             style = Typography.headlineSmall,
         )
         Row(verticalAlignment = Alignment.Bottom) {
-            Box(modifier = Modifier.size(50.dp), contentAlignment = Alignment.BottomCenter) {
+            Box(modifier = Modifier.size(53.dp), contentAlignment = Alignment.BottomCenter) {
                 Text(
-                    text = "1",
+                    text = "$currentMonth",
                     textAlign = TextAlign.Center,
                     style = Typography.headlineLarge
                 )
             }
             Text(
-                text = "January",
+                text = "$currentMonthName",
                 modifier = Modifier.padding(start = 8.dp, bottom = 3.dp),
                 style = Typography.headlineMedium,
                 color = colorResource(id = R.color.calendar_month_color)
@@ -161,70 +225,75 @@ fun Header() {
 fun CalendarLayout(
 
     state: List<CalendarAchieveInfoDTO?>,
-    calendarViewModel: CalendarViewModel = viewModel()
+    currentMonth: Int,
+    currentYear: Int,
+    moveCount: Int
 
 ) {
-    Column(
-        modifier = Modifier.padding(bottom = 7.dp),
-    ) {
-        Header()
 
-        Box(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
+
+        Canvas(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp)
         ) {
+            val columns = 6
+            val rows = 7
+            val cellWidth = size.width / rows
+            val cellHeight = size.height / columns
 
-            Canvas(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                val columns = 6
-                val rows = 7
-                val cellWidth = size.width / rows
-                val cellHeight = size.height / columns
-
-                drawRoundRect(
-                    Color.LightGray,
-                    cornerRadius = CornerRadius(
-                        x = 10.dp.toPx(),
-                        y = 10.dp.toPx()
-                    ),
-                    style = Stroke(
-                        width = 2f
-                    )
+            drawRoundRect(
+                Color.LightGray,
+                cornerRadius = CornerRadius(
+                    x = 10.dp.toPx(),
+                    y = 10.dp.toPx()
+                ),
+                style = Stroke(
+                    width = 2f
                 )
-
-                for (row in 1 until columns) {
-                    val y = row * cellHeight
-                    drawLine(
-                        color = Color.LightGray,
-                        start = Offset(0f, y),
-                        end = Offset(size.width, y),
-                        strokeWidth = 1f
-                    )
-                }
-
-                for (col in 1 until rows) {
-                    val x = col * cellWidth
-                    drawLine(
-                        color = Color.LightGray,
-                        start = Offset(x, 0f),
-                        end = Offset(x, size.height),
-                        strokeWidth = 1f
-                    )
-                }
-            }
-
-            CalendarItems(
-                currentDate = LocalDate.of(
-                    calendarViewModel.currentYear,
-                    calendarViewModel.currentMonth,
-                    1
-                ), state
             )
 
+            for (row in 1 until columns) {
+                val y = row * cellHeight
+                drawLine(
+                    color = Color.LightGray,
+                    start = Offset(0f, y),
+                    end = Offset(size.width, y),
+                    strokeWidth = 1f
+                )
+            }
+
+            for (col in 1 until rows) {
+                val x = col * cellWidth
+                drawLine(
+                    color = Color.LightGray,
+                    start = Offset(x, 0f),
+                    end = Offset(x, size.height),
+                    strokeWidth = 1f
+                )
+            }
         }
+
+        // 여기 값 변경
+        CalendarItems(
+            currentDate = LocalDate.of(
+                "$currentYear".toInt(),
+                "$currentMonth".toInt(),
+                1
+            ),
+
+            state,
+            currentYear = currentYear,
+            currentMonth = currentMonth,
+            moveCount = moveCount,
+        )
+
+        Text(text = "$currentYear", fontSize = 30.sp, modifier = Modifier.offset(0.dp, 450.dp))
+        Text(text = "$currentMonth", fontSize = 30.sp, modifier = Modifier.offset(100.dp, 450.dp))
     }
 
 }
@@ -232,12 +301,28 @@ fun CalendarLayout(
 @Composable
 fun CalendarItems(
     currentDate: LocalDate,
-    state: List<CalendarAchieveInfoDTO?>
+    state: List<CalendarAchieveInfoDTO?>,
+    currentYear: Int,
+    currentMonth: Int,
+    moveCount: Int,
 ) {
-    val dayOfWeek = listOf<String>("S", "M", "T", "W", "T", "F", "S")
-    val firstDayOfWeek by remember { mutableStateOf(currentDate.dayOfWeek.value) }
-    val lastDay by remember { mutableStateOf(currentDate.lengthOfMonth()) }
-    val currentMonthDays by remember { mutableStateOf(IntRange(1, lastDay).toList()) }
+    val dayOfWeek = listOf("S", "M", "T", "W", "T", "F", "S")
+    var firstDayOfWeek by remember {
+        mutableIntStateOf(
+            YearMonth.from(currentDate.withDayOfMonth(1)).atDay(1).dayOfWeek.value
+        )
+    }
+    var lastDay by remember {
+        mutableIntStateOf(
+            YearMonth.from(currentDate.withDayOfMonth(1)).lengthOfMonth()
+        )
+    }
+    var currentMonthDays by remember { mutableStateOf(IntRange(1, lastDay).toList()) }
+
+    firstDayOfWeek = YearMonth.from(currentDate.withDayOfMonth(1)).atDay(1).dayOfWeek.value
+    lastDay = YearMonth.from(currentDate.withDayOfMonth(1)).lengthOfMonth()
+    currentMonthDays = IntRange(1, lastDay).toList()
+
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -246,19 +331,19 @@ fun CalendarItems(
             columns = GridCells.Fixed(7),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(64.dp),
+                .height(63.5.dp),
             verticalArrangement = Arrangement.Center,
             userScrollEnabled = false
 
         ) {
-            itemsIndexed(dayOfWeek) { index, days ->
+            itemsIndexed(dayOfWeek) { index, day ->
                 val textColor = when (index) {
                     0 -> colorResource(id = R.color.calendar_sunday_color)
                     dayOfWeek.lastIndex -> colorResource(id = R.color.calendar_saturday_color)
                     else -> Color.Black
                 }
                 Text(
-                    text = "$days",
+                    text = "$day",
                     fontSize = 22.sp,
                     color = textColor,
                     textAlign = TextAlign.Center,
@@ -276,7 +361,7 @@ fun CalendarItems(
             userScrollEnabled = false
 
         ) {
-            for (i in 0 until firstDayOfWeek) {
+            for (i in 0 until (firstDayOfWeek % 7)) {
                 item {
                     Box(
                         modifier = Modifier
@@ -287,13 +372,23 @@ fun CalendarItems(
                     }
                 }
             }
-            items(currentMonthDays) { day ->
-                val date = currentDate.withDayOfMonth(day)
+            items(currentMonthDays) { days ->
+
+                val firstDayOfMonth = YearMonth.of(currentYear, currentMonth).atDay(1)
+                val lastDayOfMonth = firstDayOfMonth.plusMonths(1).minusDays(1)
+
+                val date = if (days <= lastDayOfMonth.dayOfMonth) {
+                    firstDayOfMonth.withDayOfMonth(days)
+                } else {
+                    // 해당 월의 마지막 일을 넘어가면 다음 달로 이동합니다.
+                    firstDayOfMonth.plusMonths(1).withDayOfMonth(days - lastDayOfMonth.dayOfMonth)
+                }
 
                 CalendarDays(
                     date = date,
                     isToday = date == LocalDate.now(),
-                    state
+                    state,
+                    moveCount
 
                 )
 
@@ -302,23 +397,39 @@ fun CalendarItems(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarDays(
     date: LocalDate,
     isToday: Boolean,
-    state: List<CalendarAchieveInfoDTO?>
+    state: List<CalendarAchieveInfoDTO?>,
+    moveCount: Int
 ) {
     val dayInt = date.dayOfMonth
+    var isShow by remember {
+        mutableStateOf(false)
+    }
+    val sheetState = rememberModalBottomSheetState()
 
+    if (isShow) {
+        ModalBottomSheet(
+            onDismissRequest = { isShow = false }, sheetState = sheetState
+        ) {
+            CalenderDetailBoard()
+        }
+    }
     Box(
         modifier = Modifier
-            .size(63.5.dp)
+            .size(63.3.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.clickable {
+                isShow = true
+            }
         ) {
             Spacer(modifier = Modifier.weight(1.2f))
             Box(
@@ -422,6 +533,18 @@ fun CalendarDays(
     }
 }
 
+@Composable
+fun CalenderDetailBoard() {
+    Box(modifier = Modifier
+        .height(400.dp)
+        .padding(16.dp)) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = null
+        )
+    }
+
+}
 
 @Preview(showBackground = true)
 @Composable

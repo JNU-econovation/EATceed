@@ -9,13 +9,14 @@ import com.gaebaljip.exceed.model.dto.response.ChattingResponseDTO
 import com.gaebaljip.exceed.model.repository.MainRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FoodViewModel : ViewModel() {
     private val mainRepository = MainRepository
 
-    private val _chatResponseData = MutableStateFlow<List<ChattingResponseDTO?>>(emptyList())
-    val chatResponseData: StateFlow<List<ChattingResponseDTO?>>
+    private val _chatResponseData = MutableStateFlow<ChattingResponseDTO?>(null)
+    val chatResponseData: StateFlow<ChattingResponseDTO?>
         get() = _chatResponseData
 
     private val _chatRequestData = MutableLiveData<Boolean?>(null)
@@ -31,7 +32,10 @@ class FoodViewModel : ViewModel() {
                 )
             )
 
-            result.onSuccess { _chatRequestData.value = true }.onFailure { _chatRequestData.value = false }
+            result.onSuccess {
+                _chatRequestData.value = true
+                _chatResponseData.value = it!!.response
+            }.onFailure { _chatRequestData.value = false }
         }
     }
 }
