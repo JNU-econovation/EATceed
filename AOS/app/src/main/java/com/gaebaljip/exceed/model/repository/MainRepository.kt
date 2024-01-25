@@ -46,7 +46,7 @@ object MainRepository {
         return remoteDataSource.createApi1(data)
     }
 
-    suspend fun createApi2(data: ChattingRequestDTO) : Result<CommonResponseDTO<ChattingResponseDTO>?> {
+    suspend fun createApi2(data: ChattingRequestDTO) : Result<ChattingResponseDTO?> {
         return remoteDataSource.createApi2(data)
     }
     suspend fun getFoodListWith(lastItem: String?, size: Int): List<FoodNameAndId> {

@@ -30,7 +30,7 @@ import java.net.URI
 import java.util.Date
 
 class RemoteDataSource {
-    companion object{
+    companion object {
         private const val BASE_URL_MAIN = "http://43.202.172.135/"
         private const val BASE_URL_CHAT = "http://43.202.172.135/"
 
@@ -72,12 +72,11 @@ class RemoteDataSource {
 
     }
 
-    suspend fun createApi2(data: ChattingRequestDTO): Result<CommonResponseDTO<ChattingResponseDTO>?> {
+    suspend fun createApi2(data: ChattingRequestDTO): Result<ChattingResponseDTO?> {
         val result = service_chat.sendChatData(data)
 
         return if (result.isSuccessful) {
-            MainApplication.prefs.token = result.headers()["Authorization"]
-            Result.success(result.body())
+            Result.success(result.body()?.response)
         } else {
             Result.failure(Exception("답변 조회 실패"))
         }
