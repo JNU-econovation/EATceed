@@ -34,7 +34,7 @@ class FoodViewModel : ViewModel() {
 
             result.onSuccess {
                 _chatRequestData.value = true
-                _chatResponseData.value = it!!.response
+                _chatResponseData.value = it
             }.onFailure { _chatRequestData.value = false }
         }
     }

@@ -81,8 +81,8 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
     LaunchedEffect(chatInfoState) {
         if (chatInfoState == true) {
             Toast.makeText(context, "채팅 전송 성공!", Toast.LENGTH_SHORT).show()
-            Log.d("asdf", "sendchat")
         }
+
     }
 
     var chatInput by remember { mutableStateOf(TextFieldValue()) }
