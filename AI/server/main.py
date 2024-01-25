@@ -173,7 +173,7 @@ async def chat(
         chat_log.append({'role': 'assistant', 'content': bot_response})
         delivery_format = {
             "success": True,
-            "responses" : {
+            "response" : {
                 "answer" : bot_response
             },
             "error": None
