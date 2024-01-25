@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -158,10 +159,9 @@ fun uriToBitmap(context: Context, uri: Uri): Bitmap {
 fun bitmapResize(bitmap: Bitmap): Bitmap {
     val width: Int = bitmap.width
     val height: Int = bitmap.height
-    val scaleWidth: Float = 1080.0F / width
-    val scaleHeight: Float = 720.0F / height
+    val scale: Float = java.lang.Float.min(1080.0F / width, 720.0F / height)
     val matrix = Matrix()
-    matrix.postScale(scaleWidth, scaleHeight)
+    matrix.postScale(scale, scale)
 
     return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
 }
@@ -206,6 +206,7 @@ fun AddScreenAlarmItem(item: AlarmInfo, onClick: (AlarmInfo) -> Unit) {
                             .fillMaxHeight()
                             .fillMaxWidth(0.4f),
                         bitmap = changeStringToBitmap(item.imgString).asImageBitmap(),
+                        contentScale = ContentScale.Crop,
                         contentDescription = null,
                     )
 

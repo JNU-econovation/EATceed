@@ -8,6 +8,8 @@ import com.gaebaljip.exceed.model.dto.request.FoodRegistrationRequestDTO
 import com.gaebaljip.exceed.model.dto.response.FoodNameAndId
 import com.gaebaljip.exceed.model.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,11 +26,18 @@ class RegistrationViewModel : ViewModel() {
     val addedFoodList : StateFlow<List<Pair<Int, FoodNameAndId>>>
         get() = _addedFoodList
 
-    fun getNewData(){
-        viewModelScope.launch(Dispatchers.IO){
+    private var job : Job? = null
+
+    fun getNewData(keyword: String = "", isNew: Boolean){
+        job?.cancel()
+        if(isNew){
+            _foodList.value = emptyList()
+        }
+        job = viewModelScope.launch(Dispatchers.IO){
+            delay(1000)
             _foodList.update {
                 it.toMutableList().apply {
-                    addAll(mainRepository.getFoodListWith(foodList.value.lastOrNull()?.name, 20))
+                    addAll(mainRepository.getFoodListWith(foodList.value.lastOrNull()?.name, 20, keyword))
                 }
             }
         }

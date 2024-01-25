@@ -33,7 +33,9 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -71,6 +73,7 @@ import com.gaebaljip.exceed.ui.theme.ExceedTheme
 import com.gaebaljip.exceed.ui.theme.pretendard
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import java.lang.Float.min
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,8 +91,11 @@ fun RegistrationScreen(
     val addedList by registrationViewModel.addedFoodList.collectAsStateWithLifecycle()
     var flex by remember { mutableStateOf(1.0F) }
     val context = LocalContext.current
+    var keyword by remember {
+        mutableStateOf("")
+    }
     LaunchedEffect(true) {
-        registrationViewModel.getNewData()
+        registrationViewModel.getNewData(isNew = true)
     }
     Column(
         modifier = Modifier.fillMaxSize()
@@ -106,7 +112,7 @@ fun RegistrationScreen(
                 .fillMaxWidth(),
             bitmap = bitmapResize(uriToBitmap(LocalContext.current, uri)).asImageBitmap(),
             contentDescription = "select image",
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.Crop,
             alignment = Alignment.Center
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -187,7 +193,7 @@ fun RegistrationScreen(
                             ) ?: return@launch
 
                             val result = registrationViewModel.uploadFile(presignedUri, uri)
-                            if(result.not()) return@launch
+                            if (result.not()) return@launch
                             onFinished(true)
 
                         }
@@ -212,10 +218,30 @@ fun RegistrationScreen(
             sheetState = sheetState
 
         ) {
+            Row {
+                Spacer(modifier = Modifier.width(20.dp))
+                OutlinedTextField(value = keyword,
+                    onValueChange = {
+                        keyword = it
+                        registrationViewModel.getNewData(keyword,true)
+                    },
+                    modifier = Modifier.weight(1f),
+                    placeholder = {
+                        Text(text = "검색어를 입력해주세요.", fontSize = 12.sp, fontFamily = pretendard)
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = colorResource(
+                        id = R.color.primary_color
+                    ),
+                        cursorColor = colorResource(
+                            id = R.color.primary_color
+                        )))
+                Spacer(modifier = Modifier.width(20.dp))
+            }
 
+            Spacer(modifier = Modifier.height(20.dp))
             InfiniteList(
                 listItems = foodList,
-                onLoadMore = { registrationViewModel.getNewData() }
+                onLoadMore = { registrationViewModel.getNewData(isNew = false) }
             ) {
 
                 registrationViewModel.addFood(it)
@@ -347,10 +373,9 @@ fun uriToBitmap(context: Context, uri: Uri): Bitmap {
 fun bitmapResize(bitmap: Bitmap): Bitmap {
     val width: Int = bitmap.width
     val height: Int = bitmap.height
-    val scaleWidth: Float = 1080.0F / width
-    val scaleHeight: Float = 720.0F / height
+    val scale: Float = min(1080.0F / width, 720.0F/height)
     val matrix = Matrix()
-    matrix.postScale(scaleWidth, scaleHeight)
+    matrix.postScale(scale, scale)
 
     return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
 }
