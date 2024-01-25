@@ -57,7 +57,6 @@ fun OnboardingScreen(
 
     LaunchedEffect(onboardingInfoState) {
         if (onboardingInfoState == true) {
-            Toast.makeText(context, "통신 성공!!!!!", Toast.LENGTH_SHORT).show()
             val intent = Intent(context, MainActivity::class.java)
             startActivity(context, intent, null)
             (context as? Activity)?.finish()

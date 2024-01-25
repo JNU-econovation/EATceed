@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 class FoodViewModel : ViewModel() {
     private val mainRepository = MainRepository
 
-    private val _chatResponseData = MutableStateFlow<ChattingResponseDTO?>(null)
-    val chatResponseData: StateFlow<ChattingResponseDTO?>
+    private val _chatResponseData = MutableStateFlow<List<ChattingResponseDTO>>(emptyList())
+    val chatResponseData: StateFlow<List<ChattingResponseDTO>>
         get() = _chatResponseData
 
     private val _chatRequestData = MutableLiveData<Boolean?>(null)
@@ -32,9 +32,8 @@ class FoodViewModel : ViewModel() {
                 )
             )
 
-            result.onSuccess {
-                _chatRequestData.value = true
-                _chatResponseData.value = it
+            result.onSuccess {data ->
+                _chatResponseData.update { it.toMutableList().apply { add(data!!) } }
             }.onFailure { _chatRequestData.value = false }
         }
     }
