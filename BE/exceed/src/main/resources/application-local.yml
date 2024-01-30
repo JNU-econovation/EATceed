@@ -1,14 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/exceed
+    url: jdbc:mariadb://localhost:3306/gaebaljip?serverTimezone=Asia/Seoul
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
-    defer-datasource-initialization: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      dialect: org.hibernate.dialect.MariaDBDialect
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
   cloud:
     aws:
       s3:
@@ -24,11 +28,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
-  sql:
-    init:
-      data-locations: classpath:db/mockData.sql
-      mode: always
 
 jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
