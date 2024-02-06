@@ -4,7 +4,7 @@ import com.gaebaljip.exceed.R
 
 enum class MealTypeEnum (val stringRes : Int){
     BREAKFAST(R.string.breakfast),
-    LAUNCH(R.string.launch),
+    LUNCH(R.string.lunch),
     DINNER(R.string.dinner),
     SNACK(R.string.snack),
 }
