@@ -86,8 +86,9 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
 
     }
 
-    var chatInput by remember { mutableStateOf(TextFieldValue()) }
+    var chatInput by remember { mutableStateOf("") }
     val getChat by foodViewModel.chatResponseData.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,7 +121,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(getChat) { response ->
-                            TextBoxItem(text = response.answer.toString())
+                            TextBoxItem(text = response.answer)
                         }
                     }
 

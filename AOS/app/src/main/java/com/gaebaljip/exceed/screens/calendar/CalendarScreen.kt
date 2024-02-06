@@ -292,8 +292,6 @@ fun CalendarLayout(
             moveCount = moveCount,
         )
 
-        Text(text = "$currentYear", fontSize = 30.sp, modifier = Modifier.offset(0.dp, 450.dp))
-        Text(text = "$currentMonth", fontSize = 30.sp, modifier = Modifier.offset(100.dp, 450.dp))
     }
 
 }
@@ -535,9 +533,11 @@ fun CalendarDays(
 
 @Composable
 fun CalenderDetailBoard() {
-    Box(modifier = Modifier
-        .height(400.dp)
-        .padding(16.dp)) {
+    Box(
+        modifier = Modifier
+            .height(400.dp)
+            .padding(16.dp)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
             contentDescription = null

@@ -315,7 +315,7 @@ fun PhysicsEngineComponent(
                         rotationZ = item.rotate.toFloat()
                     ),
                 text = if (item.isWall) "" else "🍊",
-                fontSize = (radius * 2 - 10).sp
+                fontSize = (radius * 2 - 20).sp
             )
         }
     }
