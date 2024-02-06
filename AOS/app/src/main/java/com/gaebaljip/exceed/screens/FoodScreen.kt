@@ -33,6 +33,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -86,6 +87,7 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
     }
 
     var chatInput by remember { mutableStateOf(TextFieldValue()) }
+    val getChat by foodViewModel.chatResponseData.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -117,9 +119,8 @@ fun ChatBotUI(foodViewModel: FoodViewModel = viewModel()) {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        val chatResponse = foodViewModel.chatResponseData.value
-                        items(chatResponse?.let { listOf(it) } ?: emptyList()) { response ->
-                            TextBoxItem(text = response.answer)
+                        items(getChat) { response ->
+                            TextBoxItem(text = response.answer.toString())
                         }
                     }
 
