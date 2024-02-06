@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}:${RDS_PORT}/${RDS_DB_NAME}?serverTimezone=Asia/Seoul
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${RDS_DATABASE_USERNAME}
+    password: ${RDS_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      dialect: org.hibernate.dialect.MariaDBDialect
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: true
+  cloud:
+    aws:
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      credentials:
+        access-key: ${CLOUD_AWS_ACCESS_KEY}
+        secret-key: ${CLOUD_AWS_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+
+  sql:
+    init:
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+      mode: always
+
+jwt:
+  secret: ${JWT_SECRET}
