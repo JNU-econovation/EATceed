@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,16 +26,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.gaebaljip.exceed.screens.AddScreen
-import com.gaebaljip.exceed.screens.AlarmScreen
-import com.gaebaljip.exceed.screens.CalendarScreen
+import com.gaebaljip.exceed.MainApplication.Companion.context
+import com.gaebaljip.exceed.screens.add.AddScreen
+import com.gaebaljip.exceed.screens.calendar.CalendarScreen
+import com.gaebaljip.exceed.screens.alarm.AlarmScreen
 import com.gaebaljip.exceed.screens.FoodScreen
-import com.gaebaljip.exceed.screens.HomeScreen
+import com.gaebaljip.exceed.screens.home.HomeScreen
 import com.gaebaljip.exceed.ui.theme.ExceedTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (MainApplication.prefs.token == null) {
+            val intent = Intent(context, OnboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         setContent {
             ExceedTheme {
                 // A surface container using the 'background' color from the theme
