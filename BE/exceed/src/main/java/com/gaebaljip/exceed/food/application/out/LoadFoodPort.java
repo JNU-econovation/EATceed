@@ -15,8 +15,6 @@ public interface LoadFoodPort {
 
     List<FoodEntity> query(List<Long> foodIds);
 
-    FoodModel query(Long foodId);
-
-    Slice<FoodModel> query(String lastFoodName, int size);
+    Slice<FoodModel> query(String lastFoodName, int size, String keyword);
 
 }

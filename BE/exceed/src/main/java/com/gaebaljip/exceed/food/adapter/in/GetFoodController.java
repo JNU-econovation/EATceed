@@ -18,19 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class GetFoodController {
 
     private final GetFoodQuery getFoodQuery;
-
-    @GetMapping("/food/{id}")
-    public ApiResponse<ApiResponse.CustomBody<GetFood>> getFood(@PathVariable Long id) {
-        GetFood getFood = getFoodQuery.execute(id);
-        return ApiResponseGenerator.success(getFood, HttpStatus.OK);
-    }
-
     @GetMapping("/foods")
     public ApiResponse<ApiResponse.CustomBody<Slice<GetPageableFood>>> getFoods(
             @RequestParam(value = "lastFoodName", required = false) String lastFoodName,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Slice<GetPageableFood> getPageableFoods = getFoodQuery.execute(lastFoodName, size);
+        Slice<GetPageableFood> getPageableFoods = getFoodQuery.execute(lastFoodName, keyword ,size);
         return ApiResponseGenerator.success(getPageableFoods, HttpStatus.OK);
     }
 

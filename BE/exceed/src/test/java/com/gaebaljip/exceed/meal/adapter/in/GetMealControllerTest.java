@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
+import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.dto.response.MaintainMeal;
 import com.gaebaljip.exceed.dto.response.TargetMeal;
@@ -13,6 +14,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +36,9 @@ class GetMealControllerTest extends CommonApiTest {
 
     @MockBean
     private GetSpecificMealQuery getSpecificMealQuery;
+
     @Test
+    @WithMockGuestUser
     void getMealNutrition() throws Exception {
 
         //given

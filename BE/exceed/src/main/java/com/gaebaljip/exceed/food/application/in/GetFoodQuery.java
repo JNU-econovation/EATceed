@@ -7,7 +7,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface GetFoodQuery {
-    GetFood execute(Long foodId);
-
-    Slice<GetPageableFood> execute(String lastFoodId, int size);
+    Slice<GetPageableFood> execute(String lastFoodId, String keyword, int size);
 }

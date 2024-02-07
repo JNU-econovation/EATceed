@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
 import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class EatMealIntegrationTest extends IntegrationTest {
     private GetPresignedUrlPort getPresignedUrlPort;
 
     @Test
+    @WithMockGuestUser
     void eatMeal() throws Exception {
         //given
 

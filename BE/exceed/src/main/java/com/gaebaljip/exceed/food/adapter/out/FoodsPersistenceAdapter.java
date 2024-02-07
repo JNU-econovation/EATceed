@@ -32,14 +32,8 @@ public class FoodsPersistenceAdapter implements LoadFoodPort {
     }
 
     @Override
-    public FoodModel query(Long foodId) {
-        FoodEntity foodEntity = foodRepository.findById(foodId).orElseThrow(FoodNotFoundException::new);
-        return foodConverter.toModel(foodEntity);
-    }
-
-    @Override
-    public Slice<FoodModel> query(String lastFoodName, int size) {
-        PageableFood pageableFood = queryDslFoodRepository.findPageableFood(lastFoodName, size);
+    public Slice<FoodModel> query(String lastFoodName, int size, String keyword) {
+        PageableFood pageableFood = queryDslFoodRepository.findPageableFood(lastFoodName, size, keyword);
         PageRequest pageRequest = PageRequest.of(0, pageableFood.size());
         List<FoodModel> foodModels = foodConverter.toModels(pageableFood.foodEntities());
         return new SliceImpl<>(foodModels, pageRequest, pageableFood.hasNext());

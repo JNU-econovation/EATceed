@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Rest Docs ###
+
+BOOT-INF/
+src/docs/asciidoc/api-doc.adoc
+src/main/resources/static/docs/api-doc.html
+
+### logback
+src/main/resources/logback-spring.xml

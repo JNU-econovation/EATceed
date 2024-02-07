@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Exceed</string>
+    <string name="home_share_btn_description">공유 버튼</string>
+    <string name="home_setting_btn_description">설정 버튼</string>
+    <string name="home_target_calorie">목표 칼로리</string>
+    <string name="carbohydrate">탄수화물</string>
+    <string name="protein">단백질</string>
+    <string name="fat">지방</string>
+    <string name="breakfast">아침</string>
+    <string name="lunch">점심</string>
+    <string name="dinner">저녁</string>
+    <string name="snack">간식</string>
+    <string name="week_mon">월</string>
+    <string name="week_sun">일</string>
+    <string name="week_tue">화</string>
+    <string name="week_wed">수</string>
+    <string name="week_thu">목</string>
+    <string name="week_fri">금</string>
+    <string name="week_sat">토</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 </resources>

@@ -10,15 +10,9 @@ import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
 import com.gaebaljip.exceed.meal.domain.MealModel;
 import com.gaebaljip.exceed.meal.domain.MealsModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
-import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
-import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +26,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
     private final GetPresignedUrlPort getPresignedUrlPort;
 
     @Override
+    @Transactional(readOnly = true)
     public GetMeal execute(Long memberId, LocalDate date) {
         List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, date);
         MealsModel mealsModel = new MealsModel(mealModels);

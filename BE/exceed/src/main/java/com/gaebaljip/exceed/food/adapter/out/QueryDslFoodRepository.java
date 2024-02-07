@@ -14,9 +14,9 @@ public class QueryDslFoodRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public PageableFood findPageableFood(String lastFoodName, int size) {
+    public PageableFood findPageableFood(String lastFoodName, int size, String keyword) {
         List<FoodEntity> foodEntities = jpaQueryFactory.selectFrom(QFoodEntity.foodEntity)
-                .where(greaterThanFoodName(lastFoodName))
+                .where(greaterThanFoodName(lastFoodName), containsFoodName(keyword))
                 .orderBy(QFoodEntity.foodEntity.name.asc())
                 .limit(size + 1)
                 .fetch();
@@ -28,6 +28,13 @@ public class QueryDslFoodRepository {
             return null;
         }
         return QFoodEntity.foodEntity.name.gt(lastFoodName);
+    }
+
+    private BooleanExpression containsFoodName(String foodName) {
+        if (foodName == null) {
+            return null;
+        }
+        return QFoodEntity.foodEntity.name.contains(foodName);
     }
 
     private PageableFood makePageableMento(List<FoodEntity> foodEntities, int size) {

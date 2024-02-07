@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.domain.MealsModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +19,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     private final LoadDailyMealPort loadDailyMealPort;
 
     @Override
+    @Transactional(readOnly = true)
     public CurrentMeal execute(Long memberId) {
         List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, LocalDate.now());
         MealsModel mealsModel = new MealsModel(mealModels);

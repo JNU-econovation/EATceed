@@ -47,7 +47,6 @@ public class S3Adapter implements GetPresignedUrlPort {
                 .signatureDuration(Duration.ofMinutes(10))
                 .putObjectRequest(putObjectRequest)
                 .build();
-
         return s3Presigner.presignPutObject(presignRequest).url().toString();
     }
 

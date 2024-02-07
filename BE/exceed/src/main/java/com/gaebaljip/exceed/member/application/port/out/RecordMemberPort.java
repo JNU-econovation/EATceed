@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface RecordMemberPort {
 
-    void query(MemberEntity memberEntity);
+    MemberEntity query(MemberEntity memberEntity);
 }
