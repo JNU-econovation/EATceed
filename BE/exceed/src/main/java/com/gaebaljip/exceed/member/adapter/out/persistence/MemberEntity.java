@@ -27,7 +27,7 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_HEIGHT", nullable = false)
     private double height;
 
-    @Column(name = ENTITY_PREFIX + "_GENDER", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(name = ENTITY_PREFIX + "_GENDER", nullable = false, columnDefinition = "tinyint")
     private Integer gender;
 
     @Column(name = ENTITY_PREFIX + "_WEIGHT", nullable = false)

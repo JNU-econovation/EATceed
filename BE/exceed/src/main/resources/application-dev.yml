@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://${RDS_DATABASE_ENDPOINT}:${RDS_PORT}/${RDS_DB_NAME}?serverTimezone=Asia/Seoul
+    url: ${SPRING_DATASOURCE_URL}
     driver-class-name: org.mariadb.jdbc.Driver
-    username: ${RDS_DATABASE_USERNAME}
-    password: ${RDS_DATABASE_PASSWORD}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
       naming:
@@ -23,12 +23,6 @@ spring:
         static: ap-northeast-2
       stack:
         auto: false
-
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
-      mode: always
 
 jwt:
   secret: ${JWT_SECRET}
