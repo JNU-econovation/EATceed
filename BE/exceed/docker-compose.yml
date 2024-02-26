@@ -1,0 +1,42 @@
+version: '3'
+services:
+  eatceed-mariadb:
+    image: mariadb:10.6
+    container_name: gaebaljip-mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./resources.gaebaljip-local-develop-environment/mariadb-conf:/etc/mysql/conf.d
+      - ./resources.gaebaljip-local-develop-environment/mariadb-init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=gaebaljip
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+    networks:
+      - gaebaljip-network
+
+  eatceed-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gaebaljip-spring
+    ports:
+      - 8080:8080
+    depends_on:
+      - eatceed-mariadb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://gaebaljip-mariadb:3306/gaebaljip?serverTimezone=Asia/Seoul
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - CLOUD_AWS_ACCESS_KEY=${CLOUD_AWS_ACCESS_KEY}
+      - CLOUD_AWS_SECRET_KEY=${CLOUD_AWS_SECRET_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - gaebaljip-network
+    restart:
+      on-failure
+
+
+networks:
+  gaebaljip-network:
