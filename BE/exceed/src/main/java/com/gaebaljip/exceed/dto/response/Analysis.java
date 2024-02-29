@@ -6,7 +6,7 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 
-public record GetAchieve(
+public record Analysis(
         Boolean isVisited,
         LocalDate date,
         @JsonSerialize(using = CustomDoubleSerializer.class)
@@ -16,6 +16,6 @@ public record GetAchieve(
         boolean carbohydrateAchieve) {
 
     @Builder
-    public GetAchieve {
+    public Analysis {
     }
 }
