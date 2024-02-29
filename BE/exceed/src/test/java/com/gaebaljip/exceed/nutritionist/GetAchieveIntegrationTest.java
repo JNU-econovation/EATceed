@@ -1,14 +1,12 @@
-package com.gaebaljip.exceed.achieve;
+package com.gaebaljip.exceed.nutritionist;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockGuestUser;
-import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
-import com.gaebaljip.exceed.meal.adapter.out.MealPersistenceAdapter;
+import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,10 +20,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GetAchieveIntegrationTest extends IntegrationTest {
-
-    @Autowired
-    private MealPersistenceAdapter mealPersistenceAdapter;
-
     @Test
     @Transactional
     @WithMockGuestUser
@@ -36,7 +30,6 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
         String day = "24";
         String date = year + "-" + month + "-" + day;
         LocalDate testDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-        int comparisonSize = mealPersistenceAdapter.queryForMonthAchievements(1L, testDate).size();
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -46,14 +39,13 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println(responseBody);
-        ApiResponse.CustomBody<GetAchieveListResponse> getAchieveListResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<GetAchieveListResponse>>() {
+        ApiResponse.CustomBody<GetAnalysisResponse> getAchieveListResponseCustomBody = om.readValue(responseBody, new TypeReference<ApiResponse.CustomBody<GetAnalysisResponse>>() {
         });
 
-        int comparedSize = getAchieveListResponseCustomBody.getResponse().getAchieves().stream().filter(achieve -> achieve.isVisited().equals(true)).toList().size();
+        int comparedSize = getAchieveListResponseCustomBody.getResponse().getAnalyses().stream().toList().size();
 
         System.out.println("comparedSize = " + comparedSize);
-        System.out.println("comparisonSize = " + comparisonSize);
-        Assertions.assertThat(comparedSize).isEqualTo(comparisonSize);
+        Assertions.assertThat(comparedSize).isEqualTo(testDate.lengthOfMonth());
         resultActions.andExpect(status().isOk())
                 .andDo(document("get-achieves-success",
                         getDocumentRequest(),
