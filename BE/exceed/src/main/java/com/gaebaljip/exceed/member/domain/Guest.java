@@ -4,22 +4,22 @@ import lombok.*;
 
 @Getter
 @ToString
-public class GuestModel extends MemberModel {
+public class Guest extends Member {
 
     private String loginId;
     private String password;
     private MemberRole role;
 
     @Builder(builderMethodName = "guestBuilder")
-    public GuestModel(double height, int gender, double weight, int age, Activity activity, String loginId, String password) {
+    public Guest(double height, int gender, double weight, int age, Activity activity, String loginId, String password) {
         super(height, gender, weight, age, activity);
         this.loginId = loginId;
         this.password = password;
         this.role = MemberRole.GUEST;
     }
 
-    public static GuestModel create(double height, int gender, double weight, int age, Activity activity) {
-        return GuestModel.guestBuilder()
+    public static Guest create(double height, int gender, double weight, int age, Activity activity) {
+        return Guest.guestBuilder()
                 .height(height)
                 .gender(gender)
                 .weight(weight)

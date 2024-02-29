@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberModel {
+public class Member {
 
     private double height;
     private int gender;
@@ -16,8 +16,8 @@ public class MemberModel {
     private int age;
     private Activity activity;
 
-    public static MemberModel create(double height, int gender, double weight, int age, Activity activity) {
-        return MemberModel.builder()
+    public static Member create(double height, int gender, double weight, int age, Activity activity) {
+        return Member.builder()
                 .height(height)
                 .gender(gender)
                 .weight(weight)

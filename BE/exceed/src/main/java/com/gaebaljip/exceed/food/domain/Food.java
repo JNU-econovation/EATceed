@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class FoodModel {
+public class Food {
 
     private Long id;
     private String name;

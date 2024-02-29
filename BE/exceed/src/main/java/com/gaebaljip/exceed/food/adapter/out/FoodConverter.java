@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.food.adapter.out;
 
-import com.gaebaljip.exceed.food.domain.FoodModel;;
+import com.gaebaljip.exceed.food.domain.Food;;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 @Component
 public class FoodConverter {
 
-    public FoodModel toModel(FoodEntity foodEntity) {
-        return FoodModel.builder()
+    public Food toModel(FoodEntity foodEntity) {
+        return Food.builder()
                 .id(foodEntity.getId())
                 .name(foodEntity.getName())
                 .calorie(foodEntity.getCalorie())
@@ -19,7 +19,7 @@ public class FoodConverter {
                 .build();
     }
 
-    public List<FoodModel> toModels(List<FoodEntity> foodEntities) {
+    public List<Food> toModels(List<FoodEntity> foodEntities) {
         return foodEntities.stream()
                 .map(this::toModel)
                 .toList();

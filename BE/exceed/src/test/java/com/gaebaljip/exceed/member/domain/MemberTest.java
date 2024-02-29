@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemberModelTest {
+class MemberTest {
 
     @Test
     void measureBMR() {
         //given
-        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
+        Member memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
         double bmr = memberModel.measureBMR();
@@ -23,7 +23,7 @@ class MemberModelTest {
     @Test
     void measureTDEE() {
         //given
-        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
+        Member memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
         double tdee = memberModel.measureTDEE();
@@ -35,7 +35,7 @@ class MemberModelTest {
     @Test
     void measureTargetCalorie() {
         //given
-        MemberModel memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
+        Member memberModel = createPhysiqueModel(171, 61, 25, Activity.NOT_ACTIVE, 1);
 
         //when
         double targetCalorie = memberModel.measureTargetCalorie();
@@ -44,8 +44,8 @@ class MemberModelTest {
         assertEquals(2410.42, roundedTargetCalorie);
     }
 
-    private MemberModel createPhysiqueModel(double height, double weight, int age, Activity activity, int gender) {
-        return MemberModel.builder()
+    private Member createPhysiqueModel(double height, double weight, int age, Activity activity, int gender) {
+        return Member.builder()
                 .height(height)
                 .weight(weight)
                 .age(age)
