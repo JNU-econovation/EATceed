@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.achieve.domain;
+package com.gaebaljip.exceed.nutritionist.domain;
 
 import lombok.*;
 

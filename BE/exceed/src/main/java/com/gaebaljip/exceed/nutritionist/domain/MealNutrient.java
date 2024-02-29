@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.achieve.domain;
+package com.gaebaljip.exceed.nutritionist.domain;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class DailyRecord {
+public class MealNutrient {
 
     private Double currentCalorie;
     private Double currentCarbohydrate;

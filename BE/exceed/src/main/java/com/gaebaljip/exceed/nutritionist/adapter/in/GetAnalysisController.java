@@ -1,10 +1,11 @@
-package com.gaebaljip.exceed.achieve.adapter.in;
+package com.gaebaljip.exceed.nutritionist.adapter.in;
 
-import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
+import com.gaebaljip.exceed.dto.request.GetAnalysisRequest;
+import com.gaebaljip.exceed.nutritionist.application.port.in.GetAnalysisUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.dto.response.GetAchieveListResponse;
+import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,13 +20,13 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1")
-public class GetAchieveController {
+public class GetAnalysisController {
 
-    private final GetAchieveUsecase getAchieveUsecase;
+    private final GetAnalysisUsecase getAnalysisUsecase;
 
     @GetMapping("/achieve/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetAchieveListResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
-        GetAchieveListResponse achieveListResponse = getAchieveUsecase.execute(memberId, date);
+    public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
+        GetAnalysisResponse achieveListResponse = getAnalysisUsecase.execute(new GetAnalysisRequest(memberId, date));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }

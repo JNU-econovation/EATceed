@@ -1,6 +1,6 @@
-package com.gaebaljip.exceed.achieve.adapter.in;
+package com.gaebaljip.exceed.nutritionist.adapter.in;
 
-import com.gaebaljip.exceed.achieve.application.port.in.GetAchieveUsecase;
+import com.gaebaljip.exceed.nutritionist.application.port.in.GetAnalysisUsecase;
 import com.gaebaljip.exceed.common.CommonApiTest;
 import com.gaebaljip.exceed.common.WithMockGuestUser;
 import org.junit.jupiter.api.Test;
@@ -11,11 +11,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(GetAchieveController.class)
+@WebMvcTest(GetAnalysisController.class)
 class GetAchieveControllerTest extends CommonApiTest {
 
     @MockBean
-    private GetAchieveUsecase getAchieveUsecase;
+    private GetAnalysisUsecase getAchieveUsecase;
 
     @Test
     @WithMockGuestUser

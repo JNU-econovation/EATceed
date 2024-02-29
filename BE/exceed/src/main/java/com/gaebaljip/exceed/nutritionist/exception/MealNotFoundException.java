@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.achieve.exception;
+package com.gaebaljip.exceed.nutritionist.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
 import lombok.Getter;

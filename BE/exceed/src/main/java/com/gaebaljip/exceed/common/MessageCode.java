@@ -16,7 +16,9 @@ public enum MessageCode {
     EXTENTION_NOT_ALLOWED("4452", "이미지의 확장자는 jpg, jpeg, png만 가능합니다."),
     INVALID_JWT("5000", "잘못된 토큰입니다."),
     EXPIRED_JWT("5001", "만료된 토큰입니다."),
-    UNSUPPORTED_JWT("5002", "지원되지 않는 토큰입니다.");
+    UNSUPPORTED_JWT("5002", "지원되지 않는 토큰입니다."),
+    INSUFFICIENT_MEALS("6000","하루 식사는 최소 한 끼 이상 제공되어야 합니다."),
+    NOT_SAME_DATE("6001","하루 식사는 같은 날짜입니다.");
 
 
     private final String code;
