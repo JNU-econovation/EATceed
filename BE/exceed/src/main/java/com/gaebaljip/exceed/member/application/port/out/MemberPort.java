@@ -4,7 +4,10 @@ import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface RecordMemberPort {
+public interface MemberPort {
 
-    MemberEntity query(MemberEntity memberEntity);
+    MemberEntity query(Long memberId);
+    MemberEntity command(MemberEntity memberEntity);
+
+
 }

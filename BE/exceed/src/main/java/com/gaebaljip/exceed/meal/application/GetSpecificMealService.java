@@ -1,14 +1,13 @@
 package com.gaebaljip.exceed.meal.application;
 
+import com.gaebaljip.exceed.dto.request.DailyMeal;
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
-import com.gaebaljip.exceed.dto.response.DailyMeal;
 import com.gaebaljip.exceed.dto.response.GetFood;
 import com.gaebaljip.exceed.dto.response.GetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
-import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
-import com.gaebaljip.exceed.meal.domain.MealModel;
-import com.gaebaljip.exceed.meal.domain.MealsModel;
+import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
+import com.gaebaljip.exceed.meal.domain.Meal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,26 +21,26 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class GetSpecificMealService implements GetSpecificMealQuery {
 
-    private final LoadDailyMealPort loadDailyMealPort;
+    private final DailyMealPort dailyMealPort;
     private final GetPresignedUrlPort getPresignedUrlPort;
 
     @Override
     @Transactional(readOnly = true)
     public GetMeal execute(Long memberId, LocalDate date) {
-        List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, date);
-        MealsModel mealsModel = new MealsModel(mealModels);
-        List<DailyMeal> dailyMeals = new ArrayList<>();
-        setDailyMeals(mealModels, dailyMeals, memberId);
-        return getGetMeal(mealsModel, dailyMeals);
+        List<Meal> meals = dailyMealPort.query(new DailyMeal(memberId,date));
+        com.gaebaljip.exceed.meal.domain.DailyMeal dailyMealModel = new com.gaebaljip.exceed.meal.domain.DailyMeal(meals);
+        List<com.gaebaljip.exceed.dto.response.DailyMeal> dailyMeals = new ArrayList<>();
+        setDailyMeals(meals, dailyMeals, memberId);
+        return getGetMeal(dailyMealModel, dailyMeals);
     }
 
-    private void setDailyMeals(List<MealModel> mealModels, List<DailyMeal> dailyMeals, Long memberId) {
-        IntStream.range(0, mealModels.size()).forEach(i -> {
-            DailyMeal dailyMeal = DailyMeal.builder()
-                    .mealType(mealModels.get(i).getMealType())
-                    .time(mealModels.get(i).getMealDateTime().toLocalTime())
-                    .imageUri(getPresignedUrlPort.command(memberId, mealModels.get(i).getId()))
-                    .foods(mealModels.get(i).getFoodModels().stream().map(foodModel -> GetFood.builder()
+    private void setDailyMeals(List<Meal> meals, List<com.gaebaljip.exceed.dto.response.DailyMeal> dailyMeals, Long memberId) {
+        IntStream.range(0, meals.size()).forEach(i -> {
+            com.gaebaljip.exceed.dto.response.DailyMeal dailyMeal = com.gaebaljip.exceed.dto.response.DailyMeal.builder()
+                    .mealType(meals.get(i).getMealType())
+                    .time(meals.get(i).getMealDateTime().toLocalTime())
+                    .imageUri(getPresignedUrlPort.command(memberId, meals.get(i).getId()))
+                    .foods(meals.get(i).getFoods().stream().map(foodModel -> GetFood.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())
                             .build()).toList()
@@ -50,19 +49,19 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
         });
     }
 
-    private GetMeal getGetMeal(MealsModel mealsModel, List<DailyMeal> dailyMeals) {
+    private GetMeal getGetMeal(com.gaebaljip.exceed.meal.domain.DailyMeal dailyMeal, List<com.gaebaljip.exceed.dto.response.DailyMeal> dailyMeals) {
         return GetMeal.builder()
-                .currentMeal(getCurrentMeal(mealsModel))
+                .currentMeal(getCurrentMeal(dailyMeal))
                 .dailyMeals(dailyMeals)
                 .build();
     }
 
-    private CurrentMeal getCurrentMeal(MealsModel mealsModel) {
+    private CurrentMeal getCurrentMeal(com.gaebaljip.exceed.meal.domain.DailyMeal dailyMeal) {
         return CurrentMeal.builder()
-                .calorie(mealsModel.calculateCurrentCalorie())
-                .carbohydrate(mealsModel.calculateCurrentCarbohydrate())
-                .fat(mealsModel.calculateCurrentFat())
-                .protein(mealsModel.calculateCurrentProtein())
+                .calorie(dailyMeal.calculateCurrentCalorie())
+                .carbohydrate(dailyMeal.calculateCurrentCarbohydrate())
+                .fat(dailyMeal.calculateCurrentFat())
+                .protein(dailyMeal.calculateCurrentProtein())
                 .build();
     }
 }
