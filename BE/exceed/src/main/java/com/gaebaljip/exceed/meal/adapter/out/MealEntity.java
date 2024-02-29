@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = MealEntity.ENTITY_PREFIX + "_TB")
-@Builder(toBuilder = true)
+@Builder()
 public class MealEntity extends BaseEntity {
 
     public static final String ENTITY_PREFIX = "MEAL";
@@ -25,6 +25,7 @@ public class MealEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_PK", nullable = false)
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "mealEntity")
     private List<MealFoodEntity> mealFoodEntity = new ArrayList<>();
 

@@ -1,18 +1,18 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import com.gaebaljip.exceed.achieve.application.port.out.LoadMonthTargetPort;
-import com.gaebaljip.exceed.achieve.domain.DailyTarget;
+import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyTargetPort;
 import com.gaebaljip.exceed.member.application.MemberConverter;
-import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
-import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
-import com.gaebaljip.exceed.member.domain.MemberModel;
+import com.gaebaljip.exceed.member.application.port.out.MemberPort;
+import com.gaebaljip.exceed.member.domain.Member;
 import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 @RequiredArgsConstructor
-public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPort, LoadMonthTargetPort {
+public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
@@ -21,26 +21,17 @@ public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPor
     public MemberEntity query(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
     }
-
     @Override
-    public MemberEntity query(MemberEntity memberEntity) {
+    public MemberEntity command(MemberEntity memberEntity) {
         return memberRepository.save(memberEntity);
     }
 
+    /**
+     * 회원 수정 기능 + 카카오 로그인 도입 후 Map<LocalDate date, MemberModel> 변경
+     */
     @Override
-    public DailyTarget queryForMonthTargets(Long memberId) {
+    public Member query(Long memberId, LocalDate date) {
         MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        MemberModel memberModel = memberConverter.toModel(memberEntity);
-        return getDailyTarget(memberEntity, memberModel);
-    }
-
-    private DailyTarget getDailyTarget(MemberEntity memberEntity, MemberModel memberModel) {
-        return DailyTarget.builder()
-                .targetCalorie(memberModel.measureTargetCalorie())
-                .targetCarbohydrate(memberModel.measureTargetCarbohydrate())
-                .targetFat(memberModel.measureTargetFat())
-                .targetProtein(memberModel.measureTargetProtein())
-                .date(memberEntity.getCreatedDate().toLocalDateTime().toLocalDate())
-                .build();
+        return memberConverter.toModel(memberEntity);
     }
 }

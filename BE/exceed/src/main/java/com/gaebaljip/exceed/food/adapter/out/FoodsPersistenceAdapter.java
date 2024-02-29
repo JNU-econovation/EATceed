@@ -2,8 +2,7 @@ package com.gaebaljip.exceed.food.adapter.out;
 
 import com.gaebaljip.exceed.dto.response.PageableFood;
 import com.gaebaljip.exceed.food.application.out.LoadFoodPort;
-import com.gaebaljip.exceed.food.domain.FoodModel;
-import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
+import com.gaebaljip.exceed.food.domain.Food;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -22,7 +21,7 @@ public class FoodsPersistenceAdapter implements LoadFoodPort {
     private final FoodConverter foodConverter;
 
     @Override
-    public List<FoodModel> query(Long memberId, LocalDate date) {
+    public List<Food> query(Long memberId, LocalDate date) {
         return null;
     }
 
@@ -32,11 +31,11 @@ public class FoodsPersistenceAdapter implements LoadFoodPort {
     }
 
     @Override
-    public Slice<FoodModel> query(String lastFoodName, int size, String keyword) {
+    public Slice<Food> query(String lastFoodName, int size, String keyword) {
         PageableFood pageableFood = queryDslFoodRepository.findPageableFood(lastFoodName, size, keyword);
         PageRequest pageRequest = PageRequest.of(0, pageableFood.size());
-        List<FoodModel> foodModels = foodConverter.toModels(pageableFood.foodEntities());
-        return new SliceImpl<>(foodModels, pageRequest, pageableFood.hasNext());
+        List<Food> foods = foodConverter.toModels(pageableFood.foodEntities());
+        return new SliceImpl<>(foods, pageRequest, pageableFood.hasNext());
     }
 
 

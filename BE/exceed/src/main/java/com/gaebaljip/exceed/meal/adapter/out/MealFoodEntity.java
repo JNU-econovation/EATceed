@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import com.gaebaljip.exceed.achieve.exception.MealNotFoundException;
+import com.gaebaljip.exceed.nutritionist.exception.MealNotFoundException;
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;

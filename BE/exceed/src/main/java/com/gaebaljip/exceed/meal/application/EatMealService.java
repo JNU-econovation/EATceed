@@ -7,10 +7,10 @@ import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.out.RecordMealFoodPort;
-import com.gaebaljip.exceed.meal.application.port.out.RecordMealPort;
+import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
+import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ import java.util.List;
 public class EatMealService implements EatMealUsecase {
 
     private final LoadFoodPort loadFoodPort;
-    private final LoadMemberPort loadMemberPort;
-    private final RecordMealPort recordMealPort;
+    private final MemberPort memberPort;
+    private final MealPort mealPort;
     private final RecordMealFoodPort recordMealFoodPort;
 
     @Override
@@ -31,8 +31,8 @@ public class EatMealService implements EatMealUsecase {
     public Long execute(EatMealCommand command) {
         validateMultiple(command.multiple());
         List<FoodEntity> foodEntities = loadFoodPort.query(command.foodIds());
-        MemberEntity memberEntity = loadMemberPort.query(command.memberId());
-        MealEntity mealEntity = recordMealPort.query(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
+        MemberEntity memberEntity = memberPort.query(command.memberId());
+        MealEntity mealEntity = mealPort.command(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
         recordMealFoodPort.query(MealFoodEntity.createMealFoods(foodEntities, mealEntity));
         return mealEntity.getId();
     }

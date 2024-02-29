@@ -1,0 +1,25 @@
+version: '3'
+services:
+  eatceed-mariadb:
+    image: mariadb:10.6
+    container_name: gaebaljip-mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mariadb-conf:/etc/mysql/conf.d
+      - ./mariadb-init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Seoul
+
+  eatceed-adminer:
+    container_name: gaebaljip-adminer
+    image: adminer:4
+    ports:
+      - 18080:8080
+    depends_on:
+      - eatceed-mariadb
+    links:
+      - eatceed-mariadb
+
