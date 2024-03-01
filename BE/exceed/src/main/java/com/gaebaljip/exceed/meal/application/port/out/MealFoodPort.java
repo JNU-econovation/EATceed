@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public interface RecordMealFoodPort {
-    List<MealFoodEntity> query(List<MealFoodEntity> mealFoodEntities);
+public interface MealFoodPort {
+    List<MealFoodEntity> command(List<MealFoodEntity> mealFoodEntities);
 }

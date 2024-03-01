@@ -6,7 +6,7 @@ import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
-import com.gaebaljip.exceed.meal.application.port.out.RecordMealFoodPort;
+import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
@@ -24,7 +24,7 @@ public class EatMealService implements EatMealUsecase {
     private final FoodPort foodPort;
     private final MemberPort memberPort;
     private final MealPort mealPort;
-    private final RecordMealFoodPort recordMealFoodPort;
+    private final MealFoodPort mealFoodPort;
 
     @Override
     @Transactional
@@ -33,7 +33,7 @@ public class EatMealService implements EatMealUsecase {
         List<FoodEntity> foodEntities = foodPort.query(command.foodIds());
         MemberEntity memberEntity = memberPort.query(command.memberId());
         MealEntity mealEntity = mealPort.command(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
-        recordMealFoodPort.query(MealFoodEntity.createMealFoods(foodEntities, mealEntity));
+        mealFoodPort.command(MealFoodEntity.createMealFoods(foodEntities, mealEntity));
         return mealEntity.getId();
     }
 
