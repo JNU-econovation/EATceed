@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
+import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,12 +9,11 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
-
 import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
-public class S3Adapter implements GetPresignedUrlPort {
+public class S3Adapter implements PresignedUrlPort {
 
     private final S3Presigner s3Presigner;
     @Value("${spring.cloud.aws.s3.bucket}")
@@ -22,7 +21,7 @@ public class S3Adapter implements GetPresignedUrlPort {
     public static final String CONTENT_TYPE_PREFIX = "image/";
 
     @Override
-    public String command(Long memberId, Long mealId) {
+    public String query(Long memberId, Long mealId) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
                 .key(memberId + "_" + mealId)

@@ -6,7 +6,7 @@ import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
-import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
+import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GetMealIntegrationTest extends IntegrationTest {
 
     @MockBean
-    private GetPresignedUrlPort getPresignedUrlPort;
+    private PresignedUrlPort getPresignedUrlPort;
 
     @Test
     @WithMockGuestUser
@@ -71,7 +71,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     @WithMockGuestUser
     void getMealFood() throws Exception {
 
-        given(getPresignedUrlPort.command(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
+        given(getPresignedUrlPort.query(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
 
         //when
         String date = "2023-12-10";

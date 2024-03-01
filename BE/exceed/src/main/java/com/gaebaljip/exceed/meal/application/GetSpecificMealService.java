@@ -5,7 +5,7 @@ import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.dto.response.GetFood;
 import com.gaebaljip.exceed.dto.response.GetMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
-import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
+import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
 public class GetSpecificMealService implements GetSpecificMealQuery {
 
     private final DailyMealPort dailyMealPort;
-    private final GetPresignedUrlPort getPresignedUrlPort;
+    private final PresignedUrlPort getPresignedUrlPort;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,7 +39,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
             com.gaebaljip.exceed.dto.response.DailyMeal dailyMeal = com.gaebaljip.exceed.dto.response.DailyMeal.builder()
                     .mealType(meals.get(i).getMealType())
                     .time(meals.get(i).getMealDateTime().toLocalTime())
-                    .imageUri(getPresignedUrlPort.command(memberId, meals.get(i).getId()))
+                    .imageUri(getPresignedUrlPort.query(memberId, meals.get(i).getId()))
                     .foods(meals.get(i).getFoods().stream().map(foodModel -> GetFood.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())
