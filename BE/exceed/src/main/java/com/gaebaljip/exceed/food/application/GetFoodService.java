@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.food.application;
 
 import com.gaebaljip.exceed.dto.response.GetPageableFood;
-import com.gaebaljip.exceed.food.application.out.LoadFoodPort;
+import com.gaebaljip.exceed.food.application.out.FoodPort;
 import com.gaebaljip.exceed.food.application.in.GetFoodQuery;
 import com.gaebaljip.exceed.food.domain.Food;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetFoodService implements GetFoodQuery {
 
-    private final LoadFoodPort loadFoodPort;
+    private final FoodPort loadFoodPort;
     @Override
     public Slice<GetPageableFood> execute(String lastFoodName, String keyword, int size) {
         Slice<Food> foodModels = loadFoodPort.query(lastFoodName, size, keyword);

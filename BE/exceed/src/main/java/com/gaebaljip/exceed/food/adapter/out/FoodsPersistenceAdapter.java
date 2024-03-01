@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.food.adapter.out;
 
 import com.gaebaljip.exceed.dto.response.PageableFood;
-import com.gaebaljip.exceed.food.application.out.LoadFoodPort;
+import com.gaebaljip.exceed.food.application.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class FoodsPersistenceAdapter implements LoadFoodPort {
+public class FoodsPersistenceAdapter implements FoodPort {
 
     private final FoodRepository foodRepository;
     private final QueryDslFoodRepository queryDslFoodRepository;

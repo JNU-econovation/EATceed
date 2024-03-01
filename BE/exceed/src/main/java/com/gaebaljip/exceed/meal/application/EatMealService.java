@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.meal.application;
 
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
-import com.gaebaljip.exceed.food.application.out.LoadFoodPort;
+import com.gaebaljip.exceed.food.application.out.FoodPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EatMealService implements EatMealUsecase {
 
-    private final LoadFoodPort loadFoodPort;
+    private final FoodPort foodPort;
     private final MemberPort memberPort;
     private final MealPort mealPort;
     private final RecordMealFoodPort recordMealFoodPort;
@@ -30,7 +30,7 @@ public class EatMealService implements EatMealUsecase {
     @Transactional
     public Long execute(EatMealCommand command) {
         validateMultiple(command.multiple());
-        List<FoodEntity> foodEntities = loadFoodPort.query(command.foodIds());
+        List<FoodEntity> foodEntities = foodPort.query(command.foodIds());
         MemberEntity memberEntity = memberPort.query(command.memberId());
         MealEntity mealEntity = mealPort.command(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
         recordMealFoodPort.query(MealFoodEntity.createMealFoods(foodEntities, mealEntity));

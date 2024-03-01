@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public interface LoadFoodPort {
+public interface FoodPort {
 
     List<Food> query(Long memberId, LocalDate date);
 
