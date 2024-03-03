@@ -4,6 +4,9 @@ import com.gaebaljip.exceed.meal.domain.DailyMeal;
 import com.gaebaljip.exceed.member.domain.Member;
 import lombok.*;
 
+/**
+ * 회원의 신체 정보를 바탕으로 식사 정보를 분석하여 평가하는 영양사 도메인
+ */
 @Getter
 @ToString
 @NoArgsConstructor

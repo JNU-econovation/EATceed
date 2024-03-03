@@ -17,12 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * 특정 날짜의 식사 정보 조회
+ */
 @Service
 @RequiredArgsConstructor
 public class GetSpecificMealService implements GetSpecificMealQuery {
 
     private final DailyMealPort dailyMealPort;
-    private final PresignedUrlPort getPresignedUrlPort;
+    private final PresignedUrlPort presignedUrlPort;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,7 +42,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
             com.gaebaljip.exceed.dto.response.DailyMeal dailyMeal = com.gaebaljip.exceed.dto.response.DailyMeal.builder()
                     .mealType(meals.get(i).getMealType())
                     .time(meals.get(i).getMealDateTime().toLocalTime())
-                    .imageUri(getPresignedUrlPort.query(memberId, meals.get(i).getId()))
+                    .imageUri(presignedUrlPort.query(memberId, meals.get(i).getId()))
                     .foods(meals.get(i).getFoods().stream().map(foodModel -> GetFood.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())

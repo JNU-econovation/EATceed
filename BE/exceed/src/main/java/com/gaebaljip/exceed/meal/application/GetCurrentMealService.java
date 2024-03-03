@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 오늘 먹은 식사 정보 조회
+ */
 @Service
 @RequiredArgsConstructor
 public class GetCurrentMealService implements GetCurrentMealQuery {
