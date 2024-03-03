@@ -1,11 +1,10 @@
 package com.gaebaljip.exceed.meal.domain;
 
 import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
-import com.gaebaljip.exceed.meal.exception.NotSameDateException;
 import lombok.*;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * 같은 날짜 즉, 하루에 먹은 식사를 나타내는 클래스
@@ -44,12 +43,18 @@ public class DailyMeal {
     }
 
     private void validateSameMealDate(List<Meal> meals){
-        LocalDate mealDate = meals.get(0).getMealDateTime().toLocalDate();
-        Optional<Meal> incorrectDateMeal = meals.stream().filter(meal -> !meal.getMealDateTime().toLocalDate().isEqual(mealDate))
-                .findFirst();
-        if(incorrectDateMeal.isPresent()){
-            throw new NotSameDateException();
-        }
+        if(getSize(meals) != getDistinctSize(meals)) throw new InsufficientMealsException();
+    }
+
+    private int getSize(List<Meal> meals) {
+        return meals.size();
+    }
+
+    private int getDistinctSize(List<Meal> meals) {
+        return meals.stream()
+                .map(meal -> meal.getMealDateTime().toLocalDate())
+                .collect(toSet())
+                .size();
     }
 
 }
