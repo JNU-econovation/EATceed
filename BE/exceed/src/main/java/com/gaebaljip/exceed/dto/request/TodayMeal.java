@@ -4,11 +4,11 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 
-public record DailyMeal(
+public record TodayMeal(
         Long memberId,
         LocalDate date) {
 
     @Builder
-    public DailyMeal {
+    public TodayMeal {
     }
 }

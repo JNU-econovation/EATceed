@@ -83,7 +83,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
         });
         Double maintainCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().maintainMeal().calorie();
         Double targetCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().targetMeal().calorie();
-        int size = getMealFoodResponseCustomBody.getResponse().dailyMeals().size();
+        int size = getMealFoodResponseCustomBody.getResponse().mealRecords().size();
 
         //then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);

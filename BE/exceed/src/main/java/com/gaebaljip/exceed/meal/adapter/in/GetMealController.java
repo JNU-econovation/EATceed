@@ -54,6 +54,6 @@ public class GetMealController {
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
         SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, date);
         GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());
-        return ApiResponseGenerator.success(new GetMealFoodResponse(getMealResponse, specificMeal.dailyMeals()), HttpStatus.OK);
+        return ApiResponseGenerator.success(new GetMealFoodResponse(getMealResponse, specificMeal.mealRecords()), HttpStatus.OK);
     }
 }

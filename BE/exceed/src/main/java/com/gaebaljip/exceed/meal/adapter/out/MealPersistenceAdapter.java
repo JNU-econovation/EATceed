@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.meal.adapter.out;
 
 import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyMealPort;
 import com.gaebaljip.exceed.config.DateConverter;
-import com.gaebaljip.exceed.dto.request.DailyMeal;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
 import com.gaebaljip.exceed.dto.request.MonthlyMeal;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
@@ -27,10 +27,10 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public List<Meal> query(DailyMeal dailyMeal) {
-        Timestamp today = DateConverter.toEpochSecond(dailyMeal.date());
-        Timestamp tomorrow = DateConverter.toEpochSecond(dailyMeal.date().plusDays(1));
-        List<MealEntity> mealEntities = mealRepository.findAllTodayMeal(today, tomorrow, dailyMeal.memberId());
+    public List<Meal> query(TodayMeal todayMeal) {
+        Timestamp today = DateConverter.toEpochSecond(todayMeal.date());
+        Timestamp tomorrow = DateConverter.toEpochSecond(todayMeal.date().plusDays(1));
+        List<MealEntity> mealEntities = mealRepository.findAllTodayMeal(today, tomorrow, todayMeal.memberId());
         return mealConverter.toMeals(mealEntities);
     }
 

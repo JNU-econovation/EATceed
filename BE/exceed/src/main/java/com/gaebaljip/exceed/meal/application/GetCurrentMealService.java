@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.application;
 
-import com.gaebaljip.exceed.dto.request.DailyMeal;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.meal.domain.Meal;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
@@ -25,7 +25,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Override
     @Transactional(readOnly = true)
     public CurrentMeal execute(Long memberId) {
-        List<Meal> meals = dailyMealPort.query(new DailyMeal(memberId, LocalDate.now()));
+        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, LocalDate.now()));
         if(meals.isEmpty()){
             return CurrentMeal.builder()
                     .calorie(ZERO)

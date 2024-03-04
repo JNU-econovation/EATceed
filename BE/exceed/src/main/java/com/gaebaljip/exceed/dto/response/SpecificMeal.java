@@ -5,7 +5,7 @@ import java.util.List;
 
 public record SpecificMeal(
         CurrentMeal currentMeal,
-        List<DailyMeal> dailyMeals
+        List<MealRecord> mealRecords
 ) {
 
     @Builder
