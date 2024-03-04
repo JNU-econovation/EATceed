@@ -11,7 +11,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    properties:
+      hibernate:
+        show_sql : true
+        format_sql : true
     defer-datasource-initialization: true
   cloud:
     aws:
@@ -29,6 +32,10 @@ spring:
       data-locations: classpath:db/testData.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
+
+
+logging.level:
+  org.hibernate.SQl: debug
 
 jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
