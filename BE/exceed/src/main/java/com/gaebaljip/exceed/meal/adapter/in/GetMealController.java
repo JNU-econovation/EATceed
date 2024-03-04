@@ -31,6 +31,10 @@ public class GetMealController {
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
 
+    /**
+     * 오늘 먹은 식사 정보(단,탄,지 및 칼로리) 조회
+     */
+
     @GetMapping("/meal")
     public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(@AuthenticationMemberId Long memberId) {
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
@@ -41,12 +45,15 @@ public class GetMealController {
                 HttpStatus.OK);
     }
 
+    /**
+     * 특정 날짜의 식사 정보(단,탄,지 및 칼로지) 조회
+     */
     @GetMapping("/meal/{date}")
     public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
         MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
         TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        GetMeal getMeal = getSpecificMealQuery.execute(memberId, date);
-        GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, getMeal.currentMeal());
-        return ApiResponseGenerator.success(new GetMealFoodResponse(getMealResponse, getMeal.dailyMeals()), HttpStatus.OK);
+        SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, date);
+        GetMealResponse getMealResponse = new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());
+        return ApiResponseGenerator.success(new GetMealFoodResponse(getMealResponse, specificMeal.mealRecords()), HttpStatus.OK);
     }
 }

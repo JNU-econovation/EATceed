@@ -28,6 +28,9 @@ public class EatMealController {
     private final EatMealUsecase eatMealUsecase;
     private final UploadImageUsecase uploadImageUsecase;
 
+    /**
+     * 식사 등록 API
+     */
     @PostMapping("/meal")
     public ApiResponse<CustomBody<EatMealResponse>> eatMeal(@Valid @RequestBody EatMealRequest request, @AuthenticationMemberId Long memberId) {
         EatMealCommand eatMealCommand = EatMealCommand.builder()

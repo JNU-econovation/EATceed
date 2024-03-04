@@ -25,9 +25,9 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     @WithMockGuestUser
     void getAchieves() throws Exception {
         //given
-        String year = "2023";
-        String month = "12";
-        String day = "24";
+        String year = "2024";
+        String month = "03";
+        String day = "03";
         String date = year + "-" + month + "-" + day;
         LocalDate testDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 

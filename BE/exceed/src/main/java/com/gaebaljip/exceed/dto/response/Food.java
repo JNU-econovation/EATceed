@@ -2,11 +2,11 @@ package com.gaebaljip.exceed.dto.response;
 
 import lombok.Builder;
 
-public record GetFood(
+public record Food(
         Long id,
         String name) {
 
     @Builder
-    public GetFood {
+    public Food {
     }
 }

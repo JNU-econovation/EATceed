@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class GetAnalysisService implements GetAnalysisUsecase {
 
-    public static final int First_DAY = 1;
+    public static final int FIRST_DAY = 1;
     public static final int DAYS_TO_ADD = 1;
     private final MonthlyMealPort monthlyMealPort;
     private final MonthlyTargetPort monthlyTargetPort;
@@ -39,7 +39,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
         List<Analysis> analyses = Stream.iterate(getStartDate(request), day -> day.plusDays(DAYS_TO_ADD))
                 .limit(getLengthOfMonth(request))
                 .map(day -> createAnalysisForDay(day, dailyMealMap, member))
-                .collect(Collectors.toList());
+                .toList();
         return new GetAnalysisResponse(analyses);
     }
 
@@ -50,7 +50,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
     }
 
     private LocalDate getStartDate(GetAnalysisRequest request) {
-        return request.date().withDayOfMonth(First_DAY);
+        return request.date().withDayOfMonth(FIRST_DAY);
     }
 
     private int getLengthOfMonth(GetAnalysisRequest request) {

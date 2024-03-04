@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GetMealController.class)
-class GetMealControllerTest extends CommonApiTest {
+class SpecificMealControllerTest extends CommonApiTest {
 
     @MockBean
     private GetMaintainMealUsecase getMaintainMealUsecase;

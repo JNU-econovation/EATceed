@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 살 찌기 위한 식단(단,탄,지,칼로리) 정보 조회
+ */
 @Service
 @RequiredArgsConstructor
 public class GetTargetMealService implements GetTargetMealUsecase {
@@ -20,12 +23,12 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     @Transactional(readOnly = true)
     public TargetMeal execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
-        Member memberModel = memberConverter.toModel(memberEntity);
+        Member member = memberConverter.toModel(memberEntity);
         return TargetMeal.builder()
-                .calorie(memberModel.measureTargetCalorie())
-                .carbohydrate(memberModel.measureTargetCarbohydrate())
-                .protein(memberModel.measureTargetProtein())
-                .fat(memberModel.measureTargetFat())
+                .calorie(member.measureTargetCalorie())
+                .carbohydrate(member.measureTargetCarbohydrate())
+                .protein(member.measureTargetProtein())
+                .fat(member.measureTargetFat())
                 .build();
     }
 }

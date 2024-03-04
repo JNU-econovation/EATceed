@@ -6,7 +6,7 @@ import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockGuestUser;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
-import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
+import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,10 +23,10 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class GetMealIntegrationTest extends IntegrationTest {
+public class SpecificMealIntegrationTest extends IntegrationTest {
 
     @MockBean
-    private GetPresignedUrlPort getPresignedUrlPort;
+    private PresignedUrlPort getPresignedUrlPort;
 
     @Test
     @WithMockGuestUser
@@ -71,10 +71,10 @@ public class GetMealIntegrationTest extends IntegrationTest {
     @WithMockGuestUser
     void getMealFood() throws Exception {
 
-        given(getPresignedUrlPort.command(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
+        given(getPresignedUrlPort.query(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
 
         //when
-        String date = "2023-12-10";
+        String date = "2024-03-04";
         ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/v1/meal/" + date)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -83,7 +83,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
         });
         Double maintainCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().maintainMeal().calorie();
         Double targetCalorie = getMealFoodResponseCustomBody.getResponse().getMealResponse().targetMeal().calorie();
-        int size = getMealFoodResponseCustomBody.getResponse().dailyMeals().size();
+        int size = getMealFoodResponseCustomBody.getResponse().mealRecords().size();
 
         //then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);

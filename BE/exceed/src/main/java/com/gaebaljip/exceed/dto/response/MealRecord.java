@@ -6,14 +6,14 @@ import lombok.Builder;
 import java.time.LocalTime;
 import java.util.List;
 
-public record DailyMeal(
+public record MealRecord(
         LocalTime time,
         MealType mealType,
         String imageUri,
-        List<GetFood> foods
+        List<Food> foods
 ) {
 
     @Builder
-    public DailyMeal {
+    public MealRecord {
     }
 }

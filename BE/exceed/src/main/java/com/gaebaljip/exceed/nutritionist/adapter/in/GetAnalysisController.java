@@ -25,7 +25,7 @@ public class GetAnalysisController {
     private final GetAnalysisUsecase getAnalysisUsecase;
 
     @GetMapping("/achieve/{date}")
-    public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAchieves(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
+    public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAnalysis(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @AuthenticationMemberId Long memberId) {
         GetAnalysisResponse achieveListResponse = getAnalysisUsecase.execute(new GetAnalysisRequest(memberId, date));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
