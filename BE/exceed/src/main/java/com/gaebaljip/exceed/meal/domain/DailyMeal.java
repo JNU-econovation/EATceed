@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.meal.domain;
 
 import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
+import com.gaebaljip.exceed.meal.exception.NotSameDateException;
 import lombok.*;
 import java.util.List;
 
@@ -43,12 +44,9 @@ public class DailyMeal {
     }
 
     private void validateSameMealDate(List<Meal> meals){
-        if(getSize(meals) != getDistinctSize(meals)) throw new InsufficientMealsException();
+        if(getDistinctSize(meals) != 1) throw new NotSameDateException();
     }
 
-    private int getSize(List<Meal> meals) {
-        return meals.size();
-    }
 
     private int getDistinctSize(List<Meal> meals) {
         return meals.stream()
