@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.meal.application;
 
 import com.gaebaljip.exceed.dto.request.DailyMeal;
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
-import com.gaebaljip.exceed.dto.response.GetFood;
+import com.gaebaljip.exceed.dto.response.Food;
 import com.gaebaljip.exceed.dto.response.SpecificMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
@@ -28,12 +28,17 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
     private final PresignedUrlPort presignedUrlPort;
     public static final double ZERO = 0.0;
 
+    /**
+     * CurrentMeal -> meals를 사용해서 DailyMeal 도메인을 만들어야함.
+     * DailyMeal ->
+     */
+
     @Override
     @Transactional(readOnly = true)
     public SpecificMeal execute(Long memberId, LocalDate date) {
         List<Meal> meals = dailyMealPort.query(new DailyMeal(memberId,date));
         List<com.gaebaljip.exceed.dto.response.DailyMeal> dailyMeals = new ArrayList<>();
-        if(meals.isEmpty()){
+        if(meals.isEmpty()) {
             SpecificMeal specificMeal = SpecificMeal.builder()
                     .dailyMeals(dailyMeals)
                     .currentMeal(CurrentMeal.builder()
@@ -56,7 +61,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                     .mealType(meals.get(i).getMealType())
                     .time(meals.get(i).getMealDateTime().toLocalTime())
                     .imageUri(presignedUrlPort.query(memberId, meals.get(i).getId()))
-                    .foods(meals.get(i).getFoods().stream().map(foodModel -> GetFood.builder()
+                    .foods(meals.get(i).getFoods().stream().map(foodModel -> Food.builder()
                             .id(foodModel.getId())
                             .name(foodModel.getName())
                             .build()).toList()

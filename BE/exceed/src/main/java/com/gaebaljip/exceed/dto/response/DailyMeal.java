@@ -10,7 +10,7 @@ public record DailyMeal(
         LocalTime time,
         MealType mealType,
         String imageUri,
-        List<GetFood> foods
+        List<Food> foods
 ) {
 
     @Builder
