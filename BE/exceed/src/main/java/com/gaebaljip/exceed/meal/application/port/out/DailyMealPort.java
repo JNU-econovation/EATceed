@@ -8,5 +8,5 @@ import java.util.List;
 
 @Component
 public interface DailyMealPort {
-    List<Meal> query(DailyMeal dailyMealDTO);
+    List<Meal> query(DailyMeal dailyMeal);
 }
