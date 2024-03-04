@@ -23,7 +23,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class GetMealIntegrationTest extends IntegrationTest {
+public class SpecificMealIntegrationTest extends IntegrationTest {
 
     @MockBean
     private PresignedUrlPort getPresignedUrlPort;
@@ -74,7 +74,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
         given(getPresignedUrlPort.query(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
 
         //when
-        String date = "2023-12-10";
+        String date = "2024-03-04";
         ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/v1/meal/" + date)
                 .contentType(MediaType.APPLICATION_JSON));
 
