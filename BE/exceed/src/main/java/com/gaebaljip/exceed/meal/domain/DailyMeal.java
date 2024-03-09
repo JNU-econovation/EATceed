@@ -9,6 +9,12 @@ import static java.util.stream.Collectors.toSet;
 
 /**
  * 같은 날짜 즉, 하루에 먹은 식사를 나타내는 클래스
+ * 오늘 먹은 식사들을 분석하여 칼로리,단,탄,지를 계산한다.
+ *
+ * @author hwangdaesun
+ * @version 1.0
+ * @throws NotSameDateException : 식사들의 날짜가 다를 경우
+ * @throws InsufficientMealsException : 식사를 한 번도 하지 않았을 경우
  */
 @Getter
 @ToString

@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.nutritionist.application;
 
 import com.gaebaljip.exceed.dto.request.GetAnalysisRequest;
 import com.gaebaljip.exceed.dto.response.Analysis;
+import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
 import com.gaebaljip.exceed.nutritionist.application.port.in.GetAnalysisUsecase;
 import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyMealPort;
 import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyTargetPort;
@@ -21,6 +22,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 한달치 달성도를 날짜별로 측정하여 반환한다.
+ *
+ * @author hwangdaesun
+ * @version 1.0
+ */
+
 @Service
 @RequiredArgsConstructor
 public class GetAnalysisService implements GetAnalysisUsecase {
@@ -29,6 +37,14 @@ public class GetAnalysisService implements GetAnalysisUsecase {
     public static final int DAYS_TO_ADD = 1;
     private final MonthlyMealPort monthlyMealPort;
     private final MonthlyTargetPort monthlyTargetPort;
+
+    /**
+     * Nutritionist 도메인이 특정 날짜에 목표 칼로리,단,탄,지를 달성했는 지를 판단하여 달성했을 경우 true를 반환
+     * 칼로리,단,단,지 달성 여부를 날짜별로 그룹화한다.
+     *
+     * @param request : 회원 PK와 날짜
+     * @return GetAnalysisResponse : 칼로리,단,단,지 달성 여부들의 집합
+     */
 
     @Override
     @Transactional(readOnly = true)

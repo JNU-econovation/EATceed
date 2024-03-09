@@ -6,6 +6,9 @@ import lombok.*;
 
 /**
  * 회원의 신체 정보를 바탕으로 식사 정보를 분석하여 평가하는 영양사 도메인
+ *
+ * @author hwangdaesun
+ * @version 1.0
  */
 @Getter
 @ToString

@@ -3,6 +3,13 @@ package com.gaebaljip.exceed.member.domain;
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
 import lombok.*;
 
+/**
+ * 회원 정보를 바탕으로 BMR, TDEE, 목표 단백질, 탄수화물, 지방등을 결정한다.
+ *
+ * @author hwangdaesun
+ * @version 1.0
+ */
+
 @Getter
 @ToString
 @AllArgsConstructor

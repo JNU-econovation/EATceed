@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 /**
  * 특정 날짜의 식사 정보 조회
+ *
+ * @author hwangdaesun
+ * @version 1.0
  */
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,16 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
     private final DailyMealPort dailyMealPort;
     private final PresignedUrlPort presignedUrlPort;
     public static final double ZERO = 0.0;
+
+    /**
+     * DailyMeal 도메인이 특정 날짜 식사들을 분석하여 칼로리,단,탄,지 정보를 반환한다.
+     * 만약 식사 정보가 존재하지 않을 경우는 칼로리,단,탄,지 모두 ZERO를 반환한다.
+     * 또한, 특정 날짜의 식사 정보들을 반환한다.
+     *
+     * @param memberId
+     * @param date
+     * @return SpecificMeal : 특정 날짜의 칼로리,단,탄,지 정보와 식사 정보
+     */
 
     @Override
     @Transactional(readOnly = true)
