@@ -23,19 +23,16 @@ public class JwtManager {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key key;
 
-    private static final String MEMBER_ID = "memberId";
-
     public JwtManager(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateAccessToken(String loginId, Long memberId) {
+    public String generateAccessToken(Long memberId) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim(MEMBER_ID, memberId)
-                .setSubject(loginId)
+                .setSubject(String.valueOf(memberId))
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -67,11 +64,11 @@ public class JwtManager {
         return false;
     }
 
-    public String generateRefreshToken(String loginId) {
+    public String generateRefreshToken(Long memberId) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setSubject(loginId)
+                .setSubject(String.valueOf(memberId))
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)

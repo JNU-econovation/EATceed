@@ -37,7 +37,7 @@ public class CreateGuestController {
                 .age(request.age())
                 .activity(Activity.valueOf(request.activity())).build();
         CreateGuest createGuest = createGuestUsecase.execute(command);
-        response.addHeader(AuthConstants.AUTH_HEADER.getValue(), jwtManager.generateAccessToken(createGuest.loginId(), createGuest.memberId()));
+        response.addHeader(AuthConstants.AUTH_HEADER.getValue(), jwtManager.generateAccessToken(createGuest.memberId()));
         return ApiResponseGenerator.success(createGuest, HttpStatus.CREATED);
     }
 }

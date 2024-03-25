@@ -1,6 +1,8 @@
 package com.gaebaljip.exceed.common;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
+import com.gaebaljip.exceed.security.domain.MemberDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -14,7 +16,11 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
     @Override
     public SecurityContext createSecurityContext(WithMockGuestUser annotation) {
         Long memberId = annotation.memberId();
-        Authentication authentication = new CustomUsernamePasswordAuthenticationToken(null, null, List.of(new SimpleGrantedAuthority("ROLE_GUEST")), memberId);
+        MemberEntity memberEntity = MemberEntity.builder()
+                .id(memberId)
+                .build();
+        MemberDetails memberDetails = new MemberDetails(memberEntity);
+        Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, List.of(new SimpleGrantedAuthority("ROLE_GUEST")), memberId);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);
         return context;

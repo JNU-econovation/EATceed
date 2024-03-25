@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.security.filter;
 
-import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
 import com.gaebaljip.exceed.security.domain.JwtManager;
 import com.gaebaljip.exceed.security.domain.JwtResolver;
 import com.gaebaljip.exceed.security.domain.MemberDetails;
@@ -8,6 +7,7 @@ import com.gaebaljip.exceed.security.service.MemberDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,8 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = jwtResolver.extractToken(bearerToken);
         try {
             if (jwtManager.validateAccessToken(accessToken,request)) {
-                MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(jwtResolver.getLoginIdFromToken(accessToken));
-                Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities(), jwtResolver.getMemberIdFromToken(accessToken));
+                MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(jwtResolver.getMemberIdFromToken(accessToken));
+                Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("user ={}, uri ={}, method = {}, time={}, message={}",
                         request.getRemoteUser(), request.getRequestURL(), request.getMethod(), LocalDateTime.now(), "인증 성공");

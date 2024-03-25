@@ -14,7 +14,6 @@ import java.security.Key;
 @Component
 @Slf4j
 public class JwtResolver {
-    private static final String MEMBER_ID = "memberId";
     private final Key key;
 
     public JwtResolver(@Value("${jwt.secret}") String secretKey) {
@@ -22,12 +21,8 @@ public class JwtResolver {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getLoginIdFromToken(String token) {
+    public String getMemberIdFromToken(String token) {
         return parseClaims(token).getSubject();
-    }
-
-    public Long getMemberIdFromToken(String token) {
-        return parseClaims(token).get(MEMBER_ID, Long.class);
     }
 
     private Claims parseClaims(String Token) {
