@@ -16,7 +16,7 @@ import java.time.Duration;
 public class S3Adapter implements PresignedUrlPort {
 
     private final S3Presigner s3Presigner;
-    @Value("${spring.cloud.aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     public static final String CONTENT_TYPE_PREFIX = "image/";
 

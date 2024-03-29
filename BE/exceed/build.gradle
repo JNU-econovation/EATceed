@@ -10,6 +10,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	id "me.champeau.jmh" version "0.7.2"
 }
 
 group = 'com.gaebaljip'
@@ -71,6 +72,13 @@ dependencies {
 
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	//email
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation group: 'software.amazon.awssdk', name: 'ses', version: "2.19.29"
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('bootBuildImage') {
