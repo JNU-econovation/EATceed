@@ -1,6 +1,8 @@
-package com.gaebaljip.exceed.common;
+package com.gaebaljip.exceed.common.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.gaebaljip.exceed.common.ApiResponse;
+import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
 import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
 import com.gaebaljip.exceed.security.exception.UnsupportedAuthenticationException;
@@ -16,10 +18,17 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.net.BindException;
+import java.security.GeneralSecurityException;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(GeneralSecurityException.class)
+    protected ApiResponse<?> handleGenerateKeyException(GeneralSecurityException e) {
+        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ApiResponse<?> handleNoHandlerFoundException(HttpMessageNotReadableException e) {
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.BAD_REQUEST);

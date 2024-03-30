@@ -13,6 +13,13 @@ services:
       - MYSQL_ROOT_HOST=%
       - TZ=Asia/Seoul
 
+  eatceed-redis:
+    image: redis:alpine
+    container_name: gaebaljip-redis
+    command: redis-server --port 6379
+    ports:
+      - 6379:6379
+
   eatceed-adminer:
     container_name: gaebaljip-adminer
     image: adminer:4
@@ -20,6 +27,8 @@ services:
       - 18080:8080
     depends_on:
       - eatceed-mariadb
+      - eatceed-redis
     links:
       - eatceed-mariadb
+      - eatceed-redis
 

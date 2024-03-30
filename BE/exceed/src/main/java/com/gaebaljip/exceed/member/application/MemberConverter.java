@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.member.application;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.domain.Guest;
 import com.gaebaljip.exceed.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,17 +12,14 @@ public class MemberConverter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public MemberEntity toEntity(Guest guestModel, String etc) {
+    public MemberEntity toEntity(Member member, String etc) {
         return MemberEntity.builder()
-                .loginId(guestModel.getLoginId())
-                .password(bCryptPasswordEncoder.encode(guestModel.getPassword()))
-                .weight(guestModel.getWeight())
-                .height(guestModel.getHeight())
-                .age(guestModel.getAge())
-                .gender(guestModel.getGender())
+                .weight(member.getWeight())
+                .height(member.getHeight())
+                .age(member.getAge())
+                .gender(member.getGender())
                 .etc(etc)
-                .activity(guestModel.getActivity())
-                .role(guestModel.getRole())
+                .activity(member.getActivity())
                 .build();
     }
 

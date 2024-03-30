@@ -8,6 +8,7 @@ public interface MemberPort {
 
     MemberEntity query(Long memberId);
     MemberEntity command(MemberEntity memberEntity);
+    Boolean findEmailOrChecked(String email);
 
-
+    MemberEntity findMemberByEmail(String email);
 }

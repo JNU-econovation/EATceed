@@ -5,7 +5,7 @@ import lombok.Builder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public record CreateMemberCommand(
+public record OnBoardingMemberCommand(
         @NotBlank(message = "height must not be null")
         Double height,
         @NotBlank(message = "gender must not be null")
@@ -22,7 +22,7 @@ public record CreateMemberCommand(
         String etc) {
 
         @Builder
-        public CreateMemberCommand {
+        public OnBoardingMemberCommand {
         }
 
         ;

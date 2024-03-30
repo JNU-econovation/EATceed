@@ -12,23 +12,22 @@ spring:
       ddl-auto: none
     show-sql: true
     defer-datasource-initialization: true
-  cloud:
-    aws:
-      s3:
-        bucket: ${S3_BUCKET_NAME}
-      credentials:
-        access-key: ${CLOUD_AWS_ACCESS_KEY}
-        secret-key: ${CLOUD_AWS_SECRET_KEY}
-      region:
-        static: ap-northeast-2
-      stack:
-        auto: false
+cloud:
+  aws:
+    credentials:
+      access-key: ${CLOUD_AWS_ACCESS_KEY}
+      secret-key: ${CLOUD_AWS_SECRET_KEY}
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+      region: ap-northeast-2
+    ses:
+      mail-address: ${SES_MAIL_ADDRESS}
+      region: ap-northeast-1
 
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
-      mode: always
+encryption:
+  spec: ${ENCRYPTION_SPEC}
+  secret: ${ENCRYPTION_SECRET}
+  algorithm: ${ENCRYPTION_ALGORITHM}
 
 jwt:
   secret: ${JWT_SECRET}

@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.common.log;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -14,17 +15,16 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-public class LoggingFilter implements Filter {
+public class LoggingFilter extends OncePerRequestFilter {
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
 
         ContentCachingRequestWrapper httpServletRequest = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper httpServletResponse = new ContentCachingResponseWrapper((HttpServletResponse) response);
         //이렇게 한다고 해도 Byte의 길이만 설정해 두고 컨탠츠들은 복사하지 않는다 그래서 doFilter 다음에 실행시킨다.
 
-        chain.doFilter(httpServletRequest, httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
 
         String url = httpServletRequest.getRequestURI();
         String reqContent = new String(httpServletRequest.getContentAsByteArray());

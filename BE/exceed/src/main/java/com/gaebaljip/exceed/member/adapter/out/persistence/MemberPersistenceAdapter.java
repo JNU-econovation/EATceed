@@ -7,7 +7,6 @@ import com.gaebaljip.exceed.member.domain.Member;
 import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 
 @Component
@@ -27,11 +26,28 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
     }
 
     /**
-     * 회원 수정 기능 + 카카오 로그인 도입 후 Map<LocalDate date, MemberModel> 변경
+     * 회원 수정 기능 구현 후 ->  Map<LocalDate date, MemberModel> 변경
      */
     @Override
     public Member query(Long memberId, LocalDate date) {
         MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         return memberConverter.toModel(memberEntity);
     }
+
+    @Override
+    public Boolean findEmailOrChecked(String email){
+        Boolean existed = memberRepository.existsByEmail(email);
+        if(!existed){
+            return false;
+        }else{
+            Boolean checked = memberRepository.findCheckedByEmail(email);
+            return checked;
+        }
+    }
+
+    @Override
+    public MemberEntity findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
 }

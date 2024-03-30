@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
+import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Import;
 
 @Import(MemberExceptionHandler.class)
 @ExtendWith(MockitoExtension.class)
-class CreateGuestServiceTest {
+class OnBoardingMemberServiceTest {
 
     @InjectMocks
-    private CreateGuestService createGuestService;
+    private OnBoardingMemberService createGuestService;
 
-    private static CreateMemberCommand createMemberCommand(double height, double weight, int age) {
-        CreateMemberCommand command = CreateMemberCommand.builder()
+    private static OnBoardingMemberCommand createMemberCommand(double height, double weight, int age) {
+        OnBoardingMemberCommand command = OnBoardingMemberCommand.builder()
                 .height(height)
                 .weight(weight)
                 .age(age)
@@ -35,7 +35,7 @@ class CreateGuestServiceTest {
     @DisplayName("몸무게가 0 이하일 경우 예외가 발생한다.")
     void createMember_weight() {
         //given
-        CreateMemberCommand command = createMemberCommand(0, 61, 25);
+        OnBoardingMemberCommand command = createMemberCommand(0, 61, 25);
 
         //when then
         Assertions.assertThrows(InvalidHeightException.class, () -> {
@@ -47,7 +47,7 @@ class CreateGuestServiceTest {
     @DisplayName("키가 0 이하일 경우 예외가 발생한다.")
     void createMember_height() {
         //given
-        CreateMemberCommand command = createMemberCommand(171, 0, 25);
+        OnBoardingMemberCommand command = createMemberCommand(171, 0, 25);
 
         //when then
         Assertions.assertThrows(InvalidWeightException.class, () -> {
@@ -59,7 +59,7 @@ class CreateGuestServiceTest {
     @DisplayName("나이가 0 이하일 경우 예외가 발생한다.")
     void createMember_age() {
         //given
-        CreateMemberCommand command = createMemberCommand(171, 61, 0);
+        OnBoardingMemberCommand command = createMemberCommand(171, 61, 0);
 
         //when then
         Assertions.assertThrows(InvalidAgeException.class, () -> {
