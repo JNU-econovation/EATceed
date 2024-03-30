@@ -15,7 +15,7 @@ public class MemberConverter {
 
     public MemberEntity toEntity(Guest guestModel, String etc) {
         return MemberEntity.builder()
-                .loginId(guestModel.getLoginId())
+                .email(guestModel.getLoginId())
                 .password(bCryptPasswordEncoder.encode(guestModel.getPassword()))
                 .weight(guestModel.getWeight())
                 .height(guestModel.getHeight())
