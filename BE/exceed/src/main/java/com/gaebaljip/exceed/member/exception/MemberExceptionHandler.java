@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class MemberExceptionHandler {
 
+    @ExceptionHandler(InvalidCodeException.class)
+    public ApiResponse<?> handleInvalidCodeException(InvalidCodeException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(MailCancelledException.class)
-    public ApiResponse<?> handleInvalidGenderException(MailCancelledException e) {
+    public ApiResponse<?> handleMailCancelledException(MailCancelledException e) {
         return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(MailCompletionException.class)
-    public ApiResponse<?> handleInvalidGenderException(MailCompletionException e) {
+    public ApiResponse<?> handleMailCompletionException(MailCompletionException e) {
         return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
 
