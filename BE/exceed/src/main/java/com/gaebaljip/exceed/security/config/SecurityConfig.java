@@ -72,6 +72,7 @@ public class SecurityConfig {
         // 요청에 대한 권한 설정
         http.authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/members/checked/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members").permitAll()
                 .anyRequest().authenticated();
 
@@ -99,7 +100,8 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/docs/api-doc.html");
+                .antMatchers("/docs/api-doc.html")
+                .antMatchers("/favicon.*", "/*/icon-*");
     }
 
 
