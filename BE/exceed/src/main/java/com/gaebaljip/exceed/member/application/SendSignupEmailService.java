@@ -5,9 +5,11 @@ import com.gaebaljip.exceed.common.MailTemplate;
 import com.gaebaljip.exceed.member.application.port.in.SendEmailCommand;
 import com.gaebaljip.exceed.member.application.port.in.SendEmailUsecase;
 import com.gaebaljip.exceed.member.application.port.out.EmailPort;
+import com.gaebaljip.exceed.member.application.port.out.TimeOutPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
 import java.util.UUID;
@@ -19,10 +21,14 @@ public class SendSignupEmailService implements SendEmailUsecase {
 
     private final EmailPort emailPort;
     private final Encryption encryption;
+    private final TimeOutPort timeOutPort;
     @Override
+    @Transactional
     public void execute(SendEmailCommand sendEmailCommand) {
 
         String uuid = UUID.randomUUID().toString();
+        timeOutPort.command(sendEmailCommand.email(),uuid);
+
         String code = encryption.encrypt(uuid);
         Context context = new Context();
         context.setVariable(MailTemplate.SIGN_UP_MAIL_CONTEXT, MailTemplate.REPLY_TO_SIGN_UP_MAIL_URL);
