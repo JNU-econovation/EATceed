@@ -43,8 +43,10 @@ cloud:
       mail-address: ${SES_MAIL_ADDRESS}
       region: ap-northeast-1
 
-
-
+encryption:
+  spec: ${ENCRYPTION_SPEC}
+  secret: ${ENCRYPTION_SECRET}
+  algorithm: ${ENCRYPTION_ALGORITHM}
 
 jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse

@@ -24,11 +24,10 @@ cloud:
       mail-address: ${SES_MAIL_ADDRESS}
       region: ap-northeast-1
 
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
-      mode: always
+encryption:
+  spec: ${ENCRYPTION_SPEC}
+  secret: ${ENCRYPTION_SECRET}
+  algorithm: ${ENCRYPTION_ALGORITHM}
 
 jwt:
   secret: ${JWT_SECRET}
