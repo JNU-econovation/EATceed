@@ -58,4 +58,8 @@ public class MemberEntity extends BaseEntity {
 
     // todo : MemberEntity의 History 테이블 필요
 
+    public void updateChecked(){
+        this.checked = true;
+    }
+
 }

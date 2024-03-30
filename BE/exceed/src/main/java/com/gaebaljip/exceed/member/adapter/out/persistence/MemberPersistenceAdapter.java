@@ -45,4 +45,9 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
         }
     }
 
+    @Override
+    public MemberEntity findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
 }
