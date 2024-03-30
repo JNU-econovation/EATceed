@@ -4,7 +4,7 @@ import com.gaebaljip.exceed.common.annotation.Enum;
 import com.gaebaljip.exceed.member.domain.Activity;
 import lombok.Builder;
 
-public record CreateGuestRequest(
+public record OnBoardingMemberRequest(
         Double height,
         Integer gender,
         Double weight,
@@ -15,6 +15,6 @@ public record CreateGuestRequest(
 ) {
 
         @Builder
-        public CreateGuestRequest {
+        public OnBoardingMemberRequest {
         }
 }

@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
-import com.gaebaljip.exceed.dto.response.CreateGuest;
-import com.gaebaljip.exceed.member.application.port.in.CreateGuestUsecase;
-import com.gaebaljip.exceed.member.application.port.in.CreateMemberCommand;
+import com.gaebaljip.exceed.dto.response.OnBoardingMember;
+import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberUsecase;
+import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.security.domain.JwtManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +19,11 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(CreateGuestController.class)
-class CreateGuestControllerTest extends CommonApiTest {
+@WebMvcTest(OnBoardingController.class)
+class OnBoardingControllerTest extends CommonApiTest {
 
     @MockBean
-    private CreateGuestUsecase createGuestUsecase;
+    private OnBoardingMemberUsecase onBoardingMemberUsecase;
     @MockBean
     private JwtManager jwtManager;
 
@@ -35,7 +35,7 @@ class CreateGuestControllerTest extends CommonApiTest {
         CreateGuestTestRequest request = new CreateGuestTestRequest(
                 171, 1, 61, 25, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
-        given(createGuestUsecase.execute(any(CreateMemberCommand.class))).willReturn(CreateGuest.builder()
+        given(onBoardingMemberUsecase.execute(any(OnBoardingMemberCommand.class))).willReturn(OnBoardingMember.builder()
                 .loginId("testId1234")
                 .password("testPassword1234")
                 .build());
