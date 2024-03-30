@@ -10,7 +10,7 @@ CREATE TABLE `MEMBER_TB`
     `MEMBER_ETC`      varchar(255) DEFAULT NULL,
     `MEMBER_GENDER`   tinyint   DEFAULT NULL,
     `MEMBER_HEIGHT`   double       DEFAULT NULL,
-    `MEMBER_EMAIL`    varchar(255) NOT NULL,
+    `MEMBER_EMAIL`    varchar(255) NOT NULL UNIQUE,
     `MEMBER_PASSWORD` varchar(255) NOT NULL,
     `MEMBER_ROLE`     varchar(255) DEFAULT NULL,
     `MEMBER_CHECKED`  bit          NOT NULL,
