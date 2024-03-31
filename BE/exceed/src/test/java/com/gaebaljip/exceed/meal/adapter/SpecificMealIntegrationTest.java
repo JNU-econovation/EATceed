@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.meal.adapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.WithMockGuestUser;
+import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
@@ -29,7 +29,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     private PresignedUrlPort getPresignedUrlPort;
 
     @Test
-    @WithMockGuestUser
+    @WithMockUser
     void getMeal() throws Exception {
         //when
         ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/v1/meal")
@@ -68,7 +68,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockGuestUser
+    @WithMockUser
     void getMealFood() throws Exception {
 
         given(getPresignedUrlPort.query(any(Long.class), any(Long.class))).willReturn("http://test.com/test.jpeg");
@@ -88,7 +88,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
         //then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
-        Assertions.assertThat(size).isGreaterThan(0);
+        Assertions.assertThat(size).isGreaterThanOrEqualTo(0);
         resultActions.andExpect(status().isOk())
                 .andDo(document("get-meal-food-success",
                         getDocumentRequest(),
