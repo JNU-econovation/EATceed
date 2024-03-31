@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
+import com.gaebaljip.exceed.member.domain.Gender;
 import com.gaebaljip.exceed.member.domain.MemberRole;
 import lombok.*;
 import javax.persistence.*;
@@ -28,8 +29,9 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_HEIGHT")
     private double height;
 
+    @Convert(converter = GenderConvert.class)
     @Column(name = ENTITY_PREFIX + "_GENDER", columnDefinition = "tinyint")
-    private Integer gender;
+    private Gender gender;
 
     @Column(name = ENTITY_PREFIX + "_AGE")
     private Integer age;
@@ -62,7 +64,7 @@ public class MemberEntity extends BaseEntity {
         this.checked = true;
     }
 
-    public void updateMember(double height, int gender, int age, Activity activity, String etc, double weight, double targetWeight){
+    public void updateMember(double height, Gender gender, int age, Activity activity, String etc, double weight, double targetWeight){
         this.height = height;
         this.gender = gender;
         this.age = age;
