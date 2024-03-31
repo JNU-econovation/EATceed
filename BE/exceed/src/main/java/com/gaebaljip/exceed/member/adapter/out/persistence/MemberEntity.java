@@ -4,8 +4,9 @@ import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.MemberRole;
 import lombok.*;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -30,9 +31,6 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_GENDER", columnDefinition = "tinyint")
     private Integer gender;
 
-    @Column(name = ENTITY_PREFIX + "_WEIGHT")
-    private Double weight;
-
     @Column(name = ENTITY_PREFIX + "_AGE")
     private Integer age;
 
@@ -56,10 +54,29 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_ROLE")
     private MemberRole role;
 
-    // todo : MemberEntity의 History 테이블 필요
+    @Builder.Default
+    @OneToMany(mappedBy = "memberEntity")
+    private List<WeightEntity> weightEntities = new ArrayList<>();
 
     public void updateChecked(){
         this.checked = true;
     }
 
+    public void updateMember(double height, int gender, int age, Activity activity, String etc, double weight, double targetWeight){
+        this.height = height;
+        this.gender = gender;
+        this.age = age;
+        this.activity = activity;
+        this.etc = etc;
+        WeightEntity weightEntity = WeightEntity.builder().
+                weight(weight).
+                targetWeight(targetWeight).
+                build();
+        addWeightEntity(weightEntity);
+    }
+
+    private void addWeightEntity(WeightEntity weightEntity){
+        weightEntity.mappingMember(this);
+        this.weightEntities.add(weightEntity);
+    }
 }
