@@ -26,7 +26,7 @@ class OnBoardingControllerTest extends CommonApiTest {
         //given
 
         OnBoardingMemberRequest request = new OnBoardingMemberRequest(
-                171.0, 1, 61.0, 65.0,26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+                171.0, "MALE", 61.0, 65.0,26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
         //when
 
@@ -51,7 +51,7 @@ class OnBoardingControllerTest extends CommonApiTest {
         String invalidValue = "ACTIVE";
 
         OnBoardingMemberRequest request = new OnBoardingMemberRequest(
-                171.0, 1, 61.0, 65.0,26, invalidValue, "뭐든 잘 먹습니다.");
+                171.0, "MALE", 61.0, 65.0,26, invalidValue, "뭐든 잘 먹습니다.");
 
         //when
 

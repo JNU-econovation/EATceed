@@ -44,7 +44,7 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
         //when
 
         OnBoardingMemberRequest request = new OnBoardingMemberRequest(
-                171.0, 1, 61.0, 65.0,26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+                171.0, "MALE", 61.0, 65.0,26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
 
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post("/v1/members/detail")
@@ -67,7 +67,7 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
                         getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("height").type(JsonFieldType.NUMBER).description("키"),
-                                fieldWithPath("gender").type(JsonFieldType.NUMBER).description("성별 1:남자, 0:여자"),
+                                fieldWithPath("gender").type(JsonFieldType.STRING).description("MALE, FEMALE"),
                                 fieldWithPath("weight").type(JsonFieldType.NUMBER).description("몸무게"),
                                 fieldWithPath("targetWeight").type(JsonFieldType.NUMBER).description("타겟 몸무게"),
                                 fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
