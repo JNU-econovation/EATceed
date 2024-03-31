@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.member.application.port.in;
 
 import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.member.domain.Activity;
+import com.gaebaljip.exceed.member.domain.Gender;
 import lombok.Builder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ public record OnBoardingMemberCommand(
         @NotBlank(message = "height must not be null")
         Double height,
         @NotBlank(message = "gender must not be null")
-        Integer gender,
+        Gender gender,
 
         @NotBlank(message = "weight must not be null")
         Double weight,
@@ -36,7 +37,7 @@ public record OnBoardingMemberCommand(
                 return OnBoardingMemberCommand.builder()
                         .memberId(memberId)
                         .height(request.height())
-                        .gender(request.gender())
+                        .gender(Gender.valueOf(request.gender()))
                         .weight(request.weight())
                         .targetWeight(request.targetWeight())
                         .age(request.age())

@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.common.annotation;
 
-import com.gaebaljip.exceed.common.annotation.Enum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

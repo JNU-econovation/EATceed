@@ -20,7 +20,7 @@ public class MemberConverter {
         return Member.builder()
                 .height(memberEntity.getHeight())
                 .weight(weightEntities.get(weightEntities.size()-1).getWeight())
-                .gender(memberEntity.getGender())
+                .gender(memberEntity.getGender().getValue())
                 .activity(memberEntity.getActivity())
                 .age(memberEntity.getAge())
                 .build();

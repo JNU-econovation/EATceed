@@ -35,13 +35,6 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
         validateWeight(command.weight());
         validateTargetWeight(command.targetWeight());
         validateAge(command.age());
-        validGender(command.gender());
-    }
-
-    private void validGender(Integer gender) {
-        if (gender < 0 || gender > 1) {
-            throw new InvalidGenderException();
-        }
     }
 
     private void validateHeight(Double height) {
