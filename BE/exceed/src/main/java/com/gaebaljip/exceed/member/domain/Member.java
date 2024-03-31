@@ -23,16 +23,6 @@ public class Member {
     private int age;
     private Activity activity;
 
-    public static Member create(double height, int gender, double weight, int age, Activity activity) {
-        return Member.builder()
-                .height(height)
-                .gender(gender)
-                .weight(weight)
-                .age(age)
-                .activity(activity)
-                .build();
-    }
-
     double measureBMR() {
         if (gender == 1) {
             return 66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age);
