@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface OnBoardingMemberUsecase {
-    OnBoardingMember execute(OnBoardingMemberCommand command);
+    void execute(OnBoardingMemberCommand command);
 
 }
 
