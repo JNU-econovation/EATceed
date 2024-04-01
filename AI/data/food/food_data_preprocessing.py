@@ -53,6 +53,12 @@ total_instances = len(filtered_df)
 # 총 인스턴스 개수 : 1175개
 print(f"\n총 인스턴스 개수: {total_instances}개")
 
+# +
+# # 필터링된 데이터를 CSV 파일로 저장
+# # utf-8-sig로 인코딩하여 한글 깨짐 방지
+# filtered_df.to_csv('01_filtered_data_공공데이터.csv', index=False, encoding='utf-8-sig')
+# -
+
 # ### 식품의약품안전처
 # - https://various.foodsafetykorea.go.kr/nutrient/
 
