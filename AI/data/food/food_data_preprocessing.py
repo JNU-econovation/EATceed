@@ -83,3 +83,10 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # -
 
 # **음식**
+
+# Excel 파일 Load
+df = pd.read_excel(file_path + '식품영양성분_음식.xlsx')
+
+
+
+
