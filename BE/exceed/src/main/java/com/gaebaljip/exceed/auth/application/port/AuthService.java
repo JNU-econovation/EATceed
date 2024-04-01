@@ -22,7 +22,7 @@ public class AuthService implements AuthUsecase {
     private final JwtManager jwtManager;
     @Override
     public LoginResponse execute(LoginRequest request) {
-        MemberEntity member = memberPort.findMemberByEmail(request.email());
+        MemberEntity member = memberPort.findCheckedMemberByEmail(request.email());
         if(!bCryptPasswordEncoder.encode(request.password()).equals(member.getPassword())){
             throw new PasswordMismatchException();
         }

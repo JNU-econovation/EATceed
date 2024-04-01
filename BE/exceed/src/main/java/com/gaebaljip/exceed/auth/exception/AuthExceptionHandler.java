@@ -13,4 +13,9 @@ public class AuthExceptionHandler {
     public ApiResponse<?> handlePasswordMismatchException(PasswordMismatchException e) {
         return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MemberNotCheckedException.class)
+    public ApiResponse<?> handleMemberNotCheckedException(MemberNotCheckedException e) {
+        return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+    }
 }
