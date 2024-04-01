@@ -62,6 +62,11 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # ### 식품의약품안전처
 # - https://various.foodsafetykorea.go.kr/nutrient/
 
+# **가공식품**
+
+# Excel 파일 Load
+df = pd.read_excel(file_path + '식품의약품안전처_가공식품.xlsx')
 
 
 
+# **음식**
