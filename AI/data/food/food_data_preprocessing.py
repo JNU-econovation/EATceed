@@ -67,6 +67,15 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # Excel 파일 Load
 df = pd.read_excel(file_path + '식품의약품안전처_가공식품.xlsx')
 
+# 주어진 컬럼들에 null값이 없는 데이터 추출
+required_columns = ['에너지\n(kcal)', '영양성분기준용량', '단백질\n(g)', '지방\n(g)', '탄수화물\n(g)', '당류\n(g)', '나트륨\n(mg)', '식이섬유\n(g)']
+filtered_df = df[df[required_columns].notnull().all(axis=1)]
+
+# 총 인스턴스 개수 파악
+total_instances = len(filtered_df)
+
+print(f"\n총 인스턴스 개수: {total_instances}개")
+
 
 
 # **음식**
