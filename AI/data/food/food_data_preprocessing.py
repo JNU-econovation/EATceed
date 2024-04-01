@@ -43,6 +43,16 @@ except UnicodeDecodeError:
     except Exception as e:
         print(f"Error: {e}")
 
+# '데이터구분명'의 값이 '음식'이고, 주어진 컬럼들에 null값이 없는 데이터 추출
+required_columns = ['에너지(kcal)', '영양성분함량기준량', '단백질(g)', '지방(g)', '탄수화물(g)', '당류(g)', '나트륨(mg)', '식이섬유(g)']
+filtered_df = df[(df['데이터구분명'] == '가공식품') & (df[required_columns].notnull().all(axis=1))]
+
+# 총 인스턴스 개수 파악
+total_instances = len(filtered_df)
+
+# 총 인스턴스 개수 : 1175개
+print(f"\n총 인스턴스 개수: {total_instances}개")
+
 # ### 식품의약품안전처
 # - https://various.foodsafetykorea.go.kr/nutrient/
 
