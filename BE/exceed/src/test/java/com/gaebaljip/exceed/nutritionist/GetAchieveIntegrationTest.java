@@ -3,7 +3,7 @@ package com.gaebaljip.exceed.nutritionist;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.WithMockGuestUser;
+import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GetAchieveIntegrationTest extends IntegrationTest {
     @Test
     @Transactional
-    @WithMockGuestUser
+    @WithMockUser
     void getAchieves() throws Exception {
         //given
         String year = "2024";

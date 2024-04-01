@@ -13,7 +13,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       dialect: org.hibernate.dialect.MariaDBDialect
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql : true

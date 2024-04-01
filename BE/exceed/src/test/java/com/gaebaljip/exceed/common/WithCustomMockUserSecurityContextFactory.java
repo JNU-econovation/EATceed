@@ -11,16 +11,16 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 
 import java.util.List;
 
-public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithMockGuestUser> {
+public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithMockUser> {
 
     @Override
-    public SecurityContext createSecurityContext(WithMockGuestUser annotation) {
+    public SecurityContext createSecurityContext(WithMockUser annotation) {
         Long memberId = annotation.memberId();
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(memberId)
                 .build();
         MemberDetails memberDetails = new MemberDetails(memberEntity);
-        Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, List.of(new SimpleGrantedAuthority("ROLE_GUEST")), memberId);
+        Authentication authentication = new CustomUsernamePasswordAuthenticationToken(memberDetails, null, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")), memberId);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);
         return context;
