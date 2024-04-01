@@ -15,4 +15,14 @@
 
 # ## 1. 라이브러리 설치
 
+# pandas 설치
 import pandas as pd
+
+# +
+# 환경변수 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+file_path = os.environ.get('RAW_DATA_PATH')
