@@ -87,6 +87,11 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # Excel 파일 Load
 df = pd.read_excel(file_path + '식품영양성분_음식.xlsx')
 
+# 주어진 컬럼들에 null값이 없는 데이터 추출
+required_columns = ['에너지(㎉)', '1회제공량', '단백질(g)', '지방(g)', '탄수화물(g)', '총당류(g)', '나트륨(㎎)', '총 식이섬유(g)']
+filtered_df = df[df[required_columns].notnull().all(axis=1)]
 
+# 총 인스턴스 개수 파악
+total_instances = len(filtered_df)
 
-
+print(f"\n총 인스턴스 개수: {total_instances}개")
