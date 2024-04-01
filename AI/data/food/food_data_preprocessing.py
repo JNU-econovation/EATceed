@@ -76,6 +76,10 @@ total_instances = len(filtered_df)
 
 print(f"\n총 인스턴스 개수: {total_instances}개")
 
-
+# +
+# # 필터링된 데이터를 CSV 파일로 저장
+# # utf-8-sig로 인코딩하여 한글 깨짐 방지
+# filtered_df.to_csv('02_filtered_data_식품의약처_가공.csv', index=False, encoding='utf-8-sig')
+# -
 
 # **음식**
