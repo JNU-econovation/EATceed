@@ -189,7 +189,7 @@ def addtional_03_dataset(df):
 df_03 = pd.read_csv(file_path + '1단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv')
 
 # 함수 실행
-addtional_03_dataset(df_03)
+df_03 = addtional_03_dataset(df_03)
 
 # 전처리 csv 파일 저장
 df_03.to_csv(file_path + '2단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv', index=False, encoding='utf-8-sig')
