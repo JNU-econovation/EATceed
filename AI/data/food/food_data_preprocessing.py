@@ -274,12 +274,14 @@ merged_df1_df2 = merge_datasets(df_03, df_01)
 final_merge = merge_datasets(merged_df1_df2, df_02)
 
 # final_merge 데이터셋의 '식품명' 내림차순 정렬
-
+final_merge = final_merge.sort_values(by='식품명')
 
 # 전처리 csv 파일 저장
 final_merge.to_csv(file_path + '4단계 가공 데이터/food_data.csv', index=False, encoding='utf-8-sig')
 
 # ### 05. Excel을 이용하여 2차 중복제거 수행
-# - 동일한 식품이지만 “식품명”의 텍스트가 조금씩 달라 중복 제거가 되지 않을 경우가 존재하기 때문에 수작업으로 제거 
+# - 동일한 식품이지만 “식품명”의 텍스트가 띄워쓰기와 같이 조금씩 다를 경우 중복 제거가 되지 않을 경우가 존재하기 때문에 수작업으로 제거 
+
+final_df = pd.read_csv(file_path + '5단계 가공 데이터/food_data.csv')
 
 # ### 06.음식 분류 모델의 라벨링 데이터와 음식명 맞추기
