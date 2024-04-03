@@ -263,9 +263,15 @@ def merge_datasets(df1, df2):
 
 
 # 파일 업로드
-df_01 = pd.read_csv(file_path + '2단계 가공 데이터/01_filtered_data_공공데이터.csv')
-df_02 = pd.read_csv(file_path + '2단계 가공 데이터/02_filtered_data_식품의약처_가공.csv')
-df_03 = pd.read_csv(file_path + '2단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv')
+df_01 = pd.read_csv(file_path + '3단계 가공 데이터/01_filtered_data_공공데이터.csv')
+df_02 = pd.read_csv(file_path + '3단계 가공 데이터/02_filtered_data_식품의약처_가공.csv')
+df_03 = pd.read_csv(file_path + '3단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv')
+
+# 함수 실행
+merged_df1_df2 = merge_datasets(df_03, df_01)
+
+# 함수 실행 
+final_merge = merge_datasets(merged_df1_df2, df_02)
 
 # ### 05. Excel을 이용하여 2차 중복제거 수행
 # - 동일한 식품이지만 “식품명”의 텍스트가 조금씩 달라 중복 제거가 되지 않을 경우가 존재하기 때문에 수작업으로 제거 
