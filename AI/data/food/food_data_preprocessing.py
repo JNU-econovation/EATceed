@@ -126,12 +126,12 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 def adjust_nutrient_values(df):
     # 컬럼에 존재하는 단위 'g' 또는 'ml' 제거 및 숫자형(실수)으로 변환
     df['영양성분함량기준량'] = df['영양성분함량기준량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
-    df['1회 섭취참고량'] = df['1회 섭취참고량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
+    df['1회섭취참고량'] = df['1회섭취참고량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
     
     # "영양성분함량기준량"을 "1회 섭취참고량"의 비율로 숫자형 컬럼 값 변경 (소수점 2자리까지 반올림)
     for col in df.columns:
         if df[col].dtype == 'float64' or df[col].dtype == 'int64':
-            df[col] = round(df[col] * (df['1회 섭취참고량'] / df['영양성분함량기준량']), 2)
+            df[col] = round(df[col] * (df['1회섭취참고량'] / df['영양성분함량기준량']), 2)
             df[col].replace('-', 0, inplace=True)
     
     return df
@@ -143,6 +143,8 @@ df_02 = pd.read_csv(file_path + '1단계 가공 데이터/02_filtered_data_식�
 
 # 함수 실행
 adjust_nutrient_values(df_01)
+
+# 함수 실행
 adjust_nutrient_values(df_02)
 
 # ### 03.Excel을 사용하여 필요 속성을 제외한 속성 제거
