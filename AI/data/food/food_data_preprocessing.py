@@ -195,7 +195,7 @@ df_03 = addtional_03_dataset(df_03)
 df_03.to_csv(file_path + '2단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv', index=False, encoding='utf-8-sig')
 
 
-# ### 03.필요 속성을 제외한 속성 제거
+# ### 03.필요 속성을 제외한 제거 진행
 # 1. 식품명
 # 2. 1회제공량
 # 3. 에너지(kcal)
@@ -225,6 +225,15 @@ def select_necessary_columns(df):
 df_01 = pd.read_csv(file_path + '1단계 가공 데이터/01_filtered_data_공공데이터.csv')
 df_02 = pd.read_csv(file_path + '1단계 가공 데이터/02_filtered_data_식품의약처_가공.csv')
 df_03 = pd.read_csv(file_path + '1단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv')
+
+# 함수 실행
+df_01 = select_necessary_columns(df_01)
+
+# 함수 실행
+df_02 = select_necessary_columns(df_02)
+
+# 함수 실행
+df_03 = select_necessary_columns(df_03)
 
 # ### 04.데이터셋끼리 merge 및 동일한 식품명이 존재한다면 첫번째 데이터셋 기준으로 하여 나머지 데이터는 제외
 # - 첫번째 데이터셋을 기준으로 한 이유 : 1회제공량 속성이 처음부터 존재
