@@ -181,7 +181,15 @@ def addtional_03_dataset(df):
     df.drop(columns=['내용량_단위'], inplace=True)
     
     return df
+
+
 # -
+
+# 전처리 필요한 파일 업로드
+df_03 = pd.read_csv(file_path + '1단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv')
+
+# 함수 실행
+addtional_03_dataset(df_03)
 
 # ### 03.필요 속성을 제외한 속성 제거
 # 1. 식품명
