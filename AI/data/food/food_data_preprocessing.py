@@ -285,3 +285,11 @@ final_merge.to_csv(file_path + '4단계 가공 데이터/food_data.csv', index=F
 final_df = pd.read_csv(file_path + '5단계 가공 데이터/food_data.csv')
 
 # ### 06.음식 분류 모델의 라벨링 데이터와 음식명 맞추기
+
+# 음식분류모델 라벨링 csv 파일 업로드
+df = pd.read_excel(file_path + '음식분류모델 라벨링데이터/음식AI데이터분류(라벨링).xlsx', header=1)
+
+# 음식분류모델 라벨링 데이터 '소분류구분' 내림차순 정렬
+df = df.sort_values(by='소분류구분')
+
+df.to_csv(file_path + '음식분류모델 라벨링데이터/음식분류모델 라벨링데이터.csv', index=False, encoding='utf-8-sig')
