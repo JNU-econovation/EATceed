@@ -124,15 +124,22 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 
 # 전처리 함수 정의
 def adjust_nutrient_values(df):
-    # 컬럼에 존재하는 단위 'g' 또는 'ml' 제거 및 숫자형(실수)으로 변환
+    # 영양성분함량기준량과 1회섭취참고량 속성에 존재하는 단위 'g' 또는 'ml' 제거하고 숫자형으로 변환
     df['영양성분함량기준량'] = df['영양성분함량기준량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
-    df['1회섭취참고량'] = df['1회섭취참고량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
+    df['1회제공량'] = df['1회섭취참고량'].str.replace('g|ml', '', regex=True).replace('-', 0).astype(float)
     
-    # "영양성분함량기준량"을 "1회 섭취참고량"의 비율로 숫자형 컬럼 값 변경 (소수점 2자리까지 반올림)
+    # "영양성분함량기준량"을 "1회제공량"의 비율로 숫자형 컬럼 값 변경 (소수점 2자리까지 반올림)
+    ratio = df['1회제공량'] / df['영양성분함량기준량']
     for col in df.columns:
         if df[col].dtype == 'float64' or df[col].dtype == 'int64':
-            df[col] = round(df[col] * (df['1회섭취참고량'] / df['영양성분함량기준량']), 2)
+            df[col] = round(df[col] * ratio, 2)
             df[col].replace('-', 0, inplace=True)
+    
+    # 기존에 '1회섭취참고량' 컬럼 삭제
+    df.drop(columns=['1회섭취참고량'], inplace=True)
+    
+    # 데이터셋 구조를 맞추기 위한 컬럼명 변경
+    df.rename(columns={'영양성분함량기준량': '1회제공량'}, inplace=True)
     
     return df
 
