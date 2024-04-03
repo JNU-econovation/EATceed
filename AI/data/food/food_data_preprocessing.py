@@ -276,8 +276,10 @@ final_merge = merge_datasets(merged_df1_df2, df_02)
 # final_merge 데이터셋의 '식품명' 내림차순 정렬
 final_merge = final_merge.sort_values(by='식품명')
 
-# 전처리 csv 파일 저장
-final_merge.to_csv(file_path + '4단계 가공 데이터/food_data.csv', index=False, encoding='utf-8-sig')
+# +
+# # 전처리 csv 파일 저장
+# final_merge.to_csv(file_path + '4단계 가공 데이터/food_data.csv', index=False, encoding='utf-8-sig')
+# -
 
 # ### 05. Excel을 이용하여 2차 중복제거 수행
 # - 동일한 식품이지만 “식품명”의 텍스트가 띄워쓰기와 같이 조금씩 다를 경우 중복 제거가 되지 않을 경우가 존재하기 때문에 수작업으로 제거 
@@ -292,4 +294,41 @@ df = pd.read_excel(file_path + '음식분류모델 라벨링데이터/음식AI�
 # 음식분류모델 라벨링 데이터 '소분류구분' 내림차순 정렬
 df = df.sort_values(by='소분류구분')
 
-df.to_csv(file_path + '음식분류모델 라벨링데이터/음식분류모델 라벨링데이터.csv', index=False, encoding='utf-8-sig')
+
+# 새로운 df에 '소분류구분'과 '식품명' 같은 것은 삭제하고 같지 않은 데이터 담기
+def remove_duplicates(df1, df2):
+    # df1에서 '소분류구분' 추출
+    subset_df1 = df1[['소분류구분']].drop_duplicates()
+    
+    # df2에서 '식품명' 추출
+    subset_df2 = df2[['식품명']].drop_duplicates()
+    
+    # subset_df1과 subset_df2를 기준으로 병합하여 공통된 값만 남기기
+    merged_df = pd.merge(subset_df1, subset_df2, left_on='소분류구분', right_on='식품명', how='inner')
+
+    # df1과 df2에서 공통된 값 제외하고 추출
+    unique_df1 = df1[~df1['소분류구분'].isin(merged_df['소분류구분'])]
+    unique_df2 = df2[~df2['식품명'].isin(merged_df['식품명'])]
+    
+    return merged_df, unique_df1, unique_df2
+
+
+merged_df, unique_df1, unique_df2 = remove_duplicates(df, final_df)
+
+print(merged_df)
+
+print(unique_df1['소분류구분'])
+
+print(unique_df2['식품명'])
+
+# 동일하지 않은 음식명 Dataframe 구축
+result_df = pd.DataFrame({
+    '소분류구분': unique_df1['소분류구분'].values,
+    '식품명': unique_df2.iloc[:len(unique_df1), 0].values,  # unique_df1의 길이를 기준으로 함
+    '공통_음식명': merged_df.iloc[:len(unique_df1), 0].values  # unique_df1의 길이를 기준으로 함
+})
+
+result_df.head()
+
+# 정리한 데이터셋 csv 파일로 저장
+df.to_csv(file_path + '5단계 가공 데이터/.csv', index=False, encoding='utf-8-sig')
