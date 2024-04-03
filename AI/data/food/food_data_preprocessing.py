@@ -115,12 +115,13 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 #     6. 지방(g)
 #     7. 당류(g)
 #     8. 식이섬유(g)
-#     9. 나트륨(g)
+#     9. 나트륨(mg)
 
 # ### 02.속성명을 동일하게 하는 과정에서 데이터셋 간의 차이 해결
 # - 사전에 전처리 필요한 데이터셋끼리 구조 맞추기
 # - “영양성분함량기준량”을 “1회섭취참고량”의 비율로 영양성분들의 값 변경
 # - 최종적으로 “1회 섭취참고량”을 “1회제공량” 속성명으로 변경한 후 “영양성분함량기준량” 속성 제거
+# - 03_Dataset 01,02_Dataset에 맞추기(구조)
 
 # 전처리 함수 정의
 def adjust_nutrient_values(df):
@@ -154,13 +155,48 @@ adjust_nutrient_values(df_01)
 # 함수 실행
 adjust_nutrient_values(df_02)
 
+
 # +
 # # 전처리 csv 파일 저장
 # df_01.to_csv(file_path + '2단계 가공 데이터/01_filtered_data_공공데이터.csv', index=False, encoding='utf-8-sig')
 # df_02.to_csv(file_path + '2단계 가공 데이터/02_filtered_data_식품의약처_가공.csv', index=False, encoding='utf-8-sig')
+
+# +
+# 03_Dataset null을 "-"로 되어있어 수정 후 제거 필요
+# 전처리 필요 : 1회제공량에 내용량_단위를 붙이기
+
+# 03_Dataset 추가적인 전처리 과정 함수
+def addtional_03_dataset(df):
+    
+    # 03_Dataset은 null값을 '-'로 되어있어 NaN으로 변경
+    df.replace('-', pd.NaT, inplace=True)
+
+    # '-' 값 제거
+    df = df.dropna(subset=['1회제공량', '에너지(kcal)', '탄수화물(g)', '단백질(g)', '지방(g)', '당류(g)', '식이섬유(g)', '나트륨(mg)'], how='any')
+
+    # '1회제공량' 속성에 '내용량_단위' 값을 붙여 출력
+    df['1회제공량'] = df.apply(lambda x: f"{x['1회제공량']}{x['내용량_단위']}", axis=1)
+
+    # '내용량_단위' 속성 제거
+    df.drop(columns=['내용량_단위'], inplace=True)
+    
+    return df
 # -
 
-# ### 03.Excel을 사용하여 필요 속성을 제외한 속성 제거
+# ### 03.필요 속성을 제외한 속성 제거
+# 1. 식품명
+# 2. 1회제공량
+# 3. 에너지(kcal)
+# 4. 탄수화물(g)
+# 5. 단백질(g)
+# 6. 지방(g)
+# 7. 당류(g)
+# 8. 식이섬유(g)
+# 9. 나트륨(g)
+
+# +
+# 필요속성 제외 제거 함수 정의
+# -
 
 # ### 04.데이터셋끼리 merge 및 동일한 식품명이 존재한다면 첫번째 데이터셋 기준으로 하여 나머지 데이터는 제외
 # - 첫번째 데이터셋을 기준으로 한 이유 : 1회제공량 속성이 처음부터 존재
