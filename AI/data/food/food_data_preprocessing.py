@@ -137,6 +137,13 @@ def adjust_nutrient_values(df):
     return df
 
 
+# 전처리 필요한 csv 파일 업로드
+df_01 = pd.read_csv(file_path + '1단계 가공 데이터/01_filtered_data_공공데이터.csv')
+df_02 = pd.read_csv(file_path + '1단계 가공 데이터/02_filtered_data_식품의약처_가공.csv')
+
+# 함수 실행
+adjust_nutrient_values(df_01)
+adjust_nutrient_values(df_02)
 
 # ### 03.Excel을 사용하여 필요 속성을 제외한 속성 제거
 
