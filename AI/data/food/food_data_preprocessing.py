@@ -194,6 +194,7 @@ df_03 = addtional_03_dataset(df_03)
 # 전처리 csv 파일 저장
 df_03.to_csv(file_path + '2단계 가공 데이터/03_filtered_data_식품영양성분_음식.csv', index=False, encoding='utf-8-sig')
 
+
 # ### 03.필요 속성을 제외한 속성 제거
 # 1. 식품명
 # 2. 1회제공량
@@ -203,11 +204,20 @@ df_03.to_csv(file_path + '2단계 가공 데이터/03_filtered_data_식ᄑ
 # 6. 지방(g)
 # 7. 당류(g)
 # 8. 식이섬유(g)
-# 9. 나트륨(g)
+# 9. 나트륨(mg)
 
-# +
 # 필요속성 제외 제거 함수 정의
-# -
+def select_necessary_columns(df):
+    
+    # 필요한 속성만 포함
+    necessary_columns = [
+        '식품명', '1회제공량', '에너지(kcal)', '탄수화물(g)', 
+        '단백질(g)', '지방(g)', '당류(g)', '식이섬유(g)', '나트륨(mg)'
+    ]
+    
+    df = df[necessary_columns]
+    
+    return df
 
 # ### 04.데이터셋끼리 merge 및 동일한 식품명이 존재한다면 첫번째 데이터셋 기준으로 하여 나머지 데이터는 제외
 # - 첫번째 데이터셋을 기준으로 한 이유 : 1회제공량 속성이 처음부터 존재
