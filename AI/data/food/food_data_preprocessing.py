@@ -36,10 +36,10 @@ file_path = os.environ.get('RAW_DATA_PATH')
 
 # csv파일 Load
 try:
-    df = pd.read_csv(file_path + '전국통합식품영양성분정보 표준데이터.csv', encoding='utf-8')
+    df = pd.read_csv(file_path + '원본 음식 데이터/전국통합식품영양성분정보 표준데이터.csv', encoding='utf-8')
 except UnicodeDecodeError:
     try:
-        df = pd.read_csv(file_path + '전국통합식품영양성분정보 표준데이터.csv', encoding='cp949')
+        df = pd.read_csv(file_path + '원본 음식 데이터/전국통합식품영양성분정보 표준데이터.csv', encoding='cp949')
     except Exception as e:
         print(f"Error: {e}")
 
@@ -65,7 +65,7 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # **가공식품**
 
 # Excel 파일 Load
-df = pd.read_excel(file_path + '식품의약품안전처_가공식품.xlsx')
+df = pd.read_excel(file_path + '원본 음식 데이터/식품의약품안전처_가공식품.xlsx')
 
 # 주어진 컬럼들에 null값이 없는 데이터 추출
 required_columns = ['에너지\n(kcal)', '영양성분기준용량', '단백질\n(g)', '지방\n(g)', '탄수화물\n(g)', '당류\n(g)', '나트륨\n(mg)', '식이섬유\n(g)']
@@ -85,7 +85,7 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # **음식**
 
 # Excel 파일 Load
-df = pd.read_excel(file_path + '식품영양성분_음식.xlsx')
+df = pd.read_excel(file_path + '원본 음식 데이터/식품영양성분_음식.xlsx')
 
 # 주어진 컬럼들에 null값이 없는 데이터 추출
 required_columns = ['에너지(㎉)', '1회제공량', '단백질(g)', '지방(g)', '탄수화물(g)', '총당류(g)', '나트륨(㎎)', '총 식이섬유(g)']
@@ -119,6 +119,10 @@ print(f"\n총 인스턴스 개수: {total_instances}개")
 # ### 02.속성명을 동일하게 하는 과정에서 데이터셋 간의 차이 해결
 # - “영양성분함량기준량”을 “1회 섭취참고량”의 비율로 영양성분들의 값 변경
 # - 최종적으로 “1회 섭취참고량”을 “1회제공량” 속성명으로 변경한 후 “영양성분함량기준량” 속성 제거
+
+# +
+# 
+# -
 
 # ### 03."1회제공량"에서의 ml 단위 g 단위로 변환
 # - 밀도를 고려하여 변환 필요
