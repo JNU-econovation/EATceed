@@ -147,6 +147,12 @@ adjust_nutrient_values(df_01)
 # 함수 실행
 adjust_nutrient_values(df_02)
 
+# +
+# # 전처리 csv 파일 저장
+# df_01.to_csv(file_path + '2단계 가공 데이터/01_filtered_data_공공데이터.csv', index=False, encoding='utf-8-sig')
+# df_02.to_csv(file_path + '2단계 가공 데이터/02_filtered_data_식품의약처_가공.csv', index=False, encoding='utf-8-sig')
+# -
+
 # ### 03.Excel을 사용하여 필요 속성을 제외한 속성 제거
 
 # ### 04.데이터셋끼리 merge 및 동일한 식품명이 존재한다면 첫번째 데이터셋 기준으로 하여 나머지 데이터는 제외
