@@ -80,6 +80,9 @@ dependencies {
 	implementation 'com.sun.mail:javax.mail:1.6.2'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	//Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 }
 
 tasks.named('bootBuildImage') {
