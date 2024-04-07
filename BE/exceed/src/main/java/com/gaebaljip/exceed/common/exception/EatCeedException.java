@@ -1,14 +1,15 @@
 package com.gaebaljip.exceed.common.exception;
 
+import com.gaebaljip.exceed.common.Error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ExceedException extends RuntimeException {
+public class EatCeedException extends RuntimeException {
     private BaseErrorCode errorCode;
 
-    public ErrorReason getErrorReason() {
+    public Error getErrorReason() {
         return this.errorCode.getErrorReason();
     }
 }

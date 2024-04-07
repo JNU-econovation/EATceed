@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.common.annotation;
 
+import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

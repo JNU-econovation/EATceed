@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.security.service.MemberDetailService;
 import com.gaebaljip.exceed.security.exception.JwtAccessDeniedHandler;
 import com.gaebaljip.exceed.security.exception.JwtAuthenticationPoint;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -101,7 +102,17 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .antMatchers("/docs/api-doc.html")
-                .antMatchers("/favicon.*", "/*/icon-*");
+                .antMatchers("/favicon.*", "/*/icon-*")
+                .antMatchers(
+                        "/swagger-resources/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs",
+                        "/api-docs/**",
+                        "/api-docs")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+
     }
 
 

@@ -36,7 +36,7 @@ public class MealFoodEntity extends BaseEntity {
 
     public static List<MealFoodEntity> createMealFoods(List<FoodEntity> foodEntities, MealEntity mealEntity) {
         if (foodEntities.isEmpty()) {
-            throw new FoodNotFoundException();
+            throw FoodNotFoundException.Exception;
         }
         if (mealEntity == null) {
             throw new MealNotFoundException();

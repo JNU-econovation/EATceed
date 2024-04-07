@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gaebaljip.exceed.common.Error;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -21,8 +22,8 @@ public class ErrorResponse {
 
     private final String path;
 
-    public ErrorResponse(ErrorReason errorReason, String path) {
-        this.status = errorReason.getStatus();
+    public ErrorResponse(Error errorReason, String path) {
+        this.status = Integer.parseInt(errorReason.getStatus());
         this.code = errorReason.getCode();
         this.reason = errorReason.getReason();
         this.timeStamp = LocalDateTime.now();

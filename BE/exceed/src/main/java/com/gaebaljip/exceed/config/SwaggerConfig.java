@@ -1,14 +1,14 @@
 package com.gaebaljip.exceed.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gaebaljip.exceed.common.Error;
 import com.gaebaljip.exceed.common.annotation.ApiErrorCodeExample;
 import com.gaebaljip.exceed.common.annotation.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.common.annotation.DisableSwaggerSecurity;
 import com.gaebaljip.exceed.common.annotation.ExplainError;
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
-import com.gaebaljip.exceed.common.exception.ErrorReason;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.exception.ErrorResponse;
-import com.gaebaljip.exceed.common.exception.ExceedException;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.Components;
@@ -125,14 +125,14 @@ public class SwaggerConfig {
                         .map(
                                 baseErrorCode -> {
                                     try {
-                                        ErrorReason errorReason = baseErrorCode.getErrorReason();
+                                        Error error = baseErrorCode.getErrorReason();
                                         return SwaggerExampleHolder.builder()
                                                 .holder(
                                                         getSwaggerExample(
                                                                 baseErrorCode.getExplainError(),
-                                                                errorReason))
-                                                .code(errorReason.getStatus())
-                                                .name(errorReason.getCode())
+                                                                error))
+                                                .code(Integer.parseInt(error.getStatus()))
+                                                .name(error.getCode())
                                                 .build();
                                     } catch (NoSuchFieldException e) {
                                         throw new RuntimeException(e);
@@ -145,7 +145,7 @@ public class SwaggerConfig {
 
     /**
      * SwaggerExampleExceptions 타입의 클래스를 문서화 시킵니다. SwaggerExampleExceptions 타입의 클래스는 필드로
-     * ExceedException 타입을 가지며, ExceedException 의 errorReason 와,ExplainError 의 설명을 문서화시킵니다.
+     * ExceedException 타입을 가지며, ExceedException 의 error 와,ExplainError 의 설명을 문서화시킵니다.
      */
     private void generateExceptionResponseExample(Operation operation, Class<?> type) {
         ApiResponses responses = operation.getResponses();
@@ -155,19 +155,19 @@ public class SwaggerConfig {
         Map<Integer, List<SwaggerExampleHolder>> statusWithExampleHolders =
                 Arrays.stream(declaredFields)
                         .filter(field -> field.getAnnotation(ExplainError.class) != null)
-                        .filter(field -> field.getType() == ExceedException.class)
+                        .filter(field -> field.getType() == EatCeedException.class)
                         .map(
                                 field -> {
                                     try {
-                                        ExceedException exception =
-                                                (ExceedException) field.get(bean);
+                                        EatCeedException exception =
+                                                (EatCeedException) field.get(bean);
                                         ExplainError annotation =
                                                 field.getAnnotation(ExplainError.class);
                                         String value = annotation.value();
-                                        ErrorReason errorReason = exception.getErrorReason();
+                                        Error error = exception.getErrorReason();
                                         return SwaggerExampleHolder.builder()
-                                                .holder(getSwaggerExample(value, errorReason))
-                                                .code(errorReason.getStatus())
+                                                .holder(getSwaggerExample(value, error))
+                                                .code(Integer.parseInt(error.getStatus()))
                                                 .name(field.getName())
                                                 .build();
                                     } catch (IllegalAccessException e) {
@@ -181,11 +181,10 @@ public class SwaggerConfig {
         addExamplesToResponses(responses, statusWithExampleHolders);
     }
 
-    private Example getSwaggerExample(String value, ErrorReason errorReason) {
-        ErrorResponse errorResponse = new ErrorResponse(errorReason, "요청시 패스정보입니다.");
+    private Example getSwaggerExample(String value, Error error) {
         Example example = new Example();
         example.description(value);
-        example.setValue(errorResponse);
+        example.setValue(error);
         return example;
     }
 

@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.common.exception;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.Error;
 import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
 import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
 import com.gaebaljip.exceed.security.exception.UnsupportedAuthenticationException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.BindException;
 import java.security.GeneralSecurityException;
 
@@ -93,6 +95,15 @@ public class GlobalExceptionHandler {
         return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * 도메인 에러
+     */
+    @ExceptionHandler(EatCeedException.class)
+    protected ApiResponse<?> handleEatCeedException(EatCeedException e, HttpServletRequest request) {
+        BaseErrorCode code = e.getErrorCode();
+        Error error = code.getErrorReason();
+        return ApiResponseGenerator.fail(error.getCode(),error.getReason(), HttpStatus.valueOf(error.getStatus()));
+    }
     /**
      * 나머지 예외 발생
      */
