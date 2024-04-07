@@ -330,6 +330,5 @@ result_df = pd.DataFrame({
 
 result_df.head()
 
-# +
-# # 정리한 데이터셋 csv 파일로 저장
-# df.to_csv(file_path + '5단계 가공 데이터/음식_라벨링_비교.csv', index=False, encoding='utf-8-sig')
+# 정리한 데이터셋 csv 파일로 저장
+df.to_csv(file_path + '5단계 가공 데이터/음식_라벨링_비교.csv', index=False, encoding='utf-8-sig')
