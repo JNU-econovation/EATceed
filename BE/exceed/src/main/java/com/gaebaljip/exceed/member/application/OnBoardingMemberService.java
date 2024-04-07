@@ -45,25 +45,25 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
 
     private void validGender(Integer gender) {
         if (gender < 0 || gender > 1) {
-            throw new InvalidGenderException();
+            throw InvalidGenderException.EXECPTION;
         }
     }
 
     private void validateHeight(Double height) {
         if (height <= MINIMUM_HEIGHT) {
-            throw new InvalidHeightException();
+            throw InvalidHeightException.EXECPTION;
         }
     }
 
     private void validateWeight(Double weight) {
         if (weight <= MINIMUM_WEIGHT) {
-            throw new InvalidWeightException();
+            throw InvalidWeightException.EXECPTION;
         }
     }
 
     private void validateAge(Integer age) {
         if (age <= MINIMUM_AGE) {
-            throw new InvalidAgeException();
+            throw InvalidAgeException.EXECPTION;
         }
     }
 }

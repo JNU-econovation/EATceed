@@ -101,7 +101,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EatCeedException.class)
     protected ApiResponse<?> handleEatCeedException(EatCeedException e, HttpServletRequest request) {
         BaseErrorCode code = e.getErrorCode();
-        Error error = code.getErrorReason();
+        Error error = code.getError();
         return ApiResponseGenerator.fail(error.getCode(),error.getReason(), HttpStatus.valueOf(error.getStatus()));
     }
     /**

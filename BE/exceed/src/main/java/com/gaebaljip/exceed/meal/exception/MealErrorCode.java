@@ -1,9 +1,8 @@
-package com.gaebaljip.exceed.food.exception;
+package com.gaebaljip.exceed.meal.exception;
 
 import com.gaebaljip.exceed.common.Error;
 import com.gaebaljip.exceed.common.annotation.ExplainError;
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
-import com.gaebaljip.exceed.common.exception.ErrorReason;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,8 +11,12 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
-public enum FoodErrorCode implements BaseErrorCode {
-    INVALID_FOOD(400,"4450", "존재하지 않는 음식입니다.");
+public enum MealErrorCode implements BaseErrorCode {
+    EXTENTION_NOT_ALLOWED(400,"4452", "이미지의 확장자는 jpg, jpeg, png만 가능합니다."),
+    INSUFFICIENT_MEALS(400,"6000","하루 식사는 최소 한 끼 이상 제공되어야 합니다."),
+    INVALID_MULTIPLE(400, "4449", "0인분보다 커야하고, 100인분보다 작아야합니다."),
+    NOT_SAME_DATE(400,"6001","하루 식사는 같은 날짜입니다.")
+    ;
 
     private final Integer status;
     private final String code;

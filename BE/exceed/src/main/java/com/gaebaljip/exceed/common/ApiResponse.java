@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,9 @@ public class ApiResponse<B> extends ResponseEntity<B> {
 
     @Getter
     @AllArgsConstructor
-    public static class CustomBody<D> implements Serializable {
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    public static class
+    CustomBody<D> implements Serializable {
         private Boolean success;
         private D response;
         private Error error;

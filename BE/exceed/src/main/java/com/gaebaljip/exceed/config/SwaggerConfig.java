@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
 import com.gaebaljip.exceed.common.annotation.ApiErrorCodeExample;
 import com.gaebaljip.exceed.common.annotation.ApiErrorExceptionsExample;
@@ -28,7 +29,10 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import javax.servlet.ServletContext;
 import java.lang.reflect.Field;
@@ -125,7 +129,7 @@ public class SwaggerConfig {
                         .map(
                                 baseErrorCode -> {
                                     try {
-                                        Error error = baseErrorCode.getErrorReason();
+                                        Error error = baseErrorCode.getError();
                                         return SwaggerExampleHolder.builder()
                                                 .holder(
                                                         getSwaggerExample(
@@ -183,8 +187,9 @@ public class SwaggerConfig {
 
     private Example getSwaggerExample(String value, Error error) {
         Example example = new Example();
+        com.gaebaljip.exceed.common.ApiResponse.CustomBody<String> errorResponse = new com.gaebaljip.exceed.common.ApiResponse.CustomBody<>(false, null, error);
         example.description(value);
-        example.setValue(error);
+        example.setValue(errorResponse);
         return example;
     }
 

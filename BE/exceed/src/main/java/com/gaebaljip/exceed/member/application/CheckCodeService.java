@@ -22,9 +22,9 @@ public class CheckCodeService implements CheckCodeUsecase {
     @Transactional
     public void execute(CheckMemberRequest checkMemberRequest) {
         String decrypt = encryption.decrypt(checkMemberRequest.code());
-        String code = timeOutPort.query(checkMemberRequest.email()).orElseThrow(InvalidCodeException::new);
+        String code = timeOutPort.query(checkMemberRequest.email()).orElseThrow(() -> InvalidCodeException.EXECPTION);
         if(!code.equals(decrypt)){
-            throw new InvalidCodeException();
+            throw InvalidCodeException.EXECPTION;
         }else{
             MemberEntity member = memberPort.findMemberByEmail(checkMemberRequest.email());
             member.updateChecked();

@@ -18,7 +18,7 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     @Override
     public MemberEntity query(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return memberRepository.findById(memberId).orElseThrow(() -> MemberNotFoundException.EXECPTION);
     }
     @Override
     public MemberEntity command(MemberEntity memberEntity) {
@@ -30,7 +30,7 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
      */
     @Override
     public Member query(Long memberId, LocalDate date) {
-        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(() -> MemberNotFoundException.EXECPTION);
         return memberConverter.toModel(memberEntity);
     }
 

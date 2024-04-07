@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1")
-@Tag(name = "[음식]")
+@Tag(name = "[음식 조회]")
 public class GetFoodController {
 
     private final GetFoodQuery getFoodQuery;

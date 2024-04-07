@@ -10,6 +10,6 @@ public class EatCeedException extends RuntimeException {
     private BaseErrorCode errorCode;
 
     public Error getErrorReason() {
-        return this.errorCode.getErrorReason();
+        return this.errorCode.getError();
     }
 }

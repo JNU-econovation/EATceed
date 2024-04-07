@@ -1,17 +1,17 @@
 package com.gaebaljip.exceed.member.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 import lombok.Getter;
 import java.util.concurrent.CancellationException;
 
 
 @Getter
-public class MailCancelledException extends CancellationException {
+public class MailCancelledException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new MailCancelledException();
 
-    public MailCancelledException() {
-        super(MessageCode.MAIL_SEND_FAIL.getValue());
-        this.messageCode = MessageCode.MAIL_SEND_FAIL;
+    private MailCancelledException() {
+        super(MemberErrorCode.MAIL_SEND_FAIL);
     }
 }

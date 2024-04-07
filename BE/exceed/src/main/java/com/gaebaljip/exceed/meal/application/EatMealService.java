@@ -53,7 +53,7 @@ public class EatMealService implements EatMealUsecase {
 
     private void validateMultiple(Double multiple) {
         if (multiple <= 0 || multiple > 100) {
-            throw new InvalidMultipleException();
+            throw InvalidMultipleException.EXECPTION;
         }
     }
 }

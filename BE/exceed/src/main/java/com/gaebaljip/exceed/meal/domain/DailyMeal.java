@@ -45,12 +45,12 @@ public class DailyMeal {
 
     private void validateSize(List<Meal> meals){
         if(meals.isEmpty()){
-            throw new InsufficientMealsException();
+            throw InsufficientMealsException.EXECPTION;
         }
     }
 
     private void validateSameMealDate(List<Meal> meals){
-        if(getDistinctSize(meals) != 1) throw new NotSameDateException();
+        if(getDistinctSize(meals) != 1) throw NotSameDateException.EXECPTION;
     }
 
 

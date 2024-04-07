@@ -17,7 +17,7 @@ public class ValidateEmailService implements ValidateEmailUsecase {
     @Transactional
     public void execute(ValidateEmailCommand command) {
         if(memberPort.findEmailOrChecked(command.email())){
-            throw new AlreadyCheckedEmailException();
+            throw AlreadyCheckedEmailException.Exception;
         }
     }
 }

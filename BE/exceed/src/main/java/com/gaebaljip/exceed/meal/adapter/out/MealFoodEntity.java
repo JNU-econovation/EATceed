@@ -39,7 +39,7 @@ public class MealFoodEntity extends BaseEntity {
             throw FoodNotFoundException.Exception;
         }
         if (mealEntity == null) {
-            throw new MealNotFoundException();
+            throw MealNotFoundException.EXECPTION;
         }
         List<MealFoodEntity> mealFoodEntities = new ArrayList<>();
         for (FoodEntity foodEntity : foodEntities) {

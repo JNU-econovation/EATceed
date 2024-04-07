@@ -24,7 +24,7 @@ public class UploadImageService implements UploadImageUsecase {
         int pos = fileName.lastIndexOf(".");
         String ext = fileName.substring(pos + 1);
         if (!FILE_EXTS.contains(ext)) {
-            throw new ExtentionNotAllowedException();
+            throw ExtentionNotAllowedException.EXECPTION;
         }
     }
 }
