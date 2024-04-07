@@ -46,14 +46,14 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     @Override
     public MemberEntity findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        return memberRepository.findByEmail(email).orElseThrow(() -> MemberNotFoundException.EXECPTION);
     }
 
     @Override
     public MemberEntity findCheckedMemberByEmail(String email) {
-        MemberEntity member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberEntity member = memberRepository.findByEmail(email).orElseThrow(() -> MemberNotFoundException.EXECPTION);
         if(!member.getChecked()){
-            throw new MemberNotFoundException();
+            throw MemberNotFoundException.EXECPTION;
         }
         return member;
     }
