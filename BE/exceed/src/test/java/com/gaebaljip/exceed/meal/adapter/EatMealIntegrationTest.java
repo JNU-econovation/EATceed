@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.WithMockGuestUser;
+import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
@@ -28,7 +28,7 @@ public class EatMealIntegrationTest extends IntegrationTest {
     private PresignedUrlPort getPresignedUrlPort;
 
     @Test
-    @WithMockGuestUser
+    @WithMockUser
     void eatMeal() throws Exception {
         //given
 

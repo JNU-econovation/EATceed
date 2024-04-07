@@ -40,8 +40,7 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
         if(!existed){
             return false;
         }else{
-            Boolean checked = memberRepository.findCheckedByEmail(email);
-            return checked;
+            return memberRepository.findCheckedByEmail(email);
         }
     }
 

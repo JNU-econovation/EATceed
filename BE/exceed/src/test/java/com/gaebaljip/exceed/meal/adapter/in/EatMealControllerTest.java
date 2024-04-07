@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.CommonApiTest;
-import com.gaebaljip.exceed.common.WithMockGuestUser;
+import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;
@@ -32,7 +32,7 @@ class EatMealControllerTest extends CommonApiTest {
     private UploadImageUsecase uploadImageUsecase;
 
     @Test
-    @WithMockGuestUser
+    @WithMockUser
     void eatMeal() throws Exception {
 
         List<Long> foodIds = List.of(1L, 2L, 3L);

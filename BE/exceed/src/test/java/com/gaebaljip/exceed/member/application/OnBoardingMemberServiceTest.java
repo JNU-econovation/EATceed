@@ -19,12 +19,13 @@ import org.springframework.context.annotation.Import;
 class OnBoardingMemberServiceTest {
 
     @InjectMocks
-    private OnBoardingMemberService createGuestService;
+    private OnBoardingMemberService onBoardingMemberService;
 
-    private static OnBoardingMemberCommand createMemberCommand(double height, double weight, int age) {
+    private static OnBoardingMemberCommand createMemberCommand(double height, double weight, double targetWeight, int age) {
         OnBoardingMemberCommand command = OnBoardingMemberCommand.builder()
                 .height(height)
                 .weight(weight)
+                .targetWeight(targetWeight)
                 .age(age)
                 .activity(Activity.NOT_ACTIVE)
                 .etc("뭐든 잘 먹습니다.")
@@ -35,11 +36,23 @@ class OnBoardingMemberServiceTest {
     @DisplayName("몸무게가 0 이하일 경우 예외가 발생한다.")
     void createMember_weight() {
         //given
-        OnBoardingMemberCommand command = createMemberCommand(0, 61, 25);
+        OnBoardingMemberCommand command = createMemberCommand(172, 61, 0, 25);
 
         //when then
-        Assertions.assertThrows(InvalidHeightException.class, () -> {
-            createGuestService.execute(command);
+        Assertions.assertThrows(InvalidWeightException.class, () -> {
+            onBoardingMemberService.execute(command);
+        });
+    }
+
+    @Test
+    @DisplayName("목표 몸무게가 0 이하일 경우 예외가 발생한다.")
+    void createMember_targetWeight() {
+        //given
+        OnBoardingMemberCommand command = createMemberCommand(171, 61, 0,25);
+
+        //when then
+        Assertions.assertThrows(InvalidWeightException.class, () -> {
+            onBoardingMemberService.execute(command);
         });
     }
 
@@ -47,11 +60,11 @@ class OnBoardingMemberServiceTest {
     @DisplayName("키가 0 이하일 경우 예외가 발생한다.")
     void createMember_height() {
         //given
-        OnBoardingMemberCommand command = createMemberCommand(171, 0, 25);
+        OnBoardingMemberCommand command = createMemberCommand(0, 60, 65,25);
 
         //when then
-        Assertions.assertThrows(InvalidWeightException.class, () -> {
-            createGuestService.execute(command);
+        Assertions.assertThrows(InvalidHeightException.class, () -> {
+            onBoardingMemberService.execute(command);
         });
     }
 
@@ -59,11 +72,11 @@ class OnBoardingMemberServiceTest {
     @DisplayName("나이가 0 이하일 경우 예외가 발생한다.")
     void createMember_age() {
         //given
-        OnBoardingMemberCommand command = createMemberCommand(171, 61, 0);
+        OnBoardingMemberCommand command = createMemberCommand(171, 61, 65,0);
 
         //when then
         Assertions.assertThrows(InvalidAgeException.class, () -> {
-            createGuestService.execute(command);
+            onBoardingMemberService.execute(command);
         });
     }
 }

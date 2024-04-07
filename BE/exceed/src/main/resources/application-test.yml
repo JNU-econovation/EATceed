@@ -4,6 +4,10 @@ spring:
     driver-class-name: org.h2.Driver
     username: exceed
     password: exceed
+  redis:
+    host: localhost
+    port: 6379
+    ttl: 600000
   h2:
     console:
       enabled: true
@@ -32,6 +36,11 @@ cloud:
       data-locations: classpath:db/testData.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
+
+encryption:
+  spec: AES
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+  algorithm: AES
 
 logging.level:
   org.hibernate.SQl: debug

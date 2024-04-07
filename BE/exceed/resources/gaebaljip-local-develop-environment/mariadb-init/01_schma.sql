@@ -8,15 +8,27 @@ CREATE TABLE `MEMBER_TB`
     `MEMBER_ACTIVITY` varchar(255) DEFAULT NULL,
     `MEMBER_AGE`      int(11)      DEFAULT NULL,
     `MEMBER_ETC`      varchar(255) DEFAULT NULL,
-    `MEMBER_GENDER`   tinyint   DEFAULT NULL,
+    `MEMBER_GENDER`   tinyint      DEFAULT NULL,
     `MEMBER_HEIGHT`   double       DEFAULT NULL,
     `MEMBER_EMAIL`    varchar(255) NOT NULL UNIQUE,
     `MEMBER_PASSWORD` varchar(255) NOT NULL,
     `MEMBER_ROLE`     varchar(255) DEFAULT NULL,
     `MEMBER_CHECKED`  bit          NOT NULL,
-    `MEMBER_WEIGHT`   double       DEFAULT NULL,
     PRIMARY KEY (`MEMBER_PK`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE `WEIGHT_TB`
+(
+    `WEIGHT_PK`           bigint(20)   NOT NULL AUTO_INCREMENT,
+    `CREATED_DATE`        datetime(6)  NOT NULL,
+    `UPDATED_DATE`        datetime(6)  NOT NULL,
+    `WEIGHT_WEIGHT`       double       DEFAULT NULL,
+    `WEIGHT_TARGET_WEIGHT` double       DEFAULT NULL,
+    `MEMBER_FK`           bigint(20)   DEFAULT NULL,
+    PRIMARY KEY (`WEIGHT_PK`),
+    FOREIGN KEY (`MEMBER_FK`) REFERENCES `MEMBER_TB` (`MEMBER_PK`)
+) ENGINE=InnoDB;
+
 
 CREATE TABLE `FOOD_TB`
 (
