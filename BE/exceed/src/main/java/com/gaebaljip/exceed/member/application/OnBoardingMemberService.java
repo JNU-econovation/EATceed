@@ -35,7 +35,6 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
         validateWeight(command.weight());
         validateTargetWeight(command.targetWeight());
         validateAge(command.age());
-        validGender(command.gender());
     }
 
     private void validGender(Integer gender) {
@@ -58,7 +57,7 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
 
     private void validateTargetWeight(Double targetWeight) {
         if (targetWeight <= MINIMUM_WEIGHT) {
-            throw new InvalidWeightException();
+            throw InvalidWeightException.EXECPTION;
         }
     }
 
