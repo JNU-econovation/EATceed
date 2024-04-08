@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.security.exception;
+package com.gaebaljip.exceed.auth.exception;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
@@ -12,10 +12,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SecurityErrorCode implements BaseError {
-    INVALID_JWT(401, "5000", "잘못된 토큰입니다."),
-    EXPIRED_JWT(401, "5001", "만료된 토큰입니다."),
-    UNSUPPORTED_JWT(401, "5002", "지원되지 않는 토큰입니다.");
+public enum AuthError implements BaseError {
+    PASSWORD_MISMATCH(400, "5003", "비밀번호가 일치하지 않습니다."),
+    MEMBER_NOT_CHECKED(400, "5004", "해당 회원은 이메일 검증이 완료되지 않았습니다.");
+    ;
 
     private final Integer status;
     private final String code;

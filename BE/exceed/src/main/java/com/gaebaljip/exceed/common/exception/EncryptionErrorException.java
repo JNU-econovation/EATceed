@@ -1,16 +1,13 @@
 package com.gaebaljip.exceed.common.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-
 import lombok.Getter;
 
 @Getter
-public class EncryptionErrorException extends RuntimeException {
+public class EncryptionErrorException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new EncryptionErrorException();
 
     public EncryptionErrorException() {
-        super(MessageCode.ENCRYPTION_FAIL.getValue());
-        this.messageCode = MessageCode.ENCRYPTION_FAIL;
+        super(EncryptionError.ENCRYPTION_FAIL);
     }
 }

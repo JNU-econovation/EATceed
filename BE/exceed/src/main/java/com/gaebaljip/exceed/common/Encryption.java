@@ -42,7 +42,7 @@ public class Encryption {
             byte[] encrypted = cipher.doFinal(valueBytes);
             return Base64.getUrlEncoder().encodeToString(encrypted);
         } catch (Exception e) {
-            throw new EncryptionErrorException();
+            throw EncryptionErrorException.EXECPTION;
         }
     }
 
@@ -53,7 +53,7 @@ public class Encryption {
             byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
             return new String(decryptedBytes, StandardCharsets.UTF_8); // 바이트 배열을 String으로 변환
         } catch (Exception e) {
-            throw new DecryptionErrorException();
+            throw DecryptionErrorException.EXECPTION;
         }
     }
 

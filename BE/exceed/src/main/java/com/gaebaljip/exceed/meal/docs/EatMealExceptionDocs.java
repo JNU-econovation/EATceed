@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
 import com.gaebaljip.exceed.meal.exception.ExtentionNotAllowedException;
 import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import com.gaebaljip.exceed.nutritionist.exception.MealNotFoundException;
 
 @ExceptionDoc
@@ -22,4 +23,7 @@ public class EatMealExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("Meal를 찾지 못했을 때")
     public EatCeedException Meal를_찾지_못했을_경우 = MealNotFoundException.EXECPTION;
+
+    @ExplainError("회원이 존재하지 않을 때")
+    public EatCeedException 회원이_없을_때 = MemberNotFoundException.EXECPTION;
 }

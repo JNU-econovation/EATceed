@@ -1,16 +1,15 @@
 package com.gaebaljip.exceed.auth.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 
 import lombok.Getter;
 
 @Getter
-public class PasswordMismatchException extends IllegalArgumentException {
+public class PasswordMismatchException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new PasswordMismatchException();
 
     public PasswordMismatchException() {
-        super(MessageCode.PASSWORD_MISMATCH.getValue());
-        this.messageCode = MessageCode.PASSWORD_MISMATCH;
+        super(AuthError.PASSWORD_MISMATCH);
     }
 }

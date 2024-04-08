@@ -72,6 +72,8 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members")
                 .permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/auth/login")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 

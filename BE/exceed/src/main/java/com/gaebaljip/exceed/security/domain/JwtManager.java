@@ -60,7 +60,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
+            throw InvalidJwtAuthenticationException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -68,7 +68,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
+            throw ExpiredJwtAuthenticationException.EXECPTION; // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -76,7 +76,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
+            throw UnsupportedAuthenticationException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -117,7 +117,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new InvalidJwtAuthenticationException(); // 토큰의 서명이 유효하지 않은 경우
+            throw InvalidJwtAuthenticationException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
         } catch (ExpiredJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -125,7 +125,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new ExpiredJwtAuthenticationException(); // 토큰이 만료된 경우
+            throw ExpiredJwtAuthenticationException.EXECPTION; // 토큰이 만료된 경우
         } catch (UnsupportedJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -133,7 +133,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw new UnsupportedAuthenticationException(); // 지원되지 않는 토큰
+            throw UnsupportedAuthenticationException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",

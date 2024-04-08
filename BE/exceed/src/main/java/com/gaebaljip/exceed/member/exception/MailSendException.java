@@ -5,10 +5,11 @@ import com.gaebaljip.exceed.common.exception.EatCeedException;
 import lombok.Getter;
 
 @Getter
-public class MailCompletionException extends EatCeedException {
-    public static EatCeedException EXECPTION = new MailCompletionException();
+public class MailSendException extends EatCeedException {
 
-    private MailCompletionException() {
+    public static EatCeedException EXECPTION = new MailSendException();
+
+    private MailSendException() {
         super(MemberError.MAIL_SEND_FAIL);
     }
 }
