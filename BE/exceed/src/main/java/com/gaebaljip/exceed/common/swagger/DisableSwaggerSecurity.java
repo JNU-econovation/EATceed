@@ -1,6 +1,4 @@
-package com.gaebaljip.exceed.common.annotation;
-
-import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
+package com.gaebaljip.exceed.common.swagger;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ApiErrorExceptionsExample {
-    Class<? extends SwaggerExampleExceptions> value();
+public @interface DisableSwaggerSecurity {
 }
-

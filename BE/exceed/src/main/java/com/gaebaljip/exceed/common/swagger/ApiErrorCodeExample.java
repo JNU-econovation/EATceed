@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.annotation;
+package com.gaebaljip.exceed.common.swagger;
 
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
 

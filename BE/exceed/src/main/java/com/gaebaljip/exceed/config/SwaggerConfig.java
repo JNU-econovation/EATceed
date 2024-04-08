@@ -1,15 +1,13 @@
 package com.gaebaljip.exceed.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.common.annotation.ApiErrorCodeExample;
-import com.gaebaljip.exceed.common.annotation.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.common.annotation.DisableSwaggerSecurity;
-import com.gaebaljip.exceed.common.annotation.ExplainError;
+import com.gaebaljip.exceed.common.swagger.ApiErrorCodeExample;
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
+import com.gaebaljip.exceed.common.swagger.DisableSwaggerSecurity;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-import com.gaebaljip.exceed.common.exception.ErrorResponse;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.Components;
@@ -29,10 +27,7 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import javax.servlet.ServletContext;
 import java.lang.reflect.Field;

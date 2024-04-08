@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.meal.adapter.in;
 
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.common.annotation.ApiErrorExceptionsExample;
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.dto.response.*;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;

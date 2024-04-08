@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.nutritionist.docs;
 
-import com.gaebaljip.exceed.common.annotation.ExplainError;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;

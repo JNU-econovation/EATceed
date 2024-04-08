@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.nutritionist.adapter.in;
 
-import com.gaebaljip.exceed.common.annotation.ApiErrorExceptionsExample;
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.dto.request.GetAnalysisRequest;
 import com.gaebaljip.exceed.nutritionist.application.port.in.GetAnalysisUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;

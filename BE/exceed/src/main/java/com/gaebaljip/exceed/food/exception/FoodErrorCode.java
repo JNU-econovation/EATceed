@@ -1,9 +1,8 @@
 package com.gaebaljip.exceed.food.exception;
 
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.common.annotation.ExplainError;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
-import com.gaebaljip.exceed.common.exception.ErrorReason;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
