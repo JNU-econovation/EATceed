@@ -1,12 +1,14 @@
 package com.gaebaljip.exceed.security.domain;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class MemberDetails implements UserDetails {

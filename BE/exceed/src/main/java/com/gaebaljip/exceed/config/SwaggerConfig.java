@@ -1,13 +1,27 @@
 package com.gaebaljip.exceed.config;
 
+import static java.util.stream.Collectors.groupingBy;
+
+import java.lang.reflect.Field;
+import java.util.*;
+
+import javax.servlet.ServletContext;
+
+import org.springdoc.core.customizers.OperationCustomizer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.HandlerMethod;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gaebaljip.exceed.common.Error;
+import com.gaebaljip.exceed.common.exception.BaseErrorCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ApiErrorCodeExample;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.common.swagger.DisableSwaggerSecurity;
 import com.gaebaljip.exceed.common.swagger.ExplainError;
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
-import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.Components;
@@ -23,17 +37,6 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.customizers.OperationCustomizer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.HandlerMethod;
-
-import javax.servlet.ServletContext;
-import java.lang.reflect.Field;
-import java.util.*;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @Configuration
 @RequiredArgsConstructor
@@ -182,14 +185,16 @@ public class SwaggerConfig {
 
     private Example getSwaggerExample(String value, Error error) {
         Example example = new Example();
-        com.gaebaljip.exceed.common.ApiResponse.CustomBody<String> errorResponse = new com.gaebaljip.exceed.common.ApiResponse.CustomBody<>(false, null, error);
+        com.gaebaljip.exceed.common.ApiResponse.CustomBody<String> errorResponse =
+                new com.gaebaljip.exceed.common.ApiResponse.CustomBody<>(false, null, error);
         example.description(value);
         example.setValue(errorResponse);
         return example;
     }
 
     private void addExamplesToResponses(
-            ApiResponses responses, Map<Integer, List<SwaggerExampleHolder>> statusWithExampleHolders) {
+            ApiResponses responses,
+            Map<Integer, List<SwaggerExampleHolder>> statusWithExampleHolders) {
         statusWithExampleHolders.forEach(
                 (status, v) -> {
                     Content content = new Content();
@@ -198,7 +203,8 @@ public class SwaggerConfig {
                     v.forEach(
                             swaggerExampleHolder ->
                                     mediaType.addExamples(
-                                            swaggerExampleHolder.getName(), swaggerExampleHolder.getHolder()));
+                                            swaggerExampleHolder.getName(),
+                                            swaggerExampleHolder.getHolder()));
                     content.addMediaType("application/json", mediaType);
                     apiResponse.setContent(content);
                     responses.addApiResponse(status.toString(), apiResponse);
@@ -218,4 +224,3 @@ public class SwaggerConfig {
         return tags;
     }
 }
-

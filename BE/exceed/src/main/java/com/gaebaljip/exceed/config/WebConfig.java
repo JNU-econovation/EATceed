@@ -1,13 +1,14 @@
 package com.gaebaljip.exceed.config;
 
-import com.gaebaljip.exceed.common.annotation.AuthenticationMemberIdArgumentResolver;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
+import com.gaebaljip.exceed.common.annotation.AuthenticationMemberIdArgumentResolver;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration

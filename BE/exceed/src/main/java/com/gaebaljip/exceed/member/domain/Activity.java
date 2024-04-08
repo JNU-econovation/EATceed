@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.member.domain;
 
 public enum Activity {
-
     NOT_ACTIVE(1.2),
     LIGHTLY_ACTIVE(1.3),
     NORMAL_ACTIVE(1.5),
@@ -17,6 +16,4 @@ public enum Activity {
     public double getValue() {
         return value;
     }
-
-
 }

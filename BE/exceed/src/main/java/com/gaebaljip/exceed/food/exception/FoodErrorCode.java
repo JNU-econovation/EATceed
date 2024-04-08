@@ -1,18 +1,19 @@
 package com.gaebaljip.exceed.food.exception;
 
-import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.common.swagger.ExplainError;
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.lang.reflect.Field;
 import java.util.Objects;
+
+import com.gaebaljip.exceed.common.Error;
+import com.gaebaljip.exceed.common.exception.BaseErrorCode;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public enum FoodErrorCode implements BaseErrorCode {
-    INVALID_FOOD(400,"4450", "존재하지 않는 음식입니다.");
+    INVALID_FOOD(400, "4450", "존재하지 않는 음식입니다.");
 
     private final Integer status;
     private final String code;

@@ -1,10 +1,11 @@
 package com.gaebaljip.exceed.meal.application.port.out;
 
-import com.gaebaljip.exceed.dto.request.TodayMeal;
-import com.gaebaljip.exceed.meal.domain.Meal;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
+import com.gaebaljip.exceed.meal.domain.Meal;
 
 @Component
 public interface DailyMealPort {

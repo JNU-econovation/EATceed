@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.common.exception;
 
 import com.gaebaljip.exceed.common.Error;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,11 +1,8 @@
 package com.gaebaljip.exceed.food.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-import lombok.Getter;
 
-import java.util.NoSuchElementException;
+import lombok.Getter;
 
 @Getter
 public class FoodNotFoundException extends EatCeedException {

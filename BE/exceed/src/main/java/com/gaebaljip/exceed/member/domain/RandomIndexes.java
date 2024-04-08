@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.member.domain;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Getter;
 
 @Getter
 public class RandomIndexes {
@@ -37,5 +37,4 @@ public class RandomIndexes {
         }
         return randomIndexes;
     }
-
 }

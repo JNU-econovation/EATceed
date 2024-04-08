@@ -1,10 +1,11 @@
 package com.gaebaljip.exceed.common.exception;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gaebaljip.exceed.common.Error;
-import lombok.Getter;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
 
 @Getter
 public class ErrorResponse {
@@ -38,4 +39,3 @@ public class ErrorResponse {
         this.path = path;
     }
 }
-

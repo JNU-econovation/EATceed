@@ -1,5 +1,11 @@
 package com.gaebaljip.exceed.meal.application;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.out.FoodPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
@@ -11,10 +17,8 @@ import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * 식사를 등록한다.
@@ -22,7 +26,6 @@ import java.util.List;
  * @author hwangdaesun
  * @version 1.0
  */
-
 @Service
 @RequiredArgsConstructor
 public class EatMealService implements EatMealUsecase {
@@ -39,14 +42,16 @@ public class EatMealService implements EatMealUsecase {
      * @return mealId : 식사 엔티티의 PK
      * @throws InvalidMultipleException : 0인분 이하거나 100인분 초과일 경우
      */
-
     @Override
     @Transactional
     public Long execute(EatMealCommand command) {
         validateMultiple(command.multiple());
         List<FoodEntity> foodEntities = foodPort.query(command.foodIds());
         MemberEntity memberEntity = memberPort.query(command.memberId());
-        MealEntity mealEntity = mealPort.command(MealEntity.createMeal(memberEntity, command.multiple(), command.mealType()));
+        MealEntity mealEntity =
+                mealPort.command(
+                        MealEntity.createMeal(
+                                memberEntity, command.multiple(), command.mealType()));
         mealFoodPort.command(MealFoodEntity.createMealFoods(foodEntities, mealEntity));
         return mealEntity.getId();
     }

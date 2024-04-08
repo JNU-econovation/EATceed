@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.nutritionist.domain;
 
 import com.gaebaljip.exceed.meal.domain.DailyMeal;
 import com.gaebaljip.exceed.member.domain.Member;
+
 import lombok.*;
 
 /**
@@ -53,11 +54,6 @@ public class Nutritionist {
     }
 
     public static Nutritionist createNutritionist(Member memberModel, DailyMeal dailyMeal) {
-        return Nutritionist.builder()
-                .member(memberModel)
-                .dailyMeal(dailyMeal)
-                .build();
+        return Nutritionist.builder().member(memberModel).dailyMeal(dailyMeal).build();
     }
-
-
 }

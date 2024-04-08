@@ -1,10 +1,11 @@
 package com.gaebaljip.exceed.auth.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
+
 import lombok.Getter;
 
 @Getter
-public class PasswordMismatchException extends IllegalArgumentException{
+public class PasswordMismatchException extends IllegalArgumentException {
 
     private final MessageCode messageCode;
 

@@ -1,18 +1,19 @@
 package com.gaebaljip.exceed.nutritionist.exception;
 
+import java.lang.reflect.Field;
+import java.util.Objects;
+
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.BaseErrorCode;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.lang.reflect.Field;
-import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum NutritionistErrorCode implements BaseErrorCode {
-
-    INVALID_MEAL(400,"4451", "존재하지 않는 식사입니다."),
+    INVALID_MEAL(400, "4451", "존재하지 않는 식사입니다."),
     ;
     private final Integer status;
     private final String code;

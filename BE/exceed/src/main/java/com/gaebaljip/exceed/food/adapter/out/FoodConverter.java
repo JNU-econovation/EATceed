@@ -1,9 +1,10 @@
 package com.gaebaljip.exceed.food.adapter.out;
 
-import com.gaebaljip.exceed.food.domain.Food;;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.gaebaljip.exceed.food.domain.Food;
 
 @Component
 public class FoodConverter {
@@ -20,8 +21,6 @@ public class FoodConverter {
     }
 
     public List<Food> toModels(List<FoodEntity> foodEntities) {
-        return foodEntities.stream()
-                .map(this::toModel)
-                .toList();
+        return foodEntities.stream().map(this::toModel).toList();
     }
 }

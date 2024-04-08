@@ -1,10 +1,8 @@
 package com.gaebaljip.exceed.nutritionist.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-import lombok.Getter;
 
-import java.util.NoSuchElementException;
+import lombok.Getter;
 
 @Getter
 public class MealNotFoundException extends EatCeedException {
@@ -13,6 +11,5 @@ public class MealNotFoundException extends EatCeedException {
 
     private MealNotFoundException() {
         super(NutritionistErrorCode.INVALID_MEAL);
-
     }
 }

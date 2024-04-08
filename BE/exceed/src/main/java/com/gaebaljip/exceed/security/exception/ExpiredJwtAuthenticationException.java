@@ -1,9 +1,10 @@
 package com.gaebaljip.exceed.security.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-import lombok.Getter;
 import org.springframework.security.core.AuthenticationException;
 
+import com.gaebaljip.exceed.common.MessageCode;
+
+import lombok.Getter;
 
 @Getter
 public class ExpiredJwtAuthenticationException extends AuthenticationException {

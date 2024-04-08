@@ -1,9 +1,10 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import com.gaebaljip.exceed.common.BaseEntity;
-import lombok.*;
-
 import javax.persistence.*;
+
+import com.gaebaljip.exceed.common.BaseEntity;
+
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.member.docs;
 
-import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;

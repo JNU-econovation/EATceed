@@ -1,9 +1,10 @@
 package com.gaebaljip.exceed.config;
 
-import org.springframework.context.annotation.Configuration;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
-import java.util.TimeZone;
+
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TimeConfig {

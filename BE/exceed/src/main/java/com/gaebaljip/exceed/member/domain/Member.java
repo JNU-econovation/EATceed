@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.member.domain;
 
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
+
 import lombok.*;
 
 /**
@@ -9,7 +10,6 @@ import lombok.*;
  * @author hwangdaesun
  * @version 1.0
  */
-
 @Getter
 @ToString
 @AllArgsConstructor

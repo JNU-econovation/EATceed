@@ -14,5 +14,4 @@ public class Error {
     private String reason;
 
     private String status;
-
 }

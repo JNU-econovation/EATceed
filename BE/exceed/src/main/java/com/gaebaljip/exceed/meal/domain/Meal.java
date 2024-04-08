@@ -1,9 +1,11 @@
 package com.gaebaljip.exceed.meal.domain;
 
-import com.gaebaljip.exceed.food.domain.Food;
-import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.gaebaljip.exceed.food.domain.Food;
+
+import lombok.*;
 
 @Getter
 @ToString
@@ -32,5 +34,4 @@ public class Meal {
     public double getCurrentFat() {
         return foods.stream().mapToDouble(Food::getFat).sum();
     }
-
 }

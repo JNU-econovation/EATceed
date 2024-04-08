@@ -1,10 +1,11 @@
 package com.gaebaljip.exceed.common.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
+
 import lombok.Getter;
 
 @Getter
-public class DecryptionErrorException extends RuntimeException{
+public class DecryptionErrorException extends RuntimeException {
 
     private final MessageCode messageCode;
 

@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.nutritionist.docs;
 
-import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
+import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
 import com.gaebaljip.exceed.meal.exception.NotSameDateException;

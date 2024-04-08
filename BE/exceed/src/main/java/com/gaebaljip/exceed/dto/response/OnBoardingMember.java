@@ -5,6 +5,5 @@ import lombok.Builder;
 public record OnBoardingMember(String loginId, String password, Long memberId) {
 
     @Builder
-    public OnBoardingMember {
-    }
+    public OnBoardingMember {}
 }

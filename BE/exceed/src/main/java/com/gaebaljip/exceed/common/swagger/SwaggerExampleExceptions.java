@@ -1,4 +1,4 @@
 package com.gaebaljip.exceed.common.swagger;
+
 @ExceptionDoc
-public interface SwaggerExampleExceptions {
-}
+public interface SwaggerExampleExceptions {}

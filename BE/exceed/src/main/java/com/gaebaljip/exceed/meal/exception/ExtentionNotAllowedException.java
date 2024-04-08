@@ -1,9 +1,7 @@
 package com.gaebaljip.exceed.meal.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-import com.gaebaljip.exceed.meal.adapter.in.EatMealController;
+
 import lombok.Getter;
 
 @Getter
