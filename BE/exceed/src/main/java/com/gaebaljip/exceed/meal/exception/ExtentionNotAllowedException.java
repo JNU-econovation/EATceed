@@ -9,6 +9,6 @@ public class ExtentionNotAllowedException extends EatCeedException {
     public static EatCeedException EXECPTION = new ExtentionNotAllowedException();
 
     private ExtentionNotAllowedException() {
-        super(MealErrorCode.EXTENTION_NOT_ALLOWED);
+        super(MealError.EXTENTION_NOT_ALLOWED);
     }
 }

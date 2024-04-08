@@ -15,7 +15,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
+import com.gaebaljip.exceed.common.exception.BaseError;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ApiErrorCodeExample;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
@@ -117,10 +117,10 @@ public class SwaggerConfig {
      * 동적으로 생성해서 예시값으로 붙입니다.
      */
     private void generateErrorCodeResponseExample(
-            Operation operation, Class<? extends BaseErrorCode> type) {
+            Operation operation, Class<? extends BaseError> type) {
         ApiResponses responses = operation.getResponses();
 
-        BaseErrorCode[] errorCodes = type.getEnumConstants();
+        BaseError[] errorCodes = type.getEnumConstants();
 
         Map<Integer, List<SwaggerExampleHolder>> statusWithExampleHolders =
                 Arrays.stream(errorCodes)

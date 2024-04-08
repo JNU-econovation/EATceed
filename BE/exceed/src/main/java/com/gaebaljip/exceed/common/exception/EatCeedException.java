@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class EatCeedException extends RuntimeException {
-    private BaseErrorCode errorCode;
+    private BaseError errorCode;
 
     public Error getErrorReason() {
         return this.errorCode.getError();

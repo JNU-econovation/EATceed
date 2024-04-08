@@ -10,6 +10,6 @@ public class FoodNotFoundException extends EatCeedException {
     public static EatCeedException Exception = new FoodNotFoundException();
 
     private FoodNotFoundException() {
-        super(FoodErrorCode.INVALID_FOOD);
+        super(FoodError.INVALID_FOOD);
     }
 }

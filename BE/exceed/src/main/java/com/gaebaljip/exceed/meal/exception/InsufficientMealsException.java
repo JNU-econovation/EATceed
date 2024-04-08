@@ -9,6 +9,6 @@ public class InsufficientMealsException extends EatCeedException {
     public static EatCeedException EXECPTION = new InsufficientMealsException();
 
     private InsufficientMealsException() {
-        super(MealErrorCode.INSUFFICIENT_MEALS);
+        super(MealError.INSUFFICIENT_MEALS);
     }
 }

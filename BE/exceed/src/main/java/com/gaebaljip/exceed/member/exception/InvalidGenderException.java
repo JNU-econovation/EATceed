@@ -10,6 +10,6 @@ public class InvalidGenderException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidGenderException();
 
     private InvalidGenderException() {
-        super(MemberErrorCode.INVALID_GENDER);
+        super(MemberError.INVALID_GENDER);
     }
 }

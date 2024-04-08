@@ -10,6 +10,6 @@ public class InvalidMultipleException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidMultipleException();
 
     private InvalidMultipleException() {
-        super(MealErrorCode.INVALID_MULTIPLE);
+        super(MealError.INVALID_MULTIPLE);
     }
 }

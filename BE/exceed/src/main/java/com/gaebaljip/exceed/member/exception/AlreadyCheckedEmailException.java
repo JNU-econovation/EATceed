@@ -10,6 +10,6 @@ public class AlreadyCheckedEmailException extends EatCeedException {
     public static EatCeedException Exception = new AlreadyCheckedEmailException();
 
     private AlreadyCheckedEmailException() {
-        super(MemberErrorCode.ALREADY_Checked_EMAIL);
+        super(MemberError.ALREADY_Checked_EMAIL);
     }
 }

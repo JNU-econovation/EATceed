@@ -5,10 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.gaebaljip.exceed.common.exception.BaseErrorCode;
+import com.gaebaljip.exceed.common.exception.BaseError;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiErrorCodeExample {
-    Class<? extends BaseErrorCode> value();
+    Class<? extends BaseError> value();
 }

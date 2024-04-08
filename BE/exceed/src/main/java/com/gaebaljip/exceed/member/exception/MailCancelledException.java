@@ -10,6 +10,6 @@ public class MailCancelledException extends EatCeedException {
     public static EatCeedException EXECPTION = new MailCancelledException();
 
     private MailCancelledException() {
-        super(MemberErrorCode.MAIL_SEND_FAIL);
+        super(MemberError.MAIL_SEND_FAIL);
     }
 }

@@ -9,6 +9,6 @@ public class InvalidCodeException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidCodeException();
 
     private InvalidCodeException() {
-        super(MemberErrorCode.INVALID_CODE);
+        super(MemberError.INVALID_CODE);
     }
 }

@@ -10,6 +10,6 @@ public class MealNotFoundException extends EatCeedException {
     public static EatCeedException EXECPTION = new MealNotFoundException();
 
     private MealNotFoundException() {
-        super(NutritionistErrorCode.INVALID_MEAL);
+        super(NutritionistError.INVALID_MEAL);
     }
 }

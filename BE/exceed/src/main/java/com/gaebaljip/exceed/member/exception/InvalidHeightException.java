@@ -10,6 +10,6 @@ public class InvalidHeightException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidHeightException();
 
     private InvalidHeightException() {
-        super(MemberErrorCode.INVALID_HEIGHT);
+        super(MemberError.INVALID_HEIGHT);
     }
 }

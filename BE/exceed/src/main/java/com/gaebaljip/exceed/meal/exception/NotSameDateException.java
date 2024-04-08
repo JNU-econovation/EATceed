@@ -9,6 +9,6 @@ public class NotSameDateException extends EatCeedException {
     public static EatCeedException EXECPTION = new NotSameDateException();
 
     private NotSameDateException() {
-        super(MealErrorCode.NOT_SAME_DATE);
+        super(MealError.NOT_SAME_DATE);
     }
 }

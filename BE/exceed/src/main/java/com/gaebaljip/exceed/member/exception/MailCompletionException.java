@@ -9,6 +9,6 @@ public class MailCompletionException extends EatCeedException {
     public static EatCeedException EXECPTION = new MailCompletionException();
 
     private MailCompletionException() {
-        super(MemberErrorCode.MAIL_SEND_FAIL);
+        super(MemberError.MAIL_SEND_FAIL);
     }
 }

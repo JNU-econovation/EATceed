@@ -9,6 +9,6 @@ public class MemberNotFoundException extends EatCeedException {
     public static EatCeedException EXECPTION = new MemberNotFoundException();
 
     private MemberNotFoundException() {
-        super(MemberErrorCode.INVALID_MEMBER);
+        super(MemberError.INVALID_MEMBER);
     }
 }

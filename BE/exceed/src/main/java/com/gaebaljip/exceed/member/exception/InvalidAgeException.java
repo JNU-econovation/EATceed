@@ -10,6 +10,6 @@ public class InvalidAgeException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidAgeException();
 
     private InvalidAgeException() {
-        super(MemberErrorCode.INVALID_AGE);
+        super(MemberError.INVALID_AGE);
     }
 }

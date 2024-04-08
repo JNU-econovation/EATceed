@@ -9,6 +9,6 @@ public class InvalidWeightException extends EatCeedException {
     public static EatCeedException EXECPTION = new InvalidWeightException();
 
     private InvalidWeightException() {
-        super(MemberErrorCode.INVALID_WEIGHT);
+        super(MemberError.INVALID_WEIGHT);
     }
 }
