@@ -17,7 +17,6 @@ import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberUsecase;
 import com.gaebaljip.exceed.member.docs.OnBoardingMemberExceptionDocs;
-import com.gaebaljip.exceed.security.domain.JwtManager;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 public class OnBoardingController {
 
     private final OnBoardingMemberUsecase onBoardingMemberUsecase;
-    private final JwtManager jwtManager;
 
     @Operation(summary = "회원 정보 온보딩", description = "회원 정보를 온보딩한다.")
     @PostMapping("/members/detail")
