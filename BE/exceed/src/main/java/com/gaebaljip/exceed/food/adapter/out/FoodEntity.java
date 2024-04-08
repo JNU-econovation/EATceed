@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.food.adapter.out;
 
-import lombok.*;
-
 import javax.persistence.*;
+
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -1,12 +1,14 @@
 package com.gaebaljip.exceed.food.adapter.out;
 
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
 import com.gaebaljip.exceed.dto.response.PageableFood;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,11 +17,13 @@ public class QueryDslFoodRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public PageableFood findPageableFood(String lastFoodName, int size, String keyword) {
-        List<FoodEntity> foodEntities = jpaQueryFactory.selectFrom(QFoodEntity.foodEntity)
-                .where(greaterThanFoodName(lastFoodName), containsFoodName(keyword))
-                .orderBy(QFoodEntity.foodEntity.name.asc())
-                .limit(size + 1)
-                .fetch();
+        List<FoodEntity> foodEntities =
+                jpaQueryFactory
+                        .selectFrom(QFoodEntity.foodEntity)
+                        .where(greaterThanFoodName(lastFoodName), containsFoodName(keyword))
+                        .orderBy(QFoodEntity.foodEntity.name.asc())
+                        .limit(size + 1)
+                        .fetch();
         return makePageableMento(foodEntities, size);
     }
 
@@ -47,6 +51,5 @@ public class QueryDslFoodRepository {
         }
 
         return new PageableFood(foodEntities, hasNext, size);
-
     }
 }

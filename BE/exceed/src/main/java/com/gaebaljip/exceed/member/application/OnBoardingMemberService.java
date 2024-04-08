@@ -1,5 +1,8 @@
 package com.gaebaljip.exceed.member.application;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberUsecase;
@@ -8,9 +11,8 @@ import com.gaebaljip.exceed.member.exception.InvalidAgeException;
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
 import com.gaebaljip.exceed.member.exception.InvalidWeightException;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,14 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
     public void execute(OnBoardingMemberCommand command) {
         validateCommand(command);
         MemberEntity memberEntity = memberPort.query(command.memberId());
-        memberEntity.updateMember(command.height(),command.gender(),command.age(),command.activity(),command.etc(), command.weight(), command.targetWeight());
+        memberEntity.updateMember(
+                command.height(),
+                command.gender(),
+                command.age(),
+                command.activity(),
+                command.etc(),
+                command.weight(),
+                command.targetWeight());
     }
 
     private void validateCommand(OnBoardingMemberCommand command) {
@@ -37,27 +46,33 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
         validateAge(command.age());
     }
 
+    private void validGender(Integer gender) {
+        if (gender < 0 || gender > 1) {
+            throw InvalidGenderException.EXECPTION;
+        }
+    }
+
     private void validateHeight(Double height) {
         if (height <= MINIMUM_HEIGHT) {
-            throw new InvalidHeightException();
+            throw InvalidHeightException.EXECPTION;
         }
     }
 
     private void validateWeight(Double weight) {
         if (weight <= MINIMUM_WEIGHT) {
-            throw new InvalidWeightException();
+            throw InvalidWeightException.EXECPTION;
         }
     }
 
     private void validateTargetWeight(Double targetWeight) {
         if (targetWeight <= MINIMUM_WEIGHT) {
-            throw new InvalidWeightException();
+            throw InvalidWeightException.EXECPTION;
         }
     }
 
     private void validateAge(Integer age) {
         if (age <= MINIMUM_AGE) {
-            throw new InvalidAgeException();
+            throw InvalidAgeException.EXECPTION;
         }
     }
 }

@@ -10,7 +10,8 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 public class TemplateConfiguration {
 
     @Bean
-    public TemplateEngine htmlTemplateEngine(SpringResourceTemplateResolver springResourceTemplateResolver) {
+    public TemplateEngine htmlTemplateEngine(
+            SpringResourceTemplateResolver springResourceTemplateResolver) {
         TemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(springResourceTemplateResolver);
         return templateEngine;

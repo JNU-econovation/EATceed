@@ -1,10 +1,11 @@
 package com.gaebaljip.exceed.auth.exception;
 
 import com.gaebaljip.exceed.common.MessageCode;
+
 import lombok.Getter;
 
 @Getter
-public class MemberNotCheckedException extends IllegalStateException{
+public class MemberNotCheckedException extends IllegalStateException {
 
     private final MessageCode messageCode;
 

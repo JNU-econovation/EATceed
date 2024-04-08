@@ -1,14 +1,15 @@
 package com.gaebaljip.exceed.meal.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class InvalidMultipleException extends IllegalArgumentException {
-    private final MessageCode messageCode;
+public class InvalidMultipleException extends EatCeedException {
 
-    public InvalidMultipleException() {
-        super(MessageCode.INVALID_MULTIPLE.getValue());
-        this.messageCode = MessageCode.INVALID_MULTIPLE;
+    public static EatCeedException EXECPTION = new InvalidMultipleException();
+
+    private InvalidMultipleException() {
+        super(MealError.INVALID_MULTIPLE);
     }
 }

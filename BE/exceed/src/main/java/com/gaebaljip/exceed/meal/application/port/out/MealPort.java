@@ -1,7 +1,8 @@
 package com.gaebaljip.exceed.meal.application.port.out;
 
-import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 import org.springframework.stereotype.Component;
+
+import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 
 @Component
 public interface MealPort {

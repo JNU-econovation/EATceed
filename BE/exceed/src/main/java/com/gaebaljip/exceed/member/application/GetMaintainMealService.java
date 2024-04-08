@@ -1,13 +1,15 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.dto.response.MaintainMeal;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.application.port.out.MemberPort;
-import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
-import com.gaebaljip.exceed.member.domain.Member;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.gaebaljip.exceed.dto.response.MaintainMeal;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
+import com.gaebaljip.exceed.member.application.port.out.MemberPort;
+import com.gaebaljip.exceed.member.domain.Member;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * 몸무게를 유지하기 위한 식단(단백질,탄수화물,지방,칼로리) 정보 조회한다.
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author : hwangdaesun
  * @version : 1.0
  */
-
 @Service
 @RequiredArgsConstructor
 public class GetMaintainMealService implements GetMaintainMealUsecase {
@@ -29,7 +30,6 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
      * @param memberId
      * @return MaintainMeal : 칼로리, 단백질, 탄수화물, 지방에 대한 정보가 들어있다.
      */
-
     @Override
     @Transactional(readOnly = true)
     public MaintainMeal execute(Long memberId) {

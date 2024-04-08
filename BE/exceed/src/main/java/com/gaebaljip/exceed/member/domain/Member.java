@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.member.domain;
 
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
+
 import lombok.*;
 
 /**
@@ -9,7 +10,6 @@ import lombok.*;
  * @author hwangdaesun
  * @version 1.0
  */
-
 @Getter
 @ToString
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class Member {
         } else if (gender == 2) {
             return 655.1 + (9.563 * weight) + (1.85 * height) - (4.676 * age);
         } else {
-            throw new InvalidGenderException();
+            throw InvalidGenderException.EXECPTION;
         }
     }
 

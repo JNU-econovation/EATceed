@@ -1,14 +1,16 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.Gender;
 import com.gaebaljip.exceed.member.domain.MemberRole;
-import lombok.*;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -60,24 +62,29 @@ public class MemberEntity extends BaseEntity {
     @OneToMany(mappedBy = "memberEntity")
     private List<WeightEntity> weightEntities = new ArrayList<>();
 
-    public void updateChecked(){
+    public void updateChecked() {
         this.checked = true;
     }
 
-    public void updateMember(double height, Gender gender, int age, Activity activity, String etc, double weight, double targetWeight){
+    public void updateMember(
+            double height,
+            Gender gender,
+            int age,
+            Activity activity,
+            String etc,
+            double weight,
+            double targetWeight) {
         this.height = height;
         this.gender = gender;
         this.age = age;
         this.activity = activity;
         this.etc = etc;
-        WeightEntity weightEntity = WeightEntity.builder().
-                weight(weight).
-                targetWeight(targetWeight).
-                build();
+        WeightEntity weightEntity =
+                WeightEntity.builder().weight(weight).targetWeight(targetWeight).build();
         addWeightEntity(weightEntity);
     }
 
-    private void addWeightEntity(WeightEntity weightEntity){
+    private void addWeightEntity(WeightEntity weightEntity) {
         weightEntity.mappingMember(this);
         this.weightEntities.add(weightEntity);
     }

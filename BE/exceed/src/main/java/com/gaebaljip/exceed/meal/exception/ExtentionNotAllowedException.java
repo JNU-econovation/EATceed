@@ -1,15 +1,14 @@
 package com.gaebaljip.exceed.meal.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class ExtentionNotAllowedException extends IllegalArgumentException {
+public class ExtentionNotAllowedException extends EatCeedException {
+    public static EatCeedException EXECPTION = new ExtentionNotAllowedException();
 
-    private final MessageCode messageCode;
-
-    public ExtentionNotAllowedException() {
-        super(MessageCode.EXTENTION_NOT_ALLOWED.getValue());
-        this.messageCode = MessageCode.EXTENTION_NOT_ALLOWED;
+    private ExtentionNotAllowedException() {
+        super(MealError.EXTENTION_NOT_ALLOWED);
     }
 }

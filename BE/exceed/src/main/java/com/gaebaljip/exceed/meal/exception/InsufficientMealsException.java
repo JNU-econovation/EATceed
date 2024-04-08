@@ -1,15 +1,14 @@
 package com.gaebaljip.exceed.meal.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class InsufficientMealsException extends IllegalArgumentException {
+public class InsufficientMealsException extends EatCeedException {
+    public static EatCeedException EXECPTION = new InsufficientMealsException();
 
-    private final MessageCode messageCode;
-
-    public InsufficientMealsException() {
-        super(MessageCode.INSUFFICIENT_MEALS.getValue());
-        this.messageCode = MessageCode.INSUFFICIENT_MEALS;
+    private InsufficientMealsException() {
+        super(MealError.INSUFFICIENT_MEALS);
     }
 }

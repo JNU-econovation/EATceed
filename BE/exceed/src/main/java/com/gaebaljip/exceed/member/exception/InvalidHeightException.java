@@ -1,15 +1,15 @@
 package com.gaebaljip.exceed.member.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class InvalidHeightException extends IllegalArgumentException {
+public class InvalidHeightException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new InvalidHeightException();
 
-    public InvalidHeightException() {
-        super(MessageCode.INVALID_HEIGHT.getValue());
-        this.messageCode = MessageCode.INVALID_HEIGHT;
+    private InvalidHeightException() {
+        super(MemberError.INVALID_HEIGHT);
     }
 }

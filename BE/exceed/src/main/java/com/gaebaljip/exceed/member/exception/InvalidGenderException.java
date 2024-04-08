@@ -1,15 +1,15 @@
 package com.gaebaljip.exceed.member.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class InvalidGenderException extends IllegalArgumentException {
-    private final MessageCode messageCode;
+public class InvalidGenderException extends EatCeedException {
 
-    public InvalidGenderException() {
-        super(MessageCode.INVALID_GENDER.getValue());
-        this.messageCode = MessageCode.INVALID_GENDER;
+    public static EatCeedException EXECPTION = new InvalidGenderException();
+
+    private InvalidGenderException() {
+        super(MemberError.INVALID_GENDER);
     }
-
 }

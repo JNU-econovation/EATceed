@@ -1,9 +1,8 @@
 package com.gaebaljip.exceed.meal.application.port.in;
 
-import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
 
 @Component
 public interface GetCurrentMealQuery {

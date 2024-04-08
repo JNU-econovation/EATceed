@@ -1,12 +1,13 @@
 package com.gaebaljip.exceed.food.application.out;
 
-import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
-import com.gaebaljip.exceed.food.domain.Food;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
+import com.gaebaljip.exceed.food.domain.Food;
 
 @Component
 public interface FoodPort {
@@ -16,5 +17,4 @@ public interface FoodPort {
     List<FoodEntity> query(List<Long> foodIds);
 
     Slice<Food> query(String lastFoodName, int size, String keyword);
-
 }

@@ -1,20 +1,23 @@
 package com.gaebaljip.exceed.common;
 
-import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
-import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import javax.annotation.PostConstruct;
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+
+import javax.annotation.PostConstruct;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
+import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
 
 @Component
 public class Encryption {
@@ -27,6 +30,7 @@ public class Encryption {
 
     @Value("${encryption.secret}")
     private String secret;
+
     private SecretKeySpec secretKeySpec;
     private IvParameterSpec ivParameterSpec;
     private Cipher cipher;
@@ -56,7 +60,7 @@ public class Encryption {
     @PostConstruct
     public void init() throws NoSuchPaddingException, NoSuchAlgorithmException {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] iv = new byte[16];   // 16bytes = 128bits
+        byte[] iv = new byte[16]; // 16bytes = 128bits
         secureRandom.nextBytes(iv);
         ivParameterSpec = new IvParameterSpec(iv);
 
@@ -68,5 +72,4 @@ public class Encryption {
 
         cipher = Cipher.getInstance(encryptionSpec);
     }
-
 }

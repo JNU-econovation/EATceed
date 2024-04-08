@@ -1,15 +1,16 @@
 package com.gaebaljip.exceed.meal.domain;
 
-import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
-import com.gaebaljip.exceed.meal.exception.NotSameDateException;
-import lombok.*;
-import java.util.List;
-
 import static java.util.stream.Collectors.toSet;
 
+import java.util.List;
+
+import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
+import com.gaebaljip.exceed.meal.exception.NotSameDateException;
+
+import lombok.*;
+
 /**
- * 같은 날짜 즉, 하루에 먹은 식사를 나타내는 클래스
- * 오늘 먹은 식사들을 분석하여 칼로리,단,탄,지를 계산한다.
+ * 같은 날짜 즉, 하루에 먹은 식사를 나타내는 클래스 오늘 먹은 식사들을 분석하여 칼로리,단,탄,지를 계산한다.
  *
  * @author hwangdaesun
  * @version 1.0
@@ -21,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 public class DailyMeal {
 
     private final List<Meal> meals;
+
     public DailyMeal(List<Meal> meals) {
         validateSize(meals);
         validateSameMealDate(meals);
@@ -43,16 +45,15 @@ public class DailyMeal {
         return meals.stream().mapToDouble(Meal::getCurrentFat).sum();
     }
 
-    private void validateSize(List<Meal> meals){
-        if(meals.isEmpty()){
-            throw new InsufficientMealsException();
+    private void validateSize(List<Meal> meals) {
+        if (meals.isEmpty()) {
+            throw InsufficientMealsException.EXECPTION;
         }
     }
 
-    private void validateSameMealDate(List<Meal> meals){
-        if(getDistinctSize(meals) != 1) throw new NotSameDateException();
+    private void validateSameMealDate(List<Meal> meals) {
+        if (getDistinctSize(meals) != 1) throw NotSameDateException.EXECPTION;
     }
-
 
     private int getDistinctSize(List<Meal> meals) {
         return meals.stream()
@@ -60,5 +61,4 @@ public class DailyMeal {
                 .collect(toSet())
                 .size();
     }
-
 }

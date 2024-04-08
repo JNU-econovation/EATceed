@@ -1,10 +1,12 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

@@ -1,17 +1,15 @@
 package com.gaebaljip.exceed.food.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
-import java.util.NoSuchElementException;
-
 @Getter
-public class FoodNotFoundException extends NoSuchElementException {
+public class FoodNotFoundException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException Exception = new FoodNotFoundException();
 
-    public FoodNotFoundException() {
-        super(MessageCode.INVALID_FOOD.getValue());
-        this.messageCode = MessageCode.INVALID_FOOD;
+    private FoodNotFoundException() {
+        super(FoodError.INVALID_FOOD);
     }
 }

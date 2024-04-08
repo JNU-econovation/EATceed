@@ -1,15 +1,14 @@
 package com.gaebaljip.exceed.meal.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class NotSameDateException extends IllegalArgumentException{
+public class NotSameDateException extends EatCeedException {
+    public static EatCeedException EXECPTION = new NotSameDateException();
 
-    private final MessageCode messageCode;
-
-    public NotSameDateException() {
-        super(MessageCode.NOT_SAME_DATE.getValue());
-        this.messageCode = MessageCode.NOT_SAME_DATE;
+    private NotSameDateException() {
+        super(MealError.NOT_SAME_DATE);
     }
 }

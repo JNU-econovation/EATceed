@@ -1,15 +1,15 @@
 package com.gaebaljip.exceed.member.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class AlreadyCheckedEmailException extends IllegalStateException {
+public class AlreadyCheckedEmailException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException Exception = new AlreadyCheckedEmailException();
 
-    public AlreadyCheckedEmailException() {
-        super(MessageCode.ALREADY_Checked_EMAIL.getValue());
-        this.messageCode = MessageCode.ALREADY_Checked_EMAIL;
+    private AlreadyCheckedEmailException() {
+        super(MemberError.ALREADY_Checked_EMAIL);
     }
 }

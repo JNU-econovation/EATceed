@@ -1,14 +1,17 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import com.gaebaljip.exceed.member.application.port.out.EmailPort;
-import lombok.RequiredArgsConstructor;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+
+import com.gaebaljip.exceed.member.application.port.out.EmailPort;
+
+import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.services.ses.SesAsyncClient;
 import software.amazon.awssdk.services.ses.model.*;
-import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
@@ -16,11 +19,12 @@ public class EmailAdapter implements EmailPort {
 
     @Value("${cloud.aws.ses.mail-address}")
     private String mailAddress;
+
     private final SesAsyncClient sesAsyncClient;
     private final SpringTemplateEngine htmlTemplateEngine;
 
     @Override
-    public boolean sendEmail(String to, String title, String template, Context context){
+    public boolean sendEmail(String to, String title, String template, Context context) {
 
         String html = htmlTemplateEngine.process(template, context);
 
@@ -31,7 +35,8 @@ public class EmailAdapter implements EmailPort {
                         .source(mailAddress)
                         .build();
 
-        CompletableFuture<SendEmailResponse> completableFuture = sesAsyncClient.sendEmail(sendEmailRequest);
+        CompletableFuture<SendEmailResponse> completableFuture =
+                sesAsyncClient.sendEmail(sendEmailRequest);
         SendEmailResponse sendEmailResponse = completableFuture.join();
         return sendEmailResponse.sdkHttpResponse().isSuccessful();
     }
@@ -43,5 +48,4 @@ public class EmailAdapter implements EmailPort {
                 .body(Body.builder().html(builder -> builder.data(html)).build())
                 .build();
     }
-
 }
