@@ -8,14 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.Import;
 
+import com.gaebaljip.exceed.common.exception.GlobalExceptionHandler;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
 import com.gaebaljip.exceed.member.exception.InvalidWeightException;
-import com.gaebaljip.exceed.member.exception.MemberExceptionHandler;
 
-@Import(MemberExceptionHandler.class)
+@Import(GlobalExceptionHandler.class)
 @ExtendWith(MockitoExtension.class)
 class OnBoardingMemberServiceTest {
 
