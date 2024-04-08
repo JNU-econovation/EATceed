@@ -166,7 +166,7 @@ public class SwaggerConfig {
                                         ExplainError annotation =
                                                 field.getAnnotation(ExplainError.class);
                                         String value = annotation.value();
-                                        Error error = exception.getErrorReason();
+                                        Error error = exception.getError();
                                         return SwaggerExampleHolder.builder()
                                                 .holder(getSwaggerExample(value, error))
                                                 .code(Integer.parseInt(error.getStatus()))

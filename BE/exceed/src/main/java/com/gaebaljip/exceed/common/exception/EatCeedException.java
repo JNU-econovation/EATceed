@@ -10,7 +10,7 @@ import lombok.Getter;
 public class EatCeedException extends RuntimeException {
     private BaseError errorCode;
 
-    public Error getErrorReason() {
+    public Error getError() {
         return this.errorCode.getError();
     }
 }
