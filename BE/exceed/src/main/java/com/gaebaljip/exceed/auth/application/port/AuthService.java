@@ -27,7 +27,7 @@ public class AuthService implements AuthUsecase {
     public LoginResponse execute(LoginRequest request) {
         MemberEntity member = memberPort.findCheckedMemberByEmail(request.email());
         if (!bCryptPasswordEncoder.matches(request.password(), member.getPassword())) {
-            throw new PasswordMismatchException();
+            throw PasswordMismatchException.EXECPTION;
         }
         return LoginResponse.builder()
                 .accessToken(jwtManager.generateAccessToken(member.getId()))

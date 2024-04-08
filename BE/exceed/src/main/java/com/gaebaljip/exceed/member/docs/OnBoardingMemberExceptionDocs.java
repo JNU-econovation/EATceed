@@ -4,10 +4,7 @@ import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
 import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
-import com.gaebaljip.exceed.member.exception.InvalidAgeException;
-import com.gaebaljip.exceed.member.exception.InvalidGenderException;
-import com.gaebaljip.exceed.member.exception.InvalidHeightException;
-import com.gaebaljip.exceed.member.exception.InvalidWeightException;
+import com.gaebaljip.exceed.member.exception.*;
 
 @ExceptionDoc
 public class OnBoardingMemberExceptionDocs implements SwaggerExampleExceptions {
@@ -22,4 +19,7 @@ public class OnBoardingMemberExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("몸무게가 음수일 때")
     public EatCeedException 몸무게가_음수일_때 = InvalidWeightException.EXECPTION;
+
+    @ExplainError("회원이 존재하지 않을 때")
+    public EatCeedException 회원이_없을_때 = MemberNotFoundException.EXECPTION;
 }

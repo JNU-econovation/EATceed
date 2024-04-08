@@ -8,6 +8,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.gaebaljip.exceed.member.application.port.out.EmailPort;
+import com.gaebaljip.exceed.member.exception.MailSendException;
 
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.services.ses.SesAsyncClient;
@@ -37,7 +38,15 @@ public class EmailAdapter implements EmailPort {
 
         CompletableFuture<SendEmailResponse> completableFuture =
                 sesAsyncClient.sendEmail(sendEmailRequest);
-        SendEmailResponse sendEmailResponse = completableFuture.join();
+
+        SendEmailResponse sendEmailResponse;
+
+        try {
+            sendEmailResponse = completableFuture.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw MailSendException.EXECPTION;
+        }
         return sendEmailResponse.sdkHttpResponse().isSuccessful();
     }
 

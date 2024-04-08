@@ -8,7 +8,6 @@ import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberUsecase;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.exception.InvalidAgeException;
-import com.gaebaljip.exceed.member.exception.InvalidGenderException;
 import com.gaebaljip.exceed.member.exception.InvalidHeightException;
 import com.gaebaljip.exceed.member.exception.InvalidWeightException;
 
@@ -44,12 +43,6 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
         validateWeight(command.weight());
         validateTargetWeight(command.targetWeight());
         validateAge(command.age());
-    }
-
-    private void validGender(Integer gender) {
-        if (gender < 0 || gender > 1) {
-            throw InvalidGenderException.EXECPTION;
-        }
     }
 
     private void validateHeight(Double height) {

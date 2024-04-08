@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.auth.exception.MemberNotCheckedException;
 import com.gaebaljip.exceed.member.application.MemberConverter;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
@@ -65,7 +66,7 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
                         .findByEmail(email)
                         .orElseThrow(() -> MemberNotFoundException.EXECPTION);
         if (!member.getChecked()) {
-            throw MemberNotFoundException.EXECPTION;
+            throw MemberNotCheckedException.EXECPTION;
         }
         return member;
     }

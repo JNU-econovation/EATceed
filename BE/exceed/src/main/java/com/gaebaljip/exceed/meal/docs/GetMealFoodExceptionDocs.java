@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
 import com.gaebaljip.exceed.meal.exception.NotSameDateException;
 import com.gaebaljip.exceed.member.exception.InvalidGenderException;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 
 @ExceptionDoc
 public class GetMealFoodExceptionDocs implements SwaggerExampleExceptions {
@@ -18,4 +19,7 @@ public class GetMealFoodExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("성별이 0과 1이 아닐 때")
     public EatCeedException 성별이_0과_1이_아닐_때 = InvalidGenderException.EXECPTION;
+
+    @ExplainError("회원이 존재하지 않을 때")
+    public EatCeedException 회원이_없을_때 = MemberNotFoundException.EXECPTION;
 }

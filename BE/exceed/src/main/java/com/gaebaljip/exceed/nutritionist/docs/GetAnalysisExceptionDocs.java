@@ -6,6 +6,7 @@ import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 import com.gaebaljip.exceed.meal.exception.InsufficientMealsException;
 import com.gaebaljip.exceed.meal.exception.NotSameDateException;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 
 @ExceptionDoc
 public class GetAnalysisExceptionDocs implements SwaggerExampleExceptions {
@@ -14,4 +15,7 @@ public class GetAnalysisExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("식사들의 날짜가 다를 경우")
     public EatCeedException 식사들의_날짜가_다를_경우 = NotSameDateException.EXECPTION;
+
+    @ExplainError("회원이 존재하지 않을 때")
+    public EatCeedException 회원이_없을_때 = MemberNotFoundException.EXECPTION;
 }
