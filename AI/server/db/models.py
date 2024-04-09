@@ -108,7 +108,6 @@ class EatHabits(Base):
     EAT_HABITS_PK = Column(BigInteger, primary_key=True, autoincrement=True)
     CREATED_DATE = Column(DateTime, nullable=False)
     ANALYSIS_FK = Column(BigInteger, ForeignKey('ANALYSIS_TB.ANALYSIS_PK'))
-    CHAT_BOT_RESPONSE = Column(Text, nullable=False)
     MEMBER_FK = Column(BigInteger, ForeignKey('MEMBER_TB.MEMBER_PK'))
 
     member = relationship('Member', back_populates='eat_habits')
