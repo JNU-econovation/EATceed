@@ -2,8 +2,13 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+import logging
 
 from core.config import settings
+
+# 로그 메시지 출력
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # 인증을 위한 환경변수 세팅
 JWT_SECRET = settings.JWT_SECRET
@@ -26,8 +31,11 @@ async def get_current_member(token: str = Depends(oauth2_scheme)):
             raise credentials_exception
         print(f"Decoded memberId from token: {member_id}")
         return member_id
-    except JWTError:
+    except JWTError as e:
+        print(f"JWTError occurred: {e}")
         raise credentials_exception
-
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise credentials_exception
 
 
