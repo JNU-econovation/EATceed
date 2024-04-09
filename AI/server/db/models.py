@@ -115,3 +115,7 @@ class EatHabits(Base):
     member = relationship('Member', back_populates='eat_habits')
     analysis = relationship('Analysis', back_populates='eat_habits')
 
+# 테이블을 생성하고 매퍼를 추가
+Base.metadata.create_all(bind=engine)
+
+registry.configure()
