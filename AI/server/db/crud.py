@@ -12,7 +12,7 @@ ALGORITHM = "HS256"
 # bearer token 해석 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# DB에서 member id 가져오기
+# Token에서 member id 가져오기
 async def get_current_member(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -24,8 +24,10 @@ async def get_current_member(token: str = Depends(oauth2_scheme)):
         member_id: int = decoded_payload.get("memberId")
         if member_id is None:
             raise credentials_exception
+        print(f"Decoded memberId from token: {member_id}")
         return member_id
     except JWTError:
         raise credentials_exception
-    
-# DB Insert Test 진행
+
+
+
