@@ -52,6 +52,9 @@ encryption:
 jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
 
+exceed:
+  url : http://localhost:8080
+
 # swagger
 springdoc:
   api-docs:

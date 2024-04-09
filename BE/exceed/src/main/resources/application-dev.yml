@@ -32,6 +32,9 @@ encryption:
 jwt:
   secret: ${JWT_SECRET}
 
+exceed:
+  url : https://eatceed.net
+
 springdoc:
   api-docs:
     path: /api-docs # API 문서 생성 경로
