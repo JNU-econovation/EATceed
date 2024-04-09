@@ -1,5 +1,4 @@
 # DB 관련 CRUD 작업 함수 정의
-from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -28,3 +27,5 @@ async def get_current_member(token: str = Depends(oauth2_scheme)):
         return member_id
     except JWTError:
         raise credentials_exception
+    
+# DB Insert Test 진행

@@ -24,7 +24,6 @@ class Member(Base):
     MEMBER_PASSWORD = Column(String(255), nullable=False)
     MEMBER_ROLE = Column(String(255))
     MEMBER_CHECKED = Column(Boolean, nullable=False)
-    MEMBER_TDEE = Column(Double, nullable=False)
 
     weights = relationship('Weight', back_populates='member')
     meals = relationship('Meal', back_populates='member')
