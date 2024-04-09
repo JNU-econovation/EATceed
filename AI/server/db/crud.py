@@ -4,3 +4,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
+from core.config import settings
+
+JWT_SECRET = settings.JWT_SECRET
+ALGORITHM = "HS256"
