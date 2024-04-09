@@ -2,7 +2,7 @@ version: '3'
 services:
   eatceed-mariadb:
     image: mariadb:10.6
-    container_name: gaebaljip-mariadb
+    container_name: gaebaljip-local-mariadb
     ports:
       - 3306:3306
     volumes:
@@ -15,13 +15,13 @@ services:
 
   eatceed-redis:
     image: redis:alpine
-    container_name: gaebaljip-redis
+    container_name: gaebaljip-local-redis
     command: redis-server --port 6379
     ports:
       - 6379:6379
 
   eatceed-adminer:
-    container_name: gaebaljip-adminer
+    container_name: gaebaljip-local-adminer
     image: adminer:4
     ports:
       - 18080:8080

@@ -15,6 +15,15 @@ services:
     networks:
       - gaebaljip-network
 
+  eatceed-redis:
+    image: redis:alpine
+    container_name: gaebaljip-redis
+    command: redis-server --port 6379
+    ports:
+      - 6379:6379
+    networks:
+      - gaebaljip-network
+
   eatceed-backend:
     image: hwangdaesun/gaebaljip-dev:1.0.0
     container_name: gaebaljip-spring
@@ -22,6 +31,7 @@ services:
       - 8080:8080
     depends_on:
       - eatceed-mariadb
+      - eatceed-redis
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mariadb://gaebaljip-mariadb:3306/gaebaljip?serverTimezone=Asia/Seoul
       - SPRING_DATASOURCE_USERNAME=root
@@ -30,6 +40,10 @@ services:
       - CLOUD_AWS_ACCESS_KEY=${CLOUD_AWS_ACCESS_KEY}
       - CLOUD_AWS_SECRET_KEY=${CLOUD_AWS_SECRET_KEY}
       - JWT_SECRET=${JWT_SECRET}
+      - SES_MAIL_ADDRESS=${SES_MAIL_ADDRESS}
+      - ENCRYPTION_SPEC=${ENCRYPTION_SPEC}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET}
+      - ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM}
     networks:
       - gaebaljip-network
     restart:
