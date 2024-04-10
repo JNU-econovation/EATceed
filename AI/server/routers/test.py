@@ -18,7 +18,6 @@ class EatHabitsCreate(BaseModel):
     weight_advice: str
     
 
-
 test = APIRouter(prefix='/test')
 
 # 로그 메시지
