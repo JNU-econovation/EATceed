@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.member.application;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -25,6 +26,9 @@ public class SendSignupEmailService implements SendEmailUsecase {
     private final Encryption encryption;
     private final TimeOutPort timeOutPort;
 
+    @Value("${exceed.url}")
+    private String URL;
+
     @Override
     @Transactional
     public void execute(SendEmailCommand sendEmailCommand) {
@@ -35,7 +39,7 @@ public class SendSignupEmailService implements SendEmailUsecase {
         String code = encryption.encrypt(uuid);
         Context context = new Context();
         context.setVariable(
-                MailTemplate.SIGN_UP_MAIL_CONTEXT, MailTemplate.REPLY_TO_SIGN_UP_MAIL_URL);
+                MailTemplate.SIGN_UP_MAIL_CONTEXT, URL + MailTemplate.REPLY_TO_SIGN_UP_MAIL_URL);
         context.setVariable(MailTemplate.SIGN_UP_CHECK_COOD, "&code=" + code);
         context.setVariable(MailTemplate.SIGN_UP_EMAIL, "?email=" + sendEmailCommand.email());
         emailPort.sendEmail(
