@@ -3,13 +3,12 @@ services:
   eatceed-mariadb:
     image: mariadb:10.6
     container_name: gaebaljip-mariadb
-    ports:
-      - 3306:3306
+    expose:
+      - "3306"
     volumes:
-      - ./resources.gaebaljip-local-develop-environment/mariadb-conf:/etc/mysql/conf.d
-      - ./resources.gaebaljip-local-develop-environment/mariadb-init:/docker-entrypoint-initdb.d
+      - ./resources/gaebaljip-local-develop-environment/mariadb-conf:/etc/mysql/conf.d
+      - ./resources/gaebaljip-local-develop-environment/mariadb-init:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_DATABASE=gaebaljip
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ROOT_HOST=%
     networks:
@@ -19,13 +18,15 @@ services:
     image: redis:alpine
     container_name: gaebaljip-redis
     command: redis-server --port 6379
-    ports:
-      - 6379:6379
+    expose:
+      - "6379"
     networks:
       - gaebaljip-network
 
   eatceed-backend:
-    image: hwangdaesun/gaebaljip-dev:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: gaebaljip-spring
     ports:
       - 8080:8080
@@ -44,6 +45,8 @@ services:
       - ENCRYPTION_SPEC=${ENCRYPTION_SPEC}
       - ENCRYPTION_SECRET=${ENCRYPTION_SECRET}
       - ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM}
+      - SPRING_REDIS_HOST=gaebaljip-redis
+      - SPRING_REDIS_PORT=6379
     networks:
       - gaebaljip-network
     restart:
