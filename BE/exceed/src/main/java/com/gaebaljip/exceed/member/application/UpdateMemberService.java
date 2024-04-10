@@ -31,6 +31,7 @@ public class UpdateMemberService implements UpdateMemberUsecase {
                         .weight(member.getWeight())
                         .age(member.getAge())
                         .activity(member.getActivity())
+                        .memberEntity(member)
                         .build();
         historyPort.command(history);
         member.updateMember(
