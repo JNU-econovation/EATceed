@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 # Decoded Token Check
 @test.get('/token', tags=['test'])
 async def decoded_token_test(member_id: int = Depends(get_current_member)):
+    logger.debug(f"Decoded token and obtained member_id: {member_id}")
     return {"memberId" : member_id}
 
 # DB CRUD check
