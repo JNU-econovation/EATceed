@@ -7,7 +7,6 @@ spring:
   redis:
     host: localhost
     port: 6379
-    ttl: 600000
   h2:
     console:
       enabled: true
@@ -36,6 +35,10 @@ cloud:
       data-locations: classpath:db/testData.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
+
+exceed:
+  url : http://localhost:8080
+
 
 encryption:
   spec: AES

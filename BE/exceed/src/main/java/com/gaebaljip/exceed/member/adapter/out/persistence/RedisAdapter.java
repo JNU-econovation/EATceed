@@ -2,7 +2,6 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.common.RedisUtils;
@@ -16,8 +15,7 @@ public class RedisAdapter implements TimeOutPort {
 
     private final RedisUtils redisUtils;
 
-    @Value("${spring.redis.ttl}")
-    private Long expiredTime;
+    private Long expiredTime = 600000L;
 
     @Override
     public void command(String email, String code) {
