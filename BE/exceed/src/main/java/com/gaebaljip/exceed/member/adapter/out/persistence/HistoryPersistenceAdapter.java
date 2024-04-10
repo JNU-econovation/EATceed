@@ -1,8 +1,10 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

@@ -1,13 +1,16 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
+
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.Gender;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
