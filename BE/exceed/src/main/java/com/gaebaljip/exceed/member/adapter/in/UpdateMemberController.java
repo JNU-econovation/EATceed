@@ -2,17 +2,18 @@ package com.gaebaljip.exceed.member.adapter.in;
 
 import javax.validation.Valid;
 
-import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.member.docs.UpdateMemberExceptionDocs;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.dto.request.UpdateMemberRequest;
 import com.gaebaljip.exceed.member.application.port.in.UpdateMemberCommand;
 import com.gaebaljip.exceed.member.application.port.in.UpdateMemberUsecase;
+import com.gaebaljip.exceed.member.docs.UpdateMemberExceptionDocs;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,7 +33,7 @@ public class UpdateMemberController {
     @ApiErrorExceptionsExample(UpdateMemberExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> updateMember(
             @RequestBody @Valid UpdateMemberRequest updateMemberRequest,
-            @AuthenticationMemberId Long memberId) {
+            @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         UpdateMemberCommand command = UpdateMemberCommand.of(memberId, updateMemberRequest);
         updateMemberUsecase.execute(command);
         return ApiResponseGenerator.success(HttpStatus.OK);
