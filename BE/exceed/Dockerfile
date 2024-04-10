@@ -1,5 +1,5 @@
 FROM openjdk:17-oracle
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE="./build/libs/*.jar"
 COPY ${JAR_FILE} eatceed.jar
 
 EXPOSE 8080
