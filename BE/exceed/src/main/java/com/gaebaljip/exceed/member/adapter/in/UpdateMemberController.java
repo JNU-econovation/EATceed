@@ -29,7 +29,7 @@ public class UpdateMemberController {
     private final UpdateMemberUsecase updateMemberUsecase;
 
     @Operation(summary = "회원 수정", description = "회원정보를 수정한다.")
-    @PutMapping("/members/")
+    @PutMapping("/members")
     @ApiErrorExceptionsExample(UpdateMemberExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> updateMember(
             @RequestBody @Valid UpdateMemberRequest updateMemberRequest,
