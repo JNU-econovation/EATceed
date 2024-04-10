@@ -6,7 +6,7 @@ import base64
 
 from core.config import settings
 
-# 로그 메시지 출력
+# 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 

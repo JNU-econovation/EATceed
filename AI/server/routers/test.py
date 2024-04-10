@@ -4,7 +4,13 @@ from sqlalchemy.orm import Session
 from auth.decoded_token import get_current_member
 from db.crud import crud_test
 
+import logging
+
 test = APIRouter(prefix='/test')
+
+# 로그 메시지
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # Decoded Token Check
 @test.get('/token', tags=['test'])
