@@ -1,10 +1,19 @@
 # Router Test
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 from auth.decoded_token import get_current_member
 from db.crud import crud_test
+from db.database import get_db
 
 import logging
+
+class EatHabitsCreate(BaseModel):
+    flag: bool
+    weight_prediction: str
+    weight_advice: str
+    
+
 
 test = APIRouter(prefix='/test')
 
@@ -20,13 +29,14 @@ async def decoded_token_test(member_id: int = Depends(get_current_member)):
 # DB CRUD check
 @test.post('/crud', tags=['test'])
 async def db_crud_test(
-    db: Session = Depends(), 
+    eat_habits_data: EatHabitsCreate,
+    db: Session = Depends(get_db), 
     member_id: int = Depends(get_current_member)
 ):
-    # Test value
-    flag = True
-    weight_prediction = "70kg"
-    weight_advice = "Maintain a balanced diet"
-
-    result = crud_test(db, member_id, flag, weight_prediction, weight_advice)
+    result = crud_test(
+        db, 
+        member_id, 
+        eat_habits_data.flag, 
+        eat_habits_data.weight_prediction, 
+        eat_habits_data.weight_advice)
     return {"message": "Test record created successfully", "record": result}
