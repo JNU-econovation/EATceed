@@ -58,6 +58,9 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_ROLE")
     private MemberRole role;
 
+    @Column(name = ENTITY_PREFIX + "_WEIGHT")
+    private double weight;
+
     @Builder.Default
     @OneToMany(mappedBy = "memberEntity")
     private List<WeightEntity> weightEntities = new ArrayList<>();
@@ -78,6 +81,7 @@ public class MemberEntity extends BaseEntity {
         this.gender = gender;
         this.age = age;
         this.activity = activity;
+        this.weight = weight;
         this.etc = etc;
         WeightEntity weightEntity =
                 WeightEntity.builder().weight(weight).targetWeight(targetWeight).build();

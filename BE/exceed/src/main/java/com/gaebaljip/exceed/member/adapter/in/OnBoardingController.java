@@ -19,6 +19,7 @@ import com.gaebaljip.exceed.member.application.port.in.OnBoardingMemberUsecase;
 import com.gaebaljip.exceed.member.docs.OnBoardingMemberExceptionDocs;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class OnBoardingController {
     @ApiErrorExceptionsExample(OnBoardingMemberExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> onBoardingMember(
             @RequestBody @Valid OnBoardingMemberRequest request,
-            @AuthenticationMemberId Long memberId) {
+            @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         OnBoardingMemberCommand command = OnBoardingMemberCommand.of(memberId, request);
         onBoardingMemberUsecase.execute(command);
         return ApiResponseGenerator.success(HttpStatus.CREATED);
