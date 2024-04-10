@@ -14,7 +14,6 @@ CREATE TABLE `MEMBER_TB`
     `MEMBER_PASSWORD` varchar(255) NOT NULL,
     `MEMBER_ROLE`     varchar(255) DEFAULT NULL,
     `MEMBER_CHECKED`  bit          NOT NULL,
-    `MEMBER_TDEE`     double       NOT NULL,
     PRIMARY KEY (`MEMBER_PK`)
 ) ENGINE=InnoDB;
 
