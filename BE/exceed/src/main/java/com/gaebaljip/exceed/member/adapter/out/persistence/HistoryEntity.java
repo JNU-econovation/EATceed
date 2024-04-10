@@ -1,10 +1,6 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
@@ -43,7 +39,6 @@ public class HistoryEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = ENTITY_PREFIX + "_ACTIVITY")
     private Activity activity;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_FK", referencedColumnName = "MEMBER_PK")
