@@ -24,9 +24,7 @@ services:
       - gaebaljip-network
 
   eatceed-backend:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: hwangdaesun/gaebaljip-dev:1.0.0
     container_name: gaebaljip-spring
     ports:
       - 8080:8080
