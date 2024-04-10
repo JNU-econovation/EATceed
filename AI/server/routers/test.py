@@ -1,7 +1,7 @@
 # Router Test
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from db.schema import EatHabitsCreate
 from auth.decoded_token import get_current_member
 from db.crud import crud_test
 from db.database import get_db
@@ -11,11 +11,6 @@ import logging
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
-class EatHabitsCreate(BaseModel):
-    flag: bool
-    weight_prediction: str
-    weight_advice: str
     
 
 test = APIRouter(prefix='/test')
