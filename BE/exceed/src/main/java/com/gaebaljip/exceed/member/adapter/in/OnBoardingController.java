@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.member.adapter.in;
 
 import javax.validation.Valid;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class OnBoardingController {
     @ApiErrorExceptionsExample(OnBoardingMemberExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> onBoardingMember(
             @RequestBody @Valid OnBoardingMemberRequest request,
-            @AuthenticationMemberId Long memberId) {
+            @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         OnBoardingMemberCommand command = OnBoardingMemberCommand.of(memberId, request);
         onBoardingMemberUsecase.execute(command);
         return ApiResponseGenerator.success(HttpStatus.CREATED);
