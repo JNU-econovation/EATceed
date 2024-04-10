@@ -44,9 +44,6 @@ public class HistoryEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_ACTIVITY")
     private Activity activity;
 
-    @CreatedDate
-    @Column(name = ENTITY_PREFIX + "_CREATED_AT", nullable = false)
-    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_FK", referencedColumnName = "MEMBER_PK")
