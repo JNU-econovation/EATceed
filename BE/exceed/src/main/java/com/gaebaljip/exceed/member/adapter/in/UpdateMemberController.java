@@ -2,6 +2,8 @@ package com.gaebaljip.exceed.member.adapter.in;
 
 import javax.validation.Valid;
 
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
+import com.gaebaljip.exceed.member.docs.UpdateMemberExceptionDocs;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class UpdateMemberController {
 
     @Operation(summary = "회원 수정", description = "회원정보를 수정한다.")
     @PutMapping("/members/")
-    //    @ApiErrorExceptionsExample(SignUpMemberExceptionDocs.class)
+    @ApiErrorExceptionsExample(UpdateMemberExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> updateMember(
             @RequestBody @Valid UpdateMemberRequest updateMemberRequest,
             @AuthenticationMemberId Long memberId) {
