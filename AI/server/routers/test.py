@@ -1,6 +1,6 @@
 # Router Test
-from fastapi import APIRouter
-from db.crud import *
+from fastapi import APIRouter, Depends
+from auth.decoded_token import get_current_member
 
 test = APIRouter(prefix='/test')
 

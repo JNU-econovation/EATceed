@@ -38,6 +38,7 @@ async def get_current_member(token: str = Depends(get_token_from_header)):
 
     try:
         print(f"Attempting to decode token: {token}")
+        # Token Decode
         decoded_payload = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         
         # 페이로드 검증
@@ -45,6 +46,7 @@ async def get_current_member(token: str = Depends(get_token_from_header)):
             logger.debug("Invalid payload format")
             raise credentials_exception
 
+        # member_id 가져오기
         member_id: int = decoded_payload.get("sub")
         if member_id is None:
             logger.debug("Member Id not found in decoded token")

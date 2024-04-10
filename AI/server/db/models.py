@@ -1,5 +1,5 @@
 # 데이터베이스 Table 구성
-from sqlalchemy import Column, Integer, String, DateTime, Float, Text, ForeignKey, BigInteger, Boolean, Double
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, BigInteger, Boolean, Double
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from db.database import engine
@@ -89,29 +89,18 @@ class MealFood(Base):
     meal = relationship('Meal', back_populates='meal_foods')
 
 
-# ANALYSIS_TB 구성
-class Analysis(Base):
-    __tablename__ = 'ANALYSIS_TB'
-
-    ANALYSIS_PK = Column(BigInteger, primary_key=True, autoincrement=True)
-    CREATED_DATE = Column(DateTime, nullable=False)
-    WEIGHT_PREDICTION = Column(Text, nullable=False)
-    WEIGHT_ADVICE = Column(Text, nullable=False)
-
-    eat_habits = relationship('EatHabits', back_populates='analysis')
-
-
 # EAT_HABITS_TB 구성
 class EatHabits(Base):
     __tablename__ = 'EAT_HABITS_TB'
 
     EAT_HABITS_PK = Column(BigInteger, primary_key=True, autoincrement=True)
     CREATED_DATE = Column(DateTime, nullable=False)
-    ANALYSIS_FK = Column(BigInteger, ForeignKey('ANALYSIS_TB.ANALYSIS_PK'))
     MEMBER_FK = Column(BigInteger, ForeignKey('MEMBER_TB.MEMBER_PK'))
+    FLAG = Column(Boolean, nullable=False)
+    WEIGHT_PREDICTION = Column(Text, nullable=False)
+    WEIGHT_ADVICE = Column(Text, nullable=False)
 
     member = relationship('Member', back_populates='eat_habits')
-    analysis = relationship('Analysis', back_populates='eat_habits')
 
 # 테이블을 생성하고 매퍼를 추가
 Base.metadata.create_all(bind=engine)
