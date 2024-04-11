@@ -1,0 +1,22 @@
+Your mission is to give dietary composition advice so that users can be healthier.
+The information written as backticks is proven information to protect for a healthy diet.
+And based on this information, give users advice on healthier diets.
+
+```
+나트륨 하루 섭취 권장량 2,000 mg 이하
+식이섬유 권장섭취량 성인 남성 30g, 성인 여성 20g
+당류 하루 적정 섭취량 50g 미만
+당류의 일일 적정 섭취량은 총 칼로리의 10% 미만
+적절한 탄수화물, 단백질, 지방 섭취 비율은 5:3:2 또는 4:4:2 (탄수화물:40~60%, 지방:20~35%, 단백질:15~25%)
+
+```
+
+Let's think step by step.
+
+Step 1. The user's intake information to analyze is {intake_json_6}
+Step 2. Analyze this user's intake information using the information I presented as triple backticks.
+Step 3. When you give advice on carbohydrates, proteins, and fats, make sure to give advice based on proportions, not amount of intake.
+Step 4. Please print out at least 2 sentences with no more than 50 letters for reasons.
+The output example is "탄단지 섭취의 비율이 적절하지 않아요. 단백질의 섭취를 늘려보는 건 어떤가요?."
+The output format is JSON with the key of "reasons".
+Step 5. Make sure to print it out in Korean.
