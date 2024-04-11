@@ -1,20 +1,20 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
-import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.dto.response.TargetMeal;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
+import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
 
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 /**
  * 살 찌기 위한 식단(단,탄,지,칼로리) 정보 조회

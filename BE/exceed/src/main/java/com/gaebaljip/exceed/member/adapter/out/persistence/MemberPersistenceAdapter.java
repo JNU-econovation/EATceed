@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -75,6 +74,6 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     @Override
     public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDate date) {
-        return memberRepository.findByIdAndDate(memberId,date);
+        return memberRepository.findByIdAndDate(memberId, date);
     }
 }

@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.adapter.out.persistence.QMemberEntity;
 import org.springframework.stereotype.Repository;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.member.adapter.out.persistence.QMemberEntity;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
@@ -26,10 +26,11 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
     @Override
     public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDate date) {
-        MemberEntity result = queryFactory
-                .selectFrom(memberEntity)
-                .where(memberEntity.id.eq(memberId).and(checkDate(memberEntity, date)))
-                .fetchOne();
+        MemberEntity result =
+                queryFactory
+                        .selectFrom(memberEntity)
+                        .where(memberEntity.id.eq(memberId).and(checkDate(memberEntity, date)))
+                        .fetchOne();
         return Optional.ofNullable(result);
     }
 

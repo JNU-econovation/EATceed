@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.member.application.port.out;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Optional;
 

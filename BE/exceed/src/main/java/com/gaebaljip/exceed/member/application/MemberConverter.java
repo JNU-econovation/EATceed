@@ -3,10 +3,10 @@ package com.gaebaljip.exceed.member.application;
 import java.util.Comparator;
 import java.util.List;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.common.BaseEntity;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.WeightEntity;
 import com.gaebaljip.exceed.member.domain.Member;

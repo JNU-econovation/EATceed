@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.member.application.port.in;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;

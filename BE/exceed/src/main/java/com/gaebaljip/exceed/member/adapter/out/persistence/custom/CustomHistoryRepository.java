@@ -1,10 +1,10 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence.custom;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 
 @Repository
 public interface CustomHistoryRepository {
