@@ -1,5 +1,9 @@
 package com.gaebaljip.exceed.member.application.port.out;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
@@ -16,4 +20,6 @@ public interface MemberPort {
     MemberEntity findMemberByEmail(String email);
 
     MemberEntity findCheckedMemberByEmail(String email);
+
+    Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDate date);
 }

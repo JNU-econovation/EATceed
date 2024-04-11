@@ -2,11 +2,12 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import java.util.Optional;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.custom.CustomMemberRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
+public interface MemberRepository extends JpaRepository<MemberEntity, Long>, CustomMemberRepository {
 
     Boolean existsByEmail(String email);
 
