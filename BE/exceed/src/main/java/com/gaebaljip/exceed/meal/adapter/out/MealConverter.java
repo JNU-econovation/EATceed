@@ -19,7 +19,7 @@ public class MealConverter {
         return Meal.builder()
                 .id(mealEntity.getId())
                 .mealType(mealEntity.getMealType())
-                .mealDateTime(mealEntity.getCreatedDate().toLocalDateTime())
+                .mealDateTime(mealEntity.getCreatedDate())
                 .foods(
                         mealEntity.getMealFoodEntity().stream()
                                 .map(
