@@ -27,17 +27,17 @@ public class HistoryEntity extends BaseEntity {
     private double height;
 
     @Convert(converter = GenderConvert.class)
-    @Column(name = ENTITY_PREFIX + "_GENDER", columnDefinition = "tinyint")
+    @Column(name = ENTITY_PREFIX + "_GENDER", columnDefinition = "tinyint", nullable = false)
     private Gender gender;
 
     @Column(name = ENTITY_PREFIX + "_WEIGHT", nullable = false)
     private double weight;
 
-    @Column(name = ENTITY_PREFIX + "_AGE")
+    @Column(name = ENTITY_PREFIX + "_AGE", nullable = false)
     private Integer age;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = ENTITY_PREFIX + "_ACTIVITY")
+    @Column(name = ENTITY_PREFIX + "_ACTIVITY", nullable = false)
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
