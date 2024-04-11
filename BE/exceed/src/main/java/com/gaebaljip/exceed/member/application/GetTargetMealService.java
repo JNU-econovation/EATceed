@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.member.application;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
+import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,9 @@ import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
 
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * 살 찌기 위한 식단(단,탄,지,칼로리) 정보 조회
@@ -22,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class GetTargetMealService implements GetTargetMealUsecase {
 
     private final MemberPort memberPort;
+    private final HistoryPort historyPort;
     private final MemberConverter memberConverter;
 
     /**
@@ -35,6 +41,23 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     public TargetMeal execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
+        return toTargetMeal(member);
+    }
+
+    @Override
+    public TargetMeal execute(Long memberId, LocalDate date) {
+        Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
+        if (memberEntity.isPresent()) {
+            Member member = memberConverter.toModel(memberEntity.get());
+            return toTargetMeal(member);
+        } else {
+            HistoryEntity lastestHistoryEntity = historyPort.findByMemberIdAndDate(memberId, date);
+            Member member = memberConverter.toModel(lastestHistoryEntity);
+            return toTargetMeal(member);
+        }
+    }
+
+    private TargetMeal toTargetMeal(Member member) {
         return TargetMeal.builder()
                 .calorie(member.measureTargetCalorie())
                 .carbohydrate(member.measureTargetCarbohydrate())
