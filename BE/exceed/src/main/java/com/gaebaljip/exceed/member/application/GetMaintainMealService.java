@@ -1,11 +1,16 @@
 package com.gaebaljip.exceed.member.application;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.dto.response.MaintainMeal;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
+import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
 
@@ -22,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class GetMaintainMealService implements GetMaintainMealUsecase {
 
     private final MemberPort memberPort;
+    private final HistoryPort historyPort;
     private final MemberConverter memberConverter;
 
     /**
@@ -35,6 +41,24 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
     public MaintainMeal execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
+        return toMaintainMeal(member);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MaintainMeal execute(Long memberId, LocalDate date) {
+        Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
+        if (memberEntity.isPresent()) {
+            Member member = memberConverter.toModel(memberEntity.get());
+            return toMaintainMeal(member);
+        } else {
+            HistoryEntity lastestHistoryEntity = historyPort.findByMemberIdAndDate(memberId, date);
+            Member member = memberConverter.toModel(lastestHistoryEntity);
+            return toMaintainMeal(member);
+        }
+    }
+
+    private MaintainMeal toMaintainMeal(Member member) {
         return MaintainMeal.builder()
                 .calorie(member.measureTDEE())
                 .carbohydrate(member.measureMaintainCarbohydrate())

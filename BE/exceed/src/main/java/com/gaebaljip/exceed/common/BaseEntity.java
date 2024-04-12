@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.common;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -24,9 +24,9 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(nullable = false, updatable = false, name = "CREATED_DATE")
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(nullable = false, name = "UPDATED_DATE")
-    private Timestamp updatedDate;
+    private LocalDateTime updatedDate;
 }

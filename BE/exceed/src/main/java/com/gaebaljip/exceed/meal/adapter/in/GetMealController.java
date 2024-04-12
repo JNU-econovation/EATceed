@@ -61,8 +61,8 @@ public class GetMealController {
     public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
-        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
+        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId, date);
+        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId, date);
         SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, date);
         GetMealResponse getMealResponse =
                 new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());

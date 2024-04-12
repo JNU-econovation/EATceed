@@ -1,11 +1,16 @@
 package com.gaebaljip.exceed.member.application;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.dto.response.TargetMeal;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
+import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
 
@@ -22,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class GetTargetMealService implements GetTargetMealUsecase {
 
     private final MemberPort memberPort;
+    private final HistoryPort historyPort;
     private final MemberConverter memberConverter;
 
     /**
@@ -35,6 +41,23 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     public TargetMeal execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
+        return toTargetMeal(member);
+    }
+
+    @Override
+    public TargetMeal execute(Long memberId, LocalDate date) {
+        Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
+        if (memberEntity.isPresent()) {
+            Member member = memberConverter.toModel(memberEntity.get());
+            return toTargetMeal(member);
+        } else {
+            HistoryEntity lastestHistoryEntity = historyPort.findByMemberIdAndDate(memberId, date);
+            Member member = memberConverter.toModel(lastestHistoryEntity);
+            return toTargetMeal(member);
+        }
+    }
+
+    private TargetMeal toTargetMeal(Member member) {
         return TargetMeal.builder()
                 .calorie(member.measureTargetCalorie())
                 .carbohydrate(member.measureTargetCarbohydrate())
