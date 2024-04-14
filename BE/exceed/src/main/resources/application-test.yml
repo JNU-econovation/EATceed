@@ -4,6 +4,9 @@ spring:
     driver-class-name: org.h2.Driver
     username: exceed
     password: exceed
+  redis:
+    host: localhost
+    port: 6379
   h2:
     console:
       enabled: true
@@ -11,24 +14,39 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    properties:
+      hibernate:
+        show_sql : true
+        format_sql : true
     defer-datasource-initialization: true
-  cloud:
-    aws:
-      s3:
-        bucket: test-bucket
-      credentials:
-        access-key: test-access-key
-        secret-key: test-secret-key
-      region:
-        static: ap-northeast-2
-      stack:
-        auto: false
+cloud:
+  aws:
+    credentials:
+      access-key: test-accessKey
+      secret-key: test-secretKey
+    s3:
+      bucket: test-bucket
+      region: ap-northeast-2
+    ses:
+      mail-address: test-address
+      region: ap-northeast-1
   sql:
     init:
       data-locations: classpath:db/testData.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
+
+exceed:
+  url : http://localhost:8080
+
+
+encryption:
+  spec: AES
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+  algorithm: AES
+
+logging.level:
+  org.hibernate.SQl: debug
 
 jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse

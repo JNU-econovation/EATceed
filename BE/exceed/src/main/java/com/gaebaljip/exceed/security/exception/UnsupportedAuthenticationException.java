@@ -1,17 +1,15 @@
 package com.gaebaljip.exceed.security.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-import lombok.Getter;
-import org.springframework.security.core.AuthenticationException;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 
+import lombok.Getter;
 
 @Getter
-public class UnsupportedAuthenticationException extends AuthenticationException {
+public class UnsupportedAuthenticationException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new UnsupportedAuthenticationException();
 
-    public UnsupportedAuthenticationException() {
-        super(MessageCode.UNSUPPORTED_JWT.getValue());
-        this.messageCode = MessageCode.UNSUPPORTED_JWT;
+    private UnsupportedAuthenticationException() {
+        super(SecurityErrorCode.UNSUPPORTED_JWT);
     }
 }

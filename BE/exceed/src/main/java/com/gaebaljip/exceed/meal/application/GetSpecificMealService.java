@@ -1,68 +1,102 @@
 package com.gaebaljip.exceed.meal.application;
 
-import com.gaebaljip.exceed.dto.response.CurrentMeal;
-import com.gaebaljip.exceed.dto.response.DailyMeal;
-import com.gaebaljip.exceed.dto.response.GetFood;
-import com.gaebaljip.exceed.dto.response.GetMeal;
-import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
-import com.gaebaljip.exceed.meal.application.port.out.GetPresignedUrlPort;
-import com.gaebaljip.exceed.meal.application.port.out.LoadDailyMealPort;
-import com.gaebaljip.exceed.meal.domain.MealModel;
-import com.gaebaljip.exceed.meal.domain.MealsModel;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
+import com.gaebaljip.exceed.dto.response.Food;
+import com.gaebaljip.exceed.dto.response.MealRecord;
+import com.gaebaljip.exceed.dto.response.SpecificMeal;
+import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
+import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
+import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
+import com.gaebaljip.exceed.meal.domain.DailyMeal;
+import com.gaebaljip.exceed.meal.domain.Meal;
 
+import lombok.RequiredArgsConstructor;
+
+/**
+ * 특정 날짜의 식사 정보 조회
+ *
+ * @author hwangdaesun
+ * @version 1.0
+ */
 @Service
 @RequiredArgsConstructor
 public class GetSpecificMealService implements GetSpecificMealQuery {
 
-    private final LoadDailyMealPort loadDailyMealPort;
-    private final GetPresignedUrlPort getPresignedUrlPort;
+    private final DailyMealPort dailyMealPort;
+    private final PresignedUrlPort presignedUrlPort;
+    public static final double ZERO = 0.0;
 
+    /**
+     * DailyMeal 도메인이 특정 날짜 식사들을 분석하여 칼로리,단,탄,지 정보를 반환한다. 만약 식사 정보가 존재하지 않을 경우는 칼로리,단,탄,지 모두 ZERO를
+     * 반환한다. 또한, 특정 날짜의 식사 정보들을 반환한다.
+     *
+     * @param memberId
+     * @param date
+     * @return SpecificMeal : 특정 날짜의 칼로리,단,탄,지 정보와 식사 정보
+     */
     @Override
     @Transactional(readOnly = true)
-    public GetMeal execute(Long memberId, LocalDate date) {
-        List<MealModel> mealModels = loadDailyMealPort.queryMealsForDate(memberId, date);
-        MealsModel mealsModel = new MealsModel(mealModels);
-        List<DailyMeal> dailyMeals = new ArrayList<>();
-        setDailyMeals(mealModels, dailyMeals, memberId);
-        return getGetMeal(mealsModel, dailyMeals);
-    }
+    public SpecificMeal execute(Long memberId, LocalDate date) {
+        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, date));
 
-    private void setDailyMeals(List<MealModel> mealModels, List<DailyMeal> dailyMeals, Long memberId) {
-        IntStream.range(0, mealModels.size()).forEach(i -> {
-            DailyMeal dailyMeal = DailyMeal.builder()
-                    .mealType(mealModels.get(i).getMealType())
-                    .time(mealModels.get(i).getMealDateTime().toLocalTime())
-                    .imageUri(getPresignedUrlPort.command(memberId, mealModels.get(i).getId()))
-                    .foods(mealModels.get(i).getFoodModels().stream().map(foodModel -> GetFood.builder()
-                            .id(foodModel.getId())
-                            .name(foodModel.getName())
-                            .build()).toList()
-                    ).build();
-            dailyMeals.add(dailyMeal);
-        });
-    }
+        if (meals.isEmpty()) {
+            return createEmptySpecificMeal();
+        }
+        DailyMeal dailyMeal = new DailyMeal(meals);
 
-    private GetMeal getGetMeal(MealsModel mealsModel, List<DailyMeal> dailyMeals) {
-        return GetMeal.builder()
-                .currentMeal(getCurrentMeal(mealsModel))
-                .dailyMeals(dailyMeals)
+        List<MealRecord> mealRecords =
+                meals.stream().map(meal -> createMealRecord(meal, memberId)).toList();
+
+        return SpecificMeal.builder()
+                .currentMeal(getCurrentMeal(dailyMeal))
+                .mealRecords(mealRecords)
                 .build();
     }
 
-    private CurrentMeal getCurrentMeal(MealsModel mealsModel) {
+    private SpecificMeal createEmptySpecificMeal() {
+        return SpecificMeal.builder()
+                .mealRecords(List.of())
+                .currentMeal(
+                        CurrentMeal.builder()
+                                .protein(ZERO)
+                                .fat(ZERO)
+                                .carbohydrate(ZERO)
+                                .calorie(ZERO)
+                                .build())
+                .build();
+    }
+
+    private MealRecord createMealRecord(Meal meal, Long memberId) {
+        return MealRecord.builder()
+                .mealType(meal.getMealType())
+                .time(meal.getMealDateTime().toLocalTime())
+                .imageUri(presignedUrlPort.query(memberId, meal.getId()))
+                .foods(
+                        meal.getFoods().stream()
+                                .map(
+                                        foodModel ->
+                                                Food.builder()
+                                                        .id(foodModel.getId())
+                                                        .name(foodModel.getName())
+                                                        .build())
+                                .collect(Collectors.toList()))
+                .build();
+    }
+
+    private CurrentMeal getCurrentMeal(DailyMeal dailyMeal) {
         return CurrentMeal.builder()
-                .calorie(mealsModel.calculateCurrentCalorie())
-                .carbohydrate(mealsModel.calculateCurrentCarbohydrate())
-                .fat(mealsModel.calculateCurrentFat())
-                .protein(mealsModel.calculateCurrentProtein())
+                .calorie(dailyMeal.calculateCurrentCalorie())
+                .carbohydrate(dailyMeal.calculateCurrentCarbohydrate())
+                .fat(dailyMeal.calculateCurrentFat())
+                .protein(dailyMeal.calculateCurrentProtein())
                 .build();
     }
 }

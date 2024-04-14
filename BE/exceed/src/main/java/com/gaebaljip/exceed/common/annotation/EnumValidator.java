@@ -1,7 +1,5 @@
 package com.gaebaljip.exceed.common.annotation;
 
-import com.gaebaljip.exceed.common.annotation.Enum;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -20,7 +18,8 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
         Object[] enumValues = this.annotation.enumClass().getEnumConstants();
         if (enumValues != null) {
             for (Object enumValue : enumValues) {
-                if (value.equals(enumValue.toString()) || (value.equalsIgnoreCase(enumValue.toString()))) {
+                if (value.equals(enumValue.toString())
+                        || (value.equalsIgnoreCase(enumValue.toString()))) {
                     result = true;
                     break;
                 }

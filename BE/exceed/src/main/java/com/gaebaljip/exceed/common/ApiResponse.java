@@ -1,12 +1,15 @@
 package com.gaebaljip.exceed.common;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.io.Serializable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 public class ApiResponse<B> extends ResponseEntity<B> {
@@ -20,9 +23,9 @@ public class ApiResponse<B> extends ResponseEntity<B> {
         this.getHeaders().setContentType(mediaType);
     }
 
-
     @Getter
     @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     public static class CustomBody<D> implements Serializable {
         private Boolean success;
         private D response;

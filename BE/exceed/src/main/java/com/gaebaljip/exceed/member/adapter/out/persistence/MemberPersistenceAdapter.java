@@ -1,46 +1,79 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import com.gaebaljip.exceed.achieve.application.port.out.LoadMonthTargetPort;
-import com.gaebaljip.exceed.achieve.domain.DailyTarget;
-import com.gaebaljip.exceed.member.application.MemberConverter;
-import com.gaebaljip.exceed.member.application.port.out.LoadMemberPort;
-import com.gaebaljip.exceed.member.application.port.out.RecordMemberPort;
-import com.gaebaljip.exceed.member.domain.MemberModel;
-import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
+
+import com.gaebaljip.exceed.auth.exception.MemberNotCheckedException;
+import com.gaebaljip.exceed.member.application.MemberConverter;
+import com.gaebaljip.exceed.member.application.port.out.MemberPort;
+import com.gaebaljip.exceed.member.domain.Member;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
+import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyTargetPort;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class MemberPersistenceAdapter implements LoadMemberPort, RecordMemberPort, LoadMonthTargetPort {
+public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
 
     @Override
     public MemberEntity query(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return memberRepository
+                .findById(memberId)
+                .orElseThrow(() -> MemberNotFoundException.EXECPTION);
     }
 
     @Override
-    public MemberEntity query(MemberEntity memberEntity) {
+    public MemberEntity command(MemberEntity memberEntity) {
         return memberRepository.save(memberEntity);
     }
 
+    /** 회원 수정 기능 구현 후 -> Map<LocalDate date, MemberModel> 변경 */
     @Override
-    public DailyTarget queryForMonthTargets(Long memberId) {
-        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        MemberModel memberModel = memberConverter.toModel(memberEntity);
-        return getDailyTarget(memberEntity, memberModel);
+    public Member query(Long memberId, LocalDate date) {
+        MemberEntity memberEntity =
+                memberRepository
+                        .findById(memberId)
+                        .orElseThrow(() -> MemberNotFoundException.EXECPTION);
+        return memberConverter.toModel(memberEntity);
     }
 
-    private DailyTarget getDailyTarget(MemberEntity memberEntity, MemberModel memberModel) {
-        return DailyTarget.builder()
-                .targetCalorie(memberModel.measureTargetCalorie())
-                .targetCarbohydrate(memberModel.measureTargetCarbohydrate())
-                .targetFat(memberModel.measureTargetFat())
-                .targetProtein(memberModel.measureTargetProtein())
-                .date(memberEntity.getCreatedDate().toLocalDateTime().toLocalDate())
-                .build();
+    @Override
+    public Boolean findEmailOrChecked(String email) {
+        Boolean existed = memberRepository.existsByEmail(email);
+        if (!existed) {
+            return false;
+        } else {
+            return memberRepository.findCheckedByEmail(email);
+        }
+    }
+
+    @Override
+    public MemberEntity findMemberByEmail(String email) {
+        return memberRepository
+                .findByEmail(email)
+                .orElseThrow(() -> MemberNotFoundException.EXECPTION);
+    }
+
+    @Override
+    public MemberEntity findCheckedMemberByEmail(String email) {
+        MemberEntity member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> MemberNotFoundException.EXECPTION);
+        if (!member.getChecked()) {
+            throw MemberNotCheckedException.EXECPTION;
+        }
+        return member;
+    }
+
+    @Override
+    public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDate date) {
+        return memberRepository.findByIdAndDate(memberId, date);
     }
 }

@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.member.domain;
 
-import lombok.Getter;
-
 import java.util.concurrent.ThreadLocalRandom;
+
+import lombok.Getter;
 
 @Getter
 public class RandomWord {

@@ -10,6 +10,8 @@ plugins {
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	id "me.champeau.jmh" version "0.7.2"
+	id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'com.gaebaljip'
@@ -43,6 +45,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.projectlombok:lombok:1.18.26'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -71,6 +74,16 @@ dependencies {
 
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	//email
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation group: 'software.amazon.awssdk', name: 'ses', version: "2.19.29"
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	//Swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 }
 
 tasks.named('bootBuildImage') {
@@ -136,4 +149,31 @@ task copyDocument(type: Copy) {		//(8) from의 파일을 into로 복사
 
 build {        //(9) build 시 copyDocument 실행
 	dependsOn copyDocument
+}
+tasks.named('compileJava') {
+	dependsOn 'spotlessApply'
+}
+
+jar {
+	enabled = false
+}
+
+spotless {
+	java {
+		// Google Java 포맷 적용
+		/*
+            googleJavaFormat() : 탭은 2개의 공백
+            googleJavaFormat().aosp() : 탭은 4개의 공백
+            [참고] https://github.com/google/google-java-format/issues/525
+         */
+		googleJavaFormat().aosp()
+		// 아래 순서로 import문 정렬
+		importOrder('java', 'javax', 'jakarta', 'org', 'com')
+		// 사용하지 않는 import 제거
+		removeUnusedImports()
+		// 각 라인 끝에 있는 공백을 제거
+		trimTrailingWhitespace()
+		// 파일 끝에 새로운 라인 추가
+		endWithNewline()
+	}
 }

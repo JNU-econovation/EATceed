@@ -44,3 +44,12 @@ src/main/resources/static/docs/api-doc.html
 
 ### logback
 src/main/resources/logback-spring.xml
+
+### env
+.env
+env-dev
+
+
+### jmh
+
+src/jmh/**

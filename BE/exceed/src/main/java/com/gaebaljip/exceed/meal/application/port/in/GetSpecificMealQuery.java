@@ -1,11 +1,12 @@
 package com.gaebaljip.exceed.meal.application.port.in;
 
-import com.gaebaljip.exceed.dto.response.GetMeal;
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import com.gaebaljip.exceed.dto.response.SpecificMeal;
 
 @Component
 public interface GetSpecificMealQuery {
-    GetMeal execute(Long memberId, LocalDate date);
+    SpecificMeal execute(Long memberId, LocalDate date);
 }

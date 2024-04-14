@@ -1,39 +1,40 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.domain.GuestModel;
-import com.gaebaljip.exceed.member.domain.MemberModel;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
+
+import com.gaebaljip.exceed.common.BaseEntity;
+import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.member.adapter.out.persistence.WeightEntity;
+import com.gaebaljip.exceed.member.domain.Member;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class MemberConverter {
-
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public MemberEntity toEntity(GuestModel guestModel, String etc) {
-        return MemberEntity.builder()
-                .loginId(guestModel.getLoginId())
-                .password(bCryptPasswordEncoder.encode(guestModel.getPassword()))
-                .weight(guestModel.getWeight())
-                .height(guestModel.getHeight())
-                .age(guestModel.getAge())
-                .gender(guestModel.getGender())
-                .etc(etc)
-                .activity(guestModel.getActivity())
-                .role(guestModel.getRole())
+    public Member toModel(MemberEntity memberEntity) {
+        List<WeightEntity> weightEntities = memberEntity.getWeightEntities();
+        weightEntities.sort(Comparator.comparing(BaseEntity::getCreatedDate));
+        return Member.builder()
+                .height(memberEntity.getHeight())
+                .weight(weightEntities.get(weightEntities.size() - 1).getWeight())
+                .gender(memberEntity.getGender().getValue())
+                .activity(memberEntity.getActivity())
+                .age(memberEntity.getAge())
                 .build();
     }
 
-    public MemberModel toModel(MemberEntity memberEntity) {
-        return MemberModel.builder()
-                .height(memberEntity.getHeight())
-                .weight(memberEntity.getWeight())
-                .gender(memberEntity.getGender())
-                .activity(memberEntity.getActivity())
-                .age(memberEntity.getAge())
+    public Member toModel(HistoryEntity historyEntity) {
+        return Member.builder()
+                .height(historyEntity.getHeight())
+                .weight(historyEntity.getWeight())
+                .gender(historyEntity.getGender().getValue())
+                .activity(historyEntity.getActivity())
+                .age(historyEntity.getAge())
                 .build();
     }
 }

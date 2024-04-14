@@ -1,15 +1,15 @@
 package com.gaebaljip.exceed.member.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
+
 import lombok.Getter;
 
 @Getter
-public class InvalidAgeException extends IllegalArgumentException {
+public class InvalidAgeException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new InvalidAgeException();
 
-    public InvalidAgeException() {
-        super(MessageCode.INVALID_AGE.getValue());
-        this.messageCode = MessageCode.INVALID_AGE;
+    private InvalidAgeException() {
+        super(MemberError.INVALID_AGE);
     }
 }

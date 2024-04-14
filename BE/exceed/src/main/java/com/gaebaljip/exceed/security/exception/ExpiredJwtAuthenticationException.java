@@ -1,17 +1,15 @@
 package com.gaebaljip.exceed.security.exception;
 
-import com.gaebaljip.exceed.common.MessageCode;
-import lombok.Getter;
-import org.springframework.security.core.AuthenticationException;
+import com.gaebaljip.exceed.common.exception.EatCeedException;
 
+import lombok.Getter;
 
 @Getter
-public class ExpiredJwtAuthenticationException extends AuthenticationException {
+public class ExpiredJwtAuthenticationException extends EatCeedException {
 
-    private final MessageCode messageCode;
+    public static EatCeedException EXECPTION = new ExpiredJwtAuthenticationException();
 
-    public ExpiredJwtAuthenticationException() {
-        super(MessageCode.EXPIRED_JWT.getValue());
-        this.messageCode = MessageCode.EXPIRED_JWT;
+    private ExpiredJwtAuthenticationException() {
+        super(SecurityErrorCode.EXPIRED_JWT);
     }
 }
