@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.application;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +44,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
      */
     @Override
     @Transactional(readOnly = true)
-    public SpecificMeal execute(Long memberId, LocalDate date) {
+    public SpecificMeal execute(Long memberId, LocalDateTime date) {
         List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, date));
 
         if (meals.isEmpty()) {

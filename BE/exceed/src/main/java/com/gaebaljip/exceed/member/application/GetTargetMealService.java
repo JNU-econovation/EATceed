@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     }
 
     @Override
-    public TargetMeal execute(Long memberId, LocalDate date) {
+    public TargetMeal execute(Long memberId, LocalDateTime date) {
         Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
         if (memberEntity.isPresent()) {
             Member member = memberConverter.toModel(memberEntity.get());

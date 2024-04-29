@@ -1,8 +1,5 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 import com.gaebaljip.exceed.common.BaseEntity;
@@ -29,7 +26,7 @@ public class MemberEntity extends BaseEntity {
     private Long id;
 
     @Column(name = ENTITY_PREFIX + "_HEIGHT")
-    private double height;
+    private Double height;
 
     @Convert(converter = GenderConvert.class)
     @Column(name = ENTITY_PREFIX + "_GENDER", columnDefinition = "tinyint")
@@ -59,11 +56,7 @@ public class MemberEntity extends BaseEntity {
     private MemberRole role;
 
     @Column(name = ENTITY_PREFIX + "_WEIGHT")
-    private double weight;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "memberEntity")
-    private List<WeightEntity> weightEntities = new ArrayList<>();
+    private Double weight;
 
     public void updateChecked() {
         this.checked = true;
@@ -83,13 +76,5 @@ public class MemberEntity extends BaseEntity {
         this.activity = activity;
         this.weight = weight;
         this.etc = etc;
-        WeightEntity weightEntity =
-                WeightEntity.builder().weight(weight).targetWeight(targetWeight).build();
-        addWeightEntity(weightEntity);
-    }
-
-    private void addWeightEntity(WeightEntity weightEntity) {
-        weightEntity.mappingMember(this);
-        this.weightEntities.add(weightEntity);
     }
 }
