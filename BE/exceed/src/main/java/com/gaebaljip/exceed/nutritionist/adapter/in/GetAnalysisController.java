@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.nutritionist.adapter.in;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,9 @@ public class GetAnalysisController {
     public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAnalysis(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
+        LocalDateTime localDateTime = date.atStartOfDay();
         GetAnalysisResponse achieveListResponse =
-                getAnalysisUsecase.execute(new GetAnalysisRequest(memberId, date));
+                getAnalysisUsecase.execute(new GetAnalysisRequest(memberId, localDateTime));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }

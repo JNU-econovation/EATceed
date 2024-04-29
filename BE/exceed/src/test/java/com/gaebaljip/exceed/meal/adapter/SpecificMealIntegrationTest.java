@@ -5,7 +5,8 @@ import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRespon
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.assertj.core.api.Assertions;
@@ -24,6 +25,9 @@ import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class SpecificMealIntegrationTest extends IntegrationTest {
 
     @MockBean private PresignedUrlPort getPresignedUrlPort;
@@ -38,6 +42,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.info("responseBody: {}", responseBody);
 
         // then
         ApiResponse.CustomBody<GetMealResponse> getMealResponseCustomBody =

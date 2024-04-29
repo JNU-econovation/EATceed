@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence.custom;
 
 import static com.gaebaljip.exceed.member.adapter.out.persistence.QHistoryEntity.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 
@@ -22,7 +22,7 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public HistoryEntity findByMemberIdAndDate(Long memberId, LocalDate date) {
+    public HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date) {
         return queryFactory
                 .selectFrom(historyEntity)
                 .where(historyEntity.id.eq(memberId).and(checkDate(historyEntity, date)))
@@ -30,7 +30,7 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
                 .fetchFirst();
     }
 
-    private BooleanExpression checkDate(QHistoryEntity historyEntity, LocalDate date) {
-        return historyEntity.createdDate.before(date.atStartOfDay());
+    private BooleanExpression checkDate(QHistoryEntity historyEntity, LocalDateTime date) {
+        return historyEntity.createdDate.before(date);
     }
 }

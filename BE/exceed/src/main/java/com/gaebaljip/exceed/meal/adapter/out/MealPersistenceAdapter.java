@@ -1,12 +1,12 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.config.DateConverter;
 import com.gaebaljip.exceed.dto.request.MonthlyMeal;
 import com.gaebaljip.exceed.dto.request.TodayMeal;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
@@ -31,8 +31,8 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
 
     @Override
     public List<Meal> query(TodayMeal todayMeal) {
-        Timestamp today = DateConverter.toEpochSecond(todayMeal.date());
-        Timestamp tomorrow = DateConverter.toEpochSecond(todayMeal.date().plusDays(1));
+        LocalDateTime today = todayMeal.date().toLocalDate().atStartOfDay();
+        LocalDateTime tomorrow = today.plusDays(1);
         List<MealEntity> mealEntities =
                 mealRepository.findAllTodayMeal(today, tomorrow, todayMeal.memberId());
         return mealConverter.toMeals(mealEntities);
@@ -40,18 +40,10 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
 
     @Override
     public List<Meal> query(MonthlyMeal monthlyMeal) {
-        Timestamp startOfMonth =
-                DateConverter.toEpochSecond(
-                        LocalDate.of(
-                                monthlyMeal.date().getYear(),
-                                monthlyMeal.date().getMonth(),
-                                FIRST_DAY));
-        Timestamp endOfMonth =
-                DateConverter.toEpochSecond(
-                        LocalDate.of(
-                                monthlyMeal.date().getYear(),
-                                monthlyMeal.date().getMonth(),
-                                getDayOfMonth(monthlyMeal.date())));
+        LocalDateTime date = monthlyMeal.date().toLocalDate().atStartOfDay();
+        LocalDateTime startOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
+
         List<MealEntity> mealEntities =
                 mealRepository.findMealsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMeal.memberId());

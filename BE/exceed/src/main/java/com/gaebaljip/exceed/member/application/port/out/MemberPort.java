@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application.port.out;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -20,5 +20,5 @@ public interface MemberPort {
 
     MemberEntity findCheckedMemberByEmail(String email);
 
-    Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDate date);
+    Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date);
 }

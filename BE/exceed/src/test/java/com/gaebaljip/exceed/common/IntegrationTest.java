@@ -19,12 +19,15 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ExtendWith(DatabaseClearExtension.class)
 @ExtendWith(RestDocumentationExtension.class)
 @Sql("classpath:db/testData.sql")
 @ActiveProfiles("test")
+@Slf4j
 public abstract class IntegrationTest {
 
     @Autowired protected MockMvc mockMvc;

@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.meal.application;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Override
     @Transactional(readOnly = true)
     public CurrentMeal execute(Long memberId) {
-        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, LocalDate.now()));
+        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, LocalDateTime.now()));
         if (meals.isEmpty()) {
             return CurrentMeal.builder()
                     .calorie(ZERO)
