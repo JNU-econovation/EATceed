@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gaebaljip.exceed.auth.application.port.in.AuthUsecase;
 import com.gaebaljip.exceed.auth.docs.AuthExceptionDocs;
-import com.gaebaljip.exceed.auth.docs.SecurityExceptionDocs;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
@@ -50,12 +49,5 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         response.addCookie(cookie);
-    }
-
-    @Operation(summary = "인증/인가 공통", description = "인증/인가 공통 예외")
-    @ApiErrorExceptionsExample(SecurityExceptionDocs.class)
-    @PostMapping("/auth/common")
-    public ApiResponse<ApiResponse.CustomBody<Void>> common() {
-        return ApiResponseGenerator.success(HttpStatus.OK);
     }
 }

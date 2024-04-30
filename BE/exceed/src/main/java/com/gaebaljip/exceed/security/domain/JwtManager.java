@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.security.exception.ExpiredJwtAuthenticationException;
-import com.gaebaljip.exceed.security.exception.InvalidJwtAuthenticationException;
-import com.gaebaljip.exceed.security.exception.UnsupportedAuthenticationException;
+import com.gaebaljip.exceed.security.exception.ExpiredJwtException;
+import com.gaebaljip.exceed.security.exception.InvalidJwtException;
+import com.gaebaljip.exceed.security.exception.UnSupportedJwtException;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -60,23 +60,23 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw InvalidJwtAuthenticationException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
-        } catch (ExpiredJwtException e) {
+            throw InvalidJwtException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
                     request.getMethod(),
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw ExpiredJwtAuthenticationException.EXECPTION; // 토큰이 만료된 경우
-        } catch (UnsupportedJwtException e) {
+            throw ExpiredJwtException.EXECPTION; // 토큰이 만료된 경우
+        } catch (io.jsonwebtoken.UnsupportedJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
                     request.getMethod(),
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw UnsupportedAuthenticationException.EXECPTION; // 지원되지 않는 토큰
+            throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -117,23 +117,23 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw InvalidJwtAuthenticationException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
-        } catch (ExpiredJwtException e) {
+            throw InvalidJwtException.EXECPTION; // 토큰의 서명이 유효하지 않은 경우
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
                     request.getMethod(),
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw ExpiredJwtAuthenticationException.EXECPTION; // 토큰이 만료된 경우
-        } catch (UnsupportedJwtException e) {
+            throw ExpiredJwtException.EXECPTION; // 토큰이 만료된 경우
+        } catch (io.jsonwebtoken.UnsupportedJwtException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
                     request.getMethod(),
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw UnsupportedAuthenticationException.EXECPTION; // 지원되지 않는 토큰
+            throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",

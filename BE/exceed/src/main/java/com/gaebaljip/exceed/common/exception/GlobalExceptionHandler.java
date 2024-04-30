@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.common.exception;
 
 import java.net.BindException;
-import java.security.GeneralSecurityException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +18,10 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
+import com.gaebaljip.exceed.security.exception.ExpiredJwtException;
+import com.gaebaljip.exceed.security.exception.InvalidJwtException;
+import com.gaebaljip.exceed.security.exception.SecurityErrorCode;
+import com.gaebaljip.exceed.security.exception.UnSupportedJwtException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,9 +29,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(GeneralSecurityException.class)
-    protected ApiResponse<?> handleGenerateKeyException(GeneralSecurityException e) {
-        return ApiResponseGenerator.fail(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(ExpiredJwtException.class)
+    protected ApiResponse<?> handleExpiredJwtAuthenticationException(ExpiredJwtException e) {
+        return ApiResponseGenerator.fail(
+                SecurityErrorCode.EXPIRED_JWT.getCode(), e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnSupportedJwtException.class)
+    protected ApiResponse<?> handleUnsupportedJwtException(UnSupportedJwtException e) {
+        return ApiResponseGenerator.fail(
+                SecurityErrorCode.UNSUPPORTED_JWT.getCode(),
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidJwtException.class)
+    protected ApiResponse<?> handleInvalidJwtException(InvalidJwtException e) {
+        return ApiResponseGenerator.fail(
+                SecurityErrorCode.INVALID_JWT.getCode(), e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
