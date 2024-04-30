@@ -1,6 +1,6 @@
 # DB 관련 CRUD 작업 함수 정의
 from fastapi import Depends, HTTPException, status, Header
-from jose import JWTError, jwt
+from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
 
@@ -53,6 +53,13 @@ async def get_current_member(token: str = Depends(get_token_from_header)):
             raise credentials_exception
         print(f"Decoded memberId from token: {member_id}")
         return member_id
+    except ExpiredSignatureError:
+        # 토큰 만료 예외 처리
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token expired",
+            headers={"WWW-authenticate": "Bearer"}
+        )
     except JWTError as e:
         logger.error(f"JWTError occurred: {e}. Token: {token}, JWT_SECRET: {JWT_SECRET}")
         raise credentials_exception
