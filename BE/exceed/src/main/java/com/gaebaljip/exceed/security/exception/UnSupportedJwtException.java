@@ -5,11 +5,11 @@ import org.springframework.security.core.AuthenticationException;
 import lombok.Getter;
 
 @Getter
-public class UnsupportedJwtException extends AuthenticationException {
+public class UnSupportedJwtException extends AuthenticationException {
 
-    public static AuthenticationException EXECPTION = new UnsupportedJwtException();
+    public static AuthenticationException EXECPTION = new UnSupportedJwtException();
 
-    private UnsupportedJwtException() {
+    private UnSupportedJwtException() {
         super(SecurityErrorCode.UNSUPPORTED_JWT.getCode());
     }
 }

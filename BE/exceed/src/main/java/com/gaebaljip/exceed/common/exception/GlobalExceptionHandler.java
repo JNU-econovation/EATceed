@@ -21,7 +21,7 @@ import com.gaebaljip.exceed.common.Error;
 import com.gaebaljip.exceed.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.security.exception.InvalidJwtException;
 import com.gaebaljip.exceed.security.exception.SecurityErrorCode;
-import com.gaebaljip.exceed.security.exception.UnsupportedJwtException;
+import com.gaebaljip.exceed.security.exception.UnSupportedJwtException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,8 +35,8 @@ public class GlobalExceptionHandler {
                 SecurityErrorCode.EXPIRED_JWT.getCode(), e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(UnsupportedJwtException.class)
-    protected ApiResponse<?> handleUnsupportedJwtException(UnsupportedJwtException e) {
+    @ExceptionHandler(UnSupportedJwtException.class)
+    protected ApiResponse<?> handleUnsupportedJwtException(UnSupportedJwtException e) {
         return ApiResponseGenerator.fail(
                 SecurityErrorCode.UNSUPPORTED_JWT.getCode(),
                 e.getMessage(),

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.security.exception.InvalidJwtException;
-import com.gaebaljip.exceed.security.exception.UnsupportedJwtException;
+import com.gaebaljip.exceed.security.exception.UnSupportedJwtException;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -76,7 +76,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw UnsupportedJwtException.EXECPTION; // 지원되지 않는 토큰
+            throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
@@ -133,7 +133,7 @@ public class JwtManager {
                     request.getRequestURL(),
                     LocalDateTime.now(),
                     e.getMessage());
-            throw UnsupportedJwtException.EXECPTION; // 지원되지 않는 토큰
+            throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
