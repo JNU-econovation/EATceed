@@ -7,8 +7,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
-import com.gaebaljip.exceed.member.adapter.out.persistence.WeightEntity;
 
 class OnBoardingMemberIntegrationTest extends IntegrationTest {
 
@@ -56,11 +53,10 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
 
         // then
         double height = memberRepository.findById(2L).get().getHeight();
-        List<WeightEntity> weightEntities = memberRepository.findById(2L).get().getWeightEntities();
-        Double weight = weightEntities.get(0).getWeight();
+        MemberEntity memberEntity1 = memberRepository.findById(2L).get();
+        Double weight = memberEntity1.getWeight();
 
         Assertions.assertThat(weight).isEqualTo(61.0);
-        Assertions.assertThat(weightEntities.size()).isEqualTo(1);
         Assertions.assertThat(height).isEqualTo(171.0);
         resultActions.andExpect(status().isCreated());
         resultActions

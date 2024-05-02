@@ -1,6 +1,8 @@
 package com.gaebaljip.exceed.nutritionist.application;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -69,16 +71,16 @@ public class GetAnalysisService implements GetAnalysisUsecase {
                                 Collectors.collectingAndThen(Collectors.toList(), DailyMeal::new)));
     }
 
-    private LocalDate getStartDate(GetAnalysisRequest request) {
+    private LocalDateTime getStartDate(GetAnalysisRequest request) {
         return request.date().withDayOfMonth(FIRST_DAY);
     }
 
     private int getLengthOfMonth(GetAnalysisRequest request) {
-        return request.date().lengthOfMonth();
+        return request.date().with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
     }
 
     private Analysis createAnalysisForDay(
-            LocalDate day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
+            LocalDateTime day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
         return Optional.ofNullable(dailyMealMap.get(day))
                 .map(
                         dailyMeal -> {

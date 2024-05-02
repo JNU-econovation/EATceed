@@ -50,6 +50,8 @@ dependencies {
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -84,6 +86,9 @@ dependencies {
 
 	//Swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
+	//OpenCsv
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.7.1'
 }
 
 tasks.named('bootBuildImage') {

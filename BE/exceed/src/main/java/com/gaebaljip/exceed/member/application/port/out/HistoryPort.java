@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application.port.out;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.gaebaljip.exceed.common.annotation.Port;
 import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
@@ -9,5 +9,5 @@ import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 public interface HistoryPort {
     HistoryEntity command(HistoryEntity historyEntity);
 
-    HistoryEntity findByMemberIdAndDate(Long memberId, LocalDate date);
+    HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date);
 }

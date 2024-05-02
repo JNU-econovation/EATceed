@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.meal.adapter.in;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -61,9 +62,10 @@ public class GetMealController {
     public ApiResponse<ApiResponse.CustomBody<GetMealFoodResponse>> getMealFood(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId, date);
-        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId, date);
-        SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, date);
+        LocalDateTime localDateTime = date.atStartOfDay();
+        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId, localDateTime);
+        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId, localDateTime);
+        SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, localDateTime);
         GetMealResponse getMealResponse =
                 new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());
         return ApiResponseGenerator.success(

@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.dto.response;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gaebaljip.exceed.common.CustomDoubleSerializer;
@@ -9,7 +9,7 @@ import lombok.Builder;
 
 public record Analysis(
         Boolean isVisited,
-        LocalDate date,
+        LocalDateTime date,
         @JsonSerialize(using = CustomDoubleSerializer.class) double calorieRate,
         boolean proteinAchieve,
         boolean fatAchieve,

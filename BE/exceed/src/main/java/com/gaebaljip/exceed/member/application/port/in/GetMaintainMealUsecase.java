@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.member.application.port.in;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
@@ -10,5 +10,5 @@ import com.gaebaljip.exceed.dto.response.MaintainMeal;
 public interface GetMaintainMealUsecase {
     MaintainMeal execute(Long memberId);
 
-    MaintainMeal execute(Long memberId, LocalDate date);
+    MaintainMeal execute(Long memberId, LocalDateTime date);
 }
