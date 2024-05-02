@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.common.RedisUtils;
+import com.gaebaljip.exceed.infrastructure.redis.RedisUtils;
 import com.gaebaljip.exceed.member.application.port.out.TimeOutPort;
 
 import lombok.RequiredArgsConstructor;
