@@ -28,7 +28,7 @@ public class RedisAutoComplete implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
         try {
-            redisUtils.flushDB(); // 기존 데이터 클리어
+            redisUtils.deleteData(REDIS_AUTO_COMPLETE_KEY); // 기존 데이터 클리어
 
             // CSV 파일에서 식품명 열 데이터 로드
             String csvPath = args.getSourceArgs()[0];
