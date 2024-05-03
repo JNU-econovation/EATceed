@@ -24,7 +24,7 @@ services:
       - gaebaljip-network
 
   eatceed-backend:
-    image: hwangdaesun/gaebaljip-dev:1.0.0
+    image: hwangdaesun/gaebaljip-dev:latest
     container_name: gaebaljip-spring
     ports:
       - 8080:8080
