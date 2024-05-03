@@ -31,3 +31,5 @@ encryption:
 
 jwt:
   secret: ${JWT_SECRET}
+
+ableAutoComplete: true
