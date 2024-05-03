@@ -6,8 +6,8 @@ services:
     expose:
       - "3306"
     volumes:
-      - ./resources/gaebaljip-local-develop-environment/mariadb-conf:/etc/mysql/conf.d
-      - ./resources/gaebaljip-local-develop-environment/mariadb-init:/docker-entrypoint-initdb.d
+      - ./resources/gaebaljip-develop-environment/mariadb-conf:/etc/mysql/conf.d
+      - ./resources/gaebaljip-develop-environment/mariadb-init:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ROOT_HOST=%
@@ -24,9 +24,7 @@ services:
       - gaebaljip-network
 
   eatceed-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: hwangdaesun/gaebaljip-dev:1.0.0
     container_name: gaebaljip-spring
     ports:
       - 8080:8080
@@ -51,7 +49,6 @@ services:
       - gaebaljip-network
     restart:
       on-failure
-
 
 networks:
   gaebaljip-network:

@@ -1,0 +1,66 @@
+version: '3'
+services:
+  eatceed-mariadb:
+    image: mariadb:10.6
+    container_name: gaebaljip-local-mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mariadb-conf:/etc/mysql/conf.d
+      - ./mariadb-init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Seoul
+
+  eatceed-redis:
+    image: redis:alpine
+    container_name: gaebaljip-local-redis
+    command: redis-server --port 6379
+    ports:
+      - 6379:6379
+
+  eatceed-adminer:
+    container_name: gaebaljip-local-adminer
+    image: adminer:4
+    ports:
+      - 18080:8080
+    depends_on:
+      - eatceed-mariadb
+      - eatceed-redis
+    links:
+      - eatceed-mariadb
+      - eatceed-redis
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/config:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+volumes:
+  grafana-data:
+  prometheus-data:
+

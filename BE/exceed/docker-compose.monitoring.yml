@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./resources/gaebaljip-develop-environment/grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SERVER_ROOT_URL=https://eatceed.net:3000
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./resources/gaebaljip-develop-environment/prometheus/config:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+
+volumes:
+  grafana-data:
+  prometheus-data:
