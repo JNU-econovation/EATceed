@@ -5,6 +5,8 @@ import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRespon
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ public class GetFoodIntegrationTest extends IntegrationTest {
         }
     }
 
+    @AfterEach
+    void tearDown() {
+        redisUtils.deleteData(EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY);
+    }
+
+
     @Test
     void getFoods() throws Exception {
         // given
@@ -58,7 +66,6 @@ public class GetFoodIntegrationTest extends IntegrationTest {
                                 "get-food-noQueryString-success",
                                 getDocumentRequest(),
                                 getDocumentResponse()));
-        ;
     }
 }
     //    @Test
