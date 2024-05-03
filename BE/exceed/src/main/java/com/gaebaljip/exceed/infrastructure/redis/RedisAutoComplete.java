@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 import com.opencsv.CSVReader;
@@ -21,6 +22,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 @Log4j2
 @RequiredArgsConstructor
+@ConditionalOnExpression("${ableAutoComplete:true}")
 public class RedisAutoComplete implements ApplicationRunner {
     private final RedisUtils redisUtils;
 

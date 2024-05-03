@@ -35,7 +35,7 @@ public class GetFoodController {
     //        return ApiResponseGenerator.success(getPageableFoods, HttpStatus.OK);
     //    }
 
-    @GetMapping("/foods")
+    @GetMapping("/foods/auto")
     public ApiResponse<ApiResponse.CustomBody<GetFoodsResponse>> getFoods(
             @RequestParam String prefix) {
         GetFoodsResponse response = getFoodQuery.execute(prefix);
