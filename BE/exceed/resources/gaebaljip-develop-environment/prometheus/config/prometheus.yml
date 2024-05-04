@@ -9,4 +9,4 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 1s
     static_configs:
-      - targets: ['gaebaljip-spring:8081']
+      - targets: ['host.docker.internal:8081']
