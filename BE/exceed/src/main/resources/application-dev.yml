@@ -62,3 +62,11 @@ springdoc:
   default-produces-media-type: application/json
 
 ableAutoComplete: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env, beans"
+

@@ -89,6 +89,12 @@ dependencies {
 
 	//OpenCsv
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.7.1'
+
+	// Actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Prometheus
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('bootBuildImage') {
