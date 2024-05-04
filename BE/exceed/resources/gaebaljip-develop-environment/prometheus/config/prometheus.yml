@@ -9,4 +9,4 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 1s
     static_configs:
-      - targets: ['3.37.117.77:8081']
+      - targets: ['localhost:8081']
