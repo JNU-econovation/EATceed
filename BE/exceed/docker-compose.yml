@@ -64,6 +64,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     depends_on:
       - prometheus
+    networks:
+      - gaebaljip-network
 
   prometheus:
     image: prom/prometheus:latest
@@ -77,6 +79,8 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
+    networks:
+      - gaebaljip-network
 
 volumes:
     grafana-data:
