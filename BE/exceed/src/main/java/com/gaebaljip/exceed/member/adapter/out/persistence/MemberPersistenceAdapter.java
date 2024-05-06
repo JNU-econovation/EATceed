@@ -53,6 +53,10 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
         }
     }
 
+    public Boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
     @Override
     public MemberEntity findMemberByEmail(String email) {
         return memberRepository

@@ -21,7 +21,7 @@ public class CreateMemberService implements CreateMemberUsecase {
     @Override
     @Transactional
     public void execute(SignUpMemberRequest signUpMemberRequest) {
-        if (!memberPort.findEmailOrChecked(signUpMemberRequest.email())) {
+        if (!memberPort.existsByEmail(signUpMemberRequest.email())) {
             MemberEntity memberEntity =
                     MemberEntity.builder()
                             .email(signUpMemberRequest.email())

@@ -21,4 +21,6 @@ public interface MemberPort {
     MemberEntity findCheckedMemberByEmail(String email);
 
     Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date);
+
+    Boolean existsByEmail(String email);
 }
