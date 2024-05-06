@@ -40,7 +40,7 @@ async def get_redoc(username: str = Depends(get_current_username)) -> HTMLRespon
     return get_redoc_html(openapi_url="/api/openapi.json", title="redoc")
 
 
-# Router 설정 
+
 # test.py
 app.include_router(test) 
 
