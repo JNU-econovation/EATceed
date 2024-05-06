@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException,status
+from fastapi import FastAPI, Depends, HTTPException,status, APIRouter
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import secrets
 from starlette.responses import HTMLResponse
@@ -9,3 +9,7 @@ import logging
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+docs = APIRouter(prefix='/docs')
+
+
