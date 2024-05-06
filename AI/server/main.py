@@ -1,8 +1,6 @@
 from fastapi import FastAPI, Depends, status
-from typing import Annotated
 import secrets
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi.openapi.utils import get_openapi
 from fastapi.responses import HTMLResponse, UJSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from routers.test import *
