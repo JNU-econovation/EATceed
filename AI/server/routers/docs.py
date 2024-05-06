@@ -6,6 +6,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.openapi.docs import get_swagger_ui_html
 from typing import Annotated
 import logging
+from core.config import settings
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
@@ -18,8 +19,8 @@ security = HTTPBasic()
 
 # 관리자 인증 함수
 def get_admin(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
-    correct_username = secrets.compare_digest(credentials.username, "user")
-    correct_password = secrets.compare_digest(credentials.password, "password")
+    correct_username = secrets.compare_digest(credentials.username, settings.ADMIN_USERNAME)
+    correct_password = secrets.compare_digest(credentials.password, settings.ADMIN_PASSWORD)
     if not (correct_username and correct_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
