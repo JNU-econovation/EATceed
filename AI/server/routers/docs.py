@@ -28,4 +28,13 @@ def get_admin(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
         )
     return ""
 
+@docs.get("/", include_in_schema=False)
+async def get_documentation(admin: str = Depends(get_admin)):
+    return get_swagger_ui_html(openapi_url="/docs/openapi.json", title="docs")
+
+@docs.get("/openapi.json", include_in_schema=False)
+async def openapi(app: FastAPI, admin: str = Depends(get_admin)):
+    return get_openapi(title=app.title, version=app.version, routes=app.routes)
+
+
 
