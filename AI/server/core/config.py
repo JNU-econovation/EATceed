@@ -12,6 +12,8 @@ class Settings:
     RDS_PORT = os.getenv("RDS_PORT")
     RDS_DB_NAME = os.getenv("RDS_DB_NAME")
     JWT_SECRET = os.getenv("JWT_SECRET")
+    ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+    ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
     DB_URL=f"mysql+pymysql://{RDS_DATABASE_USERNAME}:{RDS_DATABASE_PASSWORD}@{RDS_DATABASE_ENDPOINT}:{RDS_PORT}/{RDS_DB_NAME}?charset=utf8mb4"
     

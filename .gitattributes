@@ -1,2 +1,0 @@
-AI/server/detect_model/food_classification/ckpt/model_param.pt filter=lfs diff=lfs merge=lfs -text
-AI/server/detect_model/model/model_store/foodcls.mar filter=lfs diff=lfs merge=lfs -text
