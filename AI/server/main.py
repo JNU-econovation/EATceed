@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routers.test import *
+from routers.docs import *
 
 app = FastAPI(
     title="EATceed",
@@ -7,7 +8,13 @@ app = FastAPI(
 )
 
 # Router 설정
-app.include_router(test)
+ 
+# test.py
+app.include_router(test) 
+
+# docs.py
+app.include_router(docs)
+
 
 # API Server Test
 @app.get("/")
