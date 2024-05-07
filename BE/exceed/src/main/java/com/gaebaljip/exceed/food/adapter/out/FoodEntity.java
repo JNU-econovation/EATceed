@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.food.adapter.out;
 import javax.persistence.*;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+
 import lombok.*;
 
 @Getter
