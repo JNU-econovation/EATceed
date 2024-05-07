@@ -14,7 +14,7 @@ public interface MemberPort {
 
     MemberEntity command(MemberEntity memberEntity);
 
-    Boolean findEmailOrChecked(String email);
+    Boolean isChecked(String email);
 
     MemberEntity findMemberByEmail(String email);
 

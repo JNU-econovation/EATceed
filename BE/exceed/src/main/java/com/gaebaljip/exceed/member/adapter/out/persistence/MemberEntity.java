@@ -2,6 +2,9 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.Gender;
@@ -16,6 +19,7 @@ import lombok.*;
 @Entity
 @Table(name = MemberEntity.ENTITY_PREFIX + "_TB")
 @Builder(toBuilder = true)
+@DynamicInsert
 public class MemberEntity extends BaseEntity {
 
     public static final String ENTITY_PREFIX = "MEMBER";
@@ -42,6 +46,7 @@ public class MemberEntity extends BaseEntity {
     private String password;
 
     @Column(name = ENTITY_PREFIX + "_CHECKED", nullable = false)
+    @ColumnDefault("false")
     private Boolean checked;
 
     @Column(name = ENTITY_PREFIX + "_ETC")
