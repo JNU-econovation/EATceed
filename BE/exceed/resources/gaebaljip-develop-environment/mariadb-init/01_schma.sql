@@ -31,7 +31,9 @@ CREATE TABLE `FOOD_TB`
     `FOOD_SUGARS`        double       NOT NULL,
     `FOOD_DIETARY_FIBER` double       NOT NULL,
     `FOOD_SODIUM`        double       NOT NULL,
-    PRIMARY KEY (`FOOD_PK`)
+    `MEMBER_FK`          bigint(20) DEFAULT NULL,
+    PRIMARY KEY (`FOOD_PK`),
+    FOREIGN KEY (`MEMBER_FK`) REFERENCES `MEMBER_TB` (`MEMBER_PK`)
 ) ENGINE=InnoDB;
 
 
