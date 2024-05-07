@@ -9,13 +9,13 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.dto.response.PageableFood;
-import com.gaebaljip.exceed.food.application.out.FoodPort;
+import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class FoodsPersistenceAdapter implements FoodPort {
 
     private final FoodRepository foodRepository;
@@ -39,5 +39,10 @@ public class FoodsPersistenceAdapter implements FoodPort {
         PageRequest pageRequest = PageRequest.of(0, pageableFood.size());
         List<Food> foods = foodConverter.toModels(pageableFood.foodEntities());
         return new SliceImpl<>(foods, pageRequest, pageableFood.hasNext());
+    }
+
+    @Override
+    public FoodEntity command(FoodEntity foodEntity) {
+        return foodRepository.save(foodEntity);
     }
 }

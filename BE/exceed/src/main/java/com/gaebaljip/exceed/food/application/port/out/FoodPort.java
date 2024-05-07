@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.food.application.out;
+package com.gaebaljip.exceed.food.application.port.out;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,4 +17,6 @@ public interface FoodPort {
     List<FoodEntity> query(List<Long> foodIds);
 
     Slice<Food> query(String lastFoodName, int size, String keyword);
+
+    FoodEntity command(FoodEntity foodEntity);
 }
