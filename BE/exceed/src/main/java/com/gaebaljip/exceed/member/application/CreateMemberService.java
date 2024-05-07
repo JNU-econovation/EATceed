@@ -8,6 +8,7 @@ import com.gaebaljip.exceed.dto.request.SignUpMemberRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.CreateMemberUsecase;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
+import com.gaebaljip.exceed.member.exception.AlreadyEmailException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,8 @@ public class CreateMemberService implements CreateMemberUsecase {
                             .checked(false)
                             .build();
             memberPort.command(memberEntity);
+        } else {
+            throw AlreadyEmailException.EXECPTION;
         }
     }
 }
