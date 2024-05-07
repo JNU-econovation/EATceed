@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.food.adapter.out;
 
 import javax.persistence.*;
 
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import lombok.*;
 
 @Getter
@@ -20,11 +21,14 @@ public class FoodEntity {
     @Column(name = ENTITY_PREFIX + "_PK", nullable = false)
     private Long id;
 
-    @Column(name = ENTITY_PREFIX + "_MAIN_CATEGORY", nullable = false)
-    private String mainCategory;
+    @Column(name = ENTITY_PREFIX + "_SUGARS", nullable = false)
+    private Double sugars;
 
-    @Column(name = ENTITY_PREFIX + "_SUB_CATEGORY", nullable = false)
-    private String subCategory;
+    @Column(name = ENTITY_PREFIX + "_DIETARY_FIBER", nullable = false)
+    private Double dietaryFiber;
+
+    @Column(name = ENTITY_PREFIX + "_SODIUM", nullable = false)
+    private Double sodium;
 
     @Column(name = ENTITY_PREFIX + "_NAME", nullable = false)
     private String name;
@@ -43,4 +47,8 @@ public class FoodEntity {
 
     @Column(name = ENTITY_PREFIX + "_SERVING_SIZE", nullable = false)
     private Double servingSize;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_FK")
+    private MemberEntity memberEntity;
 }

@@ -17,4 +17,6 @@ public interface FoodPort {
     List<FoodEntity> query(List<Long> foodIds);
 
     Slice<Food> query(String lastFoodName, int size, String keyword);
+
+    FoodEntity command(FoodEntity foodEntity);
 }

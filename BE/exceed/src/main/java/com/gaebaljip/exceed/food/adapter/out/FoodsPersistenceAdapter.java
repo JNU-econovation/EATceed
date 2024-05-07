@@ -39,4 +39,9 @@ public class FoodsPersistenceAdapter implements FoodPort {
         List<Food> foods = foodConverter.toModels(pageableFood.foodEntities());
         return new SliceImpl<>(foods, pageRequest, pageableFood.hasNext());
     }
+
+    @Override
+    public FoodEntity command(FoodEntity foodEntity) {
+        return foodRepository.save(foodEntity);
+    }
 }
