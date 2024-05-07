@@ -27,7 +27,6 @@ public class CreateMemberService implements CreateMemberUsecase {
                     MemberEntity.builder()
                             .email(signUpMemberRequest.email())
                             .password(bCryptPasswordEncoder.encode(signUpMemberRequest.password()))
-                            .checked(false)
                             .build();
             memberPort.command(memberEntity);
         } else {
