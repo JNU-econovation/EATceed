@@ -9,12 +9,11 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.dto.response.PageableFood;
-import com.gaebaljip.exceed.food.application.out.FoodPort;
+import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
 public class FoodsPersistenceAdapter implements FoodPort {
 

@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.food.application.out;
+package com.gaebaljip.exceed.food.application.port.out;
 
 import java.time.LocalDate;
 import java.util.List;

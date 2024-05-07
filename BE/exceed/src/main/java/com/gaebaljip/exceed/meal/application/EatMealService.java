@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
-import com.gaebaljip.exceed.food.application.out.FoodPort;
+import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;

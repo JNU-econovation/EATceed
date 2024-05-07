@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.food.application.in;
+package com.gaebaljip.exceed.food.application.port.in;
 
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;

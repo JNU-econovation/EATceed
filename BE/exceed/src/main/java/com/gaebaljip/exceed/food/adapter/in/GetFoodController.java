@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.dto.response.GetFoodsResponse;
-import com.gaebaljip.exceed.food.application.in.GetFoodQuery;
+import com.gaebaljip.exceed.food.application.port.in.GetFoodQuery;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
