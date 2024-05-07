@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.dto.response.PageableFood;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
@@ -14,6 +15,7 @@ import com.gaebaljip.exceed.food.domain.Food;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Component
 public class FoodsPersistenceAdapter implements FoodPort {
 
     private final FoodRepository foodRepository;
