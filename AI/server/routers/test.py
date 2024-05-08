@@ -15,10 +15,6 @@ logger = logging.getLogger(__name__)
 
 test = APIRouter(prefix='/test')
 
-# 로그 메시지
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
 # Decoded Token Check
 @test.get('/token', tags=['test'])
 async def decoded_token_test(member_id: int = Depends(get_current_member)):
