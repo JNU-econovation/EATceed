@@ -13,24 +13,11 @@ CREATE TABLE `MEMBER_TB`
     `MEMBER_HEIGHT`   double       DEFAULT NULL,
     `MEMBER_EMAIL`    varchar(255) NOT NULL UNIQUE,
     `MEMBER_PASSWORD` varchar(255) NOT NULL,
-    `MEMBER_ROLE`     varchar(255) DEFAULT NULL,
+    `MEMBER_ROLE`     varchar(255) NOT NULL DEFAULT 'MEMBER',
     `MEMBER_WEIGHT`   double       DEFAULT NULL,
-    `MEMBER_CHECKED`  bit          NOT NULL,
+    `MEMBER_CHECKED`  bit(1)       NOT NULL DEFAULT 0,
     PRIMARY KEY (`MEMBER_PK`)
 ) ENGINE=InnoDB;
-
-CREATE TABLE `WEIGHT_TB`
-(
-    `WEIGHT_PK`           bigint(20)   NOT NULL AUTO_INCREMENT,
-    `CREATED_DATE`        datetime(6)  NOT NULL,
-    `UPDATED_DATE`        datetime(6)  NOT NULL,
-    `WEIGHT_WEIGHT`       double       DEFAULT NULL,
-    `WEIGHT_TARGET_WEIGHT` double       DEFAULT NULL,
-    `MEMBER_FK`           bigint(20)   DEFAULT NULL,
-    PRIMARY KEY (`WEIGHT_PK`),
-    FOREIGN KEY (`MEMBER_FK`) REFERENCES `MEMBER_TB` (`MEMBER_PK`)
-) ENGINE=InnoDB;
-
 
 CREATE TABLE `FOOD_TB`
 (
@@ -38,12 +25,15 @@ CREATE TABLE `FOOD_TB`
     `FOOD_CALORIE`       double       NOT NULL,
     `FOOD_CARBOHYDRATE`  double       NOT NULL,
     `FOOD_FAT`           double       NOT NULL,
-    `FOOD_MAIN_CATEGORY` varchar(255) NOT NULL,
     `FOOD_NAME`          varchar(255) NOT NULL,
     `FOOD_PROTEIN`       double       NOT NULL,
     `FOOD_SERVING_SIZE`  double       NOT NULL,
-    `FOOD_SUB_CATEGORY`  varchar(255) NOT NULL,
-    PRIMARY KEY (`FOOD_PK`)
+    `FOOD_SUGARS`        double       NOT NULL,
+    `FOOD_DIETARY_FIBER` double       NOT NULL,
+    `FOOD_SODIUM`        double       NOT NULL,
+    `MEMBER_FK`          bigint(20) DEFAULT NULL,
+    PRIMARY KEY (`FOOD_PK`),
+    FOREIGN KEY (`MEMBER_FK`) REFERENCES `MEMBER_TB` (`MEMBER_PK`)
 ) ENGINE=InnoDB;
 
 

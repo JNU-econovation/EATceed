@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gaebaljip.exceed.member.application.port.in.ValidateEmailCommand;
 import com.gaebaljip.exceed.member.application.port.in.ValidateEmailUsecase;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
-import com.gaebaljip.exceed.member.exception.AlreadyCheckedEmailException;
+import com.gaebaljip.exceed.member.exception.AlreadySignUpMemberException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +19,8 @@ public class ValidateEmailService implements ValidateEmailUsecase {
     @Override
     @Transactional
     public void execute(ValidateEmailCommand command) {
-        if (memberPort.findEmailOrChecked(command.email())) {
-            throw AlreadyCheckedEmailException.Exception;
+        if (memberPort.existsByEmail(command.email()) && memberPort.isChecked(command.email())) {
+            throw AlreadySignUpMemberException.EXECPTION;
         }
     }
 }

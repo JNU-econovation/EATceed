@@ -19,18 +19,7 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
 
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
 cloud:
   aws:
     credentials:
@@ -74,3 +63,15 @@ springdoc:
   model-and-view-allowed: true
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
+
+ableAutoComplete: true
+# Actuator
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env, beans"
+
