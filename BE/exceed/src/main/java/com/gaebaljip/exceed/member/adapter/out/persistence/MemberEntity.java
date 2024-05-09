@@ -2,6 +2,8 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.member.domain.Activity;
 import com.gaebaljip.exceed.member.domain.Gender;
@@ -42,7 +44,9 @@ public class MemberEntity extends BaseEntity {
     private String password;
 
     @Column(name = ENTITY_PREFIX + "_CHECKED", nullable = false)
-    private Boolean checked;
+    @ColumnDefault("false")
+    @Builder.Default
+    private Boolean checked = false;
 
     @Column(name = ENTITY_PREFIX + "_ETC")
     private String etc;
@@ -52,8 +56,9 @@ public class MemberEntity extends BaseEntity {
     private Activity activity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = ENTITY_PREFIX + "_ROLE")
-    private MemberRole role;
+    @Column(name = ENTITY_PREFIX + "_ROLE", nullable = false)
+    @Builder.Default
+    private MemberRole role = MemberRole.MEMBER;
 
     @Column(name = ENTITY_PREFIX + "_WEIGHT")
     private Double weight;

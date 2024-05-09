@@ -14,11 +14,13 @@ public interface MemberPort {
 
     MemberEntity command(MemberEntity memberEntity);
 
-    Boolean findEmailOrChecked(String email);
+    Boolean isChecked(String email);
 
     MemberEntity findMemberByEmail(String email);
 
     MemberEntity findCheckedMemberByEmail(String email);
 
     Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date);
+
+    Boolean existsByEmail(String email);
 }
