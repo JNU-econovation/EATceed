@@ -1,13 +1,10 @@
 package com.gaebaljip.exceed.nutritionist.application;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,9 +53,9 @@ public class GetAnalysisService implements GetAnalysisUsecase {
         Map<LocalDate, DailyMeal> dailyMealMap = groupByDate(meals);
         Member member = monthlyTargetPort.query(request.memberId(), request.date());
         List<Analysis> analyses =
-                Stream.iterate(getStartDate(request), day -> day.plusDays(DAYS_TO_ADD))
-                        .limit(getLengthOfMonth(request))
-                        .map(day -> createAnalysisForDay(day, dailyMealMap, member))
+                getStartDate(request)
+                        .datesUntil(getLastDate(request).plusDays(1))
+                        .map(date -> createAnalysisForDay(date, dailyMealMap, member))
                         .toList();
         return new GetAnalysisResponse(analyses);
     }
@@ -71,16 +68,17 @@ public class GetAnalysisService implements GetAnalysisUsecase {
                                 Collectors.collectingAndThen(Collectors.toList(), DailyMeal::new)));
     }
 
-    private LocalDateTime getStartDate(GetAnalysisRequest request) {
-        return request.date().withDayOfMonth(FIRST_DAY);
+    private LocalDate getStartDate(GetAnalysisRequest request) {
+        return LocalDate.from(request.date().withDayOfMonth(FIRST_DAY));
     }
 
-    private int getLengthOfMonth(GetAnalysisRequest request) {
-        return request.date().with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+    private LocalDate getLastDate(GetAnalysisRequest request) {
+        LocalDate date = request.date().toLocalDate(); // LocalDateTime을 LocalDate로 변환
+        return date.withDayOfMonth(date.lengthOfMonth()); // 그 달의 마지막 날짜를 설정
     }
 
     private Analysis createAnalysisForDay(
-            LocalDateTime day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
+            LocalDate day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
         return Optional.ofNullable(dailyMealMap.get(day))
                 .map(
                         dailyMeal -> {
@@ -89,10 +87,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
                             return Analysis.builder()
                                     .date(day)
                                     .isVisited(true)
-                                    .proteinAchieve(nutritionist.evaluateProteinAchieve())
-                                    .fatAchieve(nutritionist.evaluateFatAchieve())
-                                    .carbohydrateAchieve(nutritionist.evaluateCarbohydrateAchieve())
-                                    .calorieRate(nutritionist.calculateCalorieAchieveRate())
+                                    .isCalorieAchieved(nutritionist.evaluateCalorieAchieve())
                                     .build();
                         })
                 .orElseGet(
@@ -100,10 +95,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
                                 Analysis.builder()
                                         .date(day)
                                         .isVisited(false)
-                                        .proteinAchieve(false)
-                                        .fatAchieve(false)
-                                        .carbohydrateAchieve(false)
-                                        .calorieRate(0)
+                                        .isCalorieAchieved(false)
                                         .build());
     }
 }
