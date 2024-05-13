@@ -33,8 +33,8 @@ public class Nutritionist {
         return member.measureTargetCarbohydrate() - getCurrentCarbohydrate() <= 0;
     }
 
-    public double calculateCalorieAchieveRate() {
-        return getCurrentCalorie() / member.measureTargetCalorie();
+    public boolean evaluateCalorieAchieve() {
+        return member.measureTargetCalorie() - getCurrentCalorie() <= 0;
     }
 
     private Double getCurrentProtein() {

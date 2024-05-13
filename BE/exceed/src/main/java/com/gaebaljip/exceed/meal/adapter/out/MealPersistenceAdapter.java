@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
@@ -48,9 +47,5 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
                 mealRepository.findMealsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMeal.memberId());
         return mealConverter.toMeals(mealEntities);
-    }
-
-    private int getDayOfMonth(LocalDate date) {
-        return date.getMonth().maxLength();
     }
 }

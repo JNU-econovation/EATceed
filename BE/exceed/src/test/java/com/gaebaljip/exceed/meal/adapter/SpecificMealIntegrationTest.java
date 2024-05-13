@@ -114,7 +114,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                 .willReturn("http://test.com/test.jpeg");
 
         // when
-        String date = "2024-03-04";
+        String date = "2023-12-04";
         ResultActions resultActions =
                 mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/v1/meal/" + date)

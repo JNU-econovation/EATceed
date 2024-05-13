@@ -30,6 +30,7 @@ public class SignUpMemberController {
     private final SendEmailUsecase sendEmailUsecase;
     private final CreateMemberUsecase createMemberUsecase;
     private final CheckCodeUsecase checkCodeUsecase;
+    private final VerifyEmailCheckedUsecase verifyEmailCheckedUsecase;
 
     @Operation(summary = "회원 가입", description = "회원 가입한다.")
     @PostMapping("/members")
@@ -43,9 +44,17 @@ public class SignUpMemberController {
     }
 
     @GetMapping("/members/checked")
-    public ApiResponse<CustomBody<Void>> checkMember(
+    public ApiResponse<CustomBody<Void>> checkMemberEmail(
             @ModelAttribute @Valid CheckMemberRequest checkMemberRequest) {
         checkCodeUsecase.execute(checkMemberRequest);
         return ApiResponseGenerator.success(HttpStatus.OK);
+    }
+
+    @Operation(summary = "회원 가입후 이메일 인증 여부 확인", description = "회원 가입후 이메일 인증 여부 확인한다.")
+    @GetMapping("/members/email/checked")
+    public ApiResponse<CustomBody<Boolean>> verifyEmailChecked(
+            @RequestParam(value = "email") String email) {
+        Boolean isChecked = verifyEmailCheckedUsecase.execute(email);
+        return ApiResponseGenerator.success(isChecked, HttpStatus.OK);
     }
 }
