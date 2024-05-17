@@ -22,3 +22,4 @@ Step 5. Make sure to print it out in Korean.
 Step 6. Please recommend a food that can solve the problem when generating an answer immediately after the sentence that informs the problem.\
 For example, if a user's intake information lacks dietary fiber, recommend foods rich in that nutrient.
 Step 7. The output format is only JSON with the key of "reasons".
+THE KEY OF JSON IS ONLY "reasons"!

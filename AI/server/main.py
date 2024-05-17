@@ -4,6 +4,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import HTMLResponse, UJSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from routers.test import *
+from routers.diet_analysis import *
 from core.config import settings
 
 
@@ -44,6 +45,8 @@ async def get_redoc(username: str = Depends(get_current_username)) -> HTMLRespon
 # test.py
 app.include_router(test) 
 
+# diet_analysis.py
+app.include_router(analysis)
 
 # API Server Test
 @app.get("/")
