@@ -34,10 +34,7 @@ def analyze_diet_route(prompt_type: str, member_id: int = Depends(get_current_me
     try:
         result = analyze_diet(prompt_type)
         logger.debug(f"Member ID {member_id} requested diet analysis for prompt type {prompt_type}")
-        if isinstance(result, dict) and "reasons" in result:
-            return {"analysis": result, "requested_by": member_id}
-        else:
-            raise ValueError("Analysis result does not contain 'reasons' key")
+        return {"analysis": result, "requested_by": member_id}
     except Exception as e:
         logger.error(f"Error analyzing diet: {e}")
         raise HTTPException(status_code=500, detail="Diet analysis failed")
