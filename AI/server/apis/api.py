@@ -2,9 +2,6 @@
 from openai import OpenAI
 import pandas as pd
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # 환경변수 설정
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
