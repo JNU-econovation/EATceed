@@ -1,7 +1,7 @@
 # DB CRUD 함수 정의
 from sqlalchemy.orm import Session
 from datetime import datetime
-from db.models import EatHabits
+from db.models import EatHabits, Member, Food
 
 import logging
 
@@ -30,3 +30,5 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
         logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
         db.rollback()
         raise
+
+
