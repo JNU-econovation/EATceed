@@ -33,6 +33,14 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
 
 # member_id에 해당하는 사용자 정보 조회
 def get_member_info(db: Session, member_id: int):
-    return db.query(Member).filter(Member.MEMBER_PK == member_id).first()
+    logger.debug(f"member info for member_id : {member_id}")
+    member = db.query(Member).filter(Member.MEMBER_PK == member_id).first()
+
+    if member:
+        logger.debug(f"Member found: {member}")
+    else:
+        logger.debug(f"Member not found for member_id: {member_id}")
+    return member
+        
 
 
