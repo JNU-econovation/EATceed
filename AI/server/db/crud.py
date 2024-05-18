@@ -31,5 +31,8 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
         db.rollback()
         raise
 
-# TDEE 얻기위한 조회
+# member_id에 해당하는 사용자 정보 조회
+def get_member_info(db: Session, member_id: int):
+    return db.query(Member).filter(Member.MEMBER_PK == member_id).first()
+
 
