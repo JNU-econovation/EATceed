@@ -59,10 +59,13 @@ def get_member_body_info(db: Session, member_id: int):
     else:
         return None
     
-
-
-
-
-        
-
-
+# 일주일간 MEAL_TYPE 조회
+def get_last_weekend_meals(db: Session, member_id: int):
+    now = datetime.now()
+    # 지난 주 월요일 0시
+    start_of_this_week = now - timedelta(days=now.weekday(), weeks=1)  
+    # 이번 주 월요일 0시
+    start_of_next_week = start_of_this_week + timedelta(weeks=1)  
+    meals = db.query(Meal).filter(Meal.MEMBER_FK == member_id, Meal.CREATED_DATE >= start_of_this_week, Meal.CREATED_DATE < start_of_next_week).all()
+    logger.debug(f"Meals found: {meals}")
+    return meals
