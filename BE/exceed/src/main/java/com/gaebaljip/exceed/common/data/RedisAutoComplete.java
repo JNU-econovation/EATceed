@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.infrastructure.redis;
+package com.gaebaljip.exceed.common.data;
 
 import static com.gaebaljip.exceed.common.EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY;
 
@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import com.gaebaljip.exceed.common.redis.RedisUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;

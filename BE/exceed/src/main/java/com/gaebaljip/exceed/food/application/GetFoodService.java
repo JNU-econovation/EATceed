@@ -14,7 +14,7 @@ import com.gaebaljip.exceed.dto.response.GetPageableFood;
 import com.gaebaljip.exceed.food.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
-import com.gaebaljip.exceed.infrastructure.redis.RedisUtils;
+import com.gaebaljip.exceed.common.redis.RedisUtils;
 
 import lombok.RequiredArgsConstructor;
 
