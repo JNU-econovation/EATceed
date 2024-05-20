@@ -60,7 +60,8 @@ def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
 # TDEE 구하기
 def get_tdee(bmr: float, activity: float) -> float:
    # tdee 수식
-   return bmr * activity
+   tdee = bmr * activity
+   return tdee
 
 
 # 체중 예측 함수
