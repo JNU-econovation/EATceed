@@ -49,12 +49,19 @@ intake_json_1 = { "user" :[
 def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
    # 남자
     if gender == 0: 
+      # 남자일 경우의 bmr 수식
       bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
     # 여자
     else:
+       # 여자일 경우의 bmr 수식
        bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
     return bmr
 
+
+# TDEE 구하기
+def get_tdee(bmr: float, activity: float) -> float:
+   # tdee 수식
+   return bmr * activity
 
 
 # 체중 예측 함수
