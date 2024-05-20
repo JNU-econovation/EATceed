@@ -75,3 +75,9 @@ def get_meal_foods(db: Session, meal_id: int):
     meal_foods = db.query(MealFood).filter(MealFood.MEAL_FK == meal_id).all()
     logger.debug(f"Meal foods found: {meal_foods}")
     return meal_foods
+
+# FOOD_FK에 해당하는 음식 정보 조회
+def get_food_info(db: Session, food_id: int):
+    food = db.query(Food).filter(Food.FOOD_PK == food_id).first()
+    logger.debug(f"Food found: {food}")
+    return food
