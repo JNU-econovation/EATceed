@@ -26,43 +26,6 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
     )
     return response.choices[0].message.content
 
-# 사용자 데이터 예시
-intake_json_1 = { "user" :[
-    {"성별":'남성'},
-    {"나이":32},
-    {"신장":172.1},
-    {"체중":82},
-    {"식품섭취량":2941.42},
-    {"에너지(kcal)":3079},
-    {"단백질(g)":154.68},
-    {"지방(g)":100.35},
-    {"탄수화물(g)":300.16},
-    {"식이섬유(g)":29.92},
-    {"당류(g)":80.63},
-    {"나트륨(mg)":5687.9},
-    {"신체활동지수":1},
-    {"TDEE": 2197.392}
-]} # 증가
-
-# BMR 구하기
-def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
-   # 남자
-    if gender == 0: 
-      # 남자일 경우의 bmr 수식
-      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
-    # 여자
-    else:
-       # 여자일 경우의 bmr 수식
-       bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
-    return bmr
-
-
-# TDEE 구하기
-def get_tdee(bmr: float, activity: float) -> float:
-   # tdee 수식
-   tdee = bmr * activity
-   return tdee
-
 
 # 체중 예측 함수
 def weight_predict(intake_json):
