@@ -28,16 +28,16 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 
 
 # 체중 예측 함수
-def weight_predict(intake_json):
-  if intake_json['user'][5]["에너지(kcal)"] > intake_json['user'][13]["TDEE"]:
+def weight_predict(user_data):
+  if user_data['user'][5]["에너지(kcal)"] > user_data['user'][13]["TDEE"]:
     return '증가'
   else:
     return '감소'
 
 # 식습관 분석 함수
-def analyze_diet(prompt_type):
+def analyze_diet(prompt_type, user_data):
     prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
     prompt = read_prompt(prompt_file)
-    df = pd.read_csv(DATA_PATH, encoding='cp949')
+    prompt = prompt.format(user_data=user_data)
     completion = get_completion(prompt)
     return completion
