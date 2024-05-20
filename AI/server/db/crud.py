@@ -81,3 +81,45 @@ def get_food_info(db: Session, food_id: int):
     food = db.query(Food).filter(Food.FOOD_PK == food_id).first()
     logger.debug(f"Food found: {food}")
     return food
+
+
+# 최종적으로 얻고자하는 사용자에 따른 7일간의 영양성분의 평균값 얻기
+def get_member_meals_avg(db: Session, member_id: int):
+    member = get_member_info(db, member_id)
+    if not member:
+        raise Exception("Member not found")
+
+    meals = get_last_weekend_meals(db, member_id)
+    total_nutrition = {
+        "calorie": 0,
+        "carbohydrate": 0,
+        "fat": 0,
+        "protein": 0,
+        "serving_size": 0,
+        "sugars": 0,
+        "dietary_fiber": 0,
+        "sodium": 0,
+    }
+    total_foods = 0
+
+    for meal in meals:
+        meal_foods = get_meal_foods(db, meal.MEAL_PK)
+        for meal_food in meal_foods:
+            food_info = get_food_info(db, meal_food.FOOD_FK)
+            if food_info:
+                total_nutrition["calorie"] += food_info.FOOD_CALORIE
+                total_nutrition["carbohydrate"] += food_info.FOOD_CARBOHYDRATE
+                total_nutrition["fat"] += food_info.FOOD_FAT
+                total_nutrition["protein"] += food_info.FOOD_PROTEIN
+                total_nutrition["serving_size"] += food_info.FOOD_SERVING_SIZE
+                total_nutrition["sugars"] += food_info.FOOD_SUGARS
+                total_nutrition["dietary_fiber"] += food_info.FOOD_DIETARY_FIBER
+                total_nutrition["sodium"] += food_info.FOOD_SODIUM
+                total_foods += 1
+
+    if total_foods > 0:
+        avg_nutrition = {key: value / total_foods for key, value in total_nutrition.items()}
+    else:
+        avg_nutrition = total_nutrition
+
+    return avg_nutrition
