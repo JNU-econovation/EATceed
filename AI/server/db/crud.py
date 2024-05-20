@@ -54,6 +54,9 @@ def get_member_body_info(db: Session, member_id: int):
             'height' : member.MEMBER_HEIGHT,
             'weight' : member.MEMBER_WEIGHT
         }
+        return body_info
+    else:
+        return None
 
 
         
