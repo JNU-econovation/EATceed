@@ -22,9 +22,10 @@ logger = logging.getLogger(__name__)
 
 # 체중 예측 라우터
 @analysis.get("/weight_predict", tags=['analysis'])
-def weight_predict_route(member_id: int = Depends(get_current_member)):
+def weight_predict_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     try:
-        result = weight_predict(get_user_data.user_data)
+        user_data = get_user_data(db, member_id)
+        result = weight_predict(user_data)
         logger.debug(f"Member ID {member_id} requested weight prediction")
         return {"prediction": result, "requested_by": member_id}
     except Exception as e:
