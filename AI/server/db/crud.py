@@ -52,7 +52,8 @@ def get_member_body_info(db: Session, member_id: int):
             'gender' : member.MEMBER_GENDER,
             'age' : member.MEMBER_AGE,
             'height' : member.MEMBER_HEIGHT,
-            'weight' : member.MEMBER_WEIGHT
+            'weight' : member.MEMBER_WEIGHT,
+            'activity' : member.MEMBER_ACTIVITY
         }
         return body_info
     else:
