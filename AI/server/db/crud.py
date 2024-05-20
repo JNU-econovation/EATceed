@@ -123,3 +123,60 @@ def get_member_meals_avg(db: Session, member_id: int):
         avg_nutrition = total_nutrition
 
     return avg_nutrition
+
+
+# prompt에 넣을 사용자 데이터 구성
+def get_user_data(db: Session, member_id: int):
+    member_info = get_member_body_info(db, member_id)
+    if not member_info:
+        raise Exception("Member not found")
+    
+    avg_nutrition = get_member_meals_avg(db, member_id)
+    bmr = get_bmr(
+        gender=member_info('gender'),
+        weight=member_info['weight'],
+        height=member_info['height'],
+        age=member_info['age']
+    )
+    tdee = get_tdee(bmr, member_info['activity'])
+
+    user_data = {
+        "user": [
+            {"성별": '남성' if member_info['gender'] == 1 else '여성'},
+            {"나이": member_info['age']},
+            {"신장": member_info['height']},
+            {"체중": member_info['weight']},
+            {"식품섭취량": avg_nutrition["serving_size"]},
+            {"에너지(kcal)": avg_nutrition["calorie"]},
+            {"단백질(g)": avg_nutrition["protein"]},
+            {"지방(g)": avg_nutrition["fat"]},
+            {"탄수화물(g)": avg_nutrition["carbohydrate"]},
+            {"식이섬유(g)": avg_nutrition["dietary_fiber"]},
+            {"당류(g)": avg_nutrition["sugars"]},
+            {"나트륨(mg)": avg_nutrition["sodium"]},
+            {"신체활동지수": member_info['activity']},
+            {"TDEE": tdee}
+        ]
+    }
+    return user_data
+
+# BMR 구하기
+def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
+   # 남자
+    if gender == 0: 
+      # 남자일 경우의 bmr 수식
+      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
+    # 여자
+    else:
+       # 여자일 경우의 bmr 수식
+       bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
+    return bmr
+
+
+# TDEE 구하기
+def get_tdee(bmr: float, activity: float) -> float:
+   # tdee 수식
+   tdee = bmr * activity
+   return tdee
+
+
