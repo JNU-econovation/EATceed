@@ -34,9 +34,10 @@ def weight_predict_route(db: Session = Depends(get_db), member_id: int = Depends
 
 # 프롬프트 분석 라우터
 @analysis.get("/{prompt_type}", tags=['analysis'])
-def analyze_diet_route(prompt_type: str, member_id: int = Depends(get_current_member)):
+def analyze_diet_route(prompt_type: str, db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     try:
-        result = analyze_diet(prompt_type)
+        user_data = get_user_data(db, member_id)
+        result = analyze_diet(prompt_type, user_data)
         logger.debug(f"Member ID {member_id} requested diet analysis for prompt type {prompt_type}")
         return {"analysis": result, "requested_by": member_id}
     except Exception as e:
