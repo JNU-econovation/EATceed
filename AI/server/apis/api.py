@@ -2,6 +2,7 @@
 from openai import OpenAI
 import pandas as pd
 import os
+from db.crud import get_member_body_info
 
 # 환경변수 설정
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -43,6 +44,18 @@ intake_json_1 = { "user" :[
     {"신체활동지수":1},
     {"TDEE": 2197.392}
 ]} # 증가
+
+# BMR 구하기
+def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
+   # 남자
+    if gender == 0: 
+      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
+    # 여자
+    else:
+       bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
+    return bmr
+
+
 
 # 체중 예측 함수
 def weight_predict(intake_json):
