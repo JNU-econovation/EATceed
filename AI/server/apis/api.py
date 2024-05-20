@@ -1,6 +1,5 @@
 # 메인 로직 작성
 from openai import OpenAI
-import pandas as pd
 import os
 
 # 환경변수 설정
