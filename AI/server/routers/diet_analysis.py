@@ -1,9 +1,12 @@
 # 식습관 분석 router
-
-from apis.api import *
 from fastapi import APIRouter, HTTPException, Depends
-import logging
+from sqlalchemy.orm import Session
+from db.database import get_db
+from db.crud import get_user_data
+from apis.api import analyze_diet, weight_predict
+from db.crud import get_user_data
 from auth.decoded_token import get_current_member
+import logging
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
@@ -21,7 +24,7 @@ logger = logging.getLogger(__name__)
 @analysis.get("/weight_predict", tags=['analysis'])
 def weight_predict_route(member_id: int = Depends(get_current_member)):
     try:
-        result = weight_predict(intake_json_1)
+        result = weight_predict(get_user_data.user_data)
         logger.debug(f"Member ID {member_id} requested weight prediction")
         return {"prediction": result, "requested_by": member_id}
     except Exception as e:
