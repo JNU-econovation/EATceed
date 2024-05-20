@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from db.crud import get_user_data
 from apis.api import analyze_diet, weight_predict
-from db.crud import get_user_data
 from auth.decoded_token import get_current_member
 import logging
 
