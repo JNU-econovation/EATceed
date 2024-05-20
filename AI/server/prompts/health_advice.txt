@@ -13,7 +13,7 @@ And based on this information, give users advice on healthier diets.
 
 Let's think step by step.
 
-Step 1. The user's intake information to analyze is {intake_json_1}
+Step 1. The user's intake information to analyze is {user_data}
 Step 2. Analyze this user's intake information using the information I presented as triple backticks.
 Step 3. When you give advice on carbohydrates, proteins, and fats, make sure to give advice based on proportions, not amount of intake.
 Step 4. Please print out at least 2 reasons sentences with at most 2 sentences and \
