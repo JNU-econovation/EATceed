@@ -42,22 +42,6 @@ def get_member_info(db: Session, member_id: int):
         logger.debug(f"Member not found for member_id: {member_id}")
     return member
 
-# TDEE 수식을 구하기 위한 사용자 신체정보 조회
-def get_member_body_info(db: Session, member_id: int):
-    # get_member_info() 반환값 사용
-    member = get_member_info(db, member_id)
-
-    if member:
-        body_info = {
-            'gender' : member.MEMBER_GENDER,
-            'age' : member.MEMBER_AGE,
-            'height' : member.MEMBER_HEIGHT,
-            'weight' : member.MEMBER_WEIGHT,
-            'activity' : member.MEMBER_ACTIVITY
-        }
-        return body_info
-    else:
-        return None
     
 # 일주일간 MEAL_TYPE 조회
 def get_last_weekend_meals(db: Session, member_id: int):
@@ -124,6 +108,42 @@ def get_member_meals_avg(db: Session, member_id: int):
 
     return avg_nutrition
 
+# TDEE 수식을 구하기 위한 사용자 신체정보 조회
+def get_member_body_info(db: Session, member_id: int):
+    # get_member_info() 반환값 사용
+    member = get_member_info(db, member_id)
+
+    if member:
+        body_info = {
+            'gender' : member.MEMBER_GENDER,
+            'age' : member.MEMBER_AGE,
+            'height' : member.MEMBER_HEIGHT,
+            'weight' : member.MEMBER_WEIGHT,
+            'activity' : member.MEMBER_ACTIVITY
+        }
+        return body_info
+    else:
+        return None
+
+# BMR 구하기
+def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
+   # 남자
+    if gender == 0: 
+      # 남자일 경우의 bmr 수식
+      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
+    # 여자
+    else:
+       # 여자일 경우의 bmr 수식
+       bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
+    return bmr
+
+
+# TDEE 구하기
+def get_tdee(bmr: float, activity: float) -> float:
+   # tdee 수식
+   tdee = bmr * activity
+   return tdee
+
 
 # prompt에 넣을 사용자 데이터 구성
 def get_user_data(db: Session, member_id: int):
@@ -159,24 +179,5 @@ def get_user_data(db: Session, member_id: int):
         ]
     }
     return user_data
-
-# BMR 구하기
-def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
-   # 남자
-    if gender == 0: 
-      # 남자일 경우의 bmr 수식
-      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
-    # 여자
-    else:
-       # 여자일 경우의 bmr 수식
-       bmr = 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age)
-    return bmr
-
-
-# TDEE 구하기
-def get_tdee(bmr: float, activity: float) -> float:
-   # tdee 수식
-   tdee = bmr * activity
-   return tdee
 
 
