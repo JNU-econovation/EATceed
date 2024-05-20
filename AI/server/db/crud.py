@@ -69,3 +69,9 @@ def get_last_weekend_meals(db: Session, member_id: int):
     meals = db.query(Meal).filter(Meal.MEMBER_FK == member_id, Meal.CREATED_DATE >= start_of_this_week, Meal.CREATED_DATE < start_of_next_week).all()
     logger.debug(f"Meals found: {meals}")
     return meals
+
+# MEAL_FK에 해당하는 음식 조회
+def get_meal_foods(db: Session, meal_id: int):
+    meal_foods = db.query(MealFood).filter(MealFood.MEAL_FK == meal_id).all()
+    logger.debug(f"Meal foods found: {meal_foods}")
+    return meal_foods
