@@ -2,7 +2,6 @@
 from openai import OpenAI
 import pandas as pd
 import os
-from db.crud import get_member_body_info
 
 # 환경변수 설정
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

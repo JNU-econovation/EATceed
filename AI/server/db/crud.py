@@ -1,7 +1,7 @@
 # DB CRUD 함수 정의
 from sqlalchemy.orm import Session
-from datetime import datetime
-from db.models import EatHabits, Member, Food
+from datetime import datetime, timedelta
+from db.models import EatHabits, Member, Food, Meal, MealFood
 
 import logging
 
@@ -58,6 +58,9 @@ def get_member_body_info(db: Session, member_id: int):
         return body_info
     else:
         return None
+    
+
+
 
 
         
