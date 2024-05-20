@@ -41,6 +41,21 @@ def get_member_info(db: Session, member_id: int):
     else:
         logger.debug(f"Member not found for member_id: {member_id}")
     return member
+
+# TDEE 수식을 구하기 위한 사용자 신체정보 조회
+def get_member_body_info(db: Session, member_id: int):
+    # get_member_info() 반환값 사용
+    member = get_member_info(db, member_id)
+
+    if member:
+        body_info = {
+            'gender' : member.MEMBER_GENDER,
+            'age' : member.MEMBER_AGE,
+            'height' : member.MEMBER_HEIGHT,
+            'weight' : member.MEMBER_WEIGHT
+        }
+
+
         
 
 
