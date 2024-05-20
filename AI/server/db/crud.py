@@ -162,7 +162,7 @@ def get_user_data(db: Session, member_id: int):
 
     user_data = {
         "user": [
-            {"성별": '남성' if member_info['gender'] == 1 else '여성'},
+            {"성별": '남성' if member_info['gender'] == 0 else '여성'},
             {"나이": member_info['age']},
             {"신장": member_info['height']},
             {"체중": member_info['weight']},
