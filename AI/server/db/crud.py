@@ -119,16 +119,16 @@ activity_mapping = {
 
 # TDEE 수식을 구하기 위한 사용자 신체정보 조회
 def get_member_body_info(db: Session, member_id: int):
-    # get_member_info() 반환값 사용
     member = get_member_info(db, member_id)
 
     if member:
+        activity_value = activity_mapping.get(member.MEMBER_ACTIVITY, 1.2)  # 기본값은 1.2
         body_info = {
-            'gender' : member.MEMBER_GENDER,
-            'age' : member.MEMBER_AGE,
-            'height' : member.MEMBER_HEIGHT,
-            'weight' : member.MEMBER_WEIGHT,
-            'activity' : member.MEMBER_ACTIVITY
+            'gender': member.MEMBER_GENDER,
+            'age': member.MEMBER_AGE,
+            'height': member.MEMBER_HEIGHT,
+            'weight': member.MEMBER_WEIGHT,
+            'activity': activity_value
         }
         return body_info
     else:
