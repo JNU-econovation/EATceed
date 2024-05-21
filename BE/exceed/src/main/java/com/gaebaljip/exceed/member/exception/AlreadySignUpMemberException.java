@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class AlreadySignUpMemberException extends EatCeedException {
 
-    public static EatCeedException EXECPTION = new AlreadyEmailException();
+    public static EatCeedException EXECPTION = new AlreadySignUpMemberException();
 
     public AlreadySignUpMemberException() {
         super(MemberError.ALREADY_SIGN_UP_MEMBER);
