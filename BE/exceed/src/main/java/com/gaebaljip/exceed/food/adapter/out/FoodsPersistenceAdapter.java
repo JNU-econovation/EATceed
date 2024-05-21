@@ -45,4 +45,9 @@ public class FoodsPersistenceAdapter implements FoodPort {
     public FoodEntity command(FoodEntity foodEntity) {
         return foodRepository.save(foodEntity);
     }
+
+    @Override
+    public void saveAll(List<FoodEntity> foodEntities) {
+        foodRepository.saveAll(foodEntities);
+    }
 }

@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.infrastructure.redis;
+package com.gaebaljip.exceed.common.redis;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;

@@ -45,6 +45,10 @@ services:
       - ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM}
       - SPRING_REDIS_HOST=gaebaljip-redis
       - SPRING_REDIS_PORT=6379
+    volumes:
+      - type: volume
+        source: gaebaljip-log
+        target: /log
     networks:
       - gaebaljip-network
     restart:
@@ -85,6 +89,8 @@ services:
 volumes:
     grafana-data:
     prometheus-data:
+    gaebaljip-log:
+      external: true
 
 networks:
   gaebaljip-network:
