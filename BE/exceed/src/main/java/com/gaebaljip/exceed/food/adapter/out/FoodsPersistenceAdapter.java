@@ -48,6 +48,11 @@ public class FoodsPersistenceAdapter implements FoodPort {
     }
 
     @Override
+    public void saveAll(List<FoodEntity> foodEntities) {
+        foodRepository.saveAll(foodEntities);
+    }
+
+    @Override
     public void deleteByAllByIdInQuery(List<Long> ids) {
         foodRepository.deleteByAllByIdInQuery(ids);
     }

@@ -21,6 +21,8 @@ public interface FoodPort {
 
     FoodEntity command(FoodEntity foodEntity);
 
+    void saveAll(List<FoodEntity> foodEntities);
+
     void deleteByAllByIdInQuery(List<Long> ids);
 
     List<FoodEntity> findByMemberEntity(MemberEntity memberEntity);

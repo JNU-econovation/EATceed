@@ -52,3 +52,11 @@ jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
 
 ableAutoComplete: false
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

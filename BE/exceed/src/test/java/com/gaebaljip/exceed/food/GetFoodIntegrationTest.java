@@ -17,8 +17,8 @@
 //
 // import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 // import com.gaebaljip.exceed.common.IntegrationTest;
-// import com.gaebaljip.exceed.infrastructure.redis.RedisAutoComplete;
-// import com.gaebaljip.exceed.infrastructure.redis.RedisUtils;
+// import com.gaebaljip.exceed.common.data.RedisAutoComplete;
+// import com.gaebaljip.exceed.common.redis.RedisUtils;
 //
 // import lombok.extern.log4j.Log4j2;
 //

@@ -70,3 +70,10 @@ management:
         include: "*"
         exclude: "env, beans"
 
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
