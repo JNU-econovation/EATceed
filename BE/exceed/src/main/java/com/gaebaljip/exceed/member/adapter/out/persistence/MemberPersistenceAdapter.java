@@ -75,4 +75,9 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
     public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date) {
         return memberRepository.findByIdAndDate(memberId, date);
     }
+
+    @Override
+    public void delete(MemberEntity memberEntity) {
+        memberRepository.delete(memberEntity);
+    }
 }

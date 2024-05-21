@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.domain.Food;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 
 @Component
 public interface FoodPort {
@@ -19,4 +20,8 @@ public interface FoodPort {
     Slice<Food> query(String lastFoodName, int size, String keyword);
 
     FoodEntity command(FoodEntity foodEntity);
+
+    void deleteByAllByIdInQuery(List<Long> ids);
+
+    List<FoodEntity> findByMemberEntity(MemberEntity memberEntity);
 }

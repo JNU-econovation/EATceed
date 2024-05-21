@@ -23,4 +23,6 @@ public interface MemberPort {
     Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date);
 
     Boolean existsByEmail(String email);
+
+    void delete(MemberEntity memberEntity);
 }
