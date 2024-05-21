@@ -1,6 +1,11 @@
 # 메인 로직 작성
 from openai import OpenAI
 import os
+import logging
+
+# 로그 메시지
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # 환경변수 설정
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -27,11 +32,16 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 
 
 # 체중 예측 함수
-def weight_predict(user_data):
-  if user_data['user'][5]["에너지(kcal)"] > user_data['user'][13]["TDEE"]:
-    return '증가'
-  else:
-    return '감소'
+def weight_predict(user_data: dict) -> str:
+    try:
+        logger.debug(f"user_data in weight_predict: {user_data}")
+        if user_data['user'][5]["에너지(kcal)"] > user_data['user'][13]["TDEE"]:
+            return '증가'
+        else:
+            return '감소'
+    except (KeyError, IndexError, TypeError) as e:
+        logger.error(f"Error in weight_predict function: {e}")
+        raise ValueError("Invalid user data structure")
 
 # 식습관 분석 함수
 def analyze_diet(prompt_type, user_data):

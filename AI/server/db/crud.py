@@ -108,6 +108,15 @@ def get_member_meals_avg(db: Session, member_id: int):
 
     return avg_nutrition
 
+# activity 값 변환을 위한 딕셔너리
+activity_mapping = {
+    'NOT_ACTIVE': 1.2,
+    'LIGHTLY_ACTIVE': 1.3,
+    'NORMAL_ACTIVE': 1.5,
+    'VERY_ACTIVE': 1.7,
+    'EXTREMELY_ACTIVE': 1.9
+}
+
 # TDEE 수식을 구하기 위한 사용자 신체정보 조회
 def get_member_body_info(db: Session, member_id: int):
     # get_member_info() 반환값 사용
@@ -153,7 +162,7 @@ def get_user_data(db: Session, member_id: int):
     
     avg_nutrition = get_member_meals_avg(db, member_id)
     bmr = get_bmr(
-        gender=member_info('gender'),
+        gender=member_info['gender'],
         weight=member_info['weight'],
         height=member_info['height'],
         age=member_info['age']
@@ -179,5 +188,4 @@ def get_user_data(db: Session, member_id: int):
         ]
     }
     return user_data
-
 

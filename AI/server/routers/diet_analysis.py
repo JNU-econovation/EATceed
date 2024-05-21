@@ -26,11 +26,17 @@ def weight_predict_route(db: Session = Depends(get_db), member_id: int = Depends
         user_data = get_user_data(db, member_id)
         result = weight_predict(user_data)
         logger.debug(f"Member ID {member_id} requested weight prediction")
-        return {"prediction": result}
+        prediction = {
+            'weight_predict': result
+        }
+        return prediction
+    except ValueError as e:
+        logger.error(f"Value error predicting weight: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error predicting weight: {e}")
         raise HTTPException(status_code=500, detail="Weight prediction failed")
-
+    
 # 프롬프트 분석 라우터
 @analysis.get("/{prompt_type}", tags=['analysis'])
 def analyze_diet_route(prompt_type: str, db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
