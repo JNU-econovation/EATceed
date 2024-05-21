@@ -15,5 +15,4 @@ public class AuthExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("해당 회원은 이메일 검증이 완료되지 않았습니다.")
     public EatCeedException 해당_회원은_이메일_검증이_완료되지_않았습니다 = MemberNotCheckedException.EXECPTION;
-
 }
