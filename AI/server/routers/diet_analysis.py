@@ -44,7 +44,10 @@ def analyze_diet_route(prompt_type: str, db: Session = Depends(get_db), member_i
         user_data = get_user_data(db, member_id)
         result = analyze_diet(prompt_type, user_data)
         logger.debug(f"Member ID {member_id} requested diet analysis for prompt type {prompt_type}")
-        return {"analysis": result}
+        analysis_result  = {
+            'analysis' : result
+        }
+        return analysis_result
     except Exception as e:
         logger.error(f"Error analyzing diet: {e}")
         raise HTTPException(status_code=500, detail="Diet analysis failed")
