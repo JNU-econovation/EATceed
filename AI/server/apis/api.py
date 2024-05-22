@@ -50,3 +50,12 @@ def analyze_diet(prompt_type, user_data):
     prompt = prompt.format(user_data=user_data)
     completion = get_completion(prompt)
     return completion
+
+
+# # 식습관 분석 함수
+# def analyze_diet(prompt_type):
+#     prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+#     prompt = read_prompt(prompt_file)
+#     df = pd.read_csv(DATA_PATH, encoding='cp949')
+#     completion = get_completion(prompt)
+#     return completion
