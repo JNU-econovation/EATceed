@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.common.log;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.*;
@@ -18,10 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
+    private final List<String> excludeUrl = List.of("/actuator/health", "/actuator/prometheus");
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        if (excludeUrl.contains(request.getRequestURI())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         MDC.put("traceId", UUID.randomUUID().toString());
 
         ContentCachingRequestWrapper httpServletRequest =

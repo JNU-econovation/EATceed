@@ -33,3 +33,11 @@ jwt:
   secret: ${JWT_SECRET}
 
 ableAutoComplete: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

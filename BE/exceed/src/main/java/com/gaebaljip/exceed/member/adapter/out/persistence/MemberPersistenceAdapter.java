@@ -45,7 +45,8 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
 
     @Override
     public Boolean isChecked(String email) {
-        return memberRepository.findCheckedByEmail(email);
+        Boolean checked = memberRepository.findCheckedByEmail(email);
+        return checked != null ? checked : false;
     }
 
     public Boolean existsByEmail(String email) {
@@ -74,5 +75,10 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
     @Override
     public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date) {
         return memberRepository.findByIdAndDate(memberId, date);
+    }
+
+    @Override
+    public void delete(MemberEntity memberEntity) {
+        memberRepository.delete(memberEntity);
     }
 }
