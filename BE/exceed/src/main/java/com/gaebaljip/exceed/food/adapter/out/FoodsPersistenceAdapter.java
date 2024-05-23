@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.gaebaljip.exceed.dto.response.PageableFood;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,5 +50,15 @@ public class FoodsPersistenceAdapter implements FoodPort {
     @Override
     public void saveAll(List<FoodEntity> foodEntities) {
         foodRepository.saveAll(foodEntities);
+    }
+
+    @Override
+    public void deleteByAllByIdInQuery(List<Long> ids) {
+        foodRepository.deleteByAllByIdInQuery(ids);
+    }
+
+    @Override
+    public List<FoodEntity> findByMemberEntity(MemberEntity memberEntity) {
+        return foodRepository.findByMemberEntity(memberEntity);
     }
 }

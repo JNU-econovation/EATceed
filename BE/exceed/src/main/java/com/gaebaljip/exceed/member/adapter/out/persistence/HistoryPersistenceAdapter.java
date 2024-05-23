@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.gaebaljip.exceed.common.annotation.PersistenceAdapter;
 import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
@@ -20,5 +21,15 @@ public class HistoryPersistenceAdapter implements HistoryPort {
     @Override
     public HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date) {
         return historyRepository.findByMemberIdAndDate(memberId, date);
+    }
+
+    @Override
+    public List<HistoryEntity> findByMemberEntity(MemberEntity memberEntity) {
+        return historyRepository.findByMemberEntity(memberEntity);
+    }
+
+    @Override
+    public void deleteByAllByIdInQuery(List<Long> ids) {
+        historyRepository.deleteByAllByIdInQuery(ids);
     }
 }

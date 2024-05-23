@@ -11,6 +11,7 @@ import com.gaebaljip.exceed.dto.request.TodayMeal;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;
+import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.nutritionist.application.port.out.MonthlyMealPort;
 
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,15 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
                 mealRepository.findMealsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMeal.memberId());
         return mealConverter.toMeals(mealEntities);
+    }
+
+    @Override
+    public List<MealEntity> findByMemberEntity(MemberEntity memberEntity) {
+        return mealRepository.findByMemberEntity(memberEntity);
+    }
+
+    @Override
+    public void deleteByAllByIdInQuery(List<Long> ids) {
+        mealRepository.deleteByAllByIdInQuery(ids);
     }
 }
