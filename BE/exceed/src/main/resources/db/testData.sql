@@ -1,20 +1,10 @@
-USE gaebaljip;
-
-set foreign_key_checks = 0;
-truncate MEMBER_TB;
-truncate HISTORY_TB;
-truncate FOOD_TB;
-truncate MEAL_TB;
-truncate MEAL_FOOD_TB;
-truncate EAT_HABITS_TB;
-set foreign_key_checks = 1;
 
 INSERT INTO MEMBER_TB (MEMBER_PK, CREATED_DATE, UPDATED_DATE, MEMBER_ACTIVITY, MEMBER_AGE, MEMBER_ETC, MEMBER_GENDER,
                        MEMBER_HEIGHT, MEMBER_WEIGHT, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_ROLE, MEMBER_CHECKED)
 VALUES (1, '2023-12-01 08:00:00', '2023-12-01 08:00:00', 'NOT_ACTIVE', 30, '비고 없음', 1, 175.0, 61.0, 'abcd@gmail.com',
-        '$2a$10$pljAKl0Ad3LnjQyQei.Yz.0Cfcn3Zv/xeBMDwUHDaUrfG8Wm57c56', 'MEMBER', true), # 비밀번호 Abc@123
+        '$2a$10$pljAKl0Ad3LnjQyQei.Yz.0Cfcn3Zv/xeBMDwUHDaUrfG8Wm57c56', 'MEMBER', true),
        (2, '2023-12-01 08:00:00', '2023-12-01 08:00:00', 'NOT_ACTIVE', 30, '비고 없음', 1, 175.0, 61.0, 'abcd2@gmail.com',
-        '$2a$10$pljAKl0Ad3LnjQyQei.Yz.0Cfcn3Zv/xeBMDwUHDaUrfG8Wm57c56', 'MEMBER', true); # 비밀번호 Abc@123
+        '$2a$10$pljAKl0Ad3LnjQyQei.Yz.0Cfcn3Zv/xeBMDwUHDaUrfG8Wm57c56', 'MEMBER', true);
 
 INSERT INTO HISTORY_TB(HISTORY_PK, CREATED_DATE, UPDATED_DATE, HISTORY_ACTIVITY,HISTORY_AGE,HISTORY_GENDER,HISTORY_HEIGHT, HISTORY_WEIGHT, MEMBER_FK)
 
