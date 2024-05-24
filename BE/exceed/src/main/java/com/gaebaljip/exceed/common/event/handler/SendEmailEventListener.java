@@ -3,8 +3,10 @@ package com.gaebaljip.exceed.common.event.handler;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.thymeleaf.context.Context;
 
 import com.gaebaljip.exceed.common.Encryption;
@@ -26,7 +28,8 @@ public class SendEmailEventListener {
     @Value("${exceed.url}")
     private String URL;
 
-    @EventListener(classes = SendEmailEvent.class)
+    @TransactionalEventListener(classes = SendEmailEvent.class)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(SendEmailEvent event) {
         String uuid = UUID.randomUUID().toString();
         timeOutPort.command(event.getEmail(), uuid);
