@@ -8,17 +8,20 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
 @Component
 @ConditionalOnExpression("${ableDomainEvent:true}")
+@Slf4j
 public class EventPublisherAspect implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher publisher;
     private ThreadLocal<Boolean> appliedLocal = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
-    @Around("@annotation(org.springframework.transaction.annotation.Transactional)")
+    @Around("@annotation(com.gaebaljip.exceed.common.annotation.EventPublisherStatus)")
     public Object handleEvent(ProceedingJoinPoint joinPoint) throws Throwable {
-
+        log.info("EventPublisherAspect.handleEvent joinPoint={}", joinPoint);
         boolean nested = appliedLocal.get();
 
         if (!nested) {
