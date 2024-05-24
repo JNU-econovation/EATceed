@@ -14,6 +14,14 @@ public class Events {
         }
     }
 
+    public static void raise(InfraEvent event) {
+        if (event == null) return;
+
+        if (publisherLocal.get() != null) {
+            publisherLocal.get().publishEvent(event);
+        }
+    }
+
     public static void setPublisher(ApplicationEventPublisher publisher) {
         publisherLocal.set(publisher);
     }
