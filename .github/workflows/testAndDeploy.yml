@@ -1,18 +1,24 @@
 name: testAndDeploy
 
 on:
-  pull_request:
-    branches: [ "be" ]
-  push:
-    branches: [ "be" ]
+  pull_request_target:
+    types:
+      - closed
 
 defaults:
   run:
     working-directory: ./BE/exceed
 
 jobs:
-  build:
 
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo The PR was merged
+
+  build:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
@@ -44,7 +50,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./docker-compose.yml
+          source: ./BE/exceed/docker-compose.yml
           target: /home/ubuntu/backend-deploy
 
       - name: Send resources-develop-environment
@@ -53,7 +59,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./resources/gaebaljip-develop-environment
+          source: ./BE/exceed/resources/gaebaljip-develop-environment
           target: /home/ubuntu/backend-deploy
 
       - name: Create .env file
@@ -66,7 +72,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: .env
+          source: ./BE/exceed/.env
           target: /home/ubuntu/backend-deploy
 
       - name: Docker Image Build
@@ -88,8 +94,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd backend-deploy
+            cd backend-deploy/BE/exceed
             sudo docker-compose down
             sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest
             sudo docker-compose up --build -d
             sudo docker image prune -a -f
+            
+            
