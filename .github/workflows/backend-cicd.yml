@@ -2,8 +2,10 @@ name: cicd
 
 on:
   pull_request:
-    branches: [ "be" ]
-    paths: 'BE/**'
+    branches:
+      - be
+    paths:
+      - BE/**
 
 jobs:
   build:
