@@ -67,7 +67,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: .env
-          target: /home/ubuntu/backend-deploy
+          target: /home/ubuntu/backend-deploy/BE/exceed
 
       - name: Docker Image Build
         run: docker build -t ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest .
@@ -88,7 +88,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd backend-deploy
+            cd backend-deploy/BE/exceed
             sudo docker-compose down
             sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest
             sudo docker-compose up --build -d
