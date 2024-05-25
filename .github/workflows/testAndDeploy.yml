@@ -44,7 +44,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./docker-compose.yml
+          source: ./BE/exceed/docker-compose.yml
           target: /home/ubuntu/backend-deploy
 
       - name: Send resources-develop-environment
@@ -93,3 +93,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest
             sudo docker-compose up --build -d
             sudo docker image prune -a -f
+            
+            
