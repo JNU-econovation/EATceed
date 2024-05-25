@@ -7,12 +7,18 @@ on:
     paths:
       - BE/**
 
+  permission:
+    contents: read
+
+  defaults:
+    run:
+      working-directory: ./BE/exceed
+
+
 jobs:
   build:
 
     runs-on: ubuntu-22.04
-    permissions:
-      contents: read
 
     steps:
       - uses: actions/checkout@v3
