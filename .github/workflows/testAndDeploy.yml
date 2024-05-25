@@ -1,9 +1,9 @@
 name: testAndDeploy
 
 on:
-  pull_request_target:
-    types:
-      - closed
+  pull_request_review:
+    types: [submitted]
+    branches: [ "be" ]
 
 defaults:
   run:
@@ -11,12 +11,11 @@ defaults:
 
 jobs:
 
-  if_merged:
-    if: github.event.pull_request.merged == true
+  approved:
+    if: github.event.review.state == 'APPROVED'
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo The PR was merged
+      - run: echo "This PR was approved"
 
   build:
     runs-on: ubuntu-22.04
