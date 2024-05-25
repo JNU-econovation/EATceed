@@ -7,9 +7,9 @@ on:
     paths:
       - BE/**
 
-  defaults:
-    run:
-      working-directory: ./BE/exceed
+defaults:
+  run:
+    working-directory: ./BE/exceed
 
 
 jobs:
