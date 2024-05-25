@@ -1,4 +1,4 @@
-name: backend-cicd
+name: testAndDeploy
 
 on:
   push:
@@ -9,9 +9,6 @@ on:
 defaults:
   run:
     working-directory: ./BE/exceed
-
-permissions:
-  contents: read
 
 jobs:
   build:
