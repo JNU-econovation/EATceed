@@ -7,7 +7,7 @@ on:
     paths:
       - BE/**
 
-  permission:
+  permissions:
     contents: read
 
   defaults:
