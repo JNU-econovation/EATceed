@@ -2,8 +2,9 @@ name: testAndDeploy
 
 on:
   pull_request:
-    branches:
-    - be
+    branches: [ "be" ]
+  push:
+    branches: [ "be" ]
 
 jobs:
   build:
