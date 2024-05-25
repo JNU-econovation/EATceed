@@ -1,11 +1,10 @@
 name: cicd
 
 on:
+  push:
+    branches: [ "be" ]
   pull_request:
-    branches:
-      - be
-    paths:
-      - BE/**
+    branches: [ "be" ]
 
 defaults:
   run:
@@ -13,7 +12,6 @@ defaults:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   build:
