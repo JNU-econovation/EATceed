@@ -76,6 +76,8 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**")
                 .permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/health")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 
