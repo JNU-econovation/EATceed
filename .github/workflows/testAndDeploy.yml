@@ -1,14 +1,8 @@
 name: testAndDeploy
 
 on:
-  push:
-    branches: [ "be" ]
   pull_request:
     branches: [ "be" ]
-
-defaults:
-  run:
-    working-directory: ./BE/exceed
 
 jobs:
   build:
