@@ -67,7 +67,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: ./BE/exceed/env
-          target: /home/ubuntu/backend-deploy/BE/exceed
+          target: /home/ubuntu/backend-deploy
 
       - name: Docker Image Build
         run: docker build -t ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest .
