@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @ExtendWith(RestDocumentationExtension.class)
 @Sql("classpath:db/testData.sql")
 @ActiveProfiles("test")
-@Slf4j
 public abstract class IntegrationTest {
 
     @Autowired protected MockMvc mockMvc;
