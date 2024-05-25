@@ -1,18 +1,24 @@
 name: testAndDeploy
 
 on:
-  pull_request:
-    branches: [ "be" ]
-  push:
-    branches: [ "be" ]
+  pull_request_target:
+    types:
+      - closed
 
 defaults:
   run:
     working-directory: ./BE/exceed
 
 jobs:
-  build:
 
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo The PR was merged
+
+  build:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
