@@ -56,6 +56,19 @@ jobs:
           source: ./resources/gaebaljip-develop-environment
           target: /home/ubuntu/backend-deploy
 
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_VARS }}" > .env
+
+      - name: Send env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: .env
+          target: /home/ubuntu/backend-deploy
+
       - name: Docker Image Build
         run: docker build -t ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-dev:latest .
 
