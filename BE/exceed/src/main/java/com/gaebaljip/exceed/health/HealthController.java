@@ -9,7 +9,7 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/v1")
 public class HealthController {
     @GetMapping("/health")
     public ApiResponse<ApiResponse.CustomBody<Void>> health() {
