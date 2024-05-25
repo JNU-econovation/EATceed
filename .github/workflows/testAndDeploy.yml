@@ -11,12 +11,6 @@ defaults:
 
 jobs:
 
-  approved:
-    if: github.event.review.state == 'APPROVED'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "This PR was approved"
-
   build:
     runs-on: ubuntu-22.04
     permissions:
