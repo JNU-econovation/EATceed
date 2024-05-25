@@ -53,7 +53,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./resources/gaebaljip-develop-environment
+          source: ./BE/exceed/resources/gaebaljip-develop-environment
           target: /home/ubuntu/backend-deploy
 
       - name: Create .env file
