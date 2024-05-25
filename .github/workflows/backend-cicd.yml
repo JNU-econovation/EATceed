@@ -11,6 +11,9 @@ defaults:
   run:
     working-directory: ./BE/exceed
 
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -39,4 +42,5 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+
 
