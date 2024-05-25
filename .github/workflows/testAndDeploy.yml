@@ -3,10 +3,8 @@ name: testAndDeploy
 on:
   pull_request:
     branches: [ "be" ]
-    paths : 'BE/**'
   push:
     branches: [ "be" ]
-    paths : 'BE/**'
 
 defaults:
   run:
