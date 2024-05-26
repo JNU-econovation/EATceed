@@ -36,6 +36,6 @@ Let's think step by step.
 
 Step 1. The user's intake information to analyze is {user_data}.
 Step 2. The user's weight change will be {weight_predict(user_data)}
-Step 3. The output format is only JSON, which only has keys of "carbohydrate".
-Step 4. "carbohydrate" follows the rules mentioned in triple backticks.
-DO NOT PRINT THE STEP, JUST PRINT ONLY JSON!
+Step 3. The output format is only one KOREAN STRING.
+Step 4. The content of output follows the rules mentioned in triple backticks.
+DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT!
