@@ -35,6 +35,35 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, a
         db.rollback()
         raise
 
+# 결과값 db에 저장
+def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advice_carbo: str,
+                             advice_protein: str, advice_fat: str, synthesis_advice: str, flag: bool = True):
+    try:
+        created_date = datetime.now()
+        logger.debug(f"Attempting to insert EatHabits record for member_id: {member_id}")
+        
+        eat_habits = EatHabits(
+            CREATED_DATE=created_date,
+            FLAG=flag,
+            WEIGHT_PREDICTION=weight_prediction,
+            ADVICE_CARBO=advice_carbo,
+            ADVICE_PROTEIN=advice_protein,
+            ADVICE_FAT=advice_fat,
+            SYNTHESIS_ADVICE=synthesis_advice,
+            MEMBER_FK=member_id
+        )
+        
+        db.add(eat_habits)
+        db.commit()
+        db.refresh(eat_habits)
+        
+        logger.info(f"Successfully inserted EatHabits record for member_id: {member_id}")
+        return eat_habits
+    except Exception as e:
+        logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
+        db.rollback()
+        raise
+
 
 # member_id에 해당하는 사용자 정보 조회
 def get_member_info(db: Session, member_id: int):
