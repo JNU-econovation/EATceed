@@ -35,7 +35,11 @@ async def db_crud_test(
             member_id, 
             eat_habits_data.flag, 
             eat_habits_data.weight_prediction, 
-            eat_habits_data.weight_advice)
+            eat_habits_data.advice_carbo,
+            eat_habits_data.advice_protein,
+            eat_habits_data.advice_fat,
+            eat_habits_data.synthesis_advice
+            )
         logger.info(f"DB CRUD for successful for member_id: {member_id}")
         return {"message": "Test record created successfully", "record": result}
     except Exception as e:
