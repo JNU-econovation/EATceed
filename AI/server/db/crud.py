@@ -10,7 +10,8 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # DB 연결 Test CRUD 
-def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, weight_advice: str):
+def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, advice_carbo: str,
+              advice_protein: str, advice_fat: str, synthesis_advice: str):
     try:
         created_date = datetime.now()
         logger.debug(f"Attemping to insert Eathabits record for member_id : {member_id}")
@@ -18,7 +19,10 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
             CREATED_DATE=created_date,
             FLAG = flag,
             WEIGHT_PREDICTION = weight_prediction,
-            WEIGHT_ADVICE = weight_advice,
+            ADVICE_CARBO = advice_carbo,
+            ADVICE_PROTEIN = advice_protein,
+            ADVICE_FAT = advice_fat,
+            SYNTHESIS_ADVICE = synthesis_advice,
             MEMBER_FK = member_id
         )
         db.add(eat_habits)
@@ -30,6 +34,7 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
         logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
         db.rollback()
         raise
+
 
 # member_id에 해당하는 사용자 정보 조회
 def get_member_info(db: Session, member_id: int):
