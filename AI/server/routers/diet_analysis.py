@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.crud import get_user_data
+from db.crud import get_user_data, create_eat_habits
 from apis.api import analyze_diet, weight_predict
 from auth.decoded_token import get_current_member
 import logging
@@ -38,6 +38,20 @@ def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(
 
         logger.debug(f"Member ID {member_id} requested full analysis")
         logger.debug(f"Analysis results: {analysis_results}")
+
+        # DB에 결과값 저장
+        eat_habits_record = create_eat_habits(
+            db=db,
+            member_id=member_id,
+            weight_prediction=weight_result,
+            advice_carbo=analysis_results['weight_carbo'],
+            advice_protein=analysis_results['weight_protein'],
+            advice_fat=analysis_results['weight_fat'],
+            synthesis_advice=analysis_results['health_advice'],
+            flag=True
+        )
+
+        logger.info(f"EatHabits record created with ID: {eat_habits_record.ID}")
 
         return {
             'weight_predict': weight_result,
