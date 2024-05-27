@@ -2,6 +2,7 @@
 from openai import OpenAI
 import os
 import logging
+import pandas as pd
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
@@ -28,6 +29,8 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
         messages=messages,
         temperature=0
     )
+    logger.debug(f"Prompt sent to OpenAI: {prompt}")
+    logger.debug(f"Response from OpenAI: {response.choices[0].message.content}")
     return response.choices[0].message.content
 
 
@@ -35,7 +38,9 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 def weight_predict(user_data: dict) -> str:
     try:
         logger.debug(f"user_data in weight_predict: {user_data}")
-        if user_data['user'][5]["에너지(kcal)"] > user_data['user'][13]["TDEE"]:
+        energy = user_data['user'][5]["에너지(kcal)"]
+        tdee = user_data['user'][13]["TDEE"]
+        if energy > tdee:
             return '증가'
         else:
             return '감소'
@@ -44,18 +49,13 @@ def weight_predict(user_data: dict) -> str:
         raise ValueError("Invalid user data structure")
 
 # 식습관 분석 함수
-def analyze_diet(prompt_type, user_data):
+def analyze_diet(prompt_type, user_data, weight_change):
     prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
     prompt = read_prompt(prompt_file)
-    prompt = prompt.format(user_data=user_data)
+    df = pd.read_csv(DATA_PATH, encoding='cp949')
+    weight_change = weight_predict(user_data)
+    prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
+
+    logger.debug(f"Generated prompt: {prompt}")
     completion = get_completion(prompt)
     return completion
-
-
-# # 식습관 분석 함수
-# def analyze_diet(prompt_type):
-#     prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
-#     prompt = read_prompt(prompt_file)
-#     df = pd.read_csv(DATA_PATH, encoding='cp949')
-#     completion = get_completion(prompt)
-#     return completion
