@@ -1,7 +1,7 @@
 # Router Test
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from db.schema import EatHabitsCreate
+from db.schema import EatHabits
 from auth.decoded_token import get_current_member
 from db.crud import crud_test
 from db.database import get_db
@@ -24,7 +24,7 @@ async def decoded_token_test(member_id: int = Depends(get_current_member)):
 # DB CRUD check
 @test.post('/crud', tags=['test'])
 async def db_crud_test(
-    eat_habits_data: EatHabitsCreate,
+    eat_habits_data: EatHabits,
     db: Session = Depends(get_db), 
     member_id: int = Depends(get_current_member)
 ):

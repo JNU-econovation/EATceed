@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 
-class EatHabitsCreate(BaseModel):
+class EatHabits(BaseModel):
     flag: bool
     weight_prediction: str
-    weight_advice: str
+    advice_carbo: str
+    advice_protein: str
+    advice_fat: str
+    synthesis_advice: str
