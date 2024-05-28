@@ -126,5 +126,10 @@ def scheduled_task():
 
 # APScheduler 설정
 scheduler = BackgroundScheduler()
-scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
+
+# test를 위한 시간 설정
+scheduler.add_job(scheduled_task, 'interval', minutes=3)
+
+# 실제 기능 수행 시간 설정
+# scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
 scheduler.start()
