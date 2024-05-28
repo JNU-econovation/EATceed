@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gaebaljip.exceed.food.domain.Food;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 
 public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
-    void deleteByMemberEntity(MemberEntity memberEntity);
+    List<Food> findByMemberEntityId(Long memberId);
 
     @Query("delete from FoodEntity f where f.id in :ids")
     @Modifying

@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.food.adapter.out;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -53,6 +54,11 @@ public class FoodsPersistenceAdapter implements FoodPort {
     }
 
     @Override
+    public List<Food> findByMemberId(Long memberId) {
+        return foodRepository.findByMemberEntityId(memberId);
+    }
+
+    @Override
     public void deleteByAllByIdInQuery(List<Long> ids) {
         foodRepository.deleteByAllByIdInQuery(ids);
     }
@@ -60,5 +66,10 @@ public class FoodsPersistenceAdapter implements FoodPort {
     @Override
     public List<FoodEntity> findByMemberEntity(MemberEntity memberEntity) {
         return foodRepository.findByMemberEntity(memberEntity);
+    }
+
+    @Override
+    public FoodEntity query(Long foodId) {
+        return foodRepository.findById(foodId).orElseThrow(() -> MemberNotFoundException.EXECPTION);
     }
 }

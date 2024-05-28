@@ -4,24 +4,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.gaebaljip.exceed.dto.response.GetFoodResponse;
+import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 
 import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.redis.RedisUtils;
-import com.gaebaljip.exceed.dto.response.GetFoodsResponse;
+import com.gaebaljip.exceed.dto.response.GetFoodsAutoResponse;
 import com.gaebaljip.exceed.dto.response.GetPageableFood;
 import com.gaebaljip.exceed.food.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class GetFoodService implements GetFoodQuery {
-    private final String postfix = "*";
+    private final String postfix = ";";
     private final FoodPort loadFoodPort;
     private final RedisUtils redisUtils;
 
@@ -38,7 +41,8 @@ public class GetFoodService implements GetFoodQuery {
     }
 
     @Override
-    public GetFoodsResponse execute(String prefix) {
+    @Transactional(readOnly = true)
+    public GetFoodsAutoResponse execute(String prefix) {
         Set<Object> autoComplete = getAutoComplete(prefix);
         List<String> autoCompleteList =
                 autoComplete.stream()
@@ -46,7 +50,7 @@ public class GetFoodService implements GetFoodQuery {
                         .map(o -> (String) o)
                         .limit(10)
                         .toList();
-        return GetFoodsResponse.from(autoCompleteList);
+        return GetFoodsAutoResponse.from(autoCompleteList);
     }
 
     private Set<Object> getAutoComplete(String prefix) {
@@ -56,5 +60,11 @@ public class GetFoodService implements GetFoodQuery {
 
     private boolean checkPrefixAndPostfix(Object o, String prefix, String postfix) {
         return o instanceof String string && string.startsWith(prefix) && string.endsWith(postfix);
+    }
+
+    @Override
+    public GetFoodResponse execute(Long foodId) {
+        FoodEntity foodEntity =  loadFoodPort.query(foodId);
+        return GetFoodResponse.of(foodEntity);
     }
 }
