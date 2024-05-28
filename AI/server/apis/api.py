@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from db.crud import create_eat_habits, get_user_data, update_flag, get_all_member_id
 from fastapi import HTTPException
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 # 로그 메시지
@@ -122,3 +123,8 @@ def scheduled_task():
         logger.error(f"Error during scheduled task: {e}")
     finally:
         db.close()
+
+# APScheduler 설정
+scheduler = BackgroundScheduler()
+scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
+scheduler.start()
