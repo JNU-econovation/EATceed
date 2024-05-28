@@ -3,6 +3,11 @@ from openai import OpenAI
 import os
 import logging
 import pandas as pd
+from sqlalchemy.orm import Session
+from datetime import datetime
+from db.crud import create_eat_habits, get_user_data, update_flag, get_all_member_id
+from fastapi import HTTPException
+
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
@@ -59,3 +64,44 @@ def analyze_diet(prompt_type, user_data, weight_change):
     # logger.debug(f"Generated prompt: {prompt}")
     completion = get_completion(prompt)
     return completion
+
+
+# 최종 api 
+def full_analysis(db: Session, member_id: int):
+    try:
+        user_data = get_user_data(db, member_id)
+
+        # 체중 예측
+        weight_result = weight_predict(user_data)
+        user_data['weight_change'] = weight_result
+        # 각 프롬프트에 대해 분석 수행
+        prompt_types = ['health_advice', 'weight_carbo', 'weight_fat', 'weight_protein']
+        analysis_results = {}
+        for prompt_type in prompt_types:
+            result = analyze_diet(prompt_type, user_data, weight_result)
+            analysis_results[prompt_type] = result
+
+        # DB에 결과값 저장
+        create_eat_habits(
+            db=db,
+            member_id=member_id,
+            weight_prediction=weight_result,
+            advice_carbo=analysis_results['weight_carbo'],
+            advice_protein=analysis_results['weight_protein'],
+            advice_fat=analysis_results['weight_fat'],
+            synthesis_advice=analysis_results['health_advice'],
+            flag=True
+        )
+
+        logger.info(f"Insert success ")
+
+        return {
+            'weight_predict': weight_result,
+            'analysis': analysis_results
+        }
+    except ValueError as e:
+        logger.error(f"Value error during analysis: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error during analysis: {e}")
+        raise HTTPException(status_code=500, detail="Analysis failed")
