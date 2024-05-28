@@ -3,7 +3,6 @@ package com.gaebaljip.exceed.food.adapter.out;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -13,6 +12,7 @@ import com.gaebaljip.exceed.dto.response.PageableFood;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.member.exception.MemberNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
