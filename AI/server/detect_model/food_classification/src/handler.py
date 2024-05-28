@@ -2,6 +2,7 @@ import os, io, base64, logging, asyncio
 import requests
 import numpy as np
 import pandas as pd
+from PIL import Image
 
 import torch
 from torchvision import transforms
@@ -69,7 +70,11 @@ class ModelHandler(BaseHandler):
 
             # If the image is sent as bytesarray
             if isinstance(image, (bytearray, bytes)):
-                if image.decode('utf-8').startswith('http'):
+                try:
+                    is_url = image.decode('utf-8').startswith('http')
+                except:
+                    is_url = False
+                if is_url:
                     response = requests.get(image.decode('utf-8'))
                     image = response.content
                 image = Image.open(io.BytesIO(image))
