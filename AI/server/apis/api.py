@@ -128,7 +128,7 @@ def scheduled_task():
 scheduler = BackgroundScheduler()
 
 # test를 위한 시간 설정
-scheduler.add_job(scheduled_task, 'interval', minutes=3)
+scheduler.add_job(scheduled_task, 'interval', minutes=1)
 
 # 실제 기능 수행 시간 설정
 # scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
