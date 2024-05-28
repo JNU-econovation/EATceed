@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 analysis = APIRouter(
-    prefix="/analyze_diet"
+    prefix="/v1"
 )
 
 # 로그 메시지
@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # 전체 분석 라우터
-@analysis.get("/", tags=['analysis'])
+@analysis.get("/analyze_diet", tags=['analysis'])
 def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     try:
         user_data = get_user_data(db, member_id)
@@ -36,11 +36,11 @@ def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(
             result = analyze_diet(prompt_type, user_data, weight_result)
             analysis_results[prompt_type] = result
 
-        logger.debug(f"Member ID {member_id} requested full analysis")
-        logger.debug(f"Analysis results: {analysis_results}")
+        # logger.debug(f"Member ID {member_id} requested analysis")
+        # logger.debug(f"Analysis results: {analysis_results}")
 
         # DB에 결과값 저장
-        eat_habits_record = create_eat_habits(
+        create_eat_habits(
             db=db,
             member_id=member_id,
             weight_prediction=weight_result,
@@ -51,7 +51,7 @@ def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(
             flag=True
         )
 
-        logger.info(f"EatHabits record created with ID: {eat_habits_record.ID}")
+        logger.info(f"Insert success")
 
         return {
             'weight_predict': weight_result,

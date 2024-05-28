@@ -56,6 +56,6 @@ def analyze_diet(prompt_type, user_data, weight_change):
     weight_change = weight_predict(user_data)
     prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
 
-    logger.debug(f"Generated prompt: {prompt}")
+    # logger.debug(f"Generated prompt: {prompt}")
     completion = get_completion(prompt)
     return completion
