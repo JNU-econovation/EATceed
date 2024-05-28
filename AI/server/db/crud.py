@@ -64,6 +64,19 @@ def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advic
         db.rollback()
         raise
 
+# FLAG 활성/비활성 함수
+def update_flag(db: Session):
+    try:
+        # FLAG 비활성화 
+        db.query(EatHabits).filter(EatHabits.FLAG == True).update({EatHabits.FLAG: False})
+        db.commit()
+        logger.info("Updated existing flag to False")
+    except Exception as e:
+        logger.error(f"Error updating flag: {e}")
+        db.rollback()
+        raise
+
+
 
 # member_id에 해당하는 사용자 정보 조회
 def get_member_info(db: Session, member_id: int):
@@ -222,4 +235,5 @@ def get_user_data(db: Session, member_id: int):
         ]
     }
     return user_data
+
 
