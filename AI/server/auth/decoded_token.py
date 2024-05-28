@@ -4,7 +4,10 @@ from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
 
-from core.config import settings
+try:
+    from core.config import settings
+except:
+    from config import settings
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
