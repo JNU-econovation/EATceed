@@ -88,7 +88,18 @@ def get_all_member_id(db: Session):
 # 최신 분석 결과 조회 
 def get_latest_eat_habits(db: Session, member_id: int):
     try:
-        return db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+        latest_record = db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+        if latest_record:
+            response = {
+                'WEIGHT_PREDICTION': latest_record.WEIGHT_PREDICTION,
+                'ADVICE_CARBO': latest_record.ADVICE_CARBO,
+                'ADVICE_PROTEIN': latest_record.ADVICE_PROTEIN,
+                'ADVICE_FAT': latest_record.ADVICE_FAT,
+                'SYNTHESIS_ADVICE': latest_record.SYNTHESIS_ADVICE
+            }
+            return response
+        else:
+            return None
     except Exception as e:
         logger.error(f"Error fetching latest eat habits: {e}")
         raise

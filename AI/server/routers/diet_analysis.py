@@ -25,7 +25,14 @@ def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(
     try:
         latest_eat_habits = get_latest_eat_habits(db, member_id)
         if latest_eat_habits:
-            return latest_eat_habits
+            response ={
+                'weight_prediction' : latest_eat_habits.WEIGHT_PREDICTION,
+                'advice_carbo' : latest_eat_habits.ADVICE_CARBO,
+                'advice_protein' : latest_eat_habits.ADVICE_PROTEIN,
+                'advice_fat' : latest_eat_habits.ADVICE_FAT,
+                'synthesis_advice' : latest_eat_habits.SYNTHESIS_ADVICE
+            }
+            return response
         else:
             HTTPException(status_code=404, detail="No analysis found for the given member_id")
     except Exception as e:
