@@ -76,6 +76,14 @@ def update_flag(db: Session):
         db.rollback()
         raise
 
+# Background에서 실행할 때 모든 사용자의 분석 결과를 도출 필요
+def get_all_member_id(db: Session):
+    try:
+        return [member.MEMBER_PK for member in db.query(Member).all()]
+    except Exception as e:
+        logger.error(f"Error fetching member id: {e}")
+        raise
+
 
 
 # member_id에 해당하는 사용자 정보 조회
