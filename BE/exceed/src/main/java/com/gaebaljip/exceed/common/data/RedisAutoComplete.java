@@ -40,11 +40,13 @@ public class RedisAutoComplete implements ApplicationRunner {
                             .withSkipLines(1) // 첫 번째 행(헤더) 건너뛰기
                             .build()) {
                 List<String[]> allRows = reader.readAll();
+                int pk = 1;
                 for (String[] row : allRows) {
-                    if (row != null && row.length > 0 && !row[0].isEmpty()) {
-                        String foodName = row[0].trim();
-                        addFoodToAutocomplete(foodName);
+                    if (row != null && row.length > 0 && !row[4].isEmpty()) {
+                        String foodName = row[4].trim();
+                        addFoodToAutocomplete(foodName, pk);
                     }
+                    pk++;
                 }
             } catch (IOException | CsvException e) {
                 log.error("Failed to read CSV file: {}", e.getMessage());
@@ -54,12 +56,12 @@ public class RedisAutoComplete implements ApplicationRunner {
         }
     }
 
-    private void addFoodToAutocomplete(String foodName) {
+    private void addFoodToAutocomplete(String foodName, int pk) {
         // 음식 이름에 대한 모든 접두사를 Redis sorted set에 추가
         for (int i = 1; i <= foodName.length(); i++) {
             String prefix = foodName.substring(0, i);
             redisUtils.zAdd(REDIS_AUTO_COMPLETE_KEY, prefix, 0D);
         }
-        redisUtils.zAdd(REDIS_AUTO_COMPLETE_KEY, foodName + "*", 0D); // 완전한 단어를 표시
+        redisUtils.zAdd(REDIS_AUTO_COMPLETE_KEY, foodName + ":" + pk + ";", 0D); // 완전한 단어를 표시
     }
 }

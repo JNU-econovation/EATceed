@@ -26,7 +26,6 @@ public class EmailAdapter implements EmailPort {
     private final SpringTemplateEngine htmlTemplateEngine;
 
     @Override
-    @Async
     public boolean sendEmail(String to, String title, String template, Context context) {
 
         String html = htmlTemplateEngine.process(template, context);
