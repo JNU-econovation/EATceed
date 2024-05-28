@@ -4,7 +4,7 @@ import os
 import logging
 import pandas as pd
 from sqlalchemy.orm import Session
-from datetime import datetime
+from db.database import get_db
 from db.crud import create_eat_habits, get_user_data, update_flag, get_all_member_id
 from fastapi import HTTPException
 
@@ -105,3 +105,20 @@ def full_analysis(db: Session, member_id: int):
     except Exception as e:
         logger.error(f"Error during analysis: {e}")
         raise HTTPException(status_code=500, detail="Analysis failed")
+
+# scheduling 
+def scheduled_task():
+    db: Session = next(get_db())
+    try:
+        # 모든 기존 레코드의 FLAG를 0으로 업데이트
+        update_flag(db)
+
+        # 전체 분석 작업 수행
+        member_ids = get_all_member_id(db)
+        for member_id in member_ids:
+            full_analysis(db=db, member_id=member_id)
+
+    except Exception as e:
+        logger.error(f"Error during scheduled task: {e}")
+    finally:
+        db.close()
