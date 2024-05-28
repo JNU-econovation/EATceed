@@ -64,7 +64,7 @@ def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advic
         db.rollback()
         raise
 
-# FLAG 활성/비활성 함수
+# FLAG 활성/비활성 
 def update_flag(db: Session):
     try:
         # FLAG 비활성화 
@@ -82,6 +82,15 @@ def get_all_member_id(db: Session):
         return [member.MEMBER_PK for member in db.query(Member).all()]
     except Exception as e:
         logger.error(f"Error fetching member id: {e}")
+        raise
+
+
+# 최신 분석 결과 조회 
+def get_latest_eat_habits(db: Session, member_id: int):
+    try:
+        return db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+    except Exception as e:
+        logger.error(f"Error fetching latest eat habits: {e}")
         raise
 
 
