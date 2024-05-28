@@ -87,7 +87,7 @@ public class MemberEntity extends BaseEntity {
         this.targetWeight = targetWeight;
     }
 
-    public void updateWeight(Double weight, Double targetWeight){
+    public void updateWeight(Double weight, Double targetWeight) {
         this.weight = weight;
         this.targetWeight = targetWeight;
     }

@@ -6,12 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record UpdateMemberCommand(
-        Long memberId,
-        Double height,
-        String gender,
-        Integer age,
-        String activity,
-        String etc) {
+        Long memberId, Double height, String gender, Integer age, String activity, String etc) {
     public static UpdateMemberCommand of(Long memberId, UpdateMemberRequest request) {
         return UpdateMemberCommand.builder()
                 .memberId(memberId)
