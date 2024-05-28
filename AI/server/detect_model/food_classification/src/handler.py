@@ -1,116 +1,80 @@
-import logging
-import os
-from collections import Counter
-import io
-import base64
-import torch
-from torchvision import transforms
+import os, io, base64, logging, asyncio
+import requests
 import numpy as np
 import pandas as pd
-from darknet import *
-import requests
+from PIL import Image
+
+import torch
+from torchvision import transforms
+
 from ts.torch_handler.base_handler import BaseHandler
 from ts.torch_handler.object_detector import ObjectDetector
-from ts.utils.util import PredictionException
-from pkg_resources import packaging
 
-if packaging.version.parse(torch.__version__) >= packaging.version.parse("1.8.1"):
-    from torch.profiler import ProfilerActivity, profile, record_function
-    PROFILER_AVAILABLE = True
-else:
-    PROFILER_AVAILABLE = False
+from darknet import *
+from decoded_token import *
+
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class ModelHandler(ObjectDetector):
+class ModelHandler(BaseHandler):
     def __init__(self):
         super(BaseHandler, self).__init__()
-
-    def initialize(self, context):
-        # Set device type
         self.device = torch.device("cpu")
-
-        # Load the model
-        properties = context.system_properties
-        self.manifest = context.manifest
-        self.model_dir = properties.get("model_dir")
-        
-        # print(self.model_dir)
-
         self.imgsz = 320
-        self.names = os.path.join(self.model_dir, "403food.names")
         self.iou_thres = 0.5
         self.conf_thres = 0.3
         self.classes = None
         self.agnostic_nms = False
         self.augment = False
-        self.out = os.path.join(self.model_dir, "output")
-        self.save_xml = True
         self.model_pt_path = None
         self.object_names = []
-        self.tree = None
-        
-        # if os.path.exists(self.out):
-        #     shutil.rmtree(self.out)  # delete output folder
-        # os.makedirs(self.out)  # make new output folder
 
-        if "serializedFile" in self.manifest["model"]:
-            serialized_file = self.manifest["model"]["serializedFile"]
+
+    def initialize(self, context):
+        properties = context.system_properties
+        manifest = context.manifest
+        self.model_dir = properties.get("model_dir")
+        self.names = os.path.join(self.model_dir, "403food.names")
+
+        if "serializedFile" in manifest["model"]:
+            serialized_file = manifest["model"]["serializedFile"]
             self.model_pt_path = os.path.join(self.model_dir, serialized_file)
         
         self.model = self._load_torchscript_model(self.model_pt_path)
         logger.debug("Model file %s loaded successfully", self.model_pt_path)
-
-        self.initialized = True    
     
     
     def _load_torchscript_model(self, model_pt_path):
-        """Loads the PyTorch model and returns the NN model object.
-
-        Args:
-            model_pt_path (str): denotes the path of the model file.
-
-        Returns:
-            (NN Model Object) : Loads the model object.
-        """
-        # TODO: remove this method if https://github.com/pytorch/text/issues/1793 gets resolved
-
+        # 모델 불러오기
         config = os.path.join(self.model_dir, 'yolov3-spp-403cls.cfg')
         model = Darknet(cfg=config, img_size=self.imgsz)
         
+        # 모델 가중치 불러오기
         model.load_state_dict(torch.load(model_pt_path, map_location=self.device)['model'], strict=False)
-        
         model.to(self.device).eval()
-        
         return model
     
     
     def preprocess(self, data):
-        """The preprocess function of MNIST program converts the input data to a float tensor
-
-        Args:
-            data (List): Input data from the request is in the form of a Tensor
-
-        Returns:
-            list : The preprocess function returns the input image as a list of float tensors.
-        """
         images = []
-        image_processing = transforms.Compose([transforms.ToTensor(), transforms.Resize((self.imgsz, self.imgsz))])
+        image_processing = transforms.Compose([transforms.ToTensor(),
+                                               transforms.Resize((self.imgsz, self.imgsz))])
 
         for row in data:
-            # Compat layer: normally the envelope should just return the data
-            # directly, but older versions of Torchserve didn't have envelope.
             image = row.get("data") or row.get("url")
-            
             if isinstance(image, str):
                 # if the image is a string of bytesarray.
                 image = base64.b64decode(image)
 
             # If the image is sent as bytesarray
             if isinstance(image, (bytearray, bytes)):
-                if image.decode('utf-8').startswith('http'):
+                try:
+                    is_url = image.decode('utf-8').startswith('http')
+                except:
+                    is_url = False
+                if is_url:
                     response = requests.get(image.decode('utf-8'))
                     image = response.content
                 image = Image.open(io.BytesIO(image))
@@ -125,8 +89,6 @@ class ModelHandler(ObjectDetector):
     
    
     def inference(self, data):
-        save_img = True
-
         img = data[0]
         img = np.ascontiguousarray(img)
 
@@ -185,7 +147,6 @@ class ModelHandler(ObjectDetector):
         return self.object_names
 
 
-
     def postprocess(self, object_names):
         df = pd.read_csv('food_labels.csv', encoding='utf-8')
         
@@ -215,71 +176,29 @@ class ModelHandler(ObjectDetector):
     
     
     def handle(self, data, context):
-        """Entry point for default handler. It takes the data from the input request and returns
-           the predicted outcome for the input.
-
-        Args:
-            data (list): The input data that needs to be made a prediction request on.
-            context (Context): It is a JSON Object containing information pertaining to
-                               the model artifacts parameters.
-
-        Returns:
-            list : Returns a list of dictionary with the predicted response.
-        """
-
-        key = data[0]['token'].decode("utf-8")
-        new_key = key + "=" * (4 - len(key) % 4)
-        JWT_SECRET = base64.urlsafe_b64decode(new_key)
-        import json
-        my_json = str(JWT_SECRET).split("}")[1:-1][0] + "}"
-        print(my_json)
-        my_json = json.loads(my_json)
         
-
-
-        # It can be used for pre or post processing if needed as additional request
-        # information is available in context
+        # curl로 보낸 토큰을 받아옴
+        token = data[0]['token'].decode("utf-8")
+        
+        # 토큰을 디코딩
+        asyncio.run(get_current_member(get_token_from_header(token)))
+        
+        # 추론 시작 시간
         start_time = time.time()
 
         self.context = context
         metrics = self.context.metrics
 
-        is_profiler_enabled = os.environ.get("ENABLE_TORCH_PROFILER", None)
-        if is_profiler_enabled:
-            print("Profiler is enabled")
-            if PROFILER_AVAILABLE:
-                if self.manifest is None:
-                    # profiler will use to get the model name
-                    self.manifest = context.manifest
-                output, _ = self._infer_with_profiler(data=data)
-            else:
-                raise RuntimeError(
-                    "Profiler is enabled but current version of torch does not support."
-                    "Install torch>=1.8.1 to use profiler."
-                )
-        else:
-            try:
-                mem_id = my_json.get("sub")
-                # memid = True
-                print("This is memid:", mem_id)
-            except Exception as e:
-                raise e
+        # 전처리, 추론, 후처리를 차례로 수행
+        data_preprocess = self.preprocess(data)
+        output = self.inference(data_preprocess)
+        output = self.postprocess(output)
 
-            if mem_id.isdigit():
-                if self._is_describe():
-                        output = [self.describe_handle()]
-                else:
-                    data_preprocess = self.preprocess(data)
-
-                    if not self._is_explain():
-                        output = self.inference(data_preprocess)
-                        output = self.postprocess(output)
-                    else:
-                        output = self.explain_handle(data_preprocess, data)
-            else:    
-                raise PredictionException("Invalid Token", 401)            
+        # 추론 종료 시간
         stop_time = time.time()
+        
         metrics.add_time(
             "HandlerTime", round((stop_time - start_time) * 1000, 2), None, "ms"
         )
+        
         return output
