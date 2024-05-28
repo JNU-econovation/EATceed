@@ -63,6 +63,9 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_WEIGHT")
     private Double weight;
 
+    @Column(name = ENTITY_PREFIX + "_TARGET_WEIGHT")
+    private Double targetWeight;
+
     public void updateChecked() {
         this.checked = true;
     }
@@ -81,5 +84,11 @@ public class MemberEntity extends BaseEntity {
         this.activity = activity;
         this.weight = weight;
         this.etc = etc;
+        this.targetWeight = targetWeight;
+    }
+
+    public void updateWeight(Double weight, Double targetWeight){
+        this.weight = weight;
+        this.targetWeight = targetWeight;
     }
 }

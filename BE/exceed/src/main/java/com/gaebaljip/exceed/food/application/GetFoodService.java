@@ -4,22 +4,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.gaebaljip.exceed.dto.response.GetFoodResponse;
-import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.redis.RedisUtils;
+import com.gaebaljip.exceed.dto.response.GetFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetFoodsAutoResponse;
 import com.gaebaljip.exceed.dto.response.GetPageableFood;
+import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +64,7 @@ public class GetFoodService implements GetFoodQuery {
 
     @Override
     public GetFoodResponse execute(Long foodId) {
-        FoodEntity foodEntity =  loadFoodPort.query(foodId);
+        FoodEntity foodEntity = loadFoodPort.query(foodId);
         return GetFoodResponse.of(foodEntity);
     }
 }

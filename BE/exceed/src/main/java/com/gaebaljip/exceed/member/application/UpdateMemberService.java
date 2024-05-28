@@ -40,7 +40,7 @@ public class UpdateMemberService implements UpdateMemberUsecase {
                 command.age(),
                 Activity.valueOf(command.activity()),
                 command.etc(),
-                command.weight(),
-                command.targetWeight());
+                member.getWeight(),
+                member.getTargetWeight());
     }
 }

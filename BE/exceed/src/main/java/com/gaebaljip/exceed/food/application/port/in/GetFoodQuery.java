@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.food.application.port.in;
 
-import com.gaebaljip.exceed.dto.response.GetFoodResponse;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.dto.response.GetFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetFoodsAutoResponse;
 import com.gaebaljip.exceed.dto.response.GetPageableFood;
 
