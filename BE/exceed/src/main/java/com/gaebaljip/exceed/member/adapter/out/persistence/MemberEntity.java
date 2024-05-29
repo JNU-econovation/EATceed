@@ -75,11 +75,15 @@ public class MemberEntity extends BaseEntity {
             Gender gender,
             int age,
             Activity activity,
-            String etc) {
+            String etc,
+            double weight,
+            double targetWeight) {
         this.height = height;
         this.gender = gender;
         this.age = age;
         this.activity = activity;
+        this.weight = weight;
+        this.targetWeight = targetWeight;
         this.etc = etc;
     }
 

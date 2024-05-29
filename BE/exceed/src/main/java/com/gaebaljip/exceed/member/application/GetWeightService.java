@@ -1,12 +1,14 @@
 package com.gaebaljip.exceed.member.application;
 
+import org.springframework.stereotype.Service;
+
 import com.gaebaljip.exceed.dto.response.GetWeightResponse;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetWeightUseCase;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
 import com.gaebaljip.exceed.member.domain.Member;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
