@@ -1,11 +1,12 @@
 package com.gaebaljip.exceed.meal.adapter.out;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import javax.persistence.*;
 
 import com.gaebaljip.exceed.common.BaseEntity;
+import com.gaebaljip.exceed.dto.request.EatMealFood;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
 import com.gaebaljip.exceed.nutritionist.exception.MealNotFoundException;
@@ -36,23 +37,31 @@ public class MealFoodEntity extends BaseEntity {
     @JoinColumn(name = "FOOD_FK", referencedColumnName = "FOOD_PK")
     private FoodEntity foodEntity;
 
+    @Column(name = ENTITY_PREFIX + "_MULTIPLE")
+    private Double multiple;
+
+    @Column(name = ENTITY_PREFIX + "_G")
+    private Integer g;
+
     public static List<MealFoodEntity> createMealFoods(
-            List<FoodEntity> foodEntities, MealEntity mealEntity) {
+            List<FoodEntity> foodEntities, MealEntity mealEntity, List<EatMealFood> eatMealFoods) {
         if (foodEntities.isEmpty()) {
             throw FoodNotFoundException.Exception;
         }
         if (mealEntity == null) {
             throw MealNotFoundException.EXECPTION;
         }
-        List<MealFoodEntity> mealFoodEntities = new ArrayList<>();
-        for (FoodEntity foodEntity : foodEntities) {
-            mealFoodEntities.add(
-                    MealFoodEntity.builder().foodEntity(foodEntity).mealEntity(mealEntity).build());
-        }
+        List<MealFoodEntity> mealFoodEntities =
+                IntStream.range(0, foodEntities.size())
+                        .mapToObj(
+                                i ->
+                                        MealFoodEntity.builder()
+                                                .g(eatMealFoods.get(i).g())
+                                                .multiple(eatMealFoods.get(i).multiple())
+                                                .foodEntity(foodEntities.get(i))
+                                                .mealEntity(mealEntity)
+                                                .build())
+                        .toList();
         return mealFoodEntities;
-    }
-
-    private MealFoodEntity createMealFood(FoodEntity foodEntity) {
-        return MealFoodEntity.builder().foodEntity(foodEntity).build();
     }
 }
