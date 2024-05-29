@@ -22,6 +22,7 @@ public class Member {
     private double weight;
     private int age;
     private Activity activity;
+    private double targetWeight;
 
     double measureBMR() {
         if (gender == 1) {
