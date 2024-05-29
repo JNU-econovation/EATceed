@@ -1,5 +1,4 @@
-import os, io, base64, logging, asyncio
-import requests
+import os, io, base64, logging, asyncio, requests, json
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -8,7 +7,6 @@ import torch
 from torchvision import transforms
 
 from ts.torch_handler.base_handler import BaseHandler
-from ts.torch_handler.object_detector import ObjectDetector
 
 from darknet import *
 from decoded_token import *
@@ -29,10 +27,10 @@ class ModelHandler(BaseHandler):
         self.agnostic_nms = False
         self.augment = False
         self.model_pt_path = None
-        self.object_names = []
 
 
     def initialize(self, context):
+        self.context = context
         properties = context.system_properties
         manifest = context.manifest
         self.model_dir = properties.get("model_dir")
@@ -114,7 +112,7 @@ class ModelHandler(BaseHandler):
         pred = non_max_suppression(pred, self.conf_thres, self.iou_thres,
                                 multi_label=False, classes=self.classes, agnostic=self.agnostic_nms)
         
-
+        self.object_names = []
         # Process detections
         for i, det in enumerate(pred):  # detections for image i
             s, im0 = '', im0s
@@ -166,12 +164,25 @@ class ModelHandler(BaseHandler):
         results = []
         
         for object in object_names:
-            
+            # 접시나 spoon이 감지되었다면 이는 결과에서 제외
             if object not in ['00000000', 'spoon']:
                 print('this is object:', object)
                 results.append(labels[str(object)])
             else:
                 continue
+
+        # 감지된 결과가 없을 경우
+        if len(results) == 0:
+            err = {
+                "success": False,
+                "response": None,
+                "error": {
+                    "code": "",     # 4453
+                    "reason": "Could not detect object in the image",
+                    "status": "404"
+                }
+            }
+            results.append(json.dumps(err))
         return results
     
     
@@ -180,8 +191,20 @@ class ModelHandler(BaseHandler):
         # curl로 보낸 토큰을 받아옴
         token = data[0]['token'].decode("utf-8")
         
-        # 토큰을 디코딩
-        asyncio.run(get_current_member(get_token_from_header(token)))
+        try:
+            # 토큰을 디코딩
+            asyncio.run(get_current_member(get_token_from_header(token)))
+        except Exception as e:
+            err = {
+                "success": False,
+                "response": None,
+                "error": {
+                    "code": "",     
+                    "reason": e.detail,
+                    "status": e.status_code
+                }
+            }
+            return [json.dumps(err)]
         
         # 추론 시작 시간
         start_time = time.time()
@@ -190,8 +213,20 @@ class ModelHandler(BaseHandler):
         metrics = self.context.metrics
 
         # 전처리, 추론, 후처리를 차례로 수행
-        data_preprocess = self.preprocess(data)
-        output = self.inference(data_preprocess)
+        try:
+            data_preprocess = self.preprocess(data)
+            output = self.inference(data_preprocess)
+        except:
+            err = {
+                "success": False,
+                "response": None,
+                "error": {
+                    "code": "",     # 4454
+                    "reason": "Prediction failed",
+                    "status": "503"
+                }
+            }
+            return [json.dumps(err)]
         output = self.postprocess(output)
 
         # 추론 종료 시간
