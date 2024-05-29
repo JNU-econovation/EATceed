@@ -8,8 +8,7 @@ import com.gaebaljip.exceed.meal.domain.MealType;
 import lombok.Builder;
 
 public record EatMealRequest(
-        Double multiple,
-        List<Long> foodIds,
+        List<EatMealFood> eatMealFoods,
         @Enum(enumClass = MealType.class) String mealType,
         String fileName) {
     @Builder
