@@ -70,6 +70,8 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/v1/members/checked/**")
                 .permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/members/email/checked")
+                .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/auth/login")
