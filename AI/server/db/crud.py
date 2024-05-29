@@ -10,7 +10,8 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # DB 연결 Test CRUD 
-def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, weight_advice: str):
+def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, advice_carbo: str,
+              advice_protein: str, advice_fat: str, synthesis_advice: str):
     try:
         created_date = datetime.now()
         logger.debug(f"Attemping to insert Eathabits record for member_id : {member_id}")
@@ -18,7 +19,10 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
             CREATED_DATE=created_date,
             FLAG = flag,
             WEIGHT_PREDICTION = weight_prediction,
-            WEIGHT_ADVICE = weight_advice,
+            ADVICE_CARBO = advice_carbo,
+            ADVICE_PROTEIN = advice_protein,
+            ADVICE_FAT = advice_fat,
+            SYNTHESIS_ADVICE = synthesis_advice,
             MEMBER_FK = member_id
         )
         db.add(eat_habits)
@@ -30,6 +34,66 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, w
         logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
         db.rollback()
         raise
+
+# 결과값 db에 저장
+def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advice_carbo: str,
+                             advice_protein: str, advice_fat: str, synthesis_advice: str, flag: bool = True):
+    try:
+        created_date = datetime.now()
+        logger.debug(f"Attempting to insert EatHabits record for member_id: {member_id}")
+        
+        eat_habits = EatHabits(
+            CREATED_DATE=created_date,
+            FLAG=flag,
+            WEIGHT_PREDICTION=weight_prediction,
+            ADVICE_CARBO=advice_carbo,
+            ADVICE_PROTEIN=advice_protein,
+            ADVICE_FAT=advice_fat,
+            SYNTHESIS_ADVICE=synthesis_advice,
+            MEMBER_FK=member_id
+        )
+        
+        db.add(eat_habits)
+        db.commit()
+        db.refresh(eat_habits)
+        
+        logger.info(f"Successfully inserted EatHabits record for member_id: {member_id}")
+        return eat_habits
+    except Exception as e:
+        logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
+        db.rollback()
+        raise
+
+# FLAG 활성/비활성 
+def update_flag(db: Session):
+    try:
+        # FLAG 비활성화 
+        db.query(EatHabits).filter(EatHabits.FLAG == True).update({EatHabits.FLAG: False})
+        db.commit()
+        logger.info("Updated existing flag to False")
+    except Exception as e:
+        logger.error(f"Error updating flag: {e}")
+        db.rollback()
+        raise
+
+# Background에서 실행할 때 모든 사용자의 분석 결과를 도출 필요
+def get_all_member_id(db: Session):
+    try:
+        return [member.MEMBER_PK for member in db.query(Member).all()]
+    except Exception as e:
+        logger.error(f"Error fetching member id: {e}")
+        raise
+
+
+# 최신 분석 결과 조회 
+def get_latest_eat_habits(db: Session, member_id: int):
+    try:
+        return db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+    except Exception as e:
+        logger.error(f"Error fetching latest eat habits: {e}")
+        raise
+
+
 
 # member_id에 해당하는 사용자 정보 조회
 def get_member_info(db: Session, member_id: int):
@@ -188,4 +252,5 @@ def get_user_data(db: Session, member_id: int):
         ]
     }
     return user_data
+
 
