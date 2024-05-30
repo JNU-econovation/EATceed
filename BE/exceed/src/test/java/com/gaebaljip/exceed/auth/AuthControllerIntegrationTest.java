@@ -16,7 +16,7 @@ class AuthControllerIntegrationTest extends IntegrationTest {
     @Test()
     @DisplayName("로그인 성공")
     void login() throws Exception {
-        LoginRequest loginRequest = new LoginRequest("abcd@gmail.com", "Abc@123");
+        LoginRequest loginRequest = new LoginRequest("abcd123!@gmail.com", "Abc@123");
 
         ResultActions resultActions =
                 mockMvc.perform(

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.gaebaljip.exceed.dto.response.UploadImage;
+import com.gaebaljip.exceed.meal.application.port.in.UploadImageCommand;
 import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import com.gaebaljip.exceed.meal.exception.ExtentionNotAllowedException;
@@ -18,10 +18,12 @@ public class UploadImageService implements UploadImageUsecase {
     public final PresignedUrlPort presignedUrlPort;
 
     @Override
-    public String execute(UploadImage uploadImage) {
-        validateExt(uploadImage.fileName());
+    public String execute(UploadImageCommand uploadImageCommand) {
+        validateExt(uploadImageCommand.fileName());
         return presignedUrlPort.command(
-                uploadImage.memberId(), uploadImage.mealId(), uploadImage.fileName());
+                uploadImageCommand.memberId(),
+                uploadImageCommand.mealId(),
+                uploadImageCommand.fileName());
     }
 
     private void validateExt(String fileName) {

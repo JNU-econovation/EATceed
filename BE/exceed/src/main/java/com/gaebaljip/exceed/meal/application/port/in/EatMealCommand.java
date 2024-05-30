@@ -2,18 +2,20 @@ package com.gaebaljip.exceed.meal.application.port.in;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
+import com.gaebaljip.exceed.dto.request.EatMealFood;
+import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.domain.MealType;
 
 import lombok.Builder;
 
-public record EatMealCommand(
-        @NotNull(message = "multiple must not be null") Double multiple,
-        List<Long> foodIds,
-        Long memberId,
-        MealType mealType) {
+@Builder
+public record EatMealCommand(List<EatMealFood> eatMealFoods, Long memberId, MealType mealType) {
 
-    @Builder
-    public EatMealCommand {}
+    public static EatMealCommand of(EatMealRequest request, Long memberId) {
+        return EatMealCommand.builder()
+                .eatMealFoods(request.eatMealFoods())
+                .mealType(MealType.valueOf(request.mealType()))
+                .memberId(memberId)
+                .build();
+    }
 }

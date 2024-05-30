@@ -35,19 +35,11 @@ public class MealEntity extends BaseEntity {
     @JoinColumn(name = "MEMBER_FK")
     private MemberEntity memberEntity;
 
-    @Column(name = ENTITY_PREFIX + "_FOOD_MULTIPLE", nullable = false)
-    private Double multiple;
-
     @Enumerated(EnumType.STRING)
     @Column(name = ENTITY_PREFIX + "_TYPE", nullable = false)
     private MealType mealType;
 
-    public static MealEntity createMeal(
-            MemberEntity memberEntity, Double multiple, MealType mealType) {
-        return MealEntity.builder()
-                .memberEntity(memberEntity)
-                .multiple(multiple)
-                .mealType(mealType)
-                .build();
+    public static MealEntity createMeal(MemberEntity memberEntity, MealType mealType) {
+        return MealEntity.builder().memberEntity(memberEntity).mealType(mealType).build();
     }
 }
