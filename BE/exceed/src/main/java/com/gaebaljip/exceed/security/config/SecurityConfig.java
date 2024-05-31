@@ -94,9 +94,11 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(
-                Arrays.asList("HEAD", "POST", "GET", "DELETE", "PUT", "PATCH"));
+                Arrays.asList("HEAD", "POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(
                 Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setExposedHeaders(
+                Arrays.asList("Authorization"));
         configuration.setMaxAge(3600L);
         configuration.setAllowCredentials(true);
 
