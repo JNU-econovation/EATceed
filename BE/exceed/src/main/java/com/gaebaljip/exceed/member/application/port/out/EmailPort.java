@@ -5,5 +5,5 @@ import org.thymeleaf.context.Context;
 
 @Component
 public interface EmailPort {
-    boolean sendEmail(String to, String title, String template, Context context);
+    void sendEmail(String to, String title, String template, Context context);
 }
