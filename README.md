@@ -4,6 +4,7 @@
 체중 증가를 목표로 하는 분들을 위한 맞춤형 앱
 
 ## Gaeabljip Developers
+
 |                백엔드 개발자                | 백엔드 개발자 | 인공지능 개발자 | 인공지능 개발자 | 인공지능 개발자 |
 |:-------------------------------------:|:-------------:|:---------------:|:---------------:|:---------------:|
 |   [이진혁](https://github.com/LJH098)    | [황대선](https://github.com/hwangdaesun) | [박경준](https://github.com/Kyeong6) | [김성빈](https://github.com/saine0501) | [김채원](https://github.com/chaewon215) |
