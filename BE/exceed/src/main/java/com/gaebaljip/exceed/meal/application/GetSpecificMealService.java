@@ -80,12 +80,12 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                 .time(meal.getMealDateTime().toLocalTime())
                 .imageUri(presignedUrlPort.query(memberId, meal.getId()))
                 .foods(
-                        meal.getFoods().stream()
+                        meal.getConsumedFoods().stream()
                                 .map(
-                                        foodModel ->
+                                        consumedFood ->
                                                 Food.builder()
-                                                        .id(foodModel.getId())
-                                                        .name(foodModel.getName())
+                                                        .id(consumedFood.getFood().getId())
+                                                        .name(consumedFood.getFood().getName())
                                                         .build())
                                 .collect(Collectors.toList()))
                 .build();

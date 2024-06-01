@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.food.adapter.out.FoodConverter;
 import com.gaebaljip.exceed.meal.domain.Meal;
 
 import lombok.RequiredArgsConstructor;
@@ -13,20 +12,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MealConverter {
 
-    private final FoodConverter foodConverter;
+    private final ConsumedFoodConverter converter;
 
     public Meal toMeal(MealEntity mealEntity) {
         return Meal.builder()
                 .id(mealEntity.getId())
                 .mealType(mealEntity.getMealType())
                 .mealDateTime(mealEntity.getCreatedDate())
-                .foods(
-                        mealEntity.getMealFoodEntity().stream()
-                                .map(
-                                        mealFoodEntity ->
-                                                foodConverter.toModel(
-                                                        mealFoodEntity.getFoodEntity()))
-                                .toList())
+                .consumedFoods(converter.toConsumedFoods(mealEntity.getMealFoodEntity()))
                 .build();
     }
 
