@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.crud import get_user_data
+from db.crud import get_user_data, create_eat_habits, get_latest_eat_habits
 from apis.api import analyze_diet, weight_predict
 from auth.decoded_token import get_current_member
 import logging
@@ -12,42 +12,29 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 analysis = APIRouter(
-    prefix="/analyze_diet"
+    prefix="/v1"
 )
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# 체중 예측 라우터
-@analysis.get("/weight_predict", tags=['analysis'])
-def weight_predict_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
+# 전체 분석 라우터
+@analysis.get("/analyze_diet", tags=['analysis'])
+def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     try:
-        user_data = get_user_data(db, member_id)
-        result = weight_predict(user_data)
-        logger.debug(f"Member ID {member_id} requested weight prediction")
-        prediction = {
-            'weight_predict': result
-        }
-        return prediction
-    except ValueError as e:
-        logger.error(f"Value error predicting weight: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+        latest_eat_habits = get_latest_eat_habits(db, member_id)
+        if latest_eat_habits:
+            response ={
+                'weight_prediction' : latest_eat_habits.WEIGHT_PREDICTION,
+                'advice_carbo' : latest_eat_habits.ADVICE_CARBO,
+                'advice_protein' : latest_eat_habits.ADVICE_PROTEIN,
+                'advice_fat' : latest_eat_habits.ADVICE_FAT,
+                'synthesis_advice' : latest_eat_habits.SYNTHESIS_ADVICE
+            }
+            return response
+        else:
+            HTTPException(status_code=404, detail="No analysis found for the given member_id")
     except Exception as e:
-        logger.error(f"Error predicting weight: {e}")
-        raise HTTPException(status_code=500, detail="Weight prediction failed")
-    
-# 프롬프트 분석 라우터
-@analysis.get("/{prompt_type}", tags=['analysis'])
-def analyze_diet_route(prompt_type: str, db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
-    try:
-        user_data = get_user_data(db, member_id)
-        result = analyze_diet(prompt_type, user_data)
-        logger.debug(f"Member ID {member_id} requested diet analysis for prompt type {prompt_type}")
-        analysis_result  = {
-            'analysis' : result
-        }
-        return analysis_result
-    except Exception as e:
-        logger.error(f"Error analyzing diet: {e}")
-        raise HTTPException(status_code=500, detail="Diet analysis failed")
+        logger.error(f"Error fetching analysis for member_id: {member_id} - {e}")
+        raise HTTPException(status_code=500, detail="Error fetching analysis")

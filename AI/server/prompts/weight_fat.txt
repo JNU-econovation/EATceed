@@ -35,7 +35,7 @@ At this time, the information on the intake must be printed in the Korean column
 Let's think step by step.
 
 Step 1. The user's intake information to analyze is {user_data}.
-Step 2. The user's weight change will be {weight_predict(user_data)}
-Step 3. The output format is only JSON, which only has keys of "fat".
-Step 4. "fat" follows the rules mentioned in triple backticks.
-DO NOT PRINT THE STEP, JUST PRINT ONLY JSON!
+Step 2. The user's weight change will be {weight_change}
+Step 3. The output format is only one KOREAN STRING.
+Step 4. The content of output follows the rules mentioned in triple backticks.
+DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT!
