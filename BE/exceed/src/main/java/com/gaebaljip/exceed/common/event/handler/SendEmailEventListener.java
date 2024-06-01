@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import com.gaebaljip.exceed.common.Encryption;
 import com.gaebaljip.exceed.common.MailTemplate;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.event.SendEmailEvent;
 import com.gaebaljip.exceed.member.application.port.out.EmailPort;
 import com.gaebaljip.exceed.member.application.port.out.TimeOutPort;
@@ -31,6 +32,7 @@ public class SendEmailEventListener {
 
     @TransactionalEventListener(classes = SendEmailEvent.class)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Timer
     @Async
     public void handle(SendEmailEvent event) {
         String uuid = UUID.randomUUID().toString();

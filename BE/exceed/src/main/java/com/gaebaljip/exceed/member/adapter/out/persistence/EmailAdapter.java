@@ -1,10 +1,12 @@
 package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.member.application.port.out.EmailPort;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class EmailAdapter implements EmailPort {
     private final SpringTemplateEngine htmlTemplateEngine;
 
     @Override
+    @Timer
     public void sendEmail(String to, String title, String template, Context context) {
 
         String html = htmlTemplateEngine.process(template, context);

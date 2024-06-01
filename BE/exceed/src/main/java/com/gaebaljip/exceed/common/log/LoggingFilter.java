@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -31,8 +30,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             return;
         }
         MDC.put("traceId", UUID.randomUUID().toString());
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+
         ContentCachingRequestWrapper httpServletRequest =
                 new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper httpServletResponse =
@@ -51,8 +49,6 @@ public class LoggingFilter extends OncePerRequestFilter {
         httpServletResponse.copyBodyToResponse(); // 다시한번 더 바디를 채워준다.
 
         log.info("response status : {}, responseBody : {}", httpStatus, resContent);
-        stopWatch.stop();
-        log.info("request url : {}, time : {}", url, stopWatch.getTotalTimeSeconds());
         MDC.clear();
     }
 }

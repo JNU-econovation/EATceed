@@ -13,6 +13,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ public class Encryption {
     private IvParameterSpec ivParameterSpec;
     private Cipher cipher;
 
+    @Timer
     public String encrypt(String value) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
@@ -45,7 +47,7 @@ public class Encryption {
             throw EncryptionErrorException.EXECPTION;
         }
     }
-
+    @Timer
     public String decrypt(final String encryptedValue) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);

@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.auth.exception.MemberNotCheckedException;
