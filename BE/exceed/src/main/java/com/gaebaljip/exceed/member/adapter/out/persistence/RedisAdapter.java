@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.member.adapter.out.persistence;
 
 import java.util.Optional;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.common.redis.RedisUtils;
@@ -23,6 +24,7 @@ public class RedisAdapter implements TimeOutPort {
     }
 
     @Override
+    @Timer
     public Optional<String> query(String email) {
         return Optional.of(redisUtils.getData(email));
     }

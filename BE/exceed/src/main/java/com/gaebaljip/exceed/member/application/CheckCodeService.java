@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.member.application;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class CheckCodeService implements CheckCodeUsecase {
 
     @Override
     @Transactional
+    @Timer
     public void execute(CheckMemberRequest checkMemberRequest) {
         String decrypt = encryption.decrypt(checkMemberRequest.code());
         String code =
