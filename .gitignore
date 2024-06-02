@@ -33,4 +33,7 @@ google-services.json
 *.hprof
 
 
-
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
