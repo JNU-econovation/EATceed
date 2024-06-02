@@ -4,10 +4,11 @@
 체중 증가를 목표로 하는 분들을 위한 맞춤형 앱
 
 ## Gaeabljip Developers
-|                백엔드 개발자                | 백엔드 개발자 | 인공지능 개발자 |
-|:-------------------------------------:|:-------------:|:---------------:|
-|   [이진혁](https://github.com/LJH098)    | [황대선](https://github.com/hwangdaesun) | [박경준](https://github.com/Kyeong6) |
-| <img width="135" height="180" src="https://github.com/JNU-econovation/EATceed/assets/91835827/22562f8b-e2cd-4e85-9db8-8a09384ad502"> | <img width="135" height="180" src="https://github.com/JNU-econovation/Gaebaljip/assets/91835827/908981e9-9e3f-4c30-87b3-1e478151db2b"> | <img width="135" height="180" src="https://github.com/JNU-econovation/Gaebaljip/assets/91835827/502bc910-4c89-43e2-a9d3-3a0e252d13e4"> |
+
+|                백엔드 개발자                | 백엔드 개발자 | 인공지능 개발자 | 인공지능 개발자 | 인공지능 개발자 |
+|:-------------------------------------:|:-------------:|:---------------:|:---------------:|:---------------:|
+|   [이진혁](https://github.com/LJH098)    | [황대선](https://github.com/hwangdaesun) | [박경준](https://github.com/Kyeong6) | [김성빈](https://github.com/saine0501) | [김채원](https://github.com/chaewon215) |
+| <img width="135" height="180" src="https://github.com/JNU-econovation/EATceed/assets/91835827/22562f8b-e2cd-4e85-9db8-8a09384ad502"> | <img width="135" height="180" src="https://github.com/JNU-econovation/Gaebaljip/assets/91835827/908981e9-9e3f-4c30-87b3-1e478151db2b"> | <img width="135" height="180" src="https://github.com/JNU-econovation/Gaebaljip/assets/91835827/502bc910-4c89-43e2-a9d3-3a0e252d13e4"> |<img width="135" height="180" src="https://github.com/JNU-econovation/EATceed/assets/80449433/8a03c206-7eb0-42c3-8c3e-958b0b51c892"> | <img width="135" height="180" src="https://github.com/JNU-econovation/EATceed/assets/80449433/c1724236-6cc1-4f8d-8568-56f2fccdd522"> | 
 
 
 ## Feature Overview
