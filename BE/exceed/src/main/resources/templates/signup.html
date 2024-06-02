@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eatceed 이메일 인증</title>
+</head>
+<body>
+<h2>이메일 인증</h2>
+<p>안녕하세요 체중 증량 어플 Eatceed입니다.</p>
+<p>아래의 링크를 통해 이메일 주소를 인증해주세요. 인증되면 회원가입이 완료됩니다.</p>
+<p>인증을 요청하지 않았다면, 이 이메일을 무시하셔도 됩니다.</p>
+<a th:href="${signupLink} + ${email} + ${checkCode}">이메일 인증 링크</a>
+<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;," >
+</body>
+</html>
