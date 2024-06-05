@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gaebaljip.exceed.common.event.DeleteMemberEvent;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
+import com.gaebaljip.exceed.infrastructure.sse.adapter.out.NotifyEntity;
+import com.gaebaljip.exceed.infrastructure.sse.application.port.out.NotifyPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
 import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
 import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
@@ -26,6 +28,7 @@ public class DeleteMemberEventListener {
     private final FoodPort foodPort;
     private final MealPort mealPort;
     private final MealFoodPort mealFoodPort;
+    private final NotifyPort notifyPort;
 
     @EventListener(classes = DeleteMemberEvent.class)
     @Transactional
@@ -34,6 +37,12 @@ public class DeleteMemberEventListener {
         mealPort.deleteByAllByIdInQuery(findMIdsByMemberEntity(event.getMemberEntity()));
         foodPort.deleteByAllByIdInQuery(findFIdsByMemberEntity(event.getMemberEntity()));
         historyPort.deleteByAllByIdInQuery(findHIdsByMemberEntity(event.getMemberEntity()));
+        notifyPort.deleteByAllByIdInQuery(findNIdsByMemberEntity(event.getMemberEntity()));
+    }
+
+    private List<Long> findNIdsByMemberEntity(MemberEntity memberEntity) {
+        List<NotifyEntity> notifyEntities = notifyPort.findByMemberEntity(memberEntity);
+        return notifyEntities.stream().map(NotifyEntity::getId).toList();
     }
 
     private List<Long> findMfIdsByMemberEntity(MemberEntity memberEntity) {
