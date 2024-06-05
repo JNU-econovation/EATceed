@@ -77,6 +77,14 @@ public class JwtManager {
                     LocalDateTime.now(),
                     e.getMessage());
             throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
+        } catch (io.jsonwebtoken.security.SignatureException e) {
+            log.error(
+                    "method ={}, URL = {}, time={}, errorMessage={}",
+                    request.getMethod(),
+                    request.getRequestURL(),
+                    LocalDateTime.now(),
+                    e.getMessage());
+            throw UnSupportedJwtException.EXECPTION; // 지원되지 않는 토큰
         } catch (IllegalArgumentException e) {
             log.error(
                     "method ={}, URL = {}, time={}, errorMessage={}",
