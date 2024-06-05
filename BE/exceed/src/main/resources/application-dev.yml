@@ -77,3 +77,32 @@ logging:
         type:
           descriptor:
             sql: trace
+
+org:
+  quartz:
+    scheduler:
+      instanceName: gaebaljip
+      instanceId: AUTO
+      rmi:
+        export: false
+        proxy: false
+    threadPool:
+      class: org.quartz.simpl.SimpleThreadPool
+      threadCount: 5
+    context:
+      key:
+        QuartzTopic: QuartzPorperties
+    jobStore:
+      class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+      tablePrefix: QRTZ_
+      isClustered: true
+      dataSource: gaebaljip
+    dataSource:
+      gaebaljip:
+        provider: hikaricp
+        driver: org.mariadb.jdbc.Driver
+        URL: ${SPRING_DATASOURCE_URL}
+        user: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        maxConnections: 30
