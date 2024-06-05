@@ -16,7 +16,7 @@ public class NotifyPersistenceAdapter implements NotifyPort {
 
     @Override
     public List<NotifyEntity> findByMemberEntity(MemberEntity memberEntity) {
-        return notifyRepository.findByMemberEntity(memberEntity);
+        return notifyRepository.findByReceiver(memberEntity);
     }
 
     @Override
