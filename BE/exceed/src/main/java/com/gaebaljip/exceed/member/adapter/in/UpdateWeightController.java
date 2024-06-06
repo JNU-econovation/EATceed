@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.member.adapter.in;
 
+import com.gaebaljip.exceed.common.event.Events;
+import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
@@ -28,11 +33,11 @@ public class UpdateWeightController {
 
     @Operation(summary = "회원 몸무게 및 목표 몸무게 수정", description = "회원 몸무게 및 목표 몸무게를 수정한다.")
     @PatchMapping("/members/weight")
-    public ApiResponse<UpdateWeightResponse> updateWeight(
+    public ApiResponse<UpdateWeightResponse> updateWeight(HttpServletRequest servletRequest,
             UpdateWeightRequest request, @AuthenticationMemberId Long memberId) {
-        return ApiResponseGenerator.success(
-                updateWeightService.execute(
-                        UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId)),
-                HttpStatus.OK);
+        UpdateWeightResponse response = updateWeightService.execute(
+                UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId));
+        Events.raise(UpdateWeightEvent.from(memberId,servletRequest.getRequestURI(), LocalDateTime.now()));
+        return ApiResponseGenerator.success(response, HttpStatus.OK);
     }
 }
