@@ -18,10 +18,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.security.exception.ExpiredJwtException;
-import com.gaebaljip.exceed.security.exception.InvalidJwtException;
-import com.gaebaljip.exceed.security.exception.SecurityErrorCode;
-import com.gaebaljip.exceed.security.exception.UnSupportedJwtException;
+import com.gaebaljip.exceed.security.exception.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,21 +29,33 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     protected ApiResponse<?> handleExpiredJwtAuthenticationException(ExpiredJwtException e) {
         return ApiResponseGenerator.fail(
-                SecurityErrorCode.EXPIRED_JWT.getCode(), e.getMessage(), HttpStatus.UNAUTHORIZED);
+                SecurityErrorCode.EXPIRED_JWT.getCode(),
+                SecurityErrorCode.EXPIRED_JWT.getReason(),
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(UnSupportedJwtException.class)
     protected ApiResponse<?> handleUnsupportedJwtException(UnSupportedJwtException e) {
         return ApiResponseGenerator.fail(
                 SecurityErrorCode.UNSUPPORTED_JWT.getCode(),
-                e.getMessage(),
+                SecurityErrorCode.UNSUPPORTED_JWT.getReason(),
                 HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(InvalidJwtException.class)
     protected ApiResponse<?> handleInvalidJwtException(InvalidJwtException e) {
         return ApiResponseGenerator.fail(
-                SecurityErrorCode.INVALID_JWT.getCode(), e.getMessage(), HttpStatus.UNAUTHORIZED);
+                SecurityErrorCode.INVALID_JWT.getCode(),
+                SecurityErrorCode.UNSUPPORTED_JWT.getReason(),
+                HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(SignatureJwtException.class)
+    protected ApiResponse<?> handleSignatureJwtException(SignatureJwtException e) {
+        return ApiResponseGenerator.fail(
+                SecurityErrorCode.SIGNATURE_JWT.getCode(),
+                SecurityErrorCode.SIGNATURE_JWT.getReason(),
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

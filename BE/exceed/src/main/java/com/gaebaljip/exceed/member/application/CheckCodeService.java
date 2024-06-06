@@ -1,10 +1,10 @@
 package com.gaebaljip.exceed.member.application;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.common.Encryption;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.dto.request.CheckMemberRequest;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.CheckCodeUsecase;
