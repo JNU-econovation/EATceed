@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class UpdateWeightEventListener {
             classes = UpdateWeightEvent.class,
             phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Async
     public void handle(UpdateWeightEvent event) {
         Long memberId = event.getMemberId();
         String url = event.getUrl();
