@@ -72,6 +72,8 @@ class MealFood(Base):
     UPDATED_DATE = Column(DateTime(6), nullable=False)
     FOOD_FK = Column(BigInteger, ForeignKey('FOOD_TB.FOOD_PK'), nullable=True)
     MEAL_FK = Column(BigInteger, ForeignKey('MEAL_TB.MEAL_PK'), nullable=True)
+    MEAL_FOOD_MULTIPLE = Column(Double, nullable=True)
+    MEAL_FOOD_G = Column(Integer, nullable=True)
 
     food = relationship("Food")
     meal = relationship("Meal", back_populates="meal_foods")
