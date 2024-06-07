@@ -67,7 +67,6 @@ def analyze_diet(prompt_type, user_data, weight_change):
     return completion
 
 
-# 최종 api 
 def full_analysis(db: Session, member_id: int):
     try:
         user_data = get_user_data(db, member_id)
@@ -96,16 +95,13 @@ def full_analysis(db: Session, member_id: int):
 
         logger.info(f"Insert success ")
 
-        return {
-            'weight_predict': weight_result,
-            'analysis': analysis_results
-        }
     except ValueError as e:
         logger.error(f"Value error during analysis: {e}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error during analysis: {e}")
         raise HTTPException(status_code=500, detail="Analysis failed")
+
 
 # scheduling 
 def scheduled_task():
