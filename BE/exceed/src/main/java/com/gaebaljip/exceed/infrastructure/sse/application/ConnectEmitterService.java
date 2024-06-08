@@ -23,7 +23,7 @@ public class ConnectEmitterService implements ConnectEmitterUseCase {
     private final Long CONNECT_TIMEOUT = 1000L * 60 * 60;
 
     @Override
-    public SseEmitter connect(final String memberId, final String lastEventId) {
+    public SseEmitter execute(final String memberId, final String lastEventId) {
         String eventId = memberId + "_" + System.currentTimeMillis();
         SseEmitter emitter = emitterRepository.save(eventId, new SseEmitter(CONNECT_TIMEOUT));
         // 이벤트를 정상적으로 보냈을 때

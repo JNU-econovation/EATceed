@@ -13,6 +13,6 @@ public class UpdateWeightEvent extends InfraEvent {
     private LocalDateTime localDateTime;
 
     public static UpdateWeightEvent from(Long memberId, String url, LocalDateTime localDateTime) {
-        return new UpdateWeightEvent(memberId,url,localDateTime);
+        return new UpdateWeightEvent(memberId, url, localDateTime);
     }
 }

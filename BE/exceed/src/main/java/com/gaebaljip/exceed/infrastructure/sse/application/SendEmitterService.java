@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class sendEmitterService implements SendEmitterUseCase {
+public class SendEmitterService implements SendEmitterUseCase {
     private final EmitterRepository emitterRepository;
     private final NotifyPort notifyPort;
     private final NotifyConverter notifyConverter;
@@ -72,6 +72,6 @@ public class sendEmitterService implements SendEmitterUseCase {
     }
 
     private Long splitEventIdToTime(String eventId) {
-        return Long.parseLong(eventId.split("_")[1]);
+        return Long.valueOf(eventId.split("_")[1]);
     }
 }
