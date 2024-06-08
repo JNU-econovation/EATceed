@@ -13,10 +13,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
 import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
 
@@ -47,6 +47,7 @@ public class Encryption {
             throw EncryptionErrorException.EXECPTION;
         }
     }
+
     @Timer
     public String decrypt(final String encryptedValue) {
         try {

@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.security.filter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtManager jwtManager;
     private final JwtResolver jwtResolver;
     private final MemberDetailService memberDetailService;
+    private final List<String> excludeUrl = List.of("/actuator", "/v1/health");
 
     @Override
     protected void doFilterInternal(
@@ -36,12 +38,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-
+        log.info("bearerToken : {}", bearerToken);
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-
         String accessToken = jwtResolver.extractToken(bearerToken);
         try {
             if (jwtManager.validateAccessToken(accessToken, request)) {
@@ -71,5 +72,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             request.setAttribute("exception", e);
         }
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        boolean flag = false;
+        for (String url : excludeUrl) {
+            if (path.startsWith(url)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 }

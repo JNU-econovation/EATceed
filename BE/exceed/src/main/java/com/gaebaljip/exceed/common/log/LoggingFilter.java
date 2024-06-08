@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
-    private final List<String> excludeUrl = List.of("/actuator/health", "/actuator/prometheus");
+    private final List<String> excludeUrl =
+            List.of("/actuator/health", "/actuator/prometheus", "/v1/health");
 
     @Override
     protected void doFilterInternal(
