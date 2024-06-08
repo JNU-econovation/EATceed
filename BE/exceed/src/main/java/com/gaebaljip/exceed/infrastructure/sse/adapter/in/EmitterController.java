@@ -28,6 +28,6 @@ public class EmitterController {
             @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
                     String lastEventId,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        return connectEmitterUseCase.connect(memberId.toString(), lastEventId);
+        return connectEmitterUseCase.execute(memberId.toString(), lastEventId);
     }
 }
