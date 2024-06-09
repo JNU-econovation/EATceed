@@ -24,6 +24,7 @@ class Member(Base):
     MEMBER_PASSWORD = Column(String(255), nullable=False)
     MEMBER_ROLE = Column(String(255), nullable=False, default='MEMBER')
     MEMBER_WEIGHT = Column(Double, nullable=True)
+    MEMBER_TARGET_WEIGHT = Column(Double, nullable=True)
     MEMBER_CHECKED = Column(Boolean, nullable=False, default=False)
 
     foods = relationship("Food", back_populates="member")
@@ -57,7 +58,6 @@ class Meal(Base):
     CREATED_DATE = Column(DateTime(6), nullable=False)
     UPDATED_DATE = Column(DateTime(6), nullable=False)
     MEAL_TYPE = Column(String(255), nullable=False)
-    MEAL_FOOD_MULTIPLE = Column(Double, nullable=False)
     MEMBER_FK = Column(BigInteger, ForeignKey('MEMBER_TB.MEMBER_PK'), nullable=True)
 
     member = relationship("Member", back_populates="meals")
@@ -72,6 +72,8 @@ class MealFood(Base):
     UPDATED_DATE = Column(DateTime(6), nullable=False)
     FOOD_FK = Column(BigInteger, ForeignKey('FOOD_TB.FOOD_PK'), nullable=True)
     MEAL_FK = Column(BigInteger, ForeignKey('MEAL_TB.MEAL_PK'), nullable=True)
+    MEAL_FOOD_MULTIPLE = Column(Double, nullable=True)
+    MEAL_FOOD_G = Column(Integer, nullable=True)
 
     food = relationship("Food")
     meal = relationship("Meal", back_populates="meal_foods")

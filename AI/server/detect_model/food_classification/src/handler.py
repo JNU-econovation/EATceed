@@ -146,20 +146,22 @@ class ModelHandler(BaseHandler):
 
 
     def postprocess(self, object_names):
-        df = pd.read_csv('food_labels.csv', encoding='utf-8')
-        
-        for i in range(len(df)):
-            
-            len_code = len(str(df['소분류코드'][i]))
-            if len_code < 8:
-                df.loc[i, '소분류코드'] = str('0'*(8-len_code)) + str(df['소분류코드'][i])
-            else:
-                df.loc[i, '소분류코드'] = str(df['소분류코드'][i])
-                
-        labels = dict.fromkeys(list(df['소분류코드']))
+        df_code = pd.read_csv('food_labels.csv', encoding='utf-8')
+        df_pk = pd.read_csv('food_data.csv', encoding='utf-8')
 
-        for i in range(len(df)):
-            labels[df['소분류코드'][i]] = df['소분류구분'][i]
+        for i in range(len(df_code)):
+            len_code = len(str(df_code['소분류코드'][i]))
+            if len_code < 8:
+                df_code.loc[i, '소분류코드'] = str('0'*(8-len_code)) + str(df_code['소분류코드'][i])
+            else:
+                df_code.loc[i, '소분류코드'] = str(df_code['소분류코드'][i])
+                
+        labels = dict.fromkeys(list(df_code['소분류코드']))
+        for i in range(len(df_code)):
+            if len(df_pk[df_pk["식품명"] == df_code['소분류구분'][i]]['idx'].values) == 0:
+                labels[df_code['소분류코드'][i]] = None
+            else:
+                labels[df_code['소분류코드'][i]] = df_pk[df_pk["식품명"] == df_code['소분류구분'][i]]['idx'].values[0] + 1
         
         results = []
         
@@ -167,7 +169,21 @@ class ModelHandler(BaseHandler):
             # 접시나 spoon이 감지되었다면 이는 결과에서 제외
             if object not in ['00000000', 'spoon']:
                 print('this is object:', object)
-                results.append(labels[str(object)])
+                print('this is label:', labels[object])
+                if labels[object] is not None:
+                    results.append(str(labels[object]))
+                else:
+                    err = {
+                        "success": False,
+                        "response": None,
+                        "error": {
+                            "code": "",
+                            "reason": "Unsupported obeject detected",
+                            "status": "404"
+                        }
+                    }
+                    print("this is in error", json.dumps(err))
+                    return [json.dumps(err)]
             else:
                 continue
 
@@ -182,7 +198,7 @@ class ModelHandler(BaseHandler):
                     "status": "404"
                 }
             }
-            results.append(json.dumps(err))
+            return [json.dumps(err)]
         return results
     
     
