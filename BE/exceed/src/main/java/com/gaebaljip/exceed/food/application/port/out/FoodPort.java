@@ -23,7 +23,7 @@ public interface FoodPort {
 
     void saveAll(List<FoodEntity> foodEntities);
 
-    List<Food> findByMemberId(Long memberId);
+    List<FoodEntity> findByMemberId(Long memberId);
 
     void deleteByAllByIdInQuery(List<Long> ids);
 

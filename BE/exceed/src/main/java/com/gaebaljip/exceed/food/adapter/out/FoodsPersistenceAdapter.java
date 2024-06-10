@@ -54,7 +54,7 @@ public class FoodsPersistenceAdapter implements FoodPort {
     }
 
     @Override
-    public List<Food> findByMemberId(Long memberId) {
+    public List<FoodEntity> findByMemberId(Long memberId) {
         return foodRepository.findByMemberEntityId(memberId);
     }
 
