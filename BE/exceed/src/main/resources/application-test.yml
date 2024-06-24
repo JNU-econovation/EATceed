@@ -1,24 +1,18 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:exceed;MODE=MariaDB
-    driver-class-name: org.h2.Driver
-    username: exceed
-    password: exceed
-  redis:
-    host: localhost
-    port: 6379
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:10.6:///test
   jpa:
     hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      dialect: org.hibernate.dialect.MariaDBDialect
       ddl-auto: create-drop
     properties:
       hibernate:
-        show_sql : true
-        format_sql : true
-    defer-datasource-initialization: true
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
 cloud:
   aws:
     credentials:
@@ -59,4 +53,4 @@ logging:
       hibernate:
         type:
           descriptor:
-            sql: trace
+            sql: info

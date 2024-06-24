@@ -10,6 +10,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     @MockBean private PresignedUrlPort getPresignedUrlPort;
 
     @Test
+    @DisplayName("오늘 먹은 식사 조회")
     @WithMockUser
     void getMeal() throws Exception {
         // when
@@ -42,7 +44,6 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        log.info("responseBody: {}", responseBody);
 
         // then
         ApiResponse.CustomBody<GetMealResponse> getMealResponseCustomBody =
@@ -107,6 +108,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    @DisplayName("특정 날짜 식사 조회")
     @WithMockUser
     void getMealFood() throws Exception {
 

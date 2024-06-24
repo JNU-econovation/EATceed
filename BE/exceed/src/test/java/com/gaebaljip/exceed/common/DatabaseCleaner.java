@@ -20,21 +20,21 @@ public class DatabaseCleaner {
     @SuppressWarnings("unchecked")
     @PostConstruct
     private void findDatabaseTableNames() {
-        List<Object[]> tableInfos = entityManager.createNativeQuery("SHOW TABLES").getResultList();
-        for (Object[] tableInfo : tableInfos) {
-            String tableName = (String) tableInfo[0];
+        List<Object> tableInfos = entityManager.createNativeQuery("SHOW TABLES").getResultList();
+        for (Object tableInfo : tableInfos) {
+            String tableName = (String) tableInfo;
             tableNames.add(tableName);
         }
     }
 
     private void truncate() {
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY False").executeUpdate();
+        entityManager.createNativeQuery("SET foreign_key_checks = 0").executeUpdate();
         for (String tableName : tableNames) {
             entityManager
                     .createNativeQuery(String.format("TRUNCATE TABLE %s", tableName))
                     .executeUpdate();
         }
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY True").executeUpdate();
+        entityManager.createNativeQuery("SET foreign_key_checks = 1").executeUpdate();
     }
 
     @Transactional

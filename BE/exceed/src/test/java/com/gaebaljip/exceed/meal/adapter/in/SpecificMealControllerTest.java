@@ -11,7 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.gaebaljip.exceed.common.CommonApiTest;
+import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.dto.response.MaintainMeal;
@@ -22,7 +22,7 @@ import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
 
 @WebMvcTest(GetMealController.class)
-class SpecificMealControllerTest extends CommonApiTest {
+class SpecificMealControllerTest extends ControllerTest {
 
     @MockBean private GetMaintainMealUsecase getMaintainMealUsecase;
 
