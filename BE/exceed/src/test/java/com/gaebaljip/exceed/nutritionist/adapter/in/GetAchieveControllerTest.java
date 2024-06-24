@@ -9,12 +9,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.gaebaljip.exceed.common.CommonApiTest;
+import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.nutritionist.application.port.in.GetAnalysisUsecase;
 
 @WebMvcTest(GetAnalysisController.class)
-class GetAchieveControllerTest extends CommonApiTest {
+class GetAchieveControllerTest extends ControllerTest {
 
     @MockBean private GetAnalysisUsecase getAchieveUsecase;
 

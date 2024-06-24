@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles("test")
 @ExtendWith(RestDocumentationExtension.class)
-public abstract class CommonApiTest {
+public abstract class ControllerTest {
     @Autowired protected MockMvc mockMvc;
 
     @Autowired protected ObjectMapper om;
