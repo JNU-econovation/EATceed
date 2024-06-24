@@ -50,13 +50,15 @@ dependencies {
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'com.h2database:h2'
+	testImplementation "org.testcontainers:mariadb:1.19.8"
+	testImplementation "org.testcontainers:testcontainers:1.19.8"
+	testImplementation "org.testcontainers:junit-jupiter:1.19.8"
+	testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
+
 
 	// querydsl
 	implementation 'com.querydsl:querydsl-jpa'
