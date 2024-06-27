@@ -36,7 +36,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     user: "$UID:$GID"
-    restart: always
+    restart: no
     ports:
       - "3000:3000"
     volumes:
@@ -51,7 +51,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    restart: always
+    restart: no
     ports:
       - "9090:9090"
     volumes:
