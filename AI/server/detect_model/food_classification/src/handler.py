@@ -171,7 +171,17 @@ class ModelHandler(BaseHandler):
                 print('this is object:', object)
                 print('this is label:', labels[object])
                 if labels[object] is not None:
-                    results.append(str(labels[object]))
+                    result = {
+                        "success": True,
+                        "response": str(labels[object]),
+                        "error": {
+                            "code": "",
+                            "reason": "",
+                            "status": ""
+                        }
+                    }
+                    
+                    results.append(result)
                 else:
                     err = {
                         "success": False,
