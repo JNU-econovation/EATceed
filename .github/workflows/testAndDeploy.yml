@@ -5,6 +5,8 @@ on:
     types:
       - closed
 
+permissions: write-all
+
 defaults:
   run:
     working-directory: ./BE/exceed
