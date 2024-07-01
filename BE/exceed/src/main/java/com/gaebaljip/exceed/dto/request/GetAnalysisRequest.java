@@ -2,4 +2,10 @@ package com.gaebaljip.exceed.dto.request;
 
 import java.time.LocalDateTime;
 
-public record GetAnalysisRequest(Long memberId, LocalDateTime date) {}
+import javax.validation.constraints.NotNull;
+
+import com.gaebaljip.exceed.common.ValidationMessage;
+
+public record GetAnalysisRequest(
+        @NotNull(message = "memberId을" + ValidationMessage.NOT_NULL) Long memberId,
+        @NotNull(message = "날짜를 " + ValidationMessage.NOT_NULL) LocalDateTime date) {}
