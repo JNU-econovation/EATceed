@@ -38,9 +38,6 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
-      - name: List files in build directory
-        run: ls -R build
-
       - name: Upload Jacoco Report
         uses: actions/upload-artifact@v3
         with:
