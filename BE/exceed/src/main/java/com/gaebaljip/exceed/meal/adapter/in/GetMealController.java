@@ -48,11 +48,11 @@ public class GetMealController {
     @ApiErrorExceptionsExample(GetMealExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
-        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
-        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
+        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId);
+        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId);
+        CurrentMealDTO currentMealDTO = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
-                new GetMealResponse(maintainMeal, targetMeal, currentMeal), HttpStatus.OK);
+                new GetMealResponse(maintainMealDTO, targetMealDTO, currentMealDTO), HttpStatus.OK);
     }
 
     /** 특정 날짜의 식사 정보(단,탄,지 및 칼로지) 조회 */
@@ -63,13 +63,13 @@ public class GetMealController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
-        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId, localDateTime);
-        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId, localDateTime);
-        SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, localDateTime);
+        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
+        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
+        SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
         GetMealResponse getMealResponse =
-                new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());
+                new GetMealResponse(maintainMealDTO, targetMealDTO, specificMealDTO.currentMealDTO());
         return ApiResponseGenerator.success(
-                new GetMealFoodResponse(getMealResponse, specificMeal.mealRecords()),
+                new GetMealFoodResponse(getMealResponse, specificMealDTO.mealRecordDTOS()),
                 HttpStatus.OK);
     }
 }

@@ -13,7 +13,7 @@ import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.redis.RedisUtils;
 import com.gaebaljip.exceed.dto.response.GetFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetFoodsAutoResponse;
-import com.gaebaljip.exceed.dto.response.GetPageableFood;
+import com.gaebaljip.exceed.dto.response.GetPageableFoodDTO;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.port.in.GetFoodQuery;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
@@ -29,13 +29,13 @@ public class GetFoodService implements GetFoodQuery {
     private final RedisUtils redisUtils;
 
     @Override
-    public Slice<GetPageableFood> execute(String lastFoodName, String keyword, int size) {
+    public Slice<GetPageableFoodDTO> execute(String lastFoodName, String keyword, int size) {
         Slice<Food> foodModels = loadFoodPort.query(lastFoodName, size, keyword);
-        List<GetPageableFood> pageableFoods =
+        List<GetPageableFoodDTO> pageableFoods =
                 foodModels.getContent().stream()
                         .map(
                                 foodModel ->
-                                        new GetPageableFood(foodModel.getId(), foodModel.getName()))
+                                        new GetPageableFoodDTO(foodModel.getId(), foodModel.getName()))
                         .collect(Collectors.toList());
         return new SliceImpl<>(pageableFoods, foodModels.getPageable(), foodModels.hasNext());
     }

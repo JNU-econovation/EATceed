@@ -8,7 +8,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.response.PageableFood;
+import com.gaebaljip.exceed.dto.response.PageableFoodDTO;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.food.domain.Food;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
@@ -36,11 +36,11 @@ public class FoodsPersistenceAdapter implements FoodPort {
 
     @Override
     public Slice<Food> query(String lastFoodName, int size, String keyword) {
-        PageableFood pageableFood =
+        PageableFoodDTO pageableFoodDTO =
                 queryDslFoodRepository.findPageableFood(lastFoodName, size, keyword);
-        PageRequest pageRequest = PageRequest.of(0, pageableFood.size());
-        List<Food> foods = foodConverter.toModels(pageableFood.foodEntities());
-        return new SliceImpl<>(foods, pageRequest, pageableFood.hasNext());
+        PageRequest pageRequest = PageRequest.of(0, pageableFoodDTO.size());
+        List<Food> foods = foodConverter.toModels(pageableFoodDTO.foodEntities());
+        return new SliceImpl<>(foods, pageRequest, pageableFoodDTO.hasNext());
     }
 
     @Override

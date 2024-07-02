@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.response.TargetMeal;
+import com.gaebaljip.exceed.dto.response.TargetMealDTO;
 import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;
@@ -38,14 +38,14 @@ public class GetTargetMealService implements GetTargetMealUsecase {
      */
     @Override
     @Transactional(readOnly = true)
-    public TargetMeal execute(Long memberId) {
+    public TargetMealDTO execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
         return toTargetMeal(member);
     }
 
     @Override
-    public TargetMeal execute(Long memberId, LocalDateTime date) {
+    public TargetMealDTO execute(Long memberId, LocalDateTime date) {
         Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
         if (memberEntity.isPresent()) {
             Member member = memberConverter.toModel(memberEntity.get());
@@ -57,8 +57,8 @@ public class GetTargetMealService implements GetTargetMealUsecase {
         }
     }
 
-    private TargetMeal toTargetMeal(Member member) {
-        return TargetMeal.builder()
+    private TargetMealDTO toTargetMeal(Member member) {
+        return TargetMealDTO.builder()
                 .calorie(member.measureTargetCalorie())
                 .carbohydrate(member.measureTargetCarbohydrate())
                 .protein(member.measureTargetProtein())

@@ -29,7 +29,7 @@ import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class SpecificMealIntegrationTest extends IntegrationTest {
+public class SpecificMealDTOIntegrationTest extends IntegrationTest {
 
     @MockBean private PresignedUrlPort getPresignedUrlPort;
 
@@ -50,8 +50,8 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                 om.readValue(
                         responseBody,
                         new TypeReference<ApiResponse.CustomBody<GetMealResponse>>() {});
-        Double maintainCalorie = getMealResponseCustomBody.getResponse().maintainMeal().calorie();
-        Double targetCalorie = getMealResponseCustomBody.getResponse().targetMeal().calorie();
+        Double maintainCalorie = getMealResponseCustomBody.getResponse().maintainMealDTO().calorie();
+        Double targetCalorie = getMealResponseCustomBody.getResponse().targetMealDTO().calorie();
 
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
@@ -131,15 +131,15 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                 getMealFoodResponseCustomBody
                         .getResponse()
                         .getMealResponse()
-                        .maintainMeal()
+                        .maintainMealDTO()
                         .calorie();
         Double targetCalorie =
                 getMealFoodResponseCustomBody
                         .getResponse()
                         .getMealResponse()
-                        .targetMeal()
+                        .targetMealDTO()
                         .calorie();
-        int size = getMealFoodResponseCustomBody.getResponse().mealRecords().size();
+        int size = getMealFoodResponseCustomBody.getResponse().mealRecordDTOS().size();
 
         // then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);

@@ -5,12 +5,12 @@ import com.gaebaljip.exceed.common.CustomDoubleSerializer;
 
 import lombok.Builder;
 
-public record CurrentMeal(
+public record MaintainMealDTO(
         @JsonSerialize(using = CustomDoubleSerializer.class) Double calorie,
         @JsonSerialize(using = CustomDoubleSerializer.class) Double carbohydrate,
         @JsonSerialize(using = CustomDoubleSerializer.class) Double protein,
         @JsonSerialize(using = CustomDoubleSerializer.class) Double fat) {
 
     @Builder
-    public CurrentMeal {}
+    public MaintainMealDTO {}
 }

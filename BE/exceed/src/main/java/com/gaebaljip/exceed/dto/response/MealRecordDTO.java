@@ -7,8 +7,8 @@ import com.gaebaljip.exceed.meal.domain.MealType;
 
 import lombok.Builder;
 
-public record MealRecord(LocalTime time, MealType mealType, String imageUri, List<Food> foods) {
+public record MealRecordDTO(LocalTime time, MealType mealType, String imageUri, List<FoodDTO> foodDTOS) {
 
     @Builder
-    public MealRecord {}
+    public MealRecordDTO {}
 }

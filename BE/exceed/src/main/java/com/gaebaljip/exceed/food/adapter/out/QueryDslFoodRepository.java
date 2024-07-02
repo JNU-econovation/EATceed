@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.gaebaljip.exceed.dto.response.PageableFood;
+import com.gaebaljip.exceed.dto.response.PageableFoodDTO;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -16,7 +16,7 @@ public class QueryDslFoodRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public PageableFood findPageableFood(String lastFoodName, int size, String keyword) {
+    public PageableFoodDTO findPageableFood(String lastFoodName, int size, String keyword) {
         List<FoodEntity> foodEntities =
                 jpaQueryFactory
                         .selectFrom(QFoodEntity.foodEntity)
@@ -41,7 +41,7 @@ public class QueryDslFoodRepository {
         return QFoodEntity.foodEntity.name.contains(foodName);
     }
 
-    private PageableFood makePageableMento(List<FoodEntity> foodEntities, int size) {
+    private PageableFoodDTO makePageableMento(List<FoodEntity> foodEntities, int size) {
 
         boolean hasNext = false;
 
@@ -50,6 +50,6 @@ public class QueryDslFoodRepository {
             foodEntities.remove(size);
         }
 
-        return new PageableFood(foodEntities, hasNext, size);
+        return new PageableFoodDTO(foodEntities, hasNext, size);
     }
 }
