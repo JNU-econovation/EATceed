@@ -3,6 +3,10 @@ package com.gaebaljip.exceed.meal.adapter.in;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.gaebaljip.exceed.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.dto.SpecificMealDTO;
+import com.gaebaljip.exceed.dto.TargetMealDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

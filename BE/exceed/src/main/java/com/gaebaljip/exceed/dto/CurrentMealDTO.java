@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto.response;
+package com.gaebaljip.exceed.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gaebaljip.exceed.common.CustomDoubleSerializer;

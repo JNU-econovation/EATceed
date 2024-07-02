@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.common.annotation.Timer;
-import com.gaebaljip.exceed.dto.request.MonthlyMealDTO;
-import com.gaebaljip.exceed.dto.request.TodayMealDTO;
+import com.gaebaljip.exceed.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.dto.TodayMealDTO;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;

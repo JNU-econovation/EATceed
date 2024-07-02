@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto.request;
+package com.gaebaljip.exceed.dto;
 
 import java.time.LocalDateTime;
 

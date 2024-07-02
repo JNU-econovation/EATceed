@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.request.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;

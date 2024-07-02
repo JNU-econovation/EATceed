@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.response.TargetMealDTO;
+import com.gaebaljip.exceed.dto.TargetMealDTO;
 import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetTargetMealUsecase;

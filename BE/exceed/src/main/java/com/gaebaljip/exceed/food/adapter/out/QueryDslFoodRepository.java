@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.gaebaljip.exceed.dto.response.PageableFoodDTO;
+import com.gaebaljip.exceed.dto.PageableFoodDTO;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

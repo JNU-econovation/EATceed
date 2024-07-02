@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.request.TodayMealDTO;
-import com.gaebaljip.exceed.dto.response.CurrentMealDTO;
+import com.gaebaljip.exceed.dto.TodayMealDTO;
+import com.gaebaljip.exceed.dto.CurrentMealDTO;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;

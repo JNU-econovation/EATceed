@@ -13,9 +13,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.response.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.response.MaintainMealDTO;
-import com.gaebaljip.exceed.dto.response.TargetMealDTO;
+import com.gaebaljip.exceed.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.dto.TargetMealDTO;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;

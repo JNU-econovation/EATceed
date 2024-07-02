@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto.response;
+package com.gaebaljip.exceed.dto;
 
 import java.util.List;
 

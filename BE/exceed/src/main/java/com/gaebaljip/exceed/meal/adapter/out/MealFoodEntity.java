@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import javax.persistence.*;
 
 import com.gaebaljip.exceed.common.BaseEntity;
-import com.gaebaljip.exceed.dto.request.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
 import com.gaebaljip.exceed.nutritionist.exception.MealNotFoundException;

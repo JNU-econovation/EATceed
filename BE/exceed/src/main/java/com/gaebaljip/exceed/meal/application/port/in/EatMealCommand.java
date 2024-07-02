@@ -2,7 +2,7 @@ package com.gaebaljip.exceed.meal.application.port.in;
 
 import java.util.List;
 
-import com.gaebaljip.exceed.dto.request.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.domain.MealType;
 
