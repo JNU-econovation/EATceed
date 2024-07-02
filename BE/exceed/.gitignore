@@ -61,4 +61,3 @@ src/jmh/**
 **/._.DS_Store
 
 lombok.config
-food_data.csv
