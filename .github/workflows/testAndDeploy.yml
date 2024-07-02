@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: ${{ github.workspace }}/build/reports/jacoco/test/html/
+          path: ${{ github.workspace }}/build/reports/jacoco/test/html/index.html
 
       - name: Send docker-compose.yml
         uses: appleboy/scp-action@master
