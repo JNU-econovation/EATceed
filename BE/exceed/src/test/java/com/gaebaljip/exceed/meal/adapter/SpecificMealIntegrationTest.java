@@ -29,7 +29,7 @@ import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class SpecificMealDTOIntegrationTest extends IntegrationTest {
+public class SpecificMealIntegrationTest extends IntegrationTest {
 
     @MockBean private PresignedUrlPort getPresignedUrlPort;
 
@@ -67,40 +67,40 @@ public class SpecificMealDTOIntegrationTest extends IntegrationTest {
                                         fieldWithPath("success")
                                                 .type(JsonFieldType.BOOLEAN)
                                                 .description("성공 여부"),
-                                        fieldWithPath("response.maintainMeal.calorie")
+                                        fieldWithPath("response.maintainMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 칼로리"),
-                                        fieldWithPath("response.maintainMeal.carbohydrate")
+                                        fieldWithPath("response.maintainMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 탄수화물"),
-                                        fieldWithPath("response.maintainMeal.protein")
+                                        fieldWithPath("response.maintainMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 단백질"),
-                                        fieldWithPath("response.maintainMeal.fat")
+                                        fieldWithPath("response.maintainMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 지방"),
-                                        fieldWithPath("response.targetMeal.calorie")
+                                        fieldWithPath("response.targetMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 칼로리"),
-                                        fieldWithPath("response.targetMeal.carbohydrate")
+                                        fieldWithPath("response.targetMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 탄수화물"),
-                                        fieldWithPath("response.targetMeal.protein")
+                                        fieldWithPath("response.targetMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 단백질"),
-                                        fieldWithPath("response.targetMeal.fat")
+                                        fieldWithPath("response.targetMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 지방"),
-                                        fieldWithPath("response.currentMeal.calorie")
+                                        fieldWithPath("response.currentMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 칼로리"),
-                                        fieldWithPath("response.currentMeal.carbohydrate")
+                                        fieldWithPath("response.currentMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 탄수화물"),
-                                        fieldWithPath("response.currentMeal.protein")
+                                        fieldWithPath("response.currentMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 단백질"),
-                                        fieldWithPath("response.currentMeal.fat")
+                                        fieldWithPath("response.currentMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 지방"),
                                         fieldWithPath("error")
