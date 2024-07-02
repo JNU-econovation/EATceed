@@ -49,7 +49,9 @@ jobs:
         uses: madrapps/jacoco-report@v1.2
         with:
           title: 테스트 커버리지 리포트입니다
-          paths: build/reports/jacoco/test/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/backend/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 30
 
       - name: Send docker-compose.yml
         uses: appleboy/scp-action@master

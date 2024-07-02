@@ -3,10 +3,6 @@ package com.gaebaljip.exceed.meal.adapter.in;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
-import com.gaebaljip.exceed.dto.SpecificMealDTO;
-import com.gaebaljip.exceed.dto.TargetMealDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,11 +48,11 @@ public class GetMealController {
     @ApiErrorExceptionsExample(GetMealExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId);
-        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId);
-        CurrentMealDTO currentMealDTO = getCurrentMealQuery.execute(memberId);
+        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId);
+        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId);
+        CurrentMeal currentMeal = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
-                new GetMealResponse(maintainMealDTO, targetMealDTO, currentMealDTO), HttpStatus.OK);
+                new GetMealResponse(maintainMeal, targetMeal, currentMeal), HttpStatus.OK);
     }
 
     /** 특정 날짜의 식사 정보(단,탄,지 및 칼로지) 조회 */
@@ -67,14 +63,13 @@ public class GetMealController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
-        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
-        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
-        SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
+        MaintainMeal maintainMeal = getMaintainMealUsecase.execute(memberId, localDateTime);
+        TargetMeal targetMeal = getTargetMealUsecase.execute(memberId, localDateTime);
+        SpecificMeal specificMeal = getSpecificMealQuery.execute(memberId, localDateTime);
         GetMealResponse getMealResponse =
-                new GetMealResponse(
-                        maintainMealDTO, targetMealDTO, specificMealDTO.currentMealDTO());
+                new GetMealResponse(maintainMeal, targetMeal, specificMeal.currentMeal());
         return ApiResponseGenerator.success(
-                new GetMealFoodResponse(getMealResponse, specificMealDTO.mealRecordDTOS()),
+                new GetMealFoodResponse(getMealResponse, specificMeal.mealRecords()),
                 HttpStatus.OK);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 
 public interface MealRepository extends JpaRepository<MealEntity, Long> {
@@ -17,7 +16,6 @@ public interface MealRepository extends JpaRepository<MealEntity, Long> {
             "select m from MealEntity m join fetch m.mealFoodEntity mf join fetch mf.foodEntity where m.createdDate >= :today and m.createdDate < :tomorrow and m.memberEntity.id = :memberId")
     List<MealEntity> findAllTodayMeal(LocalDateTime today, LocalDateTime tomorrow, Long memberId);
 
-    @Timer
     @Query(
             "select m from MealEntity m join fetch m.mealFoodEntity mf join fetch mf.foodEntity where m.createdDate >= :startOfMonth and m.createdDate < :endOfMonth and m.memberEntity.id = :memberId")
     List<MealEntity> findMealsByMemberAndMonth(

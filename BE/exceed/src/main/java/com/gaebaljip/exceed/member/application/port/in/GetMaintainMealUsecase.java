@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.dto.response.MaintainMeal;
 
 @Component
 public interface GetMaintainMealUsecase {
-    MaintainMealDTO execute(Long memberId);
+    MaintainMeal execute(Long memberId);
 
-    MaintainMealDTO execute(Long memberId, LocalDateTime date);
+    MaintainMeal execute(Long memberId, LocalDateTime date);
 }

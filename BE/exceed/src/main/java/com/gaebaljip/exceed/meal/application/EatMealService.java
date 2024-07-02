@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.request.EatMealFood;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
@@ -49,14 +49,14 @@ public class EatMealService implements EatMealUsecase {
     @Transactional
     public Long execute(EatMealCommand command) {
         validateMultiples(
-                command.eatMealFoodDTOS().stream()
-                        .map(EatMealFoodDTO::multiple)
+                command.eatMealFoods().stream()
+                        .map(EatMealFood::multiple)
                         .filter(Objects::nonNull)
                         .mapToDouble(Double::doubleValue)
                         .toArray());
         List<FoodEntity> foodEntities =
                 foodPort.query(
-                        command.eatMealFoodDTOS().stream()
+                        command.eatMealFoods().stream()
                                 .mapToLong(eatMealFood -> eatMealFood.foodId())
                                 .boxed()
                                 .toList());
@@ -64,8 +64,7 @@ public class EatMealService implements EatMealUsecase {
         MealEntity mealEntity =
                 mealPort.command(MealEntity.createMeal(memberEntity, command.mealType()));
         mealFoodPort.command(
-                MealFoodEntity.createMealFoods(
-                        foodEntities, mealEntity, command.eatMealFoodDTOS()));
+                MealFoodEntity.createMealFoods(foodEntities, mealEntity, command.eatMealFoods()));
         return mealEntity.getId();
     }
 

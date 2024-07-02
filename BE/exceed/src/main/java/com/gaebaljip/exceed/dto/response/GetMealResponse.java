@@ -1,10 +1,4 @@
 package com.gaebaljip.exceed.dto.response;
 
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
-import com.gaebaljip.exceed.dto.TargetMealDTO;
-
 public record GetMealResponse(
-        MaintainMealDTO maintainMealDTO,
-        TargetMealDTO targetMealDTO,
-        CurrentMealDTO currentMealDTO) {}
+        MaintainMeal maintainMeal, TargetMeal targetMeal, CurrentMeal currentMeal) {}

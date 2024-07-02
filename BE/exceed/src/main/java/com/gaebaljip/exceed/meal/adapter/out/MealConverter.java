@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.meal.domain.Meal;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ public class MealConverter {
                 .build();
     }
 
-    @Timer
     public List<Meal> toMeals(List<MealEntity> mealEntities) {
         return mealEntities.stream().map(this::toMeal).toList();
     }

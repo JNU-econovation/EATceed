@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.dto.response.MaintainMeal;
 import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.in.GetMaintainMealUsecase;
@@ -38,7 +38,7 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
      */
     @Override
     @Transactional(readOnly = true)
-    public MaintainMealDTO execute(Long memberId) {
+    public MaintainMeal execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
         return toMaintainMeal(member);
@@ -46,7 +46,7 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
 
     @Override
     @Transactional(readOnly = true)
-    public MaintainMealDTO execute(Long memberId, LocalDateTime date) {
+    public MaintainMeal execute(Long memberId, LocalDateTime date) {
         Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
         if (memberEntity.isPresent()) {
             Member member = memberConverter.toModel(memberEntity.get());
@@ -58,8 +58,8 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
         }
     }
 
-    private MaintainMealDTO toMaintainMeal(Member member) {
-        return MaintainMealDTO.builder()
+    private MaintainMeal toMaintainMeal(Member member) {
+        return MaintainMeal.builder()
                 .calorie(member.measureTDEE())
                 .carbohydrate(member.measureMaintainCarbohydrate())
                 .protein(member.measureMaintainProtein())

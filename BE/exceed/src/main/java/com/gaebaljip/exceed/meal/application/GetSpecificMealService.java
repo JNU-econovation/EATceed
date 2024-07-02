@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.TodayMealDTO;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.FoodDTO;
-import com.gaebaljip.exceed.dto.MealRecordDTO;
-import com.gaebaljip.exceed.dto.SpecificMealDTO;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
+import com.gaebaljip.exceed.dto.response.Food;
+import com.gaebaljip.exceed.dto.response.MealRecord;
+import com.gaebaljip.exceed.dto.response.SpecificMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetSpecificMealQuery;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
@@ -44,28 +44,28 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
      */
     @Override
     @Transactional(readOnly = true)
-    public SpecificMealDTO execute(Long memberId, LocalDateTime date) {
-        List<Meal> meals = dailyMealPort.query(new TodayMealDTO(memberId, date));
+    public SpecificMeal execute(Long memberId, LocalDateTime date) {
+        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, date));
 
         if (meals.isEmpty()) {
             return createEmptySpecificMeal();
         }
         DailyMeal dailyMeal = new DailyMeal(meals);
 
-        List<MealRecordDTO> mealRecordDTOS =
+        List<MealRecord> mealRecords =
                 meals.stream().map(meal -> createMealRecord(meal, memberId)).toList();
 
-        return SpecificMealDTO.builder()
-                .currentMealDTO(getCurrentMeal(dailyMeal))
-                .mealRecordDTOS(mealRecordDTOS)
+        return SpecificMeal.builder()
+                .currentMeal(getCurrentMeal(dailyMeal))
+                .mealRecords(mealRecords)
                 .build();
     }
 
-    private SpecificMealDTO createEmptySpecificMeal() {
-        return SpecificMealDTO.builder()
-                .mealRecordDTOS(List.of())
-                .currentMealDTO(
-                        CurrentMealDTO.builder()
+    private SpecificMeal createEmptySpecificMeal() {
+        return SpecificMeal.builder()
+                .mealRecords(List.of())
+                .currentMeal(
+                        CurrentMeal.builder()
                                 .protein(ZERO)
                                 .fat(ZERO)
                                 .carbohydrate(ZERO)
@@ -74,16 +74,16 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                 .build();
     }
 
-    private MealRecordDTO createMealRecord(Meal meal, Long memberId) {
-        return MealRecordDTO.builder()
+    private MealRecord createMealRecord(Meal meal, Long memberId) {
+        return MealRecord.builder()
                 .mealType(meal.getMealType())
                 .time(meal.getMealDateTime().toLocalTime())
                 .imageUri(presignedUrlPort.query(memberId, meal.getId()))
-                .foodDTOS(
+                .foods(
                         meal.getConsumedFoods().stream()
                                 .map(
                                         consumedFood ->
-                                                FoodDTO.builder()
+                                                Food.builder()
                                                         .id(consumedFood.getFood().getId())
                                                         .name(consumedFood.getFood().getName())
                                                         .build())
@@ -91,8 +91,8 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                 .build();
     }
 
-    private CurrentMealDTO getCurrentMeal(DailyMeal dailyMeal) {
-        return CurrentMealDTO.builder()
+    private CurrentMeal getCurrentMeal(DailyMeal dailyMeal) {
+        return CurrentMeal.builder()
                 .calorie(dailyMeal.calculateCurrentCalorie())
                 .carbohydrate(dailyMeal.calculateCurrentCarbohydrate())
                 .fat(dailyMeal.calculateCurrentFat())

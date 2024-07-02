@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.request.EatMealFood;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.in.UploadImageUsecase;
@@ -31,9 +31,8 @@ class EatMealControllerTest extends ControllerTest {
     void eatMeal() throws Exception {
 
         // given
-        EatMealFoodDTO eatMealFoodDTO =
-                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
-        EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
+        EatMealFood eatMealFood = EatMealFood.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealRequest request = new EatMealRequest(List.of(eatMealFood), "LUNCH", "test.jpeg");
 
         given(uploadImageUsecase.execute(any()))
                 .willReturn(

@@ -9,10 +9,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.dto.request.GetAnalysisRequest;
-import com.gaebaljip.exceed.dto.MonthlyMealDTO;
-import com.gaebaljip.exceed.dto.AnalysisDTO;
+import com.gaebaljip.exceed.dto.request.MonthlyMeal;
+import com.gaebaljip.exceed.dto.response.Analysis;
 import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
 import com.gaebaljip.exceed.meal.domain.DailyMeal;
 import com.gaebaljip.exceed.meal.domain.Meal;
@@ -47,14 +46,13 @@ public class GetAnalysisService implements GetAnalysisUsecase {
      * @return GetAnalysisResponse : 칼로리,단,단,지 달성 여부들의 집합
      */
     @Override
-    @Timer
     @Transactional(readOnly = true)
     public GetAnalysisResponse execute(GetAnalysisRequest request) {
         List<Meal> meals =
-                monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
+                monthlyMealPort.query(new MonthlyMeal(request.memberId(), request.date()));
         Map<LocalDate, DailyMeal> dailyMealMap = groupByDate(meals);
         Member member = monthlyTargetPort.query(request.memberId(), request.date());
-        List<AnalysisDTO> analyses =
+        List<Analysis> analyses =
                 getStartDate(request)
                         .datesUntil(getLastDate(request).plusDays(1))
                         .map(date -> createAnalysisForDay(date, dailyMealMap, member))
@@ -62,7 +60,6 @@ public class GetAnalysisService implements GetAnalysisUsecase {
         return new GetAnalysisResponse(analyses);
     }
 
-    @Timer
     private Map<LocalDate, DailyMeal> groupByDate(List<Meal> meals) {
         return meals.stream()
                 .collect(
@@ -80,15 +77,14 @@ public class GetAnalysisService implements GetAnalysisUsecase {
         return date.withDayOfMonth(date.lengthOfMonth()); // 그 달의 마지막 날짜를 설정
     }
 
-    @Timer
-    private AnalysisDTO createAnalysisForDay(
+    private Analysis createAnalysisForDay(
             LocalDate day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
         return Optional.ofNullable(dailyMealMap.get(day))
                 .map(
                         dailyMeal -> {
                             Nutritionist nutritionist =
                                     Nutritionist.createNutritionist(member, dailyMeal);
-                            return AnalysisDTO.builder()
+                            return Analysis.builder()
                                     .date(day)
                                     .isVisited(true)
                                     .isCalorieAchieved(nutritionist.evaluateCalorieAchieve())
@@ -96,7 +92,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
                         })
                 .orElseGet(
                         () ->
-                                AnalysisDTO.builder()
+                                Analysis.builder()
                                         .date(day)
                                         .isVisited(false)
                                         .isCalorieAchieved(false)

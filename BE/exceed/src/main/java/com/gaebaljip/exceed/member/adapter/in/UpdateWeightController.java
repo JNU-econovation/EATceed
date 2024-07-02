@@ -14,8 +14,8 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.event.Events;
 import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
-import com.gaebaljip.exceed.dto.request.UpdateWeightRequest;
-import com.gaebaljip.exceed.dto.response.UpdateWeightResponse;
+import com.gaebaljip.exceed.dto.UpdateWeightRequest;
+import com.gaebaljip.exceed.dto.UpdateWeightResponse;
 import com.gaebaljip.exceed.member.application.UpdateWeightService;
 import com.gaebaljip.exceed.member.application.port.in.UpdateWeightCommand;
 

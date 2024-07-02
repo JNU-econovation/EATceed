@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.dto.TodayMealDTO;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.dto.request.TodayMeal;
+import com.gaebaljip.exceed.dto.response.CurrentMeal;
 import com.gaebaljip.exceed.meal.application.port.in.GetCurrentMealQuery;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;
@@ -38,10 +38,10 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
      */
     @Override
     @Transactional(readOnly = true)
-    public CurrentMealDTO execute(Long memberId) {
-        List<Meal> meals = dailyMealPort.query(new TodayMealDTO(memberId, LocalDateTime.now()));
+    public CurrentMeal execute(Long memberId) {
+        List<Meal> meals = dailyMealPort.query(new TodayMeal(memberId, LocalDateTime.now()));
         if (meals.isEmpty()) {
-            return CurrentMealDTO.builder()
+            return CurrentMeal.builder()
                     .calorie(ZERO)
                     .carbohydrate(ZERO)
                     .fat(ZERO)
@@ -50,7 +50,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
         } else {
             com.gaebaljip.exceed.meal.domain.DailyMeal dailyMeal =
                     new com.gaebaljip.exceed.meal.domain.DailyMeal(meals);
-            return CurrentMealDTO.builder()
+            return CurrentMeal.builder()
                     .calorie(dailyMeal.calculateCurrentCalorie())
                     .carbohydrate(dailyMeal.calculateCurrentCarbohydrate())
                     .fat(dailyMeal.calculateCurrentFat())

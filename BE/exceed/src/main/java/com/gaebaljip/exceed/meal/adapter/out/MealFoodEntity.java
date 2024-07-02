@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import javax.persistence.*;
 
 import com.gaebaljip.exceed.common.BaseEntity;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.dto.request.EatMealFood;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.exception.FoodNotFoundException;
 import com.gaebaljip.exceed.nutritionist.exception.MealNotFoundException;
@@ -44,9 +44,7 @@ public class MealFoodEntity extends BaseEntity {
     private Integer g;
 
     public static List<MealFoodEntity> createMealFoods(
-            List<FoodEntity> foodEntities,
-            MealEntity mealEntity,
-            List<EatMealFoodDTO> eatMealFoodDTOS) {
+            List<FoodEntity> foodEntities, MealEntity mealEntity, List<EatMealFood> eatMealFoods) {
         if (foodEntities.isEmpty()) {
             throw FoodNotFoundException.Exception;
         }
@@ -58,8 +56,8 @@ public class MealFoodEntity extends BaseEntity {
                         .mapToObj(
                                 i ->
                                         MealFoodEntity.builder()
-                                                .g(eatMealFoodDTOS.get(i).g())
-                                                .multiple(eatMealFoodDTOS.get(i).multiple())
+                                                .g(eatMealFoods.get(i).g())
+                                                .multiple(eatMealFoods.get(i).multiple())
                                                 .foodEntity(foodEntities.get(i))
                                                 .mealEntity(mealEntity)
                                                 .build())
