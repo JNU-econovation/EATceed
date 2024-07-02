@@ -44,7 +44,9 @@ public class MealFoodEntity extends BaseEntity {
     private Integer g;
 
     public static List<MealFoodEntity> createMealFoods(
-            List<FoodEntity> foodEntities, MealEntity mealEntity, List<EatMealFoodDTO> eatMealFoodDTOS) {
+            List<FoodEntity> foodEntities,
+            MealEntity mealEntity,
+            List<EatMealFoodDTO> eatMealFoodDTOS) {
         if (foodEntities.isEmpty()) {
             throw FoodNotFoundException.Exception;
         }

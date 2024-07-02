@@ -31,7 +31,8 @@ class EatMealControllerTest extends ControllerTest {
     void eatMeal() throws Exception {
 
         // given
-        EatMealFoodDTO eatMealFoodDTO = EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealFoodDTO eatMealFoodDTO =
+                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
         EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
 
         given(uploadImageUsecase.execute(any()))

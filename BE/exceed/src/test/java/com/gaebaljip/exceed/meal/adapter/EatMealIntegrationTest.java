@@ -33,7 +33,8 @@ public class EatMealIntegrationTest extends IntegrationTest {
         // given
 
         long beforeCnt = mealRepository.findAll().stream().count();
-        EatMealFoodDTO eatMealFoodDTO = EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealFoodDTO eatMealFoodDTO =
+                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
         EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
 
         given(getPresignedUrlPort.command(any(Long.class), any(Long.class), any(String.class)))

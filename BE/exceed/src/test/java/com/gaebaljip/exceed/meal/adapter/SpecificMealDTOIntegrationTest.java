@@ -50,7 +50,8 @@ public class SpecificMealDTOIntegrationTest extends IntegrationTest {
                 om.readValue(
                         responseBody,
                         new TypeReference<ApiResponse.CustomBody<GetMealResponse>>() {});
-        Double maintainCalorie = getMealResponseCustomBody.getResponse().maintainMealDTO().calorie();
+        Double maintainCalorie =
+                getMealResponseCustomBody.getResponse().maintainMealDTO().calorie();
         Double targetCalorie = getMealResponseCustomBody.getResponse().targetMealDTO().calorie();
 
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);

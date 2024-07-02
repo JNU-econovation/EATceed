@@ -67,7 +67,8 @@ public class GetMealController {
         TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
         GetMealResponse getMealResponse =
-                new GetMealResponse(maintainMealDTO, targetMealDTO, specificMealDTO.currentMealDTO());
+                new GetMealResponse(
+                        maintainMealDTO, targetMealDTO, specificMealDTO.currentMealDTO());
         return ApiResponseGenerator.success(
                 new GetMealFoodResponse(getMealResponse, specificMealDTO.mealRecordDTOS()),
                 HttpStatus.OK);

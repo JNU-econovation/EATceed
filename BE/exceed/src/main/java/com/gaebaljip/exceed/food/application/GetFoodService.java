@@ -35,7 +35,8 @@ public class GetFoodService implements GetFoodQuery {
                 foodModels.getContent().stream()
                         .map(
                                 foodModel ->
-                                        new GetPageableFoodDTO(foodModel.getId(), foodModel.getName()))
+                                        new GetPageableFoodDTO(
+                                                foodModel.getId(), foodModel.getName()))
                         .collect(Collectors.toList());
         return new SliceImpl<>(pageableFoods, foodModels.getPageable(), foodModels.hasNext());
     }

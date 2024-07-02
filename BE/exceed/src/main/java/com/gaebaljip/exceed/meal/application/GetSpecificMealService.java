@@ -56,15 +56,15 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                 meals.stream().map(meal -> createMealRecord(meal, memberId)).toList();
 
         return SpecificMealDTO.builder()
-                .currentMeal(getCurrentMeal(dailyMeal))
-                .mealRecords(mealRecordDTOS)
+                .currentMealDTO(getCurrentMeal(dailyMeal))
+                .mealRecordDTOS(mealRecordDTOS)
                 .build();
     }
 
     private SpecificMealDTO createEmptySpecificMeal() {
         return SpecificMealDTO.builder()
-                .mealRecords(List.of())
-                .currentMeal(
+                .mealRecordDTOS(List.of())
+                .currentMealDTO(
                         CurrentMealDTO.builder()
                                 .protein(ZERO)
                                 .fat(ZERO)
@@ -79,7 +79,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
                 .mealType(meal.getMealType())
                 .time(meal.getMealDateTime().toLocalTime())
                 .imageUri(presignedUrlPort.query(memberId, meal.getId()))
-                .foods(
+                .foodDTOS(
                         meal.getConsumedFoods().stream()
                                 .map(
                                         consumedFood ->

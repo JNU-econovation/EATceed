@@ -64,7 +64,8 @@ public class EatMealService implements EatMealUsecase {
         MealEntity mealEntity =
                 mealPort.command(MealEntity.createMeal(memberEntity, command.mealType()));
         mealFoodPort.command(
-                MealFoodEntity.createMealFoods(foodEntities, mealEntity, command.eatMealFoodDTOS()));
+                MealFoodEntity.createMealFoods(
+                        foodEntities, mealEntity, command.eatMealFoodDTOS()));
         return mealEntity.getId();
     }
 
