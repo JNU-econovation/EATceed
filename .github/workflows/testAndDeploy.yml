@@ -38,11 +38,14 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
+      - name: List files in build directory
+        run: ls -R build
+
       - name: Upload Jacoco Report
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: build/reports/jacoco/test/html/
+          path: build/reports/jacoco/test/html/index.html
 
       - name: Send docker-compose.yml
         uses: appleboy/scp-action@master
