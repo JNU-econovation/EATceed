@@ -50,8 +50,9 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                 om.readValue(
                         responseBody,
                         new TypeReference<ApiResponse.CustomBody<GetMealResponse>>() {});
-        Double maintainCalorie = getMealResponseCustomBody.getResponse().maintainMeal().calorie();
-        Double targetCalorie = getMealResponseCustomBody.getResponse().targetMeal().calorie();
+        Double maintainCalorie =
+                getMealResponseCustomBody.getResponse().maintainMealDTO().calorie();
+        Double targetCalorie = getMealResponseCustomBody.getResponse().targetMealDTO().calorie();
 
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
@@ -66,40 +67,40 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                                         fieldWithPath("success")
                                                 .type(JsonFieldType.BOOLEAN)
                                                 .description("성공 여부"),
-                                        fieldWithPath("response.maintainMeal.calorie")
+                                        fieldWithPath("response.maintainMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 칼로리"),
-                                        fieldWithPath("response.maintainMeal.carbohydrate")
+                                        fieldWithPath("response.maintainMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 탄수화물"),
-                                        fieldWithPath("response.maintainMeal.protein")
+                                        fieldWithPath("response.maintainMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 단백질"),
-                                        fieldWithPath("response.maintainMeal.fat")
+                                        fieldWithPath("response.maintainMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("유지 지방"),
-                                        fieldWithPath("response.targetMeal.calorie")
+                                        fieldWithPath("response.targetMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 칼로리"),
-                                        fieldWithPath("response.targetMeal.carbohydrate")
+                                        fieldWithPath("response.targetMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 탄수화물"),
-                                        fieldWithPath("response.targetMeal.protein")
+                                        fieldWithPath("response.targetMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 단백질"),
-                                        fieldWithPath("response.targetMeal.fat")
+                                        fieldWithPath("response.targetMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("목표 지방"),
-                                        fieldWithPath("response.currentMeal.calorie")
+                                        fieldWithPath("response.currentMealDTO.calorie")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 칼로리"),
-                                        fieldWithPath("response.currentMeal.carbohydrate")
+                                        fieldWithPath("response.currentMealDTO.carbohydrate")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 탄수화물"),
-                                        fieldWithPath("response.currentMeal.protein")
+                                        fieldWithPath("response.currentMealDTO.protein")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 단백질"),
-                                        fieldWithPath("response.currentMeal.fat")
+                                        fieldWithPath("response.currentMealDTO.fat")
                                                 .type(JsonFieldType.NUMBER)
                                                 .description("현재 지방"),
                                         fieldWithPath("error")
@@ -131,15 +132,15 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                 getMealFoodResponseCustomBody
                         .getResponse()
                         .getMealResponse()
-                        .maintainMeal()
+                        .maintainMealDTO()
                         .calorie();
         Double targetCalorie =
                 getMealFoodResponseCustomBody
                         .getResponse()
                         .getMealResponse()
-                        .targetMeal()
+                        .targetMealDTO()
                         .calorie();
-        int size = getMealFoodResponseCustomBody.getResponse().mealRecords().size();
+        int size = getMealFoodResponseCustomBody.getResponse().mealRecordDTOS().size();
 
         // then
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);

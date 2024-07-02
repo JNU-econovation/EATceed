@@ -131,6 +131,7 @@ ext {
 
 test {
 	outputs.dir snippetsDir
+	finalizedBy jacocoTestReport
 }
 
 asciidoctor {
@@ -195,18 +196,65 @@ spotless {
 	}
 }
 
-test {
-	finalizedBy jacocoTestReport
-}
-
 jacoco {
 	toolVersion = "0.8.8" // 버전 명시
 }
 
 jacocoTestReport {
-	dependsOn test // 리포트 생성 전에 test를 반드시 수행해야 한다!
-	reports { // 어떤 파일들을 생성할지, 어디에 생성할지 설정
-		xml.required = true // xml과 html형식으로 결과물을 만들어내라!
+	dependsOn test
+	reports {
+		xml.required = true
 		html.required = true
+
+		finalizedBy 'jacocoTestCoverageVerification'
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect{
+					fileTree(dir: it, excludes: [
+					        "**/*Application",
+							"**/*Config*",
+							"**/*Request*",
+							"**/*Response*",
+							"**/*Exception*",
+							"**/*Filter*",
+							"**/*Docs*",
+							"**/*DTO*",
+							"**/common/**",
+							"**/health/**"
+					])
+				})
+		)
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = false
+			element = 'CLASS'
+
+			// Instruction Coverage 20%
+			limit {
+				minimum = 0.20
+			}
+
+			// 커버리지 체크를 제외할 클래스들
+			excludes = [
+                    '*.ExceedApplication',
+					'*.config.*',
+					'*.common.*',
+					'*.dto.*',
+					'*.health.*',
+					'*.infrastructure.*',
+					'*.docs.*',
+					'*.exception.*',
+					'*.adapter.out.*',
+					'*.application.port.in.*',
+					'*.application.port.out.*',
+					'*.security.*'
+			]
+		}
 	}
 }

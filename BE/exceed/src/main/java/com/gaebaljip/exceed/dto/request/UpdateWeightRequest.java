@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto;
+package com.gaebaljip.exceed.dto.request;
 
 import lombok.Builder;
 

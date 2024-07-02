@@ -2,9 +2,9 @@ package com.gaebaljip.exceed.meal.application.port.in;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.response.CurrentMeal;
+import com.gaebaljip.exceed.dto.CurrentMealDTO;
 
 @Component
 public interface GetCurrentMealQuery {
-    CurrentMeal execute(Long memberId);
+    CurrentMealDTO execute(Long memberId);
 }

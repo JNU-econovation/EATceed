@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.request.EatMealFood;
+import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
 import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
@@ -33,8 +33,9 @@ public class EatMealIntegrationTest extends IntegrationTest {
         // given
 
         long beforeCnt = mealRepository.findAll().stream().count();
-        EatMealFood eatMealFood = EatMealFood.builder().foodId(1L).g(100).multiple(null).build();
-        EatMealRequest request = new EatMealRequest(List.of(eatMealFood), "LUNCH", "test.jpeg");
+        EatMealFoodDTO eatMealFoodDTO =
+                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
 
         given(getPresignedUrlPort.command(any(Long.class), any(Long.class), any(String.class)))
                 .willReturn("http://uploadYourImage.com");

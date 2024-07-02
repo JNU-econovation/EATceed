@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.response.TargetMeal;
+import com.gaebaljip.exceed.dto.TargetMealDTO;
 
 @Component
 public interface GetTargetMealUsecase {
-    TargetMeal execute(Long memberId);
+    TargetMealDTO execute(Long memberId);
 
-    TargetMeal execute(Long memberId, LocalDateTime date);
+    TargetMealDTO execute(Long memberId, LocalDateTime date);
 }

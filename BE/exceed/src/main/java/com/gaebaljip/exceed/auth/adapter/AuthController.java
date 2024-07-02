@@ -16,7 +16,7 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.dto.request.LoginRequest;
-import com.gaebaljip.exceed.dto.response.LoginResponse;
+import com.gaebaljip.exceed.dto.LoginResponseDTO;
 import com.gaebaljip.exceed.security.AuthConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,9 +38,9 @@ public class AuthController {
     @ApiErrorExceptionsExample(AuthExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> login(
             @RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
-        LoginResponse loginResponse = authUsecase.execute(loginRequest);
-        response.setHeader(AuthConstants.AUTH_HEADER.getValue(), loginResponse.accessToken());
-        setCookie(response, loginResponse.refreshToken());
+        LoginResponseDTO loginResponseDTO = authUsecase.execute(loginRequest);
+        response.setHeader(AuthConstants.AUTH_HEADER.getValue(), loginResponseDTO.accessToken());
+        setCookie(response, loginResponseDTO.refreshToken());
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 

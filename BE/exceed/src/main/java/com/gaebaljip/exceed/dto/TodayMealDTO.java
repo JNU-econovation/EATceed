@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.dto.request;
+package com.gaebaljip.exceed.dto;
 
 import java.time.LocalDateTime;
 
@@ -8,10 +8,10 @@ import com.gaebaljip.exceed.common.ValidationMessage;
 
 import lombok.Builder;
 
-public record TodayMeal(
+public record TodayMealDTO(
         @NotNull(message = "memberId을 " + ValidationMessage.NOT_NULL) Long memberId,
         @NotNull(message = "날짜를 " + ValidationMessage.NOT_NULL) LocalDateTime date) {
 
     @Builder
-    public TodayMeal {}
+    public TodayMealDTO {}
 }

@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.request.MonthlyMeal;
-import com.gaebaljip.exceed.dto.request.TodayMeal;
+import com.gaebaljip.exceed.common.annotation.Timer;
+import com.gaebaljip.exceed.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.dto.TodayMealDTO;
 import com.gaebaljip.exceed.meal.application.port.out.DailyMealPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
 import com.gaebaljip.exceed.meal.domain.Meal;
@@ -30,23 +31,24 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public List<Meal> query(TodayMeal todayMeal) {
-        LocalDateTime today = todayMeal.date().toLocalDate().atStartOfDay();
+    public List<Meal> query(TodayMealDTO todayMealDTO) {
+        LocalDateTime today = todayMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);
         List<MealEntity> mealEntities =
-                mealRepository.findAllTodayMeal(today, tomorrow, todayMeal.memberId());
+                mealRepository.findAllTodayMeal(today, tomorrow, todayMealDTO.memberId());
         return mealConverter.toMeals(mealEntities);
     }
 
     @Override
-    public List<Meal> query(MonthlyMeal monthlyMeal) {
-        LocalDateTime date = monthlyMeal.date().toLocalDate().atStartOfDay();
+    @Timer
+    public List<Meal> query(MonthlyMealDTO monthlyMealDTO) {
+        LocalDateTime date = monthlyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime startOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
         LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
 
         List<MealEntity> mealEntities =
                 mealRepository.findMealsByMemberAndMonth(
-                        startOfMonth, endOfMonth, monthlyMeal.memberId());
+                        startOfMonth, endOfMonth, monthlyMealDTO.memberId());
         return mealConverter.toMeals(mealEntities);
     }
 
