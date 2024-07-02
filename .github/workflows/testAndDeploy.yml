@@ -5,7 +5,10 @@ on:
     types:
       - closed
 
-permissions: write-all
+permissions:
+  contents: read
+  pull-requests: write
+
 
 defaults:
   run:
