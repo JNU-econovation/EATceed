@@ -44,13 +44,11 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
-      - name: PR Comment on Jacoco Report
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.2
+      - name: Upload Jacoco Report
+        uses: actions/upload-artifact@v3
         with:
-          title: 테스트 커버리지 리포트입니다
-          paths: '**/build/reports/jacoco/test/jacocoTestReport.xml'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: jacoco-report
+          path: build/reports/jacoco/test/html
 
       - name: Send docker-compose.yml
         uses: appleboy/scp-action@master
