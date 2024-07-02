@@ -10,24 +10,15 @@ WORKDIR /detect_model
 USER root
 RUN chmod 777 -R . 
 
-
-# copy the files in to workdir
-COPY ./food_classification/src /detect_model/src
-
-# copy model configuration file
-COPY ./model/config/config.properties /detect_model/src/config.properties
-
-# 상위 계층 디렉토리의 파일 복사는 불가능함
-# 어차피 병합 후 최상위 디렉토리에서 하나의 dockerfile을 생성할 것이므로,
-# 아래에 해당하는 파일은 수동으로 src 내에 복사하여 사용했음
-# COPY ../../auth/decoded_token.py /detect_model/src/decoded_token.py
-# COPY ../../core/config.py /detect_model/src/config.py
-
-# get model
-COPY ./food_classification/ckpt /detect_model/model
+# torchserve 실행에 필요한 파일 복사
+COPY ./labels /detect_model/labels
+COPY ./model /detect_model/model
+COPY ./src /detect_model/src
+COPY ./ckpt /detect_model/ckpt
+COPY ./requirements.txt /detect_model/requirements.txt
 
 # install the requirements
-RUN pip install -r /detect_model/src/requirements.txt
+RUN pip install -r /detect_model/requirements.txt
 
 # apt-get update에서 오류가 발생하여 추가한 코드
 # 시간 관련 설정을 변경

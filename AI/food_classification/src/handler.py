@@ -9,7 +9,7 @@ from torchvision import transforms
 from ts.torch_handler.base_handler import BaseHandler
 
 from darknet import *
-from decoded_token import *
+from AI.food_classification.auth.decoded_token import *
 
 
 logging.basicConfig(level=logging.DEBUG)
