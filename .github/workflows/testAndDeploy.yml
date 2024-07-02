@@ -5,11 +5,6 @@ on:
     types:
       - closed
 
-permissions:
-  contents: read
-  pull-requests: write
-
-
 defaults:
   run:
     working-directory: ./BE/exceed
@@ -19,6 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v3
@@ -48,7 +44,7 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: ${{ github.workspace }}/BE/exceed/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Send docker-compose.yml
