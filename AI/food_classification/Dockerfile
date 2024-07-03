@@ -14,7 +14,6 @@ RUN chmod 777 -R .
 COPY ./labels /detect_model/labels
 COPY ./model /detect_model/model
 COPY ./src /detect_model/src
-COPY ./ckpt /detect_model/ckpt
 COPY ./requirements.txt /detect_model/requirements.txt
 
 # install the requirements
