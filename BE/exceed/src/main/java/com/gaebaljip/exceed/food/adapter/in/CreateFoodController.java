@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
+
 @RestController
 @SecurityRequirement(name = "access-token")
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class CreateFoodController {
 
     @PostMapping("/food")
     public ApiResponse<CustomBody<Void>> createFood(
-            @RequestBody CreateFoodRequest request, @AuthenticationMemberId Long memberId) {
+            @RequestBody @Valid CreateFoodRequest request, @AuthenticationMemberId Long memberId) {
         createFoodUseCase.execute(request, memberId);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
