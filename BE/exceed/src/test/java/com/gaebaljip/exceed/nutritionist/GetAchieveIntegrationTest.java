@@ -26,23 +26,17 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     @WithMockUser
     void getAchieves() throws Exception {
         // given
-        String year = "2023";
-        String month = "12";
-        String day = "04";
-        String date = year + "-" + month + "-" + day;
-        LocalDate testDate =
-                LocalDate.of(
-                        Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+        LocalDate testData = LocalDate.now();
 
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/v1/achieve/" + date)
+                        RestDocumentationRequestBuilders.get("/v1/achieve/" + testData)
                                 .contentType(MediaType.APPLICATION_JSON));
         // then
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println(responseBody);
+
         ApiResponse.CustomBody<GetAnalysisResponse> getAchieveListResponseCustomBody =
                 om.readValue(
                         responseBody,
@@ -53,8 +47,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
                         .toList()
                         .size();
 
-        System.out.println("comparedSize = " + comparedSize);
-        Assertions.assertThat(comparedSize).isEqualTo(testDate.lengthOfMonth());
+        Assertions.assertThat(comparedSize).isEqualTo(testData.lengthOfMonth());
         resultActions
                 .andExpect(status().isOk())
                 .andDo(
