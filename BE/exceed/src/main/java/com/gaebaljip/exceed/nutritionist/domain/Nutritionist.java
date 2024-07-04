@@ -21,32 +21,8 @@ public class Nutritionist {
     private DailyMeal dailyMeal;
     private Member member;
 
-    public boolean evaluateProteinAchieve() {
-        return member.measureTargetProtein() - getCurrentProtein() <= 0;
-    }
-
-    public boolean evaluateFatAchieve() {
-        return member.measureTargetFat() - getCurrentFat() <= 0;
-    }
-
-    public boolean evaluateCarbohydrateAchieve() {
-        return member.measureTargetCarbohydrate() - getCurrentCarbohydrate() <= 0;
-    }
-
     public boolean evaluateCalorieAchieve() {
         return member.measureTargetCalorie() - getCurrentCalorie() <= 0;
-    }
-
-    private Double getCurrentProtein() {
-        return dailyMeal.calculateCurrentProtein();
-    }
-
-    private Double getCurrentFat() {
-        return dailyMeal.calculateCurrentFat();
-    }
-
-    private Double getCurrentCarbohydrate() {
-        return dailyMeal.calculateCurrentCarbohydrate();
     }
 
     private Double getCurrentCalorie() {
