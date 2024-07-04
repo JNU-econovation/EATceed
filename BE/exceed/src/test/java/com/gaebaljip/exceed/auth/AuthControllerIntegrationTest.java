@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.dto.request.LoginRequest;
 
 class AuthControllerIntegrationTest extends IntegrationTest {
@@ -41,5 +42,21 @@ class AuthControllerIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test()
+    @DisplayName("로그인 실패 - 이메일 형식 안 맞을 때")
+    void login_fail2() throws Exception {
+        LoginRequest loginRequest = new LoginRequest("abcd1111gmail.com", "Abc@123");
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/auth/login")
+                                .content(om.writeValueAsString(loginRequest))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value(ValidationMessage.INVALID_EMAIL));
     }
 }
