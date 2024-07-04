@@ -36,7 +36,7 @@ public class GetAnalysisController {
 
     private final GetAnalysisUsecase getAnalysisUsecase;
 
-    @Operation(summary = "특정 월의 분석 조회", description = "특정 월의 분석을 조회한다.")
+    @Operation(summary = "월별 식사 정보 분석", description = "월별 식사 정보를 분석한다.")
     @GetMapping("/achieve/{date}")
     @ApiErrorExceptionsExample(GetAnalysisExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAnalysis(

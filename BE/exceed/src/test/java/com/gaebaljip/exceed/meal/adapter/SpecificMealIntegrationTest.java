@@ -9,6 +9,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -113,14 +115,15 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     @WithMockUser
     void getMealFood() throws Exception {
 
+        LocalDate testDate = LocalDate.now().minusDays(5);
+
         given(getPresignedUrlPort.query(any(Long.class), any(Long.class)))
                 .willReturn("http://test.com/test.jpeg");
 
         // when
-        String date = "2023-12-04";
         ResultActions resultActions =
                 mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/v1/meal/" + date)
+                        RestDocumentationRequestBuilders.get("/v1/meal/" + testDate)
                                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
