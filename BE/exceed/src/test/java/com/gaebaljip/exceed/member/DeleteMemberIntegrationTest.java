@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +11,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 
 public class DeleteMemberIntegrationTest extends IntegrationTest {
     @Autowired private MemberRepository memberRepository;
-
-    @BeforeEach
-    void setUp() {
-        MemberEntity memberEntity =
-                MemberEntity.builder()
-                        .email("aaa@naver.com")
-                        .password("aaaa1234@@")
-                        .checked(false)
-                        .build();
-        memberRepository.save(memberEntity);
-    }
 
     @Test
     @WithMockUser(memberId = 1L)
@@ -47,7 +34,7 @@ public class DeleteMemberIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(memberId = 100L)
+    @WithMockUser(memberId = 100000L)
     @DisplayName("회원 탈퇴 실패 : 회원이 존재하지 않음")
     void deleteMember_fail() throws Exception {
 
