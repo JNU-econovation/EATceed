@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.common.ControllerTest;
+import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.member.application.OnBoardingMemberService;
@@ -67,5 +68,101 @@ class OnBoardingControllerTest extends ControllerTest {
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.error.reason").value(invalidValue + "는 올바르지 않은 값입니다."));
         resultActions.andDo(document("onBoarding-fail"));
+    }
+
+    @Test
+    @DisplayName("온보딩 실패 - 키가 null일 때")
+    @WithMockUser
+    void onBoarding_fail() throws Exception {
+        // given
+
+        OnBoardingMemberRequest request =
+                new OnBoardingMemberRequest(
+                        null, "MALE", 61.0, 65.0, 26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+
+        // when
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/members/detail")
+                                .content(om.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value("키를 " + ValidationMessage.NOT_NULL));
+    }
+
+    @Test
+    @DisplayName("온보딩 실패 - 몸무게가 null일 때")
+    @WithMockUser
+    void onBoarding_fail2() throws Exception {
+        // given
+
+        OnBoardingMemberRequest request =
+                new OnBoardingMemberRequest(
+                        171.0, "MALE", null, 65.0, 26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+
+        // when
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/members/detail")
+                                .content(om.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value("몸무게를 " + ValidationMessage.NOT_NULL));
+    }
+
+    @Test
+    @DisplayName("온보딩 실패 - 목표 몸무게가 null일 때")
+    @WithMockUser
+    void onBoarding_fail3() throws Exception {
+        // given
+
+        OnBoardingMemberRequest request =
+                new OnBoardingMemberRequest(
+                        171.0, "MALE", 61.0, null, 26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+
+        // when
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/members/detail")
+                                .content(om.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value("목표 몸무게를 " + ValidationMessage.NOT_NULL));
+    }
+
+    @Test
+    @DisplayName("온보딩 실패 - 나이가 null일 때")
+    @WithMockUser
+    void onBoarding_fail4() throws Exception {
+        // given
+
+        OnBoardingMemberRequest request =
+                new OnBoardingMemberRequest(
+                        171.0, "MALE", 61.0, 65.0, null, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+
+        // when
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/members/detail")
+                                .content(om.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value("나이를 " + ValidationMessage.NOT_NULL));
     }
 }
