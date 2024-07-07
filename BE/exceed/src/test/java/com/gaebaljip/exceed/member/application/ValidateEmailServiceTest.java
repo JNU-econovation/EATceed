@@ -25,7 +25,7 @@ class ValidateEmailServiceTest {
     void when_notExistEmail_isNotChecked_expected_void() {
 
         // given
-        given(memberPort.isChecked(anyString())).willReturn(false);
+        given(memberPort.existsByEmail(anyString())).willReturn(false);
         ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
 
         // when, then
