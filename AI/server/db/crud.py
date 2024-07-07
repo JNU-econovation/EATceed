@@ -135,56 +135,6 @@ def get_food_info(db: Session, food_id: int):
     return food
 
 
-# # 최종적으로 얻고자하는 사용자에 따른 7일간의 영양성분의 평균값 얻기
-# def get_member_meals_avg(db: Session, member_id: int):
-#     member = get_member_info(db, member_id)
-#     if not member:
-#         raise Exception("Member not found")
-
-#     meals = get_last_weekend_meals(db, member_id)
-#     total_nutrition = {
-#         "calorie": 0,
-#         "carbohydrate": 0,
-#         "fat": 0,
-#         "protein": 0,
-#         "serving_size": 0,
-#         "sugars": 0,
-#         "dietary_fiber": 0,
-#         "sodium": 0,
-#     }
-#     total_foods = 0
-
-#     for meal in meals:
-#         meal_foods = get_meal_foods(db, meal.MEAL_PK)
-#         for meal_food in meal_foods:
-#             food_info = get_food_info(db, meal_food.FOOD_FK)
-
-#             # 사용자가 먹은 양 설정
-#             if food_info:
-#                 multiplier = 1
-#                 if meal_food.MEAL_FOOD_MULTIPLE is not None:
-#                     multiplier = meal_food.MEAL_FOOD_MULTIPLE
-#                 elif meal_food.MEAL_FOOD_G is not None:
-#                     multiplier = meal_food.MEAL_FOOD_G / food_info.FOOD_SERVING_SIZE
-
-#                 # 최종 양 설정
-#                 total_nutrition["calorie"] += food_info.FOOD_CALORIE * multiplier
-#                 total_nutrition["carbohydrate"] += food_info.FOOD_CARBOHYDRATE * multiplier
-#                 total_nutrition["fat"] += food_info.FOOD_FAT * multiplier
-#                 total_nutrition["protein"] += food_info.FOOD_PROTEIN * multiplier
-#                 total_nutrition["serving_size"] += food_info.FOOD_SERVING_SIZE * multiplier
-#                 total_nutrition["sugars"] += food_info.FOOD_SUGARS * multiplier
-#                 total_nutrition["dietary_fiber"] += food_info.FOOD_DIETARY_FIBER * multiplier
-#                 total_nutrition["sodium"] += food_info.FOOD_SODIUM * multiplier
-#                 total_foods += 1
-
-#     if total_foods > 0:
-#         avg_nutrition = {key: value / total_foods for key, value in total_nutrition.items()}
-#     else:
-#         avg_nutrition = total_nutrition
-
-#     return avg_nutrition
-
 # 최종적으로 얻고자하는 사용자에 따른 7일간의 영양성분의 평균값 얻기
 def get_member_meals_avg(db: Session, member_id: int):
     member = get_member_info(db, member_id)
