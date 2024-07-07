@@ -115,7 +115,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     @WithMockUser
     void getMealFood() throws Exception {
 
-        LocalDate testDate = LocalDate.now().minusDays(5);
+        LocalDate testData = LocalDate.of(2024, 6, 6);
 
         given(getPresignedUrlPort.query(any(Long.class), any(Long.class)))
                 .willReturn("http://test.com/test.jpeg");
@@ -123,7 +123,7 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/v1/meal/" + testDate)
+                        RestDocumentationRequestBuilders.get("/v1/meal/" + testData)
                                 .contentType(MediaType.APPLICATION_JSON));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

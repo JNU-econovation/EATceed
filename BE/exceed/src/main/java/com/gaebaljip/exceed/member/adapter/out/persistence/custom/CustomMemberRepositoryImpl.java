@@ -5,8 +5,6 @@ import static com.gaebaljip.exceed.member.adapter.out.persistence.QMemberEntity.
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Repository;
 
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
@@ -19,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
-    private final EntityManager em;
+
     private final JPAQueryFactory queryFactory;
 
     @Override

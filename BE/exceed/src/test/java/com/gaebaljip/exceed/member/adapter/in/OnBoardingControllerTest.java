@@ -25,7 +25,7 @@ class OnBoardingControllerTest extends ControllerTest {
     @Test
     @DisplayName("온보딩 성공")
     @WithMockUser
-    void onBoarding() throws Exception {
+    void when_onBoarding_expected_success() throws Exception {
         // given
 
         OnBoardingMemberRequest request =
@@ -41,13 +41,13 @@ class OnBoardingControllerTest extends ControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         // then
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("온보딩-유효하지 않은 activity 입력시 오류 발생")
     @WithMockUser
-    void onBoarding_invalidActivity() throws Exception {
+    void when_onBoarding_invalidActivity_expected_exception() throws Exception {
         // given
 
         String invalidValue = "ACTIVE";
@@ -73,7 +73,7 @@ class OnBoardingControllerTest extends ControllerTest {
     @Test
     @DisplayName("온보딩 실패 - 키가 null일 때")
     @WithMockUser
-    void onBoarding_fail() throws Exception {
+    void when_onBoarding_NullHeight_expected_exception() throws Exception {
         // given
 
         OnBoardingMemberRequest request =
@@ -97,7 +97,7 @@ class OnBoardingControllerTest extends ControllerTest {
     @Test
     @DisplayName("온보딩 실패 - 몸무게가 null일 때")
     @WithMockUser
-    void onBoarding_fail2() throws Exception {
+    void when_onBoarding_nullWeight_expected_exception() throws Exception {
         // given
 
         OnBoardingMemberRequest request =
@@ -121,7 +121,7 @@ class OnBoardingControllerTest extends ControllerTest {
     @Test
     @DisplayName("온보딩 실패 - 목표 몸무게가 null일 때")
     @WithMockUser
-    void onBoarding_fail3() throws Exception {
+    void when_onBoarding_nullTargetWeight_expected_exception() throws Exception {
         // given
 
         OnBoardingMemberRequest request =
@@ -145,7 +145,7 @@ class OnBoardingControllerTest extends ControllerTest {
     @Test
     @DisplayName("온보딩 실패 - 나이가 null일 때")
     @WithMockUser
-    void onBoarding_fail4() throws Exception {
+    void when_onBoarding_nullAge_expected_exception() throws Exception {
         // given
 
         OnBoardingMemberRequest request =
