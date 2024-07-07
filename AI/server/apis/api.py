@@ -52,19 +52,23 @@ def weight_predict(user_data: dict) -> str:
             return '감소'
     except (KeyError, IndexError, TypeError) as e:
         logger.error(f"Error in weight_predict function: {e}")
-        raise ValueError("Invalid user data structure")
+        raise HTTPException(status_code=400, detail="Invalid user data structure")
 
 # 식습관 분석 함수
 def analyze_diet(prompt_type, user_data, weight_change):
-    prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
-    prompt = read_prompt(prompt_file)
-    df = pd.read_csv(DATA_PATH, encoding='cp949')
-    weight_change = weight_predict(user_data)
-    prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
+    try:
+        prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+        prompt = read_prompt(prompt_file)
+        df = pd.read_csv(DATA_PATH, encoding='cp949')
+        weight_change = weight_predict(user_data)
+        prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
 
-    # logger.debug(f"Generated prompt: {prompt}")
-    completion = get_completion(prompt)
-    return completion
+        # logger.debug(f"Generated prompt: {prompt}")
+        completion = get_completion(prompt)
+        return completion
+    except Exception as e:
+        logger.error(f"Error in analyze_diet function: {e}")
+        raise HTTPException(status_code=500, detail="Error analyzing diet")
 
 
 def full_analysis(db: Session, member_id: int):
