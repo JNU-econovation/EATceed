@@ -19,7 +19,7 @@ public class ValidateEmailService implements ValidateEmailUsecase {
     @Override
     @Transactional
     public void execute(ValidateEmailCommand command) {
-        if (memberPort.existsByEmail(command.email()) || memberPort.isChecked(command.email())) {
+        if (memberPort.existsByEmail(command.email())) {
             throw AlreadySignUpMemberException.EXECPTION;
         }
     }
