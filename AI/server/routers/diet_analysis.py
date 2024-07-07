@@ -35,6 +35,9 @@ def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(
             return response
         else:
             HTTPException(status_code=404, detail="No analysis found for the given member_id")
+    except HTTPException as http_exc:
+        logger.error(f"HTTP error fetching analysis for member_id: {member_id} - {http_exc.detail}")
+        raise http_exc
     except Exception as e:
         logger.error(f"Error fetching analysis for member_id: {member_id} - {e}")
         raise HTTPException(status_code=500, detail="Error fetching analysis")
