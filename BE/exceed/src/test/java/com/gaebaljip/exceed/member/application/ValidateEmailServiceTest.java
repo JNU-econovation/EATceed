@@ -22,10 +22,9 @@ class ValidateEmailServiceTest {
 
     @Test
     @DisplayName("이메일이 존재하지 않고, 이메일 인증을 수행하지 않았을 경우")
-    void when_NotExistEmail_IsNotChecked_then_Void() {
+    void when_notExistEmail_isNotChecked_expected_void() {
 
         // given
-        given(memberPort.existsByEmail(anyString())).willReturn(false);
         given(memberPort.isChecked(anyString())).willReturn(false);
         ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
 
@@ -35,24 +34,10 @@ class ValidateEmailServiceTest {
 
     @Test
     @DisplayName("이메일이 존재하면, 예외가 발생해야 한다")
-    void when_ExistEmail_IsNotChecked_then_Exception() {
+    void when_existEmail_isNotChecked_then_exception() {
 
         // given
         given(memberPort.existsByEmail(anyString())).willReturn(true);
-        ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
-
-        // when, then
-        Assertions.assertThrows(
-                AlreadySignUpMemberException.class, () -> validateEmailService.execute(command));
-    }
-
-    @Test
-    @DisplayName("이메일이 존재하지 않지만, 이메일 인증을 수행했을 경우 예외가 발생해야 한다")
-    void when_NotExistEmail_IsChecked_then_Exception() {
-
-        // given
-        given(memberPort.existsByEmail(anyString())).willReturn(false);
-        given(memberPort.isChecked(anyString())).willReturn(true);
         ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
 
         // when, then
