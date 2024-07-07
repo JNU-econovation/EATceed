@@ -37,7 +37,7 @@ class OnBoardingMemberServiceTest {
 
     @Test
     @DisplayName("몸무게가 0 이하일 경우 예외가 발생한다.")
-    void createMember_weight() {
+    void when_weightIsUnder_0_expected_exception() {
         // given
         OnBoardingMemberCommand command = createMemberCommand(172, 61, 0, 25);
 
@@ -51,7 +51,7 @@ class OnBoardingMemberServiceTest {
 
     @Test
     @DisplayName("목표 몸무게가 0 이하일 경우 예외가 발생한다.")
-    void createMember_targetWeight() {
+    void when_targetWeightIsUnder_0_expected_exception() {
         // given
         OnBoardingMemberCommand command = createMemberCommand(171, 61, 0, 25);
 
@@ -65,7 +65,7 @@ class OnBoardingMemberServiceTest {
 
     @Test
     @DisplayName("키가 0 이하일 경우 예외가 발생한다.")
-    void createMember_height() {
+    void when_heightIsUnder_0_expected_exception() {
         // given
         OnBoardingMemberCommand command = createMemberCommand(0, 60, 65, 25);
 
@@ -79,7 +79,7 @@ class OnBoardingMemberServiceTest {
 
     @Test
     @DisplayName("나이가 0 이하일 경우 예외가 발생한다.")
-    void createMember_age() {
+    void when_agetIsUnder_0_expected_exception() {
         // given
         OnBoardingMemberCommand command = createMemberCommand(171, 61, 65, 0);
 
