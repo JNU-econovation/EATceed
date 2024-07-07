@@ -89,10 +89,13 @@ def get_all_member_id(db: Session):
 # 최신 분석 결과 조회 
 def get_latest_eat_habits(db: Session, member_id: int):
     try:
-        return db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+        result = db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
+        if not result:
+            raise HTTPException(status_code=404, detail="No analysis found for the given member_id")
+        return result
     except Exception as e:
         logger.error(f"Error fetching latest eat habits: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching member id: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching latest eat habits: {str(e)}")
 
 
 
