@@ -2,11 +2,11 @@ package com.gaebaljip.exceed.member;
 
 import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
 import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
@@ -27,23 +26,15 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
     @Autowired private MemberRepository memberRepository;
 
     @Test
-    @WithMockUser(memberId = 2)
-    @Transactional
-    void onBoarding() throws Exception {
+    @WithMockUser(memberId = 11)
+    void when_onBoarding_expect_UpdatedMember() throws Exception {
         // given
-        MemberEntity memberEntity =
-                MemberEntity.builder()
-                        .email("aaa@naver.com")
-                        .password("aaaa1234@@")
-                        .checked(false)
-                        .build();
-        memberRepository.save(memberEntity); // memberId = 2인 member 생성
+        MemberEntity memberEntity = getMemberEntity();
+        memberRepository.save(memberEntity); // memberId = 11인 member 생성
 
         // when
 
-        OnBoardingMemberRequest request =
-                new OnBoardingMemberRequest(
-                        171.0, "MALE", 61.0, 65.0, 26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+        OnBoardingMemberRequest request = getOnBoardingMemberRequest();
 
         ResultActions resultActions =
                 mockMvc.perform(
@@ -52,15 +43,19 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         // then
-        double height = memberRepository.findById(2L).get().getHeight();
-        MemberEntity memberEntity1 = memberRepository.findById(2L).get();
-        Double weight = memberEntity1.getWeight();
 
-        Assertions.assertThat(weight).isEqualTo(61.0);
-        Assertions.assertThat(height).isEqualTo(171.0);
-        resultActions.andExpect(status().isCreated());
+        MemberEntity member = memberRepository.findById(11L).get();
+        Double height = member.getHeight();
+        Double weight = member.getWeight();
+
+        assertAll(
+                () -> {
+                    Assertions.assertThat(weight).isEqualTo(request.weight());
+                    Assertions.assertThat(height).isEqualTo(request.height());
+                });
+
         resultActions
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(
                         document(
                                 "onBoarding-success",
@@ -95,5 +90,22 @@ class OnBoardingMemberIntegrationTest extends IntegrationTest {
                                         fieldWithPath("etc")
                                                 .type(JsonFieldType.STRING)
                                                 .description("기타"))));
+    }
+
+    private OnBoardingMemberRequest getOnBoardingMemberRequest() {
+        OnBoardingMemberRequest request =
+                new OnBoardingMemberRequest(
+                        171.0, "MALE", 61.0, 65.0, 26, "NOT_ACTIVE", "뭐든 잘 먹습니다.");
+        return request;
+    }
+
+    private MemberEntity getMemberEntity() {
+        MemberEntity memberEntity =
+                MemberEntity.builder()
+                        .email("aaa@naver.com")
+                        .password("aaaa1234@@")
+                        .checked(false)
+                        .build();
+        return memberEntity;
     }
 }
