@@ -59,7 +59,7 @@ public class UpdateMemberIntegrationTest extends IntegrationTest {
     @Test
     @WithMockUser(memberId = 1000L)
     @DisplayName("회원 수정 실패 - 회원이 존재하지 않음")
-    void when_updateMember_InvalidMember_expected_exception() throws Exception {
+    void when_updateMember_member_invalid_expected_exception() throws Exception {
         // given
         UpdateMemberRequest updateMemberRequest =
                 UpdateMemberRequest.builder()
