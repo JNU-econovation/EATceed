@@ -1,44 +1,47 @@
 package com.gaebaljip.exceed.meal.adapter;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.common.InitializeS3Bucket;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.meal.adapter.out.MealFoodRepository;
 import com.gaebaljip.exceed.meal.adapter.out.MealRepository;
-import com.gaebaljip.exceed.meal.application.port.out.PresignedUrlPort;
 
+@InitializeS3Bucket
 public class EatMealIntegrationTest extends IntegrationTest {
 
     @Autowired private MealRepository mealRepository;
-
-    @MockBean private PresignedUrlPort getPresignedUrlPort;
+    @Autowired private MealFoodRepository mealFoodRepository;
 
     @Test
+    @DisplayName(
+            "식사 등록 : 성공"
+                    + "Meal 엔티티 저장 여부 확인"
+                    + "MealFood 엔티티 저장 여부 확인 "
+                    + "식사 등록 API 응답 코드 확인"
+                    + "presignedUrl 반환 확인")
     @WithMockUser
-    void eatMeal() throws Exception {
+    void when_eatMeal_expected_ReturnPresignedUrlAndSaveMeal() throws Exception {
         // given
 
-        long beforeCnt = mealRepository.findAll().stream().count();
-        EatMealFoodDTO eatMealFoodDTO =
-                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
-        EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
-
-        given(getPresignedUrlPort.command(any(Long.class), any(Long.class), any(String.class)))
-                .willReturn("http://uploadYourImage.com");
+        long beforeMealCnt = mealRepository.findAll().stream().count();
+        long beforeMealFoodCnt = mealFoodRepository.findAll().stream().count();
+        EatMealRequest request = getEatMealRequest();
 
         // when
         ResultActions resultActions =
@@ -47,11 +50,25 @@ public class EatMealIntegrationTest extends IntegrationTest {
                                 .content(om.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON));
 
-        long afterCnt = mealRepository.findAll().stream().count();
-
         // then
-        resultActions.andExpect(status().isCreated());
-        Assertions.assertThat(afterCnt - beforeCnt).isEqualTo(1);
-        Assertions.assertThat(afterCnt).isGreaterThan(0);
+        long afterMealCnt = mealRepository.findAll().stream().count();
+        long afterMealFoodCnt = mealFoodRepository.findAll().stream().count();
+        resultActions.andExpectAll(
+                status().isCreated(), jsonPath("$.response.presignedUrl").exists());
+        assertAll(
+                () -> {
+                    Assertions.assertThat(afterMealCnt - beforeMealCnt).isEqualTo(1);
+                    Assertions.assertThat(afterMealFoodCnt - beforeMealFoodCnt).isEqualTo(2);
+                });
+    }
+
+    private EatMealRequest getEatMealRequest() {
+        EatMealFoodDTO eatMealFoodDTO1 =
+                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealFoodDTO eatMealFoodDTO2 =
+                EatMealFoodDTO.builder().foodId(3L).g(null).multiple(1.2).build();
+        EatMealRequest request =
+                new EatMealRequest(List.of(eatMealFoodDTO1, eatMealFoodDTO2), "LUNCH", "test.jpeg");
+        return request;
     }
 }
