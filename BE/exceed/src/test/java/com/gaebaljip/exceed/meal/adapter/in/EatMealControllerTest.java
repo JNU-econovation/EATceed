@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,11 +27,10 @@ class EatMealControllerTest extends ControllerTest {
 
     @Test
     @WithMockUser
-    void eatMeal() throws Exception {
+    void when_eatMeal_gNotNullAndMultipleNull_expected_returnPresignedUrl() throws Exception {
 
         // given
-        EatMealFoodDTO eatMealFoodDTO =
-                EatMealFoodDTO.builder().foodId(1L).g(100).multiple(null).build();
+        EatMealFoodDTO eatMealFoodDTO = new EatMealFoodDTO(1L, null, 100);
         EatMealRequest request = new EatMealRequest(List.of(eatMealFoodDTO), "LUNCH", "test.jpeg");
 
         given(uploadImageUsecase.execute(any()))
