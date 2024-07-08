@@ -12,7 +12,7 @@ import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.request.CreateFoodRequest;
 
-class CreateFoodIntegrationTestDTO extends IntegrationTest {
+class CreateFoodIntegrationTest extends IntegrationTest {
 
     @Test
     @DisplayName("음식 추가 : 성공")

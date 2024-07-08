@@ -41,6 +41,6 @@ public class OnBoardingController {
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         OnBoardingMemberCommand command = OnBoardingMemberCommand.of(memberId, request);
         onBoardingMemberUsecase.execute(command);
-        return ApiResponseGenerator.success(HttpStatus.CREATED);
+        return ApiResponseGenerator.success(HttpStatus.OK);
     }
 }

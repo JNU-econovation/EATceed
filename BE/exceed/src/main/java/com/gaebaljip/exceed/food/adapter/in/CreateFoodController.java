@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.food.adapter.in;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,7 @@ public class CreateFoodController {
 
     @PostMapping("/food")
     public ApiResponse<CustomBody<Void>> createFood(
-            @RequestBody CreateFoodRequest request, @AuthenticationMemberId Long memberId) {
+            @RequestBody @Valid CreateFoodRequest request, @AuthenticationMemberId Long memberId) {
         createFoodUseCase.execute(request, memberId);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }

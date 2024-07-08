@@ -26,7 +26,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     @WithMockUser
     void getAchieves() throws Exception {
         // given
-        LocalDate testData = LocalDate.now();
+        LocalDate testData = LocalDate.of(2024, 6, 6);
 
         // when
         ResultActions resultActions =

@@ -9,7 +9,6 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.request.CheckMemberRequest;
 import com.gaebaljip.exceed.dto.request.SignUpMemberRequest;
 import com.gaebaljip.exceed.member.application.port.in.*;
 import com.gaebaljip.exceed.member.docs.SignUpMemberExceptionDocs;
@@ -29,8 +28,6 @@ public class SignUpMemberController {
     private final ValidateEmailUsecase validateEmailUsecase;
     private final SendEmailUsecase sendEmailUsecase;
     private final CreateMemberUsecase createMemberUsecase;
-    private final CheckCodeUsecase checkCodeUsecase;
-    private final VerifyEmailCheckedUsecase verifyEmailCheckedUsecase;
 
     @Operation(summary = "회원 가입", description = "회원 가입한다.")
     @PostMapping("/members")
@@ -40,21 +37,6 @@ public class SignUpMemberController {
         validateEmailUsecase.execute(new ValidateEmailCommand(signUpMemberRequest.email()));
         sendEmailUsecase.execute(new SendEmailCommand(signUpMemberRequest.email()));
         createMemberUsecase.execute(signUpMemberRequest);
-        return ApiResponseGenerator.success(HttpStatus.OK);
-    }
-
-    @GetMapping("/members/checked")
-    public ApiResponse<CustomBody<Void>> checkMemberEmail(
-            @ModelAttribute @Valid CheckMemberRequest checkMemberRequest) {
-        checkCodeUsecase.execute(checkMemberRequest);
-        return ApiResponseGenerator.success(HttpStatus.OK);
-    }
-
-    @Operation(summary = "회원 가입후 이메일 인증 여부 확인", description = "회원 가입후 이메일 인증 여부 확인한다.")
-    @GetMapping("/members/email/checked")
-    public ApiResponse<CustomBody<Boolean>> verifyEmailChecked(
-            @RequestParam(value = "email") String email) {
-        Boolean isChecked = verifyEmailCheckedUsecase.execute(email);
-        return ApiResponseGenerator.success(isChecked, HttpStatus.OK);
+        return ApiResponseGenerator.success(HttpStatus.CREATED);
     }
 }
