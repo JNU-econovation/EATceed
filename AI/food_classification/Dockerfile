@@ -2,7 +2,6 @@
 # $ sudo docker pull pytorch/torchserve:latest
 FROM pytorch/torchserve:latest
 
-
 # setting workdir in the container
 WORKDIR /detect_model
 
@@ -15,9 +14,6 @@ COPY ./labels /detect_model/labels
 COPY ./model /detect_model/model
 COPY ./src /detect_model/src
 COPY ./requirements.txt /detect_model/requirements.txt
-
-# install the requirements
-RUN pip install -r /detect_model/requirements.txt
 
 # apt-get update에서 오류가 발생하여 추가한 코드
 # 시간 관련 설정을 변경
