@@ -16,7 +16,12 @@ public enum MealError implements BaseError {
     EXTENTION_NOT_ALLOWED(400, "4452", "이미지의 확장자는 jpg, jpeg, png만 가능합니다."),
     INSUFFICIENT_MEALS(400, "6000", "하루 식사는 최소 한 끼 이상 제공되어야 합니다."),
     INVALID_MULTIPLE(400, "4449", "0인분보다 커야하고, 100인분보다 작아야합니다."),
-    NOT_SAME_DATE(400, "6001", "하루 식사는 같은 날짜입니다.");
+    NOT_SAME_DATE(400, "6001", "하루 식사는 같은 날짜입니다."),
+    INVALID_MULTIPLE_AND_G(
+            400,
+            "6002",
+            "'multiple'은 null이 아니고 'g'는 null이어야 하거나, 'multiple'은 null이고 'g'는 null이 아니어야 합니다."),
+    INVALID_G(400, "6002", "g은 1 이상이어야합니다.");
 
     private final Integer status;
     private final String code;

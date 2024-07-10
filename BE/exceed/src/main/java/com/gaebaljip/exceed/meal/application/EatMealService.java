@@ -1,14 +1,11 @@
 package com.gaebaljip.exceed.meal.application;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
 import com.gaebaljip.exceed.food.application.port.out.FoodPort;
 import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
@@ -17,6 +14,8 @@ import com.gaebaljip.exceed.meal.application.port.in.EatMealCommand;
 import com.gaebaljip.exceed.meal.application.port.in.EatMealUsecase;
 import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
 import com.gaebaljip.exceed.meal.application.port.out.MealPort;
+import com.gaebaljip.exceed.meal.exception.InvalidGException;
+import com.gaebaljip.exceed.meal.exception.InvalidMultipleAndGException;
 import com.gaebaljip.exceed.meal.exception.InvalidMultipleException;
 import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
 import com.gaebaljip.exceed.member.application.port.out.MemberPort;
@@ -48,14 +47,9 @@ public class EatMealService implements EatMealUsecase {
     @Override
     @Transactional
     public Long execute(EatMealCommand command) {
-        validateMultiples(
-                command.eatMealFoodDTOS().stream()
-                        .map(EatMealFoodDTO::multiple)
-                        .filter(Objects::nonNull)
-                        .mapToDouble(Double::doubleValue)
-                        .toArray());
+        validateGAndMultiple(command);
         List<FoodEntity> foodEntities =
-                foodPort.query(
+                foodPort.queryAllEntities(
                         command.eatMealFoodDTOS().stream()
                                 .mapToLong(eatMealFood -> eatMealFood.foodId())
                                 .boxed()
@@ -69,13 +63,32 @@ public class EatMealService implements EatMealUsecase {
         return mealEntity.getId();
     }
 
-    private void validateMultiples(double[] multiple) {
-        Arrays.stream(multiple).forEach(value -> validateMultiple(value));
+    private void validateGAndMultiple(EatMealCommand command) {
+        command.eatMealFoodDTOS()
+                .forEach(
+                        dto -> {
+                            if ((dto.multiple() != null && dto.g() != null)
+                                    || (dto.multiple() == null && dto.g() == null)) {
+                                throw InvalidMultipleAndGException.EXCEPTION;
+                            }
+                            if (dto.multiple() != null) {
+                                validateMultiple(dto.multiple());
+                            }
+                            if (dto.g() != null) {
+                                validateG(dto.g());
+                            }
+                        });
     }
 
     private void validateMultiple(double multiple) {
         if (multiple <= 0 || multiple > 100) {
             throw InvalidMultipleException.EXECPTION;
+        }
+    }
+
+    private void validateG(int g) {
+        if (g <= 0) {
+            throw InvalidGException.EXCEPTION;
         }
     }
 }
