@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.dto.response;
 
-import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
+import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
 
 public record GetFoodResponse(
         Long foodId,

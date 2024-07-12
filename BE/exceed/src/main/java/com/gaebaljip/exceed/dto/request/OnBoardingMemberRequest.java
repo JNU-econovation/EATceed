@@ -3,10 +3,10 @@ package com.gaebaljip.exceed.dto.request;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.gaebaljip.exceed.application.domain.member.Activity;
+import com.gaebaljip.exceed.application.domain.member.Gender;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.annotation.Enum;
-import com.gaebaljip.exceed.member.domain.Activity;
-import com.gaebaljip.exceed.member.domain.Gender;
 
 import lombok.Builder;
 

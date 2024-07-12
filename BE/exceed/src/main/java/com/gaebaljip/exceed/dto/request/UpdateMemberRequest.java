@@ -4,10 +4,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.gaebaljip.exceed.application.domain.member.Activity;
+import com.gaebaljip.exceed.application.domain.member.Gender;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.annotation.Enum;
-import com.gaebaljip.exceed.member.domain.Activity;
-import com.gaebaljip.exceed.member.domain.Gender;
 
 public record UpdateMemberRequest(
         @NotNull(message = "키를 " + ValidationMessage.NOT_NULL)

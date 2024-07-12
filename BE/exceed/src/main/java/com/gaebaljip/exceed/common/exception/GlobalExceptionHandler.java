@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
-import com.gaebaljip.exceed.security.exception.*;
+import com.gaebaljip.exceed.common.security.exception.*;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,9 +2,9 @@ package com.gaebaljip.exceed.dto.request;
 
 import java.util.List;
 
+import com.gaebaljip.exceed.application.domain.meal.MealType;
 import com.gaebaljip.exceed.common.annotation.Enum;
 import com.gaebaljip.exceed.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.meal.domain.MealType;
 
 import lombok.Builder;
 
