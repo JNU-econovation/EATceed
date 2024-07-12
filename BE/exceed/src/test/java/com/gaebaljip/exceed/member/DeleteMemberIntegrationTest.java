@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.member;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +24,7 @@ public class DeleteMemberIntegrationTest extends IntegrationTest {
     void deleteMember() throws Exception {
 
         // given
-
+        long memberId = 1L;
         // when
         ResultActions resultActions = mockMvc.perform(delete("/v1/members"));
 
@@ -31,6 +33,7 @@ public class DeleteMemberIntegrationTest extends IntegrationTest {
 
         // then
         resultActions.andExpect(status().isOk());
+        assertAll(() -> assertFalse(memberRepository.existsById(memberId)));
     }
 
     @Test
