@@ -9,8 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
-import com.gaebaljip.exceed.food.application.port.out.FoodPort;
+import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
+import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;

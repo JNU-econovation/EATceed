@@ -8,9 +8,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.security.domain.CustomUsernamePasswordAuthenticationToken;
-import com.gaebaljip.exceed.security.domain.MemberDetails;
+import com.gaebaljip.exceed.application.domain.member.MemberEntity;
+import com.gaebaljip.exceed.common.security.domain.CustomUsernamePasswordAuthenticationToken;
+import com.gaebaljip.exceed.common.security.domain.MemberDetails;
 
 public class WithCustomMockUserSecurityContextFactory
         implements WithSecurityContextFactory<WithMockUser> {
