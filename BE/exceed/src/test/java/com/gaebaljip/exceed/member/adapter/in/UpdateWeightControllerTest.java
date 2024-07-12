@@ -1,0 +1,67 @@
+package com.gaebaljip.exceed.member.adapter.in;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
+import org.springframework.test.web.servlet.ResultActions;
+
+import com.gaebaljip.exceed.common.ControllerTest;
+import com.gaebaljip.exceed.common.WithMockUser;
+import com.gaebaljip.exceed.common.event.Events;
+import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
+import com.gaebaljip.exceed.dto.request.UpdateWeightRequest;
+import com.gaebaljip.exceed.member.application.port.in.UpdateWeightUsecase;
+
+@RecordApplicationEvents
+@WebMvcTest(UpdateWeightController.class)
+public class UpdateWeightControllerTest extends ControllerTest {
+
+    @MockBean UpdateWeightUsecase updateWeightUsecase;
+    @Autowired ApplicationEvents events;
+    @Autowired ApplicationEventPublisher applicationEventPublisher;
+
+    @BeforeEach
+    void setUp() {
+        Events.setPublisher(applicationEventPublisher);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Events.reset();
+    }
+
+    @Test
+    @WithMockUser(memberId = 1L)
+    @DisplayName("몸무게 수정 성공")
+    void when_updateWeight_expected_success() throws Exception {
+        // given
+        UpdateWeightRequest updateWeightRequest =
+                UpdateWeightRequest.builder().weight(50.0).targetWeight(70.5).build();
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        patch("/v1/members/weight")
+                                .content(om.writeValueAsString(updateWeightRequest))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        long count = events.stream(UpdateWeightEvent.class).count();
+
+        // then
+        resultActions.andExpectAll(status().isOk());
+        assertAll(() -> assertEquals(1, count));
+    }
+}
