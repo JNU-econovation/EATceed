@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
-import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyTargetPort;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.CalorieAnalyzer;
 import com.gaebaljip.exceed.application.domain.nutritionist.CalorieAnalyzerFactory;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.dto.CalorieAnalysisDTO;
 import com.gaebaljip.exceed.dto.MonthlyMealDTO;
@@ -37,7 +37,7 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
 
     public static final int FIRST_DAY = 1;
     private final MonthlyMealPort monthlyMealPort;
-    private final MonthlyTargetPort monthlyTargetPort;
+    private final MemberPort memberPort;
 
     /**
      * CalorieAnalyzer 도메인이 특정 날짜에 목표 칼로리를 달성했는 지를 판단하여 달성했을 경우 true를 반환
@@ -52,7 +52,7 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
         List<Meal> meals =
                 monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
         Map<LocalDate, DailyMeal> dailyMealMap = groupByDate(meals);
-        Member member = monthlyTargetPort.query(request.memberId(), request.date());
+        Member member = memberPort.query(request.memberId(), request.date());
         List<CalorieAnalysisDTO> analyses =
                 getStartDate(request)
                         .datesUntil(getLastDate(request).plusDays(1))
@@ -85,7 +85,9 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
         return Optional.ofNullable(dailyMealMap.get(day))
                 .map(
                         dailyMeal -> {
-                            CalorieAnalyzer calorieAnalyzer = CalorieAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+                            CalorieAnalyzer calorieAnalyzer =
+                                    CalorieAnalyzerFactory.getInstance()
+                                            .createAnalyzer(dailyMeal, member);
                             return CalorieAnalysisDTO.builder()
                                     .date(day)
                                     .isVisited(true)
