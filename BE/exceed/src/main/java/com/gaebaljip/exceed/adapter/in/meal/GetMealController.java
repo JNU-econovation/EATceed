@@ -14,16 +14,15 @@ import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
+import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.meal.GetMealExceptionDocs;
 import com.gaebaljip.exceed.common.docs.meal.GetMealFoodExceptionDocs;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
-import com.gaebaljip.exceed.dto.SpecificMealDTO;
-import com.gaebaljip.exceed.dto.TargetMealDTO;
+import com.gaebaljip.exceed.dto.*;
+import com.gaebaljip.exceed.dto.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.dto.response.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +44,7 @@ public class GetMealController {
     private final GetTargetMealUsecase getTargetMealUsecase;
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
+    private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
 
     /** 오늘 먹은 식사 정보(단,탄,지 및 칼로리) 조회 */
     @Operation(summary = "오늘 먹은 식사 정보 조회", description = "오늘 먹은 식사 정보(단,탄,지 및 칼로리)를 조회한다.")
@@ -70,11 +70,16 @@ public class GetMealController {
         MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
         TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
+
+        AllAnalysisDTO allAnalysisDTO =
+                getAllCalorieAnalysisService.execute(
+                        GetAllAnalysisRequest.of(memberId, localDateTime));
         return ApiResponseGenerator.success(
                 new GetMealFoodResponse(
                         GetMealResponse.of(
                                 maintainMealDTO, targetMealDTO, specificMealDTO.currentMealDTO()),
-                        specificMealDTO.mealRecordDTOS()),
+                        specificMealDTO.mealRecordDTOS(),
+                        allAnalysisDTO),
                 HttpStatus.OK);
     }
 }
