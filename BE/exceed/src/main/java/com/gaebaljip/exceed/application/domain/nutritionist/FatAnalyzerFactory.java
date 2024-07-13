@@ -5,10 +5,9 @@ import com.gaebaljip.exceed.application.domain.member.Member;
 
 public class FatAnalyzerFactory extends AbstractAnalyzerFactory {
 
-    private FatAnalyzerFactory() {
-    }
+    private FatAnalyzerFactory() {}
 
-    private static class SingletonHolder{
+    private static class SingletonHolder {
         private static final FatAnalyzerFactory INSTANCE = new FatAnalyzerFactory();
     }
 
