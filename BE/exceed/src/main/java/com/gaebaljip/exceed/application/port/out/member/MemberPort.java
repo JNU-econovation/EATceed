@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 
 @Component
 public interface MemberPort {
 
     MemberEntity query(Long memberId);
+
+    Member query(Long memberId, LocalDateTime date);
 
     MemberEntity command(MemberEntity memberEntity);
 

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyTargetPort;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
@@ -17,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
+public class MemberPersistenceAdapter implements MemberPort {
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
@@ -34,7 +33,6 @@ public class MemberPersistenceAdapter implements MemberPort, MonthlyTargetPort {
         return memberRepository.save(memberEntity);
     }
 
-    /** 회원 수정 기능 구현 후 -> Map<LocalDate date, MemberModel> 변경 */
     @Override
     public Member query(Long memberId, LocalDateTime date) {
         MemberEntity memberEntity =
