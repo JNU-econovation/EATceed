@@ -18,7 +18,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
+import com.gaebaljip.exceed.dto.response.GetCalorieAnalysisResponse;
 
 public class GetAchieveIntegrationTest extends IntegrationTest {
     @Test
@@ -37,13 +37,13 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
-        ApiResponse.CustomBody<GetAnalysisResponse> getAchieveListResponseCustomBody =
+        ApiResponse.CustomBody<GetCalorieAnalysisResponse> getAchieveListResponseCustomBody =
                 om.readValue(
                         responseBody,
-                        new TypeReference<ApiResponse.CustomBody<GetAnalysisResponse>>() {});
+                        new TypeReference<ApiResponse.CustomBody<GetCalorieAnalysisResponse>>() {});
 
         int comparedSize =
-                getAchieveListResponseCustomBody.getResponse().getAnalyses().stream()
+                getAchieveListResponseCustomBody.getResponse().calorieAnalysisDTOS().stream()
                         .toList()
                         .size();
 

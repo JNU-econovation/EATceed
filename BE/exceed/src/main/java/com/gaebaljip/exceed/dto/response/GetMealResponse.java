@@ -7,4 +7,12 @@ import com.gaebaljip.exceed.dto.TargetMealDTO;
 public record GetMealResponse(
         MaintainMealDTO maintainMealDTO,
         TargetMealDTO targetMealDTO,
-        CurrentMealDTO currentMealDTO) {}
+        CurrentMealDTO currentMealDTO) {
+
+    public static GetMealResponse of(
+            MaintainMealDTO maintainMealDTO,
+            TargetMealDTO targetMealDTO,
+            CurrentMealDTO currentMealDTO) {
+        return new GetMealResponse(maintainMealDTO, targetMealDTO, currentMealDTO);
+    }
+}

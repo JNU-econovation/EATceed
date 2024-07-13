@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.integration.meal;
 
 import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentRequest;
 import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -25,20 +26,21 @@ import com.gaebaljip.exceed.application.port.out.meal.PresignedUrlPort;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
+import com.gaebaljip.exceed.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.dto.response.GetMealResponse;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class SpecificMealIntegrationTest extends IntegrationTest {
+public class GetMealIntegrationTest extends IntegrationTest {
 
     @MockBean private PresignedUrlPort getPresignedUrlPort;
 
     @Test
-    @DisplayName("오늘 먹은 식사 조회")
+    @DisplayName("성공 : 오늘 먹은 식사 조회")
     @WithMockUser
-    void getMeal() throws Exception {
+    void when_getTodayMeal_expected_success() throws Exception {
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -111,9 +113,10 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("특정 날짜 식사 조회")
+    @DisplayName("성공 : 특정 날짜 식사 조회"
+    + "특정 날짜에 방문하지 않았을 경우 isVisited가 false이고, 달성도 다 false로 나와야 한다.")
     @WithMockUser
-    void getMealFood() throws Exception {
+    void when_getSpecificMeal_expected_success() throws Exception {
 
         LocalDate testData = LocalDate.of(2024, 6, 6);
 
@@ -143,12 +146,21 @@ public class SpecificMealIntegrationTest extends IntegrationTest {
                         .getMealResponse()
                         .targetMealDTO()
                         .calorie();
-        int size = getMealFoodResponseCustomBody.getResponse().mealRecordDTOS().size();
+
+        AllAnalysisDTO allAnalysisDTO =
+                getMealFoodResponseCustomBody.getResponse().allAnalysisDTO();
 
         // then
+
+        boolean isVisited = allAnalysisDTO.isVisited();
+        if (!isVisited) {
+            assertFalse(allAnalysisDTO.isCalorieAchieved(), "CalorieAchieved가 true입니다.");
+            assertFalse(allAnalysisDTO.isProteinAchieved(), "ProteinAchieved가 true입니다.");
+            assertFalse(allAnalysisDTO.isFatAchieved(), "FatAchieved가 true입니다.");
+            assertFalse(allAnalysisDTO.isCarbohydrateAchieved(), "CarbohydrateAchieved가 true입니다.");
+        }
         Assertions.assertThat(maintainCalorie).isGreaterThan(0);
         Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
-        Assertions.assertThat(size).isGreaterThanOrEqualTo(0);
         resultActions
                 .andExpect(status().isOk())
                 .andDo(
