@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.nutritionist.GetAnalysisExceptionDocs;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.request.GetAnalysisRequest;
-import com.gaebaljip.exceed.dto.response.GetAnalysisResponse;
+import com.gaebaljip.exceed.dto.request.GetCalorieAnalysisRequest;
+import com.gaebaljip.exceed.dto.response.GetCalorieAnalysisResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,17 +34,17 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "[분석 조회]")
 public class GetAnalysisController {
 
-    private final GetAnalysisUsecase getAnalysisUsecase;
+    private final GetCalorieAnalysisUsecase getAnalysisUsecase;
 
     @Operation(summary = "월별 식사 정보 분석", description = "월별 식사 정보를 분석한다.")
     @GetMapping("/achieve/{date}")
     @ApiErrorExceptionsExample(GetAnalysisExceptionDocs.class)
-    public ApiResponse<ApiResponse.CustomBody<GetAnalysisResponse>> getAnalysis(
+    public ApiResponse<ApiResponse.CustomBody<GetCalorieAnalysisResponse>> getAnalysis(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
-        GetAnalysisResponse achieveListResponse =
-                getAnalysisUsecase.execute(new GetAnalysisRequest(memberId, localDateTime));
+        GetCalorieAnalysisResponse achieveListResponse =
+                getAnalysisUsecase.execute(new GetCalorieAnalysisRequest(memberId, localDateTime));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }
