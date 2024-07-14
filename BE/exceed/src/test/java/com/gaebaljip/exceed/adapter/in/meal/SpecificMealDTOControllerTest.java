@@ -15,6 +15,7 @@ import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
+import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.dto.CurrentMealDTO;
@@ -31,6 +32,8 @@ class SpecificMealDTOControllerTest extends ControllerTest {
     @MockBean private GetCurrentMealQuery getCurrentMealQuery;
 
     @MockBean private GetSpecificMealQuery getSpecificMealQuery;
+
+    @MockBean private GetAllCalorieAnalysisService getAllCalorieAnalysisService;
 
     @Test
     @WithMockUser

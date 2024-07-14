@@ -113,8 +113,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("성공 : 특정 날짜 식사 조회"
-    + "특정 날짜에 방문하지 않았을 경우 isVisited가 false이고, 달성도 다 false로 나와야 한다.")
+    @DisplayName("성공 : 특정 날짜 식사 조회" + "특정 날짜에 방문하지 않았을 경우 isVisited가 false이고, 달성도 다 false로 나와야 한다.")
     @WithMockUser
     void when_getSpecificMeal_expected_success() throws Exception {
 
