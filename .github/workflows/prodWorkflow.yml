@@ -1,4 +1,4 @@
-name: testAndDeploy
+name: testAndDeploy_prod
 
 on:
   pull_request:
@@ -49,7 +49,7 @@ jobs:
           paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Send docker-compose.yml
+      - name: Send docker-compose-prod.yml
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -58,7 +58,7 @@ jobs:
           source: ./BE/exceed/docker-compose-prod.yml
           target: /home/ubuntu/backend-deploy
 
-      - name: Send resources-develop-environment
+      - name: Send resources-prod-environment
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -71,7 +71,7 @@ jobs:
         run: |
           echo "${{ secrets.ENV_PROD_VARS }}" > .env.prod
 
-      - name: Send env file
+      - name: Send env.prod file
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -100,9 +100,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd backend-deploy/BE/exceed
-            sudo docker-compose down
+            sudo docker-compose -f docker-compose-prod.yml down
             sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-prod:latest
-            sudo docker-compose up --build -d
+            sudo docker-compose --env-file .env.prod -f docker-compose-prod.yml up -d
             sudo docker image prune -a -f
             
             
