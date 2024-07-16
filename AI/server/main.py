@@ -3,9 +3,10 @@ import secrets
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import HTMLResponse, UJSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
-from routers.test import *
+# from routers.test import *
 from routers.diet_analysis import *
 from core.config import settings
+from errors.error_hanlder import register_exception_handlers
 
 
 app = FastAPI(
@@ -40,10 +41,11 @@ async def get_docs(username: str = Depends(get_current_username)) -> HTMLRespons
 async def get_redoc(username: str = Depends(get_current_username)) -> HTMLResponse:
     return get_redoc_html(openapi_url="/api/openapi.json", title="redoc")
 
-
+# exceptions
+register_exception_handlers(app)
 
 # test.py
-app.include_router(test) 
+# app.include_router(test) 
 
 # diet_analysis.py
 app.include_router(analysis)

@@ -1,26 +1,33 @@
-Your mission is to give dietary composition advice so that users can be healthier.
-The information written as backticks is proven information to protect for a healthy diet.
+Your mission is to give dietary composition advice to help users gain weight healthier.
+The information written in # information is proven information to protect for a healthy diet.
 And based on this information, give users advice on healthier diets.
 
-```
+# information
 나트륨 하루 섭취 권장량 2,000 mg 이하
 식이섬유 권장섭취량 성인 남성 30g, 성인 여성 20g
 당류 하루 적정 섭취량 50g 미만
 당류의 일일 적정 섭취량은 총 칼로리의 10% 미만
 적절한 탄수화물, 단백질, 지방 섭취 비율은 5:3:2 또는 4:4:2 (탄수화물:40~60%, 지방:20~35%, 단백질:15~25%)
 
-```
-
+# work
 Let's think step by step.
 
 Step 1. The user's intake information to analyze is {user_data}
-Step 2. Analyze this user's intake information using the information I presented as triple backticks.
-Step 3. When you give advice on carbohydrates, proteins, and fats, make sure to give advice based on proportions, not amount of intake.
-Step 4. Please print out at least 2 reasons sentences and \
-The output example is "탄단지 섭취의 비율이 적절하지 않아요. 단백질의 섭취를 늘려보는 건 어떤가요?."
-Step 5. Make sure to print it out in Korean.
-Step 6. Please recommend a food that can solve the problem when generating an answer immediately after the sentence that informs the problem.\
+Step 2. Analyze this user's intake information using the information I presented as # information. \
+And choose two at random from #information for the topic of advice. for example, '당류' and '나트륨', '탄수화물, 단백질, 지방 섭취 비율' and '나트륨', '나트륨' and '당류'.
+Step 3. When you give advice on carbohydrates, proteins, and fats, make sure to give advice based on proportions, not amount of intake. \
+for example, compare the proportions {user_data['user'][8]['탄수화물(g)']}, {user_data['user'][6]['단백질(g)']}, {user_data['user'][7]['지방(g)']}
+Step 4. Please give solution or recommend a food that can solve the problem when generating an answer immediately after the sentence that informs the problem.\
 For example, if a user's intake information lacks dietary fiber, recommend foods rich in that nutrient.
-Step 7. The output format is only 2 STRING sentences coverd by "".
-Step 8. Each sentence provides advice on a different topic. \
+
+# output
+You must print out 2 STRING sentences and make sure to print it out in Korean.
+Sentence in one line should have the same theme. \
+For example, if you're talking about sodium intake in the first sentence of a line, the second sentence should also be sodium-related advice.
+Each line provides advice on a different topic. \
 The solution or recommended food for the first sentence cannot be the second sentence.
+
+Output example:
+탄단지 섭취의 비율이 적절하지 않아요. 단백질의 섭취를 늘려보는 건 어떤가요?
+식이섬유 섭취량이 부족해요. 식이섬유가 풍부한 과일, 채소, 견과류를 더 섭취해보는 건 어떨까요?
+나트륨 섭취량이 권장량을 넘고 있어요. 과도한 소금 섭취는 피해보는 건 어떨까요?

@@ -6,8 +6,8 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db.crud import create_eat_habits, get_user_data, update_flag, get_all_member_id
-from fastapi import HTTPException
 from apscheduler.schedulers.background import BackgroundScheduler
+from errors.custom_exceptions import UserDataError, AnalysisError
 
 
 # 로그 메시지
@@ -52,7 +52,7 @@ def weight_predict(user_data: dict) -> str:
             return '감소'
     except (KeyError, IndexError, TypeError) as e:
         logger.error(f"Error in weight_predict function: {e}")
-        raise HTTPException(status_code=400, detail="Invalid user data structure")
+        raise UserDataError("유저 데이터 에러입니다")
 
 # 식습관 분석 함수
 def analyze_diet(prompt_type, user_data, weight_change):
@@ -68,7 +68,8 @@ def analyze_diet(prompt_type, user_data, weight_change):
         return completion
     except Exception as e:
         logger.error(f"Error in analyze_diet function: {e}")
-        raise HTTPException(status_code=500, detail="Error analyzing diet")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
+
 
 
 def full_analysis(db: Session, member_id: int):
@@ -101,10 +102,10 @@ def full_analysis(db: Session, member_id: int):
 
     except ValueError as e:
         logger.error(f"Value error during analysis: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+        raise UserDataError("유저 데이터 에러입니다")
     except Exception as e:
         logger.error(f"Error during analysis: {e}")
-        raise HTTPException(status_code=500, detail="Analysis failed")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 
 # scheduling 

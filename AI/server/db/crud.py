@@ -5,6 +5,7 @@ from db.models import EatHabits, Member, Food, Meal, MealFood
 
 import logging
 from fastapi import HTTPException
+from errors.custom_exceptions import InvalidUserId, UserDataError, AnalysisError
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG)
@@ -34,7 +35,7 @@ def crud_test(db: Session, member_id: int, flag: bool, weight_prediction: str, a
     except Exception as e:
         logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error inserting EatHabits record: {str(e)}")
+        
 
 # 결과값 db에 저장
 def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advice_carbo: str,
@@ -63,7 +64,7 @@ def create_eat_habits(db: Session, member_id: int, weight_prediction: str, advic
     except Exception as e:
         logger.error(f"Error inserting EatHabits record for member_id: {member_id} - {e}")
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error inserting EatHabits record: {str(e)}")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 # FLAG 활성/비활성 
 def update_flag(db: Session):
@@ -75,7 +76,7 @@ def update_flag(db: Session):
     except Exception as e:
         logger.error(f"Error updating flag: {e}")
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error updating flag: {str(e)}")
+        
 
 # Background에서 실행할 때 모든 사용자의 분석 결과를 도출 필요
 def get_all_member_id(db: Session):
@@ -83,7 +84,7 @@ def get_all_member_id(db: Session):
         return [member.MEMBER_PK for member in db.query(Member).all()]
     except Exception as e:
         logger.error(f"Error fetching member id: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching member id: {str(e)}")
+
 
 
 # 최신 분석 결과 조회 
@@ -91,11 +92,11 @@ def get_latest_eat_habits(db: Session, member_id: int):
     try:
         result = db.query(EatHabits).filter(EatHabits.MEMBER_FK == member_id, EatHabits.FLAG == True).first()
         if not result:
-            raise HTTPException(status_code=404, detail="No analysis found for the given member_id")
+            raise UserDataError("유저 데이터 에러입니다.")
         return result
     except Exception as e:
         logger.error(f"Error fetching latest eat habits: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching latest eat habits: {str(e)}")
+        
 
 
 
@@ -128,7 +129,7 @@ def get_last_weekend_meals(db: Session, member_id: int):
         return meals
     except Exception as e:
         logger.error(f"Error fetching last weekend meals: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching last weekend meals: {str(e)}")
+
 
 
 # MEAL_FK에 해당하는 음식 조회
@@ -139,7 +140,7 @@ def get_meal_foods(db: Session, meal_id: int):
         return meal_foods
     except Exception as e:
         logger.error(f"Error fetching meal foods: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching meal foods: {str(e)}")
+        
 
 # FOOD_FK에 해당하는 음식 정보 조회
 def get_food_info(db: Session, food_id: int):
@@ -149,7 +150,8 @@ def get_food_info(db: Session, food_id: int):
         return food
     except Exception as e:
         logger.error(f"Error fetching food info: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching food info: {str(e)}")
+        
+
 
 
 # 최종적으로 얻고자하는 사용자에 따른 7일간의 영양성분의 평균값 얻기
@@ -157,7 +159,7 @@ def get_member_meals_avg(db: Session, member_id: int):
     try:
         member = get_member_info(db, member_id)
         if not member:
-            raise HTTPException(status_code=404, detail="Member not found")
+            raise InvalidUserId("멤버가 존재하지 않습니다")
 
         meals = get_last_weekend_meals(db, member_id)
         total_nutrition = {
@@ -204,7 +206,7 @@ def get_member_meals_avg(db: Session, member_id: int):
         return avg_nutrition
     except Exception as e:
         logger.error(f"Error calculating member meals average: {e}")
-        raise HTTPException(status_code=500, detail=f"Error calculating member meals average: {str(e)}")
+        raise UserDataError("유저 데이터 에러입니다")
 
 
 # activity 값 변환을 위한 딕셔너리
@@ -232,10 +234,10 @@ def get_member_body_info(db: Session, member_id: int):
             }
             return body_info
         else:
-            raise HTTPException(status_code=404, detail="Member not found")
+            raise InvalidUserId("멤버가 존재하지 않습니다")
     except Exception as e:
         logger.error(f"Error fetching member body info: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching member body info: {str(e)}")
+        raise UserDataError("유저 데이터 에러입니다")
 
 # BMR 구하기
 def get_bmr(gender: int, weight: float, height: float, age: int) -> float:
@@ -259,7 +261,7 @@ def get_tdee(bmr: float, activity: float) -> float:
 
 # prompt에 넣을 사용자 데이터 구성
 def get_user_data(db: Session, member_id: int):
-    try:
+    # try:
         member_info = get_member_body_info(db, member_id)
         if not member_info:
             raise Exception("Member not found")
@@ -291,8 +293,23 @@ def get_user_data(db: Session, member_id: int):
                 {"TDEE": tdee}
             ]
         }
-        return user_data
-    except Exception as e:
-        logger.error(f"Error fetching user data: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching user data: {str(e)}")
+
+        # 영양 성분 값 모두 0인지 확인
+        nutrition_values = [
+            avg_nutrition["serving_size"],
+            avg_nutrition["calorie"],
+            avg_nutrition["protein"],
+            avg_nutrition["fat"],
+            avg_nutrition["carbohydrate"],
+            avg_nutrition["dietary_fiber"],
+            avg_nutrition["sugars"],
+            avg_nutrition["sodium"]
+        ]
+        if all(value == 0 for value in nutrition_values):
+            raise UserDataError("유저 데이터 에러입니다")
+
+        return user_data, avg_nutrition["calorie"]
+    # except Exception as e:
+    #     logger.error(f"Error fetching user data: {e}")
+    #     raise UserDataError("")
 

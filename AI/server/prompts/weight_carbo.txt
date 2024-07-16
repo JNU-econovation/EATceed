@@ -27,7 +27,7 @@ with similar physical conditions as the user and "성별", "체중", "신장", "
 
 Based on the information you find, \
 If the user's carbohydrate intake is appropriate, print out the "탄수화물 섭취량이 적절해요.".
-And if it's not enough, print out the "탄수화물 섭취량이 부족해요".
+And if it's not enough, print out the "탄수화물 섭취량이 부족해요.".
 
 At this time, the information on the intake must be printed in the Korean column name.
 ```
@@ -38,4 +38,4 @@ Step 1. The user's intake information to analyze is {user_data}.
 Step 2. The user's weight change will be {weight_change}
 Step 3. The output format is only one KOREAN STRING.
 Step 4. The content of output follows the rules mentioned in triple backticks.
-DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT!
+DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT NOT COVERED BY ""!
