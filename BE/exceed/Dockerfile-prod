@@ -15,4 +15,4 @@ COPY ./food_data.csv ./food_data.csv
 EXPOSE 8080
 
 # CMD 명령어에서 CSV 파일의 위치를 절대 경로로 지정
-CMD ["java", "-jar", "-Dspring.profiles.active=dev", "eatceed.jar", "./food_data.csv"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "eatceed.jar", "./food_data.csv"]

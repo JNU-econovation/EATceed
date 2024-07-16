@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
@@ -22,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 @ConditionalOnExpression("${ableAutoComplete:true}")
+@Profile("!prod")
 public class MariaDBAutoComplete implements ApplicationRunner {
 
     private final FoodPort foodPort;
