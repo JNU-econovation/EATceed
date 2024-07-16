@@ -1,0 +1,109 @@
+name: testAndDeploy
+
+on:
+  pull_request:
+    branches:
+      - release
+      - main
+    types:
+      - closed
+
+defaults:
+  run:
+    working-directory: ./BE/exceed
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      - name: Jacoco Report to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send docker-compose.yml
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./BE/exceed/docker-compose-prod.yml
+          target: /home/ubuntu/backend-deploy
+
+      - name: Send resources-develop-environment
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./BE/exceed/resources/gaebaljip-prod-environment
+          target: /home/ubuntu/backend-deploy
+
+      - name: Create .env.prod file
+        run: |
+          echo "${{ secrets.ENV_PROD_VARS }}" > .env.prod
+
+      - name: Send env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./BE/exceed/.env.prod
+          target: /home/ubuntu/backend-deploy
+
+      - name: Docker Image Build
+        run: docker build -f Dockerfile-prod -t ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-prod:latest .
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER_NAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: docker Hub Push
+        run: docker push ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-prod:latest
+
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd backend-deploy/BE/exceed
+            sudo docker-compose down
+            sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-prod:latest
+            sudo docker-compose up --build -d
+            sudo docker image prune -a -f
+            
+            

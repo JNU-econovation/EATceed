@@ -47,13 +47,12 @@ services:
       - SPRING_REDIS_PORT=6379
     networks:
       - gaebaljip-network
-    restart:
-      on-failure
+    restart:  "no"
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    restart: always
+    restart: "no"
     ports:
       - "3000:3000"
     volumes:
@@ -70,7 +69,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    restart: always
+    restart: "no"
     ports:
       - "9090:9090"
     volumes:
@@ -83,8 +82,8 @@ services:
       - gaebaljip-network
 
 volumes:
-    grafana-data:
-    prometheus-data:
+  grafana-data:
+  prometheus-data:
 
 networks:
   gaebaljip-network:

@@ -12,10 +12,11 @@ plugins {
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id "me.champeau.jmh" version "0.7.2"
 	id 'com.diffplug.spotless' version '6.23.3'
+	id 'jacoco'
 }
 
 group = 'com.gaebaljip'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
 	sourceCompatibility = '17'
@@ -50,13 +51,16 @@ dependencies {
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'com.h2database:h2'
+	testImplementation "org.testcontainers:mariadb:1.19.8"
+	testImplementation "org.testcontainers:testcontainers:1.19.8"
+	testImplementation "org.testcontainers:junit-jupiter:1.19.8"
+	testImplementation "org.testcontainers:localstack:1.19.8"
+
+
 
 	// querydsl
 	implementation 'com.querydsl:querydsl-jpa'
@@ -128,6 +132,7 @@ ext {
 
 test {
 	outputs.dir snippetsDir
+	finalizedBy jacocoTestReport
 }
 
 asciidoctor {
@@ -189,5 +194,73 @@ spotless {
 		trimTrailingWhitespace()
 		// 파일 끝에 새로운 라인 추가
 		endWithNewline()
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.8" // 버전 명시
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+
+		finalizedBy 'jacocoTestCoverageVerification'
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect{
+					fileTree(dir: it, excludes: [
+					        "**/ExceedApplication",
+							"**/*Config*",
+							"**/*Request*",
+							"**/*Response*",
+							"**/*Exception*",
+							"**/*Filter*",
+							"**/*Docs*",
+							"**/*DTO*",
+							"**/common/**",
+							"**/health/**",
+							"**/*Error*",
+							"**/*Adapter*",
+							"**/*Port*",
+							"**/*Converter*",
+							"**/Q*"
+					])
+				})
+		)
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = false
+			element = 'CLASS'
+
+			// Instruction Coverage 20%
+			limit {
+				minimum = 0.20
+			}
+
+			// 커버리지 체크를 제외할 클래스들
+			excludes = [
+                    '*.ExceedApplication',
+					'*.config.*',
+					'*.common.*',
+					'*.dto.*',
+					'*.health.*',
+					'*.infrastructure.*',
+					'*.docs.*',
+					'*.exception.*',
+					'*.adapter.out.*',
+					'*.application.port.in.*',
+					'*.application.port.out.*',
+					'*.security.*'
+			]
+		}
 	}
 }

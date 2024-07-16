@@ -13,7 +13,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.gaebaljip.exceed.security.domain.MemberDetails;
+import com.gaebaljip.exceed.common.security.domain.MemberDetails;
 
 @Component
 public class AuthenticationMemberIdArgumentResolver implements HandlerMethodArgumentResolver {
