@@ -6,8 +6,8 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db.crud import create_eat_habits, get_user_data, update_flag, get_all_member_id
-from fastapi import HTTPException
 from apscheduler.schedulers.background import BackgroundScheduler
+from errors.custom_exceptions import UserDataError, AnalysisError
 
 
 # 로그 메시지
@@ -52,19 +52,24 @@ def weight_predict(user_data: dict) -> str:
             return '감소'
     except (KeyError, IndexError, TypeError) as e:
         logger.error(f"Error in weight_predict function: {e}")
-        raise ValueError("Invalid user data structure")
+        raise UserDataError("유저 데이터 에러입니다")
 
 # 식습관 분석 함수
 def analyze_diet(prompt_type, user_data, weight_change):
-    prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
-    prompt = read_prompt(prompt_file)
-    df = pd.read_csv(DATA_PATH, encoding='cp949')
-    weight_change = weight_predict(user_data)
-    prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
+    try:
+        prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+        prompt = read_prompt(prompt_file)
+        df = pd.read_csv(DATA_PATH, encoding='cp949')
+        weight_change = weight_predict(user_data)
+        prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
 
-    # logger.debug(f"Generated prompt: {prompt}")
-    completion = get_completion(prompt)
-    return completion
+        # logger.debug(f"Generated prompt: {prompt}")
+        completion = get_completion(prompt)
+        return completion
+    except Exception as e:
+        logger.error(f"Error in analyze_diet function: {e}")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
+
 
 
 def full_analysis(db: Session, member_id: int):
@@ -97,10 +102,10 @@ def full_analysis(db: Session, member_id: int):
 
     except ValueError as e:
         logger.error(f"Value error during analysis: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+        raise UserDataError("유저 데이터 에러입니다")
     except Exception as e:
         logger.error(f"Error during analysis: {e}")
-        raise HTTPException(status_code=500, detail="Analysis failed")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 
 # scheduling 
@@ -124,8 +129,8 @@ def scheduled_task():
 scheduler = BackgroundScheduler()
 
 # test를 위한 시간 설정
-scheduler.add_job(scheduled_task, 'interval', minutes=1)
+# scheduler.add_job(scheduled_task, 'interval', minutes=5)
 
 # 실제 기능 수행 시간 설정
-# scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
+scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
 scheduler.start()

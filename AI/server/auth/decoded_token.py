@@ -3,6 +3,8 @@ from fastapi import Depends, HTTPException, status, Header
 from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
+from errors.custom_exceptions import TokenError
+
 
 try:
     from core.config import settings
@@ -23,50 +25,41 @@ JWT_SECRET = base64.urlsafe_b64decode(settings.JWT_SECRET)
 # Bearer token 추출 및 디코딩
 def get_token_from_header(authorization: str = Header(...)):
     if not authorization:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authorization header is missing",
-            headers={"WWW-authenticate": "Bearer"},
-        )
+        logger.debug("Token not corret format")
+        raise TokenError("유효하지 않은 인증입니다")
     token = authorization.split("Bearer ")[1]
     return token
 
+
 # Token에서 member id 가져오기
 async def get_current_member(token: str = Depends(get_token_from_header)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-authenticate": "Bearer"}
-    )
+    if isinstance(token, dict):
+        return token
 
     try:
-        print(f"Attempting to decode token: {token}")
-        # Token Decode
+        logger.debug(f"Attempting to decode token: {token}")
         decoded_payload = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         
-        # 페이로드 검증
         if not isinstance(decoded_payload, dict) or "sub" not in decoded_payload:
             logger.debug("Invalid payload format")
-            raise credentials_exception
+            raise TokenError("유효하지 않은 인증입니다")
 
-        # member_id 가져오기
         member_id: int = decoded_payload.get("sub")
         if member_id is None:
             logger.debug("Member Id not found in decoded token")
-            raise credentials_exception
-        print(f"Decoded memberId from token: {member_id}")
+            raise TokenError("유효하지 않은 인증입니다")
+        
+        logger.debug(f"Decoded memberId from token: {member_id}")
         return member_id
+
     except ExpiredSignatureError:
-        # 토큰 만료 예외 처리
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token expired",
-            headers={"WWW-authenticate": "Bearer"}
-        )
+        logger.error(f"Token expired: {token}")
+        raise TokenError("유효하지 않은 인증입니다")
+
     except JWTError as e:
         logger.error(f"JWTError occurred: {e}. Token: {token}, JWT_SECRET: {JWT_SECRET}")
-        raise credentials_exception
+        raise TokenError("유효하지 않은 인증입니다.")
+
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        raise credentials_exception
-
+        raise TokenError("유효하지 않은 인증입니다")
