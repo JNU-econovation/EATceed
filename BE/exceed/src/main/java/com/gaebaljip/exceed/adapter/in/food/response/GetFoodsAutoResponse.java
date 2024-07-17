@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.response;
+package com.gaebaljip.exceed.adapter.in.food.response;
 
 import java.util.List;
 

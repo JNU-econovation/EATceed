@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.request;
+package com.gaebaljip.exceed.adapter.in.nutritionist.request;
 
 import java.time.LocalDateTime;
 

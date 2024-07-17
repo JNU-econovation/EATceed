@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.gaebaljip.exceed.adapter.out.jpa.food.FoodsPersistenceAdapter;
 import com.gaebaljip.exceed.application.port.in.food.GetOwnFoodUseCase;
-import com.gaebaljip.exceed.common.dto.response.GetOwnFoodResponse;
+import com.gaebaljip.exceed.adapter.in.food.response.GetOwnFoodResponse;
 
 import lombok.RequiredArgsConstructor;
 

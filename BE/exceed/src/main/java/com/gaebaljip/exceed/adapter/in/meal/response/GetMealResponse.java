@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.response;
+package com.gaebaljip.exceed.adapter.in.meal.response;
 
 import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
 import com.gaebaljip.exceed.common.dto.MaintainMealDTO;

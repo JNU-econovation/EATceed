@@ -27,8 +27,8 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
-import com.gaebaljip.exceed.common.dto.response.GetMealFoodResponse;
-import com.gaebaljip.exceed.common.dto.response.GetMealResponse;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 
 import lombok.extern.log4j.Log4j2;
 

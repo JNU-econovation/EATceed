@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.response;
+package com.gaebaljip.exceed.adapter.in.member.response;
 
 import lombok.Builder;
 

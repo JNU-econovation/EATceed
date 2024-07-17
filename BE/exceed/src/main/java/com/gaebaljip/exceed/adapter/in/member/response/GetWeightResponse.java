@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.response;
+package com.gaebaljip.exceed.adapter.in.member.response;
 
 public record GetWeightResponse(Double weight, Double targetWeight) {
 

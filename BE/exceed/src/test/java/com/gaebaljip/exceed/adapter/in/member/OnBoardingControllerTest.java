@@ -15,7 +15,7 @@ import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.common.dto.request.OnBoardingMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 
 @WebMvcTest(OnBoardingController.class)
 class OnBoardingControllerTest extends ControllerTest {

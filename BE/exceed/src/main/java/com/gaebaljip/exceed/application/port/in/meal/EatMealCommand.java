@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gaebaljip.exceed.application.domain.meal.MealType;
 import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.common.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 
 import lombok.Builder;
 

@@ -11,7 +11,7 @@ import com.gaebaljip.exceed.application.port.in.food.GetOwnFoodUseCase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.common.dto.response.GetOwnFoodResponse;
+import com.gaebaljip.exceed.adapter.in.food.response.GetOwnFoodResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

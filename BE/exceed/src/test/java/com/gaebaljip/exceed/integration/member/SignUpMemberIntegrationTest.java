@@ -18,7 +18,7 @@ import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.dto.request.SignUpMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.SignUpMemberRequest;
 import com.gaebaljip.exceed.common.event.SendEmailEvent;
 import com.gaebaljip.exceed.common.exception.member.MemberError;
 

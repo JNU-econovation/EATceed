@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.dto.request.LoginRequest;
+import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 
 class AuthControllerIntegrationTest extends IntegrationTest {
 

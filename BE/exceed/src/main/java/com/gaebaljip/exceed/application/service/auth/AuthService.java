@@ -8,7 +8,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
-import com.gaebaljip.exceed.common.dto.request.LoginRequest;
+import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.common.exception.auth.PasswordMismatchException;
 import com.gaebaljip.exceed.common.security.domain.JwtManager;
 

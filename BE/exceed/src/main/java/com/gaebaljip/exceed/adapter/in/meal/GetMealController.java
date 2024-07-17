@@ -21,9 +21,9 @@ import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.meal.GetMealExceptionDocs;
 import com.gaebaljip.exceed.common.docs.meal.GetMealFoodExceptionDocs;
 import com.gaebaljip.exceed.common.dto.*;
-import com.gaebaljip.exceed.common.dto.request.GetAllAnalysisRequest;
-import com.gaebaljip.exceed.common.dto.response.GetMealFoodResponse;
-import com.gaebaljip.exceed.common.dto.response.GetMealResponse;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 
 import io.swagger.v3.oas.annotations.Operation;

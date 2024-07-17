@@ -20,7 +20,7 @@ import com.gaebaljip.exceed.common.InitializeS3Bucket;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.common.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 
 @InitializeS3Bucket
 public class EatMealIntegrationTest extends IntegrationTest {

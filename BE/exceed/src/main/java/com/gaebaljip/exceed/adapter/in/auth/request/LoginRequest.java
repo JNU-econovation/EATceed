@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common.dto.request;
+package com.gaebaljip.exceed.adapter.in.auth.request;
 
 import javax.validation.constraints.Email;
 
@@ -7,9 +7,9 @@ import com.gaebaljip.exceed.common.annotation.Password;
 
 import lombok.Builder;
 
-public record SignUpMemberRequest(
+public record LoginRequest(
         @Email(message = ValidationMessage.INVALID_EMAIL) String email,
         @Password(message = ValidationMessage.INVALID_PASSWORD) String password) {
     @Builder
-    public SignUpMemberRequest {}
+    public LoginRequest {}
 }

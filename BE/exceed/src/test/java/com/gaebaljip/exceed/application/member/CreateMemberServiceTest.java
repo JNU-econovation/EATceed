@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.application.service.member.CreateMemberService;
-import com.gaebaljip.exceed.common.dto.request.SignUpMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.SignUpMemberRequest;
 import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
 
 @ExtendWith(MockitoExtension.class)
