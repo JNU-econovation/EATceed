@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.common.dto.response;
 
 import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 import com.gaebaljip.exceed.common.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 public record GetMealResponse(
         MaintainMealDTO maintainMealDTO,

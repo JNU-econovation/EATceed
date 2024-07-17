@@ -15,9 +15,9 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.nutritionist.GetAnalysisExceptionDocs;
-import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.common.dto.request.GetCalorieAnalysisRequest;
 import com.gaebaljip.exceed.common.dto.response.GetCalorieAnalysisResponse;
+import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
