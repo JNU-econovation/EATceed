@@ -1,16 +1,17 @@
 package com.gaebaljip.exceed.application.port.in.meal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
+import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.common.exception.meal.InvalidGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleAndGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.dto.request.EatMealRequest;
 
 class EatMealCommandTest {
 

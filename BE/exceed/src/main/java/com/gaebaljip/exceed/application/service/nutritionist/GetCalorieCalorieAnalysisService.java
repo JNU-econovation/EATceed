@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
@@ -20,8 +22,6 @@ import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
 
 import lombok.RequiredArgsConstructor;
 

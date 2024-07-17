@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
+import com.gaebaljip.exceed.common.IntegrationTest;
 
 class AuthControllerIntegrationTest extends IntegrationTest {
 

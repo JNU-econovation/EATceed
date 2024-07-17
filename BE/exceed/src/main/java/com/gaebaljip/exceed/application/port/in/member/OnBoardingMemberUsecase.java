@@ -5,5 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface OnBoardingMemberUsecase {
     void execute(OnBoardingMemberCommand command);
+
     boolean checkOnBoarding(OnBoardingMemberQuery query);
 }

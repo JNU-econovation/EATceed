@@ -16,11 +16,11 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 
 class OnBoardingMemberIntegrationTest extends IntegrationTest {
 
