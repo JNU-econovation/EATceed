@@ -13,11 +13,8 @@ COPY requirements.txt .
 # 종속성 설치
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 애플리케이션 코드 복사
+# 애플리케이션 코드 및 데이터 파일 복사
 COPY . .
-
-# .env 파일 복사
-COPY .env .env
 
 # 앱이 실행될 포트 노출
 EXPOSE 8000
