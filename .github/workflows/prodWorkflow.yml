@@ -100,7 +100,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd backend-deploy/BE/exceed
-            sudo docker-compose -f docker-compose-prod.yml down
+            sudo docker compose down
             sudo docker pull ${{ secrets.DOCKER_HUB_USER_NAME }}/gaebaljip-prod:latest
             sudo docker-compose --env-file .env.prod -f docker-compose-prod.yml up -d
             sudo docker image prune -a -f
