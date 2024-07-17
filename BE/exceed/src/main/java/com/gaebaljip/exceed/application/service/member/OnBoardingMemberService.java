@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.service.member;
 
+import com.gaebaljip.exceed.application.port.in.member.OnBoardingMemberQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
     public static final int MINIMUM_AGE = 0;
 
     private final MemberPort memberPort;
-
     @Override
     @Transactional
     public void execute(OnBoardingMemberCommand command) {
@@ -67,5 +67,12 @@ public class OnBoardingMemberService implements OnBoardingMemberUsecase {
         if (age <= MINIMUM_AGE) {
             throw InvalidAgeException.EXECPTION;
         }
+    }
+
+    @Override
+    public boolean checkOnBoarding(OnBoardingMemberQuery query) {
+        MemberEntity memberEntity = memberPort.query(query.memberId());
+        return memberEntity.getWeight() != null && memberEntity.getHeight() != null && memberEntity.getAge() != null
+                && memberEntity.getActivity() != null && memberEntity.getGender() != null && memberEntity.getTargetWeight() != null;
     }
 }
