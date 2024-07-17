@@ -12,11 +12,11 @@ import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.PresignedUrlPort;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.FoodDTO;
-import com.gaebaljip.exceed.dto.MealRecordDTO;
-import com.gaebaljip.exceed.dto.SpecificMealDTO;
-import com.gaebaljip.exceed.dto.TodayMealDTO;
+import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.common.dto.FoodDTO;
+import com.gaebaljip.exceed.common.dto.MealRecordDTO;
+import com.gaebaljip.exceed.common.dto.SpecificMealDTO;
+import com.gaebaljip.exceed.common.dto.TodayMealDTO;
 
 import lombok.RequiredArgsConstructor;
 

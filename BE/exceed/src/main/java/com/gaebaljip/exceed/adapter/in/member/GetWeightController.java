@@ -9,7 +9,7 @@ import com.gaebaljip.exceed.application.port.in.member.GetWeightUseCase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.dto.response.GetWeightResponse;
+import com.gaebaljip.exceed.common.dto.response.GetWeightResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

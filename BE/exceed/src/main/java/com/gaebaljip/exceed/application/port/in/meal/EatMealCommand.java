@@ -3,8 +3,8 @@ package com.gaebaljip.exceed.application.port.in.meal;
 import java.util.List;
 
 import com.gaebaljip.exceed.application.domain.meal.MealType;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.common.dto.request.EatMealRequest;
 
 import lombok.Builder;
 

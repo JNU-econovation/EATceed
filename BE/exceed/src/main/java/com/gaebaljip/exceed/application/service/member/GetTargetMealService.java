@@ -12,7 +12,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.dto.TargetMealDTO;
+import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 import lombok.RequiredArgsConstructor;
 

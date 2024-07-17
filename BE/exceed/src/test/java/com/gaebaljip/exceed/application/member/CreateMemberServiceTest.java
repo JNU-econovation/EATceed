@@ -18,7 +18,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.application.service.member.CreateMemberService;
 import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
-import com.gaebaljip.exceed.dto.request.SignUpMemberRequest;
+import com.gaebaljip.exceed.common.dto.request.SignUpMemberRequest;
 
 @ExtendWith(MockitoExtension.class)
 class CreateMemberServiceTest {

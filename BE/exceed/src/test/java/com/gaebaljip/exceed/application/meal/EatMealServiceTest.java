@@ -27,7 +27,7 @@ import com.gaebaljip.exceed.application.service.meal.EatMealService;
 import com.gaebaljip.exceed.common.exception.meal.InvalidGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleAndGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
 
 @ExtendWith(MockitoExtension.class)
 class EatMealServiceTest {

@@ -3,6 +3,9 @@ package com.gaebaljip.exceed.adapter.in.meal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.gaebaljip.exceed.common.dto.*;
+import com.gaebaljip.exceed.common.dto.response.GetMealFoodResponse;
+import com.gaebaljip.exceed.common.dto.response.GetMealResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +25,7 @@ import com.gaebaljip.exceed.common.docs.meal.GetMealExceptionDocs;
 import com.gaebaljip.exceed.common.docs.meal.GetMealFoodExceptionDocs;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 import com.gaebaljip.exceed.dto.*;
-import com.gaebaljip.exceed.dto.request.GetAllAnalysisRequest;
-import com.gaebaljip.exceed.dto.response.*;
+import com.gaebaljip.exceed.common.dto.request.GetAllAnalysisRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

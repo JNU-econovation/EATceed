@@ -18,9 +18,9 @@ import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.MaintainMealDTO;
-import com.gaebaljip.exceed.dto.TargetMealDTO;
+import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.common.dto.MaintainMealDTO;
+import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 @WebMvcTest(GetMealController.class)
 class SpecificMealDTOControllerTest extends ControllerTest {

@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.request.CreateFoodRequest;
+import com.gaebaljip.exceed.common.dto.request.CreateFoodRequest;
 
 class CreateFoodIntegrationTest extends IntegrationTest {
 

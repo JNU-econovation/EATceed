@@ -18,8 +18,8 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.meal.EatMealExceptionDocs;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.request.EatMealRequest;
-import com.gaebaljip.exceed.dto.response.EatMealResponse;
+import com.gaebaljip.exceed.common.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.common.dto.response.EatMealResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

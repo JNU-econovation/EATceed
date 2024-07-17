@@ -11,9 +11,9 @@ import com.gaebaljip.exceed.application.domain.nutritionist.*;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetAllAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.dto.AllAnalysisDTO;
-import com.gaebaljip.exceed.dto.TodayMealDTO;
-import com.gaebaljip.exceed.dto.request.GetAllAnalysisRequest;
+import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.TodayMealDTO;
+import com.gaebaljip.exceed.common.dto.request.GetAllAnalysisRequest;
 
 import lombok.RequiredArgsConstructor;
 

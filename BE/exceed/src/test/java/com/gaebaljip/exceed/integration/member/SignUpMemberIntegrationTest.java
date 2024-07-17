@@ -20,7 +20,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.event.SendEmailEvent;
 import com.gaebaljip.exceed.common.exception.member.MemberError;
-import com.gaebaljip.exceed.dto.request.SignUpMemberRequest;
+import com.gaebaljip.exceed.common.dto.request.SignUpMemberRequest;
 
 @RecordApplicationEvents
 class SignUpMemberIntegrationTest extends IntegrationTest {

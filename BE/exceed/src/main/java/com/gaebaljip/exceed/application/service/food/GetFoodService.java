@@ -11,8 +11,8 @@ import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.application.port.in.food.GetFoodQuery;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.common.EatCeedStaticMessage;
-import com.gaebaljip.exceed.dto.response.GetFoodResponse;
-import com.gaebaljip.exceed.dto.response.GetFoodsAutoResponse;
+import com.gaebaljip.exceed.common.dto.response.GetFoodResponse;
+import com.gaebaljip.exceed.common.dto.response.GetFoodsAutoResponse;
 
 import lombok.RequiredArgsConstructor;
 

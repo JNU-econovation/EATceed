@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
-import com.gaebaljip.exceed.dto.request.LoginRequest;
+import com.gaebaljip.exceed.common.dto.request.LoginRequest;
 
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest extends ControllerTest {

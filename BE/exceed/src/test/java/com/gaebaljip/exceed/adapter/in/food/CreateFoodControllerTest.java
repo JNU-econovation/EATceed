@@ -15,7 +15,7 @@ import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.request.CreateFoodRequest;
+import com.gaebaljip.exceed.common.dto.request.CreateFoodRequest;
 
 @WebMvcTest(CreateFoodController.class)
 public class CreateFoodControllerTest extends ControllerTest {

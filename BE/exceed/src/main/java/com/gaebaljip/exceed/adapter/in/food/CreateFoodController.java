@@ -13,7 +13,7 @@ import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponse.CustomBody;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.dto.request.CreateFoodRequest;
+import com.gaebaljip.exceed.common.dto.request.CreateFoodRequest;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

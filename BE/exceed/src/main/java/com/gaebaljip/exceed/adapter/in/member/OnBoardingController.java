@@ -16,7 +16,7 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.member.OnBoardingMemberExceptionDocs;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
+import com.gaebaljip.exceed.common.dto.request.OnBoardingMemberRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

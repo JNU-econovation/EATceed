@@ -16,8 +16,8 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.event.Events;
 import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
-import com.gaebaljip.exceed.dto.request.UpdateWeightRequest;
-import com.gaebaljip.exceed.dto.response.UpdateWeightResponse;
+import com.gaebaljip.exceed.common.dto.request.UpdateWeightRequest;
+import com.gaebaljip.exceed.common.dto.response.UpdateWeightResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

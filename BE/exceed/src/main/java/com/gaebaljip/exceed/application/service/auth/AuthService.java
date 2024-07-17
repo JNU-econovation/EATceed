@@ -9,8 +9,8 @@ import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.exception.auth.PasswordMismatchException;
 import com.gaebaljip.exceed.common.security.domain.JwtManager;
-import com.gaebaljip.exceed.dto.LoginResponseDTO;
-import com.gaebaljip.exceed.dto.request.LoginRequest;
+import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.request.LoginRequest;
 
 import lombok.RequiredArgsConstructor;
 

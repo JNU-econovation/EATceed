@@ -16,8 +16,8 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.docs.auth.AuthExceptionDocs;
 import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.LoginResponseDTO;
-import com.gaebaljip.exceed.dto.request.LoginRequest;
+import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.request.LoginRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

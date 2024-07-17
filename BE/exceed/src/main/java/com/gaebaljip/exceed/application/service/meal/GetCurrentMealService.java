@@ -11,8 +11,8 @@ import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
-import com.gaebaljip.exceed.dto.CurrentMealDTO;
-import com.gaebaljip.exceed.dto.TodayMealDTO;
+import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
+import com.gaebaljip.exceed.common.dto.TodayMealDTO;
 
 import lombok.RequiredArgsConstructor;
 
