@@ -23,7 +23,7 @@ import com.gaebaljip.exceed.common.dto.MaintainMealDTO;
 import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 @WebMvcTest(GetMealController.class)
-class SpecificMealDTOControllerTest extends ControllerTest {
+class SpecificMealControllerTest extends ControllerTest {
 
     @MockBean private GetMaintainMealUsecase getMaintainMealUsecase;
 
