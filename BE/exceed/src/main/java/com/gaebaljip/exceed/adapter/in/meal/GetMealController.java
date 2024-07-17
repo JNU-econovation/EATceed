@@ -25,7 +25,6 @@ import com.gaebaljip.exceed.common.dto.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.common.dto.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.common.dto.response.GetMealResponse;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
-import com.gaebaljip.exceed.dto.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
