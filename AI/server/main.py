@@ -51,6 +51,6 @@ register_exception_handlers(app)
 app.include_router(analysis)
 
 # API Server Test
-@app.get("/")
+@app.get("/", status_code=status.HTTP_200_OK)
 async def read_root():
     return {"Hello" : "World"}
