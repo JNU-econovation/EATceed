@@ -3,6 +3,8 @@ package com.gaebaljip.exceed.common.annotation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.gaebaljip.exceed.common.ValidationMessage;
+
 public class EnumValidator implements ConstraintValidator<Enum, String> {
 
     private Enum annotation;
@@ -25,7 +27,7 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
                 }
             }
         }
-        context.buildConstraintViolationWithTemplate(value + "는 올바르지 않은 값입니다.")
+        context.buildConstraintViolationWithTemplate(value + ValidationMessage.ENUM_SUFFIX)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
         return result;

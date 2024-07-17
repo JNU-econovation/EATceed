@@ -2,16 +2,20 @@ package com.gaebaljip.exceed.dto.request;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import com.gaebaljip.exceed.application.domain.meal.MealType;
+import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.annotation.Enum;
 import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 
 import lombok.Builder;
 
 public record EatMealRequest(
-        List<EatMealFoodDTO> eatMealFoodDTOS,
+        @Valid List<EatMealFoodDTO> eatMealFoodDTOS,
         @Enum(enumClass = MealType.class) String mealType,
-        String fileName) {
+        @NotBlank(message = "파일명을 " + ValidationMessage.NOT_BLANK) String fileName) {
     @Builder
     public EatMealRequest {}
 }

@@ -16,8 +16,6 @@ import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.application.port.out.meal.MealFoodPort;
 import com.gaebaljip.exceed.application.port.out.meal.MealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.common.exception.meal.InvalidGException;
-import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleAndGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
 
 import lombok.RequiredArgsConstructor;
@@ -47,7 +45,6 @@ public class EatMealService implements EatMealUsecase {
     @Override
     @Transactional
     public Long execute(EatMealCommand command) {
-        validateGAndMultiple(command);
         List<FoodEntity> foodEntities =
                 foodPort.queryAllEntities(
                         command.eatMealFoodDTOS().stream()
@@ -62,34 +59,4 @@ public class EatMealService implements EatMealUsecase {
                         foodEntities, mealEntity, command.eatMealFoodDTOS()));
         return mealEntity.getId();
     }
-
-    private void validateGAndMultiple(EatMealCommand command) {
-        command.eatMealFoodDTOS()
-                .forEach(
-                        dto -> {
-                            if ((dto.multiple() != null && dto.g() != null)
-                                    || (dto.multiple() == null && dto.g() == null)) {
-                                throw InvalidMultipleAndGException.EXCEPTION;
-                            }
-                            if (dto.multiple() != null) {
-                                validateMultiple(dto.multiple());
-                            }
-                            if (dto.g() != null) {
-                                validateG(dto.g());
-                            }
-                        });
-    }
-
-    private void validateMultiple(double multiple) {
-        if (multiple <= 0 || multiple > 100) {
-            throw InvalidMultipleException.EXECPTION;
-        }
-    }
-
-    private void validateG(int g) {
-        if (g <= 0) {
-            throw InvalidGException.EXCEPTION;
-        }
-    }
-    // todo EatMealCommand에 옮기기
 }
