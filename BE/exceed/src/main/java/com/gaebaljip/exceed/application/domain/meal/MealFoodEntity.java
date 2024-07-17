@@ -7,9 +7,9 @@ import javax.persistence.*;
 
 import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
 import com.gaebaljip.exceed.common.BaseEntity;
+import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.common.exception.food.FoodNotFoundException;
 import com.gaebaljip.exceed.common.exception.nutritionist.MealNotFoundException;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
 
 import lombok.*;
 

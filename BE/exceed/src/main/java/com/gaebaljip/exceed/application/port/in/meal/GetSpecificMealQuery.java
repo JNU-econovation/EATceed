@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.SpecificMealDTO;
+import com.gaebaljip.exceed.common.dto.SpecificMealDTO;
 
 @Component
 public interface GetSpecificMealQuery {

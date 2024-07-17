@@ -18,10 +18,10 @@ import com.gaebaljip.exceed.application.domain.nutritionist.CalorieAnalyzerFacto
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
-import com.gaebaljip.exceed.dto.CalorieAnalysisDTO;
-import com.gaebaljip.exceed.dto.MonthlyMealDTO;
-import com.gaebaljip.exceed.dto.request.GetCalorieAnalysisRequest;
-import com.gaebaljip.exceed.dto.response.GetCalorieAnalysisResponse;
+import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
 
 import lombok.RequiredArgsConstructor;
 

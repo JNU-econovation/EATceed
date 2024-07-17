@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gaebaljip.exceed.application.port.in.member.CheckCodeUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.dto.request.CheckMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.CheckMemberRequest;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
