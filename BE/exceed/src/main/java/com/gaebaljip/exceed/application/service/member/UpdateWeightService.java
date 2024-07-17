@@ -9,7 +9,7 @@ import com.gaebaljip.exceed.application.port.in.member.UpdateWeightCommand;
 import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.dto.response.UpdateWeightResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.UpdateWeightResponse;
 
 import lombok.RequiredArgsConstructor;
 

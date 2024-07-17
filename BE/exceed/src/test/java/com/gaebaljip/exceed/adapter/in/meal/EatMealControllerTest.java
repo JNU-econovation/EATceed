@@ -19,8 +19,8 @@ import com.gaebaljip.exceed.application.port.in.meal.UploadImageUsecase;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.dto.request.EatMealRequest;
+import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
+import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 
 @WebMvcTest(EatMealController.class)
 class EatMealControllerTest extends ControllerTest {

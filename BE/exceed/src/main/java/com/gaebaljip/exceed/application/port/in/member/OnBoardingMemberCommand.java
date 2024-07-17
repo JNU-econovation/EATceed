@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import com.gaebaljip.exceed.application.domain.member.Activity;
 import com.gaebaljip.exceed.application.domain.member.Gender;
-import com.gaebaljip.exceed.dto.request.OnBoardingMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 
 import lombok.Builder;
 

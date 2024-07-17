@@ -9,8 +9,8 @@ import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.application.port.out.member.TimeOutPort;
 import com.gaebaljip.exceed.common.Encryption;
 import com.gaebaljip.exceed.common.annotation.Timer;
+import com.gaebaljip.exceed.adapter.in.member.request.CheckMemberRequest;
 import com.gaebaljip.exceed.common.exception.member.InvalidCodeException;
-import com.gaebaljip.exceed.dto.request.CheckMemberRequest;
 
 import lombok.RequiredArgsConstructor;
 

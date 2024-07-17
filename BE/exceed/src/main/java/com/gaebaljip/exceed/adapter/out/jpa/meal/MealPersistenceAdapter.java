@@ -14,8 +14,8 @@ import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.MealConverter;
 import com.gaebaljip.exceed.application.port.out.meal.MealPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
-import com.gaebaljip.exceed.dto.MonthlyMealDTO;
-import com.gaebaljip.exceed.dto.TodayMealDTO;
+import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.common.dto.TodayMealDTO;
 
 import lombok.RequiredArgsConstructor;
 

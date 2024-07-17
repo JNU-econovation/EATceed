@@ -6,7 +6,7 @@ import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.member.GetWeightUseCase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.dto.response.GetWeightResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.GetWeightResponse;
 
 import lombok.RequiredArgsConstructor;
 

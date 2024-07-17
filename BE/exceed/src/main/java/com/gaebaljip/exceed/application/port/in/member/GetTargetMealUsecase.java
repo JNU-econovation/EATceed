@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.dto.TargetMealDTO;
+import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 @Component
 public interface GetTargetMealUsecase {

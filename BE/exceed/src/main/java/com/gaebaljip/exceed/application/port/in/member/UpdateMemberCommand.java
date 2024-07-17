@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.application.port.in.member;
 
-import com.gaebaljip.exceed.dto.request.UpdateMemberRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.UpdateMemberRequest;
 
 import lombok.Builder;
 
