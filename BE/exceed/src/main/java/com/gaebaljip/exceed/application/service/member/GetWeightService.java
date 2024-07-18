@@ -2,11 +2,11 @@ package com.gaebaljip.exceed.application.service.member;
 
 import org.springframework.stereotype.Service;
 
+import com.gaebaljip.exceed.adapter.in.member.response.GetWeightResponse;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.member.GetWeightUseCase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.adapter.in.member.response.GetWeightResponse;
 
 import lombok.RequiredArgsConstructor;
 

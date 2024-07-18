@@ -22,13 +22,13 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 import com.gaebaljip.exceed.application.port.out.meal.PresignedUrlPort;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
-import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
-import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 
 import lombok.extern.log4j.Log4j2;
 

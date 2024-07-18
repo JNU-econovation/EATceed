@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 import com.gaebaljip.exceed.adapter.out.jpa.meal.MealFoodRepository;
 import com.gaebaljip.exceed.adapter.out.jpa.meal.MealRepository;
 import com.gaebaljip.exceed.common.InitializeS3Bucket;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
-import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 
 @InitializeS3Bucket
 public class EatMealIntegrationTest extends IntegrationTest {

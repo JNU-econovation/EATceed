@@ -2,12 +2,12 @@ package com.gaebaljip.exceed.application.service.food;
 
 import org.springframework.stereotype.Service;
 
+import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.food.CreateFoodUseCase;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 
 import lombok.RequiredArgsConstructor;
 

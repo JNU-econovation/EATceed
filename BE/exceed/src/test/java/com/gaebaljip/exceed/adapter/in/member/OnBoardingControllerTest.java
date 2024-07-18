@@ -11,11 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 
 @WebMvcTest(OnBoardingController.class)
 class OnBoardingControllerTest extends ControllerTest {

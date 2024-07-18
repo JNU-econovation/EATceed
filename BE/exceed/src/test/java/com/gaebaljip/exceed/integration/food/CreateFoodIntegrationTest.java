@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 
 class CreateFoodIntegrationTest extends IntegrationTest {
 
