@@ -3,11 +3,11 @@ package com.gaebaljip.exceed.adapter.in.food;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.gaebaljip.exceed.adapter.in.food.response.GetFoodResponse;
+import com.gaebaljip.exceed.adapter.in.food.response.GetFoodsAutoResponse;
 import com.gaebaljip.exceed.application.port.in.food.GetFoodQuery;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.adapter.in.food.response.GetFoodResponse;
-import com.gaebaljip.exceed.adapter.in.food.response.GetFoodsAutoResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

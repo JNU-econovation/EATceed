@@ -11,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
-import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest extends ControllerTest {

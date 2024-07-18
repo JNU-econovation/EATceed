@@ -91,7 +91,11 @@ public class MemberEntity extends BaseEntity {
     }
 
     public boolean checkOnBoarding() {
-        return this.getWeight() != null && this.getHeight() != null && this.getAge() != null
-                && this.getActivity() != null && this.getGender() != null && this.getTargetWeight() != null;
+        return this.getWeight() != null
+                && this.getHeight() != null
+                && this.getAge() != null
+                && this.getActivity() != null
+                && this.getGender() != null
+                && this.getTargetWeight() != null;
     }
 }

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.docs.auth.AuthExceptionDocs;
 import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
-import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 

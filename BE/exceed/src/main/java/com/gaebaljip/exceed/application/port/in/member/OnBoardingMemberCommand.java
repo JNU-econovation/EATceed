@@ -3,9 +3,9 @@ package com.gaebaljip.exceed.application.port.in.member;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 import com.gaebaljip.exceed.application.domain.member.Activity;
 import com.gaebaljip.exceed.application.domain.member.Gender;
-import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
 
 import lombok.Builder;
 

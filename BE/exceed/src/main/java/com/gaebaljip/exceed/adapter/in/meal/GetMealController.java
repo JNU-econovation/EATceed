@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
+import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
@@ -21,9 +24,6 @@ import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.meal.GetMealExceptionDocs;
 import com.gaebaljip.exceed.common.docs.meal.GetMealFoodExceptionDocs;
 import com.gaebaljip.exceed.common.dto.*;
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
-import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
-import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 
 import io.swagger.v3.oas.annotations.Operation;

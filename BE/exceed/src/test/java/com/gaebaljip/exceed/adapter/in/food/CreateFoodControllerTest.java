@@ -11,11 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
 
 @WebMvcTest(CreateFoodController.class)
 public class CreateFoodControllerTest extends ControllerTest {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.member.Member;
@@ -13,7 +14,6 @@ import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.TodayMealDTO;
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,14 +1,15 @@
 package com.gaebaljip.exceed.application.port.in.meal;
 
+import java.util.List;
+
 import com.gaebaljip.exceed.adapter.in.meal.request.EatMealRequest;
 import com.gaebaljip.exceed.application.domain.meal.MealType;
 import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.common.exception.meal.InvalidGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleAndGException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
-import lombok.Builder;
 
-import java.util.List;
+import lombok.Builder;
 
 @Builder
 public record EatMealCommand(
