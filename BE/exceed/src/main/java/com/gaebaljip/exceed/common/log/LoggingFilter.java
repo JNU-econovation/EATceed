@@ -20,7 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
     private final List<String> excludeUrl =
-            List.of("/actuator/health", "/actuator/prometheus", "/v1/health");
+            List.of(
+                    "/actuator/health",
+                    "/actuator/prometheus",
+                    "/v1/health",
+                    "/api-docs/swagger-config",
+                    "/api-docs");
 
     @Override
     protected void doFilterInternal(
