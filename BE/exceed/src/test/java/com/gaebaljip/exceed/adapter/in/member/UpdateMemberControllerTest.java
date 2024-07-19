@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.member.adapter;
+package com.gaebaljip.exceed.adapter.in.member;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -17,7 +17,7 @@ import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
 
-@WebMvcTest(UpdateMemberControllerTest.class)
+@WebMvcTest(UpdateMemberController.class)
 public class UpdateMemberControllerTest extends ControllerTest {
     @MockBean private UpdateMemberUsecase updateMemberUsecase;
 

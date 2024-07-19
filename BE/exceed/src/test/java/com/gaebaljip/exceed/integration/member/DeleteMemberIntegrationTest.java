@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.member;
+package com.gaebaljip.exceed.integration.member;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberRepository;
 
 public class DeleteMemberIntegrationTest extends IntegrationTest {
     @Autowired private MemberRepository memberRepository;

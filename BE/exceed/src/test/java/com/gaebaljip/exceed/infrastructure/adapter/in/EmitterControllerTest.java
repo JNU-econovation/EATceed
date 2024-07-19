@@ -11,10 +11,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.gaebaljip.exceed.adapter.in.notify.EmitterController;
+import com.gaebaljip.exceed.application.port.in.notify.ConnectEmitterUseCase;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
-import com.gaebaljip.exceed.infrastructure.sse.adapter.in.EmitterController;
-import com.gaebaljip.exceed.infrastructure.sse.application.port.in.ConnectEmitterUseCase;
 
 @WebMvcTest(EmitterController.class)
 public class EmitterControllerTest extends ControllerTest {

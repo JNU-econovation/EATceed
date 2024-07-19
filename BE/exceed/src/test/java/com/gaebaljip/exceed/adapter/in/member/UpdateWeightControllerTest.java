@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.member.adapter.in;
+package com.gaebaljip.exceed.adapter.in.member;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,12 +18,12 @@ import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.gaebaljip.exceed.adapter.in.member.request.UpdateWeightRequest;
+import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.event.Events;
 import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
-import com.gaebaljip.exceed.dto.request.UpdateWeightRequest;
-import com.gaebaljip.exceed.member.application.port.in.UpdateWeightUsecase;
 
 @RecordApplicationEvents
 @WebMvcTest(UpdateWeightController.class)
