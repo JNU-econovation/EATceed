@@ -45,8 +45,7 @@ src/main/resources/static/docs/api-doc.html
 
 ### env
 .env
-env-dev
-
+.env.prod
 
 ### jmh
 

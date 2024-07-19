@@ -6,18 +6,18 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
+import com.gaebaljip.exceed.application.domain.meal.MealEntity;
+import com.gaebaljip.exceed.application.domain.meal.MealFoodEntity;
+import com.gaebaljip.exceed.application.domain.member.HistoryEntity;
+import com.gaebaljip.exceed.application.domain.member.MemberEntity;
+import com.gaebaljip.exceed.application.domain.notify.NotifyEntity;
+import com.gaebaljip.exceed.application.port.out.food.FoodPort;
+import com.gaebaljip.exceed.application.port.out.meal.MealFoodPort;
+import com.gaebaljip.exceed.application.port.out.meal.MealPort;
+import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
+import com.gaebaljip.exceed.application.port.out.notify.NotifyPort;
 import com.gaebaljip.exceed.common.event.DeleteMemberEvent;
-import com.gaebaljip.exceed.food.adapter.out.FoodEntity;
-import com.gaebaljip.exceed.food.application.port.out.FoodPort;
-import com.gaebaljip.exceed.infrastructure.sse.adapter.out.NotifyEntity;
-import com.gaebaljip.exceed.infrastructure.sse.application.port.out.NotifyPort;
-import com.gaebaljip.exceed.meal.adapter.out.MealEntity;
-import com.gaebaljip.exceed.meal.adapter.out.MealFoodEntity;
-import com.gaebaljip.exceed.meal.application.port.out.MealFoodPort;
-import com.gaebaljip.exceed.meal.application.port.out.MealPort;
-import com.gaebaljip.exceed.member.adapter.out.persistence.HistoryEntity;
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
-import com.gaebaljip.exceed.member.application.port.out.HistoryPort;
 
 import lombok.RequiredArgsConstructor;
 

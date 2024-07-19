@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.common.event;
 
-import com.gaebaljip.exceed.member.adapter.out.persistence.MemberEntity;
+import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 
 import lombok.Builder;
 import lombok.Getter;
