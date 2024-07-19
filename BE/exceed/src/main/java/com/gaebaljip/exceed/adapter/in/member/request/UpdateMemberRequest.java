@@ -9,6 +9,9 @@ import com.gaebaljip.exceed.application.domain.member.Gender;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.annotation.Enum;
 
+import lombok.Builder;
+
+@Builder
 public record UpdateMemberRequest(
         @NotNull(message = "키를 " + ValidationMessage.NOT_NULL)
                 @Min(value = 0, message = "키는 " + ValidationMessage.MIN_0)
