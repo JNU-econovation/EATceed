@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.adapter.in.meal;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ import com.gaebaljip.exceed.common.dto.MaintainMealDTO;
 import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 @WebMvcTest(GetMealController.class)
-class SpecificMealControllerTest extends ControllerTest {
+class GetMealControllerTest extends ControllerTest {
 
     @MockBean private GetMaintainMealUsecase getMaintainMealUsecase;
 
@@ -37,12 +38,12 @@ class SpecificMealControllerTest extends ControllerTest {
 
     @Test
     @WithMockUser
-    void getMealNutrition() throws Exception {
+    void when_getMeal_expected_success() throws Exception {
 
         // given
-        MaintainMealDTO maintainMealDTO = new MaintainMealDTO(100.0, 100.0, 100.0, 100.0);
-        CurrentMealDTO currentMealDTO = new CurrentMealDTO(100.0, 100.0, 100.0, 100.0);
-        TargetMealDTO targetMealDTO = new TargetMealDTO(100.0, 100.0, 100.0, 100.0);
+        MaintainMealDTO maintainMealDTO = new MaintainMealDTO(100.22, 100.22, 100.22, 100.22);
+        CurrentMealDTO currentMealDTO = new CurrentMealDTO(100.666, 100.666, 100.666, 100.666);
+        TargetMealDTO targetMealDTO = new TargetMealDTO(100.444, 100.444, 100.444, 100.444);
 
         // when
         Mockito.when(getMaintainMealUsecase.execute(any())).thenReturn(maintainMealDTO);
@@ -53,6 +54,10 @@ class SpecificMealControllerTest extends ControllerTest {
                 mockMvc.perform(get("/v1/meal").contentType(MediaType.APPLICATION_JSON));
 
         // then
-        resultActions.andExpect(status().isOk());
+        resultActions.andExpectAll(
+                status().isOk(),
+                jsonPath("$.response.maintainMealDTO.calorie").value(100.22),
+                jsonPath("$.response.currentMealDTO.protein").value(100.67),
+                jsonPath("$.response.targetMealDTO.fat").value(100.44));
     }
 }
