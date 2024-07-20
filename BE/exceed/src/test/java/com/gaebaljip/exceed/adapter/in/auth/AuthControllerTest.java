@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.adapter.in.auth;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
+import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
 
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest extends ControllerTest {
@@ -22,7 +23,7 @@ public class AuthControllerTest extends ControllerTest {
 
     @Test()
     @DisplayName("로그인 실패 - 비밀번호 형식 안 맞을 때")
-    void login_fail() throws Exception {
+    void when_login_expected_fail() throws Exception {
         LoginRequest loginRequest = new LoginRequest("abcd1111!@gmail.com", "abcd");
 
         ResultActions resultActions =
@@ -31,12 +32,14 @@ public class AuthControllerTest extends ControllerTest {
                                 .content(om.writeValueAsString(loginRequest))
                                 .contentType(MediaType.APPLICATION_JSON));
 
-        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.reason").value(ValidationMessage.INVALID_PASSWORD));
     }
 
     @Test()
     @DisplayName("로그인 실패 - 이메일 형식 안 맞을 때")
-    void login_fail2() throws Exception {
+    void when_login_expected_fail2() throws Exception {
         LoginRequest loginRequest = new LoginRequest("abcd1111gmail.com", "Abc@123");
 
         ResultActions resultActions =
@@ -48,5 +51,25 @@ public class AuthControllerTest extends ControllerTest {
         resultActions.andExpectAll(
                 status().isBadRequest(),
                 jsonPath("$.error.reason").value(ValidationMessage.INVALID_EMAIL));
+    }
+
+    @Test()
+    @DisplayName(
+            "로그인 성공" + "Authoriztion 헤더에 accessToken이 존재" + "refreshToken 쿠키에 refreshToken이 존재")
+    void when_login_expected_success() throws Exception {
+        LoginRequest loginRequest = new LoginRequest("abcd1111!@gmail.com", "Abc@123");
+        LoginResponseDTO loginResponseDTO = new LoginResponseDTO("accessToken", "refreshToken");
+        given(authService.execute(loginRequest)).willReturn(loginResponseDTO);
+
+        ResultActions resultActions =
+                mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/auth/login")
+                                .content(om.writeValueAsString(loginRequest))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpectAll(
+                status().isOk(),
+                header().exists("Authorization"),
+                cookie().value("refreshToken", loginResponseDTO.refreshToken()));
     }
 }
