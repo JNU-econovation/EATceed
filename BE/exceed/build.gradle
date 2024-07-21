@@ -59,6 +59,7 @@ dependencies {
 	testImplementation "org.testcontainers:testcontainers:1.19.8"
 	testImplementation "org.testcontainers:junit-jupiter:1.19.8"
 	testImplementation "org.testcontainers:localstack:1.19.8"
+	testImplementation "org.jeasy:easy-random-core:5.0.0"
 
 
 
@@ -216,8 +217,6 @@ jacocoTestReport {
 					fileTree(dir: it, excludes: [
 					        "**/ExceedApplication",
 							"**/*Config*",
-							"**/*Request*",
-							"**/*Response*",
 							"**/*Exception*",
 							"**/*Filter*",
 							"**/*Docs*",
