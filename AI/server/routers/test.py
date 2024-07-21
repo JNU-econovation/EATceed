@@ -6,6 +6,7 @@ from auth.decoded_token import get_current_member
 from db.crud import crud_test
 from db.database import get_db
 
+
 import logging
 
 # 로그 메시지
