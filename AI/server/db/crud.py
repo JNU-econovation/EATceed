@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from db.models import EatHabits, Member, Food, Meal, MealFood
 
 import logging
-from fastapi import HTTPException
 from errors.custom_exceptions import InvalidUserId, UserDataError, AnalysisError
 
 # 로그 메시지

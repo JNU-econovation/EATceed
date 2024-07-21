@@ -1,5 +1,5 @@
 # DB 관련 CRUD 작업 함수 정의
-from fastapi import Depends, HTTPException, status, Header
+from fastapi import Depends, Header
 from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
