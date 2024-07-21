@@ -4,9 +4,11 @@ import com.gaebaljip.exceed.application.domain.food.Food;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class ConsumedFood {
 
     private Food food;
