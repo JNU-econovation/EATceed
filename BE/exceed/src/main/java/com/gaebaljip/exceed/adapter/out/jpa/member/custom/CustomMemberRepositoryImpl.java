@@ -21,7 +21,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date) {
+    public Optional<MemberEntity> findMemberBeforeDate(Long memberId, LocalDateTime date) {
         MemberEntity result =
                 queryFactory
                         .selectFrom(memberEntity)
@@ -31,6 +31,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     }
 
     private BooleanExpression checkDate(QMemberEntity memberEntity, LocalDateTime date) {
-        return memberEntity.createdDate.eq(date);
+        return memberEntity.updatedDate.before(date);
     }
 }
