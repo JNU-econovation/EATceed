@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.integration.member;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.adapter.in.member.request.UpdateMemberRequest;
+import com.gaebaljip.exceed.adapter.out.jpa.member.HistoryRepository;
 import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.IntegrationTest;
@@ -22,13 +22,16 @@ import com.gaebaljip.exceed.common.exception.member.MemberError;
 public class UpdateMemberIntegrationTest extends IntegrationTest {
 
     @Autowired private MemberRepository memberRepository;
+    @Autowired private HistoryRepository historyRepository;
 
     @Test
     @WithMockUser(memberId = 1L)
-    @DisplayName("회원 수정 성공")
+    @DisplayName("회원 수정 성공 : 회원 상태 변경 " + "updatedAt 최신화 검증" + "History Entity 데이터 저장 확인")
     void when_updateMember_expected_success() throws Exception {
         // given
         Long memberId = 1L;
+        MemberEntity memberEntity = memberRepository.findById(1L).get();
+        long beforeCount = historyRepository.findByMemberEntity(memberEntity).stream().count();
 
         UpdateMemberRequest updateMemberRequest =
                 UpdateMemberRequest.builder()
@@ -46,6 +49,8 @@ public class UpdateMemberIntegrationTest extends IntegrationTest {
                                 .content(om.writeValueAsString(updateMemberRequest))
                                 .contentType(MediaType.APPLICATION_JSON));
         MemberEntity member = memberRepository.findById(memberId).get();
+        long afterCount = historyRepository.findByMemberEntity(memberEntity).stream().count();
+
         // then
         resultActions.andExpectAll(status().isOk());
         assertAll(
@@ -53,7 +58,10 @@ public class UpdateMemberIntegrationTest extends IntegrationTest {
                 () -> assertEquals(member.getActivity().name(), updateMemberRequest.activity()),
                 () -> assertEquals(member.getAge(), updateMemberRequest.age()),
                 () -> assertEquals(member.getGender().name(), updateMemberRequest.gender()),
-                () -> assertEquals(member.getEtc(), updateMemberRequest.etc()));
+                () -> assertEquals(member.getEtc(), updateMemberRequest.etc()),
+                () -> assertTrue(memberEntity.getUpdatedDate().isBefore(member.getUpdatedDate())),
+                () -> assertTrue(afterCount - beforeCount == 1));
+        // todo : historyEntity에 데이터 저장이 제대로 됬나 확인
     }
 
     @Test
