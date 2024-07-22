@@ -22,15 +22,20 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date) {
+    public HistoryEntity findMostRecentFutureMember(Long memberId, LocalDateTime date) {
         return queryFactory
                 .selectFrom(historyEntity)
-                .where(historyEntity.id.eq(memberId).and(checkDate(historyEntity, date)))
-                .orderBy(historyEntity.id.desc())
+                .where(
+                        historyEntity
+                                .memberEntity
+                                .id
+                                .eq(memberId)
+                                .and(checkFutureDate(historyEntity, date)))
+                .orderBy(historyEntity.createdDate.asc())
                 .fetchFirst();
     }
 
-    private BooleanExpression checkDate(QHistoryEntity historyEntity, LocalDateTime date) {
-        return historyEntity.createdDate.before(date);
+    private BooleanExpression checkFutureDate(QHistoryEntity historyEntity, LocalDateTime date) {
+        return historyEntity.createdDate.after(date);
     }
 }
