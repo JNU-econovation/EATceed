@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.common.docs.meal;
 
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-import com.gaebaljip.exceed.common.exception.meal.InsufficientMealsException;
 import com.gaebaljip.exceed.common.exception.meal.InvalidMultipleException;
 import com.gaebaljip.exceed.common.exception.meal.NotSameDateException;
 import com.gaebaljip.exceed.common.exception.member.InvalidGenderException;
@@ -12,9 +11,6 @@ import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 
 @ExceptionDoc
 public class GetMealExceptionDocs implements SwaggerExampleExceptions {
-    @ExplainError("Daily Meal에 최소 1끼도 제공 되지 않았을 때 ")
-    public EatCeedException Daily_Meal에_최소_1끼도_제공_되지_않았습니다 = InsufficientMealsException.EXECPTION;
-
     @ExplainError("0인분 이하거나 100인분 초과일 경우 ")
     public EatCeedException _0인분_이하거나_100인분_초과일_경우 = InvalidMultipleException.EXECPTION;
 
