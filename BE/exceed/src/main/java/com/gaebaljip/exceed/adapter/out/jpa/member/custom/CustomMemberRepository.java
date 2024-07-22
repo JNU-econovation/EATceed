@@ -9,5 +9,5 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 
 @Repository
 public interface CustomMemberRepository {
-    Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date);
+    Optional<MemberEntity> findMemberBeforeDate(Long memberId, LocalDateTime date);
 }

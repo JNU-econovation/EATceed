@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.application.domain.member;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -97,5 +99,9 @@ public class MemberEntity extends BaseEntity {
                 && this.getActivity() != null
                 && this.getGender() != null
                 && this.getTargetWeight() != null;
+    }
+
+    public boolean checkIfBeforeSignUp(LocalDateTime checkDateTime) {
+        return checkDateTime.isBefore(this.getCreatedDate());
     }
 }

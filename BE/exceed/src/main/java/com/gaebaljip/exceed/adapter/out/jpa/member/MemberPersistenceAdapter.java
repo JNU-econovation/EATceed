@@ -72,8 +72,8 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
-    public Optional<MemberEntity> findByIdAndDate(Long memberId, LocalDateTime date) {
-        return memberRepository.findByIdAndDate(memberId, date);
+    public Optional<MemberEntity> findMemberBeforeDate(Long memberId, LocalDateTime date) {
+        return memberRepository.findMemberBeforeDate(memberId, date);
     }
 
     @Override

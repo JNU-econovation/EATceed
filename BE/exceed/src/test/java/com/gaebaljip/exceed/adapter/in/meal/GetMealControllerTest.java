@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
+import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
@@ -35,6 +36,8 @@ class GetMealControllerTest extends ControllerTest {
     @MockBean private GetSpecificMealQuery getSpecificMealQuery;
 
     @MockBean private GetAllCalorieAnalysisService getAllCalorieAnalysisService;
+
+    @MockBean private ValidateBeforeSignUpUsecase validateDateBeforeSignUpUsecase;
 
     @Test
     @WithMockUser

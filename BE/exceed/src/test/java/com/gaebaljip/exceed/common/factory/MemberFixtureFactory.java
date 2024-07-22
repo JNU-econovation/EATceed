@@ -11,15 +11,8 @@ public class MemberFixtureFactory {
     public static Member create(int gender) {
         EasyRandomParameters parameters =
                 new EasyRandomParameters()
-                        .randomize(
-                                Double.class,
-                                () -> Math.random() * 100 + 1) // double 타입 랜덤 값 생성 (1~100 사이의 값)
-                        .randomize(
-                                Integer.class,
-                                () ->
-                                        (int)
-                                                (Math.random() * 100
-                                                        + 1)) // int 타입 랜덤 값 생성 (1~100 사이의 값)
+                        .randomize(Double.class, () -> Math.random() * 50 + 40)
+                        .randomize(Integer.class, () -> (int) (Math.random() * 10 + 10))
                         .excludeField(named("gender")); // gender 필드는 제외
 
         EasyRandom easyRandom = new EasyRandom(parameters);
