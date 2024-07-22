@@ -11,11 +11,10 @@ import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
-import com.gaebaljip.exceed.application.port.out.meal.MealConverter;
 import com.gaebaljip.exceed.application.port.out.meal.MealPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
+import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
-import com.gaebaljip.exceed.common.dto.TodayMealDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +24,6 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
 
     private final MealRepository mealRepository;
     private final MealConverter mealConverter;
-    private final int FIRST_DAY = 1;
 
     @Override
     public MealEntity command(MealEntity mealEntity) {
@@ -33,11 +31,11 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public List<Meal> query(TodayMealDTO todayMealDTO) {
-        LocalDateTime today = todayMealDTO.date().toLocalDate().atStartOfDay();
+    public List<Meal> query(DailyMealDTO dailyMealDTO) {
+        LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);
         List<MealEntity> mealEntities =
-                mealRepository.findAllTodayMeal(today, tomorrow, todayMealDTO.memberId());
+                mealRepository.findAllTodayMeal(today, tomorrow, dailyMealDTO.memberId());
         return mealConverter.toMeals(mealEntities);
     }
 

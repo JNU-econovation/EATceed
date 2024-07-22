@@ -1,10 +1,9 @@
-package com.gaebaljip.exceed.application.port.out.meal;
+package com.gaebaljip.exceed.adapter.out.jpa.meal;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.adapter.out.jpa.meal.ConsumedFoodConverter;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.common.annotation.Timer;

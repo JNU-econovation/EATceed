@@ -13,7 +13,7 @@ import com.gaebaljip.exceed.application.port.in.nutritionist.GetAllAnalysisUseca
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
-import com.gaebaljip.exceed.common.dto.TodayMealDTO;
+import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,22 +39,15 @@ public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
     @Override
     public AllAnalysisDTO execute(GetAllAnalysisRequest request) {
         List<Meal> meals =
-                dailyMealPort.query(new TodayMealDTO(request.memberId(), request.dateTime()));
+                dailyMealPort.query(new DailyMealDTO(request.memberId(), request.dateTime()));
         Member member = memberPort.query(request.memberId(), request.dateTime());
-        if (meals.isEmpty()) {
-            return createEmptyMealAnalysis(request);
-        }
         DailyMeal dailyMeal = new DailyMeal(meals);
-        CalorieAnalyzer calorieAnalyzer =
-                CalorieAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
-        ProteinAnalyzer proteinAnalyzer =
-                ProteinAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
-        CarbohydrateAnalyzer carbohydrateAnalyzer =
-                CarbohydrateAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
-        FatAnalyzer fatAnalyzer =
-                FatAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+        CalorieAnalyzer calorieAnalyzer = getCalorieAnalyzer(member, dailyMeal);
+        ProteinAnalyzer proteinAnalyzer = getProteinAnalyzer(member, dailyMeal);
+        CarbohydrateAnalyzer carbohydrateAnalyzer = getCarbohydrateAnalyzer(member, dailyMeal);
+        FatAnalyzer fatAnalyzer = getFatAnalyzer(member, dailyMeal);
         return AllAnalysisDTO.of(
-                true,
+                meals,
                 request.dateTime().toLocalDate(),
                 calorieAnalyzer.analyze(),
                 proteinAnalyzer.analyze(),
@@ -62,8 +55,19 @@ public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
                 fatAnalyzer.analyze());
     }
 
-    public AllAnalysisDTO createEmptyMealAnalysis(GetAllAnalysisRequest request) {
-        return AllAnalysisDTO.of(
-                false, request.dateTime().toLocalDate(), false, false, false, false);
+    private static FatAnalyzer getFatAnalyzer(Member member, DailyMeal dailyMeal) {
+        return FatAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    }
+
+    private CarbohydrateAnalyzer getCarbohydrateAnalyzer(Member member, DailyMeal dailyMeal) {
+        return CarbohydrateAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    }
+
+    private ProteinAnalyzer getProteinAnalyzer(Member member, DailyMeal dailyMeal) {
+        return ProteinAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    }
+
+    private CalorieAnalyzer getCalorieAnalyzer(Member member, DailyMeal dailyMeal) {
+        return CalorieAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
     }
 }
