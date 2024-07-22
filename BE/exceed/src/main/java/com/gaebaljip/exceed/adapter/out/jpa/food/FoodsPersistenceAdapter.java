@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
-import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
+import com.gaebaljip.exceed.common.exception.food.FoodNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,6 +48,6 @@ public class FoodsPersistenceAdapter implements FoodPort {
 
     @Override
     public FoodEntity query(Long foodId) {
-        return foodRepository.findById(foodId).orElseThrow(() -> MemberNotFoundException.EXECPTION);
+        return foodRepository.findById(foodId).orElseThrow(() -> FoodNotFoundException.Exception);
     }
 }

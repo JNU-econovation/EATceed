@@ -11,7 +11,7 @@ import com.gaebaljip.exceed.common.annotation.Port;
 public interface HistoryPort {
     HistoryEntity command(HistoryEntity historyEntity);
 
-    HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date);
+    HistoryEntity findMostRecentFutureMember(Long memberId, LocalDateTime date);
 
     List<HistoryEntity> findByMemberEntity(MemberEntity memberEntity);
 

@@ -35,6 +35,6 @@ public class GetWeightIntegrationTest extends IntegrationTest {
         resultActions.andExpect(status().isOk());
         assertAll(
                 () -> assertEquals(member.getWeight(), 70.0),
-                () -> assertEquals(member.getTargetWeight(), 68.0));
+                () -> assertEquals(member.getTargetWeight(), 78.0));
     }
 }

@@ -46,12 +46,13 @@ public class GetTargetMealService implements GetTargetMealUsecase {
 
     @Override
     public TargetMealDTO execute(Long memberId, LocalDateTime date) {
-        Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
+        Optional<MemberEntity> memberEntity = memberPort.findMemberBeforeDate(memberId, date);
         if (memberEntity.isPresent()) {
             Member member = memberConverter.toModel(memberEntity.get());
             return toTargetMeal(member);
         } else {
-            HistoryEntity lastestHistoryEntity = historyPort.findByMemberIdAndDate(memberId, date);
+            HistoryEntity lastestHistoryEntity =
+                    historyPort.findMostRecentFutureMember(memberId, date);
             Member member = memberConverter.toModel(lastestHistoryEntity);
             return toTargetMeal(member);
         }

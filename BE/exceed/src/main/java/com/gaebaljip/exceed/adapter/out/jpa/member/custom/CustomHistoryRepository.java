@@ -8,5 +8,5 @@ import com.gaebaljip.exceed.application.domain.member.HistoryEntity;
 
 @Repository
 public interface CustomHistoryRepository {
-    HistoryEntity findByMemberIdAndDate(Long memberId, LocalDateTime date);
+    HistoryEntity findMostRecentFutureMember(Long memberId, LocalDateTime date);
 }

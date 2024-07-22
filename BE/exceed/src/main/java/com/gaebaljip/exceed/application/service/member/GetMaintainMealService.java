@@ -47,12 +47,13 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
     @Override
     @Transactional(readOnly = true)
     public MaintainMealDTO execute(Long memberId, LocalDateTime date) {
-        Optional<MemberEntity> memberEntity = memberPort.findByIdAndDate(memberId, date);
+        Optional<MemberEntity> memberEntity = memberPort.findMemberBeforeDate(memberId, date);
         if (memberEntity.isPresent()) {
             Member member = memberConverter.toModel(memberEntity.get());
             return toMaintainMeal(member);
         } else {
-            HistoryEntity lastestHistoryEntity = historyPort.findByMemberIdAndDate(memberId, date);
+            HistoryEntity lastestHistoryEntity =
+                    historyPort.findMostRecentFutureMember(memberId, date);
             Member member = memberConverter.toModel(lastestHistoryEntity);
             return toMaintainMeal(member);
         }

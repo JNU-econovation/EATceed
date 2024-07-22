@@ -21,7 +21,8 @@ public enum MealError implements BaseError {
             400,
             "6002",
             "'multiple'은 null이 아니고 'g'는 null이어야 하거나, 'multiple'은 null이고 'g'는 null이 아니어야 합니다."),
-    INVALID_G(400, "6002", "g은 1 이상이어야합니다.");
+    INVALID_G(400, "6002", "g은 1 이상이어야합니다."),
+    INVALID_DATE_FOUND(400, "6321", "회원가입 이전의 기록은 없습니다.");
 
     private final Integer status;
     private final String code;
