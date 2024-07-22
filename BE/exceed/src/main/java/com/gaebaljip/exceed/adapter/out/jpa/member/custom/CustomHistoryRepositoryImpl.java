@@ -31,7 +31,7 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
                                 .id
                                 .eq(memberId)
                                 .and(checkFutureDate(historyEntity, date)))
-                .orderBy(historyEntity.createdDate.asc())
+                .orderBy(historyEntity.id.asc())
                 .fetchFirst();
     }
 
