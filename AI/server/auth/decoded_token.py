@@ -1,5 +1,5 @@
 # DB 관련 CRUD 작업 함수 정의
-from fastapi import Depends, HTTPException, status, Header
+from fastapi import Depends, Header
 from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
@@ -12,7 +12,9 @@ except:
     from config import settings
 
 # 로그 메시지
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 # 인증을 위한 환경변수 세팅

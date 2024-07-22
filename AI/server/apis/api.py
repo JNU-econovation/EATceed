@@ -11,7 +11,9 @@ from errors.custom_exceptions import UserDataError, AnalysisError
 
 
 # 로그 메시지
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 # 환경변수 설정
@@ -79,6 +81,8 @@ def full_analysis(db: Session, member_id: int):
         # 체중 예측
         weight_result = weight_predict(user_data)
         user_data['weight_change'] = weight_result
+        avg_calorie = user_data['user'][5]["에너지(kcal)"]
+
         # 각 프롬프트에 대해 분석 수행
         prompt_types = ['health_advice', 'weight_carbo', 'weight_fat', 'weight_protein']
         analysis_results = {}
@@ -95,7 +99,8 @@ def full_analysis(db: Session, member_id: int):
             advice_protein=analysis_results['weight_protein'],
             advice_fat=analysis_results['weight_fat'],
             synthesis_advice=analysis_results['health_advice'],
-            flag=True
+            flag=True,
+            avg_calorie=avg_calorie
         )
 
         logger.info(f"Insert success ")

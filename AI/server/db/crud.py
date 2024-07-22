@@ -4,11 +4,12 @@ from datetime import datetime, timedelta
 from db.models import EatHabits, Member, Food, Meal, MealFood
 
 import logging
-from fastapi import HTTPException
 from errors.custom_exceptions import InvalidUserId, UserDataError, AnalysisError
 
 # 로그 메시지
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 # DB 연결 Test CRUD 
