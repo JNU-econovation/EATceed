@@ -5,21 +5,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.gaebaljip.exceed.adapter.in.food.request.CreateFoodRequest;
-import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
 
-@WebMvcTest(CreateFoodController.class)
 public class CreateFoodControllerTest extends ControllerTest {
-    @MockBean private CreateFoodService createFoodService;
 
     @Test
     @DisplayName("음식 추가 : 실패 - 이름이 없는 경우")

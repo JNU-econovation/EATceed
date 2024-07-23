@@ -5,21 +5,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
-import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
 
-@WebMvcTest(AuthController.class)
 public class AuthControllerTest extends ControllerTest {
-    @MockBean private AuthService authService;
 
     @Test()
     @DisplayName("로그인 실패 - 비밀번호 형식 안 맞을 때")
