@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,7 +40,7 @@ import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 
 @ActiveProfiles("test")
-@ExtendWith(RestDocumentationExtension.class)
+@ExtendWith({RestDocumentationExtension.class})
 @WebMvcTest({
     AuthController.class,
     CreateFoodController.class,
@@ -51,34 +52,34 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalys
     GetAnalysisController.class,
     EmitterController.class
 })
+@MockBeans({
+    @MockBean(AuthService.class),
+    @MockBean(CreateFoodService.class),
+    @MockBean(EatMealUsecase.class),
+    @MockBean(UploadImageUsecase.class),
+    @MockBean(GetMaintainMealUsecase.class),
+    @MockBean(GetTargetMealUsecase.class),
+    @MockBean(GetCurrentMealQuery.class),
+    @MockBean(GetSpecificMealQuery.class),
+    @MockBean(GetAllCalorieAnalysisService.class),
+    @MockBean(ValidateBeforeSignUpUsecase.class),
+    @MockBean(OnBoardingMemberService.class),
+    @MockBean(UpdateMemberUsecase.class),
+    @MockBean(UpdateWeightUsecase.class),
+    @MockBean(GetCalorieAnalysisUsecase.class),
+    @MockBean(ConnectEmitterUseCase.class)
+})
 public abstract class ControllerTest {
 
     @Autowired protected MockMvc mockMvc;
-
     @Autowired protected ObjectMapper om;
-
     @Autowired private WebApplicationContext webApplicationContext;
-
-    @MockBean protected AuthService authService;
-    @MockBean protected CreateFoodService createFoodService;
-    @MockBean protected EatMealUsecase eatMealUsecase;
-    @MockBean protected UploadImageUsecase uploadImageUsecase;
-    @MockBean protected GetMaintainMealUsecase getMaintainMealUsecase;
-
-    @MockBean protected GetTargetMealUsecase getTargetMealUsecase;
-
-    @MockBean protected GetCurrentMealQuery getCurrentMealQuery;
-
-    @MockBean protected GetSpecificMealQuery getSpecificMealQuery;
-
-    @MockBean protected GetAllCalorieAnalysisService getAllCalorieAnalysisService;
-
-    @MockBean protected ValidateBeforeSignUpUsecase validateDateBeforeSignUpUsecase;
-    @MockBean protected OnBoardingMemberService onBoardingMemberService;
-    @MockBean protected UpdateMemberUsecase updateMemberUsecase;
-    @MockBean protected UpdateWeightUsecase updateWeightUsecase;
-    @MockBean protected GetCalorieAnalysisUsecase getAchieveUsecase;
-    @MockBean protected ConnectEmitterUseCase connectEmitterUseCase;
+    @Autowired protected AuthService authService;
+    @Autowired protected UploadImageUsecase uploadImageUsecase;
+    @Autowired protected GetMaintainMealUsecase getMaintainMealUsecase;
+    @Autowired protected GetTargetMealUsecase getTargetMealUsecase;
+    @Autowired protected GetCurrentMealQuery getCurrentMealQuery;
+    @Autowired protected ConnectEmitterUseCase connectEmitterUseCase;
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider restDocumentation) {
