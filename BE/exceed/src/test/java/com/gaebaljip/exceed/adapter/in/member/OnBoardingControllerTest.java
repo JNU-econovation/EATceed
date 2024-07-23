@@ -5,22 +5,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.adapter.in.member.request.OnBoardingMemberRequest;
-import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
 import com.gaebaljip.exceed.common.WithMockUser;
 
-@WebMvcTest(OnBoardingController.class)
 class OnBoardingControllerTest extends ControllerTest {
-
-    @MockBean private OnBoardingMemberService onBoardingMemberService;
 
     @Test
     @DisplayName("온보딩 성공")

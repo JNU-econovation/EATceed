@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 @ExtendWith(RestDocumentationExtension.class)
 @ExtendWith(DatabaseClearExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, args = "food_data.csv")
 @Sql("classpath:db/testData.sql")
 public abstract class IntegrationTest extends ContainerTest {
 
