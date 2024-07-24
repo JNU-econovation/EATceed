@@ -54,3 +54,6 @@ logging:
         type:
           descriptor:
             sql: info
+      springframework:
+        test.context.cache: debug
+
