@@ -68,17 +68,18 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest)
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/members/checked/**")
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/v1/members/checked/**",
+                        "/v1/members/email/checked",
+                        "/actuator/**",
+                        "/v1/health")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/members/email/checked")
+                .antMatchers(HttpMethod.PUT, "/v1/members/email/confirmed")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/auth/login")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/actuator/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/health")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
