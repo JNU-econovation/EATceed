@@ -1,6 +1,11 @@
 # 환경변수 설정
 from dotenv import load_dotenv
 import os
+import logging
+
+# 로그 설정
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -18,3 +23,6 @@ class Settings:
     DB_URL=f"mysql+pymysql://{RDS_DATABASE_USERNAME}:{RDS_DATABASE_PASSWORD}@{RDS_DATABASE_ENDPOINT}:{RDS_PORT}/{RDS_DB_NAME}?charset=utf8mb4"
     
 settings = Settings()
+
+# 환경 변수 값 디버그 출력
+logger.debug(f"DB_URL: {settings.DB_URL}")

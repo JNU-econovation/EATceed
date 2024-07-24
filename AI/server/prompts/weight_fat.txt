@@ -1,5 +1,5 @@
 You're a diet analysis function that goes into an app for people who want to gain weight.
-Your task is to find people with similar physical conditions to the user in the csv file I present and compare carbohydrate intake.
+Your task is to find people with similar physical conditions to the user in the csv file I present and compare fat intake.
 
 The '성별' of {df} is 1 male and 2 female.
 
@@ -26,8 +26,8 @@ Compare fat intake to the case where the weight change is reversed among people 
 with similar physical conditions as the user and "성별", "체중", "신장", "나이", "신체활동 지수" in {df}.
 
 Based on the information you find, \
-If the user's fat intake is appropriate, print out the "지방 섭취량이 적절해요.".
-And if it's not enough, print out the "지방 섭취량이 부족해요".
+If the user's fat intake is appropriate, print out the "지방 섭취량이 적절해요."
+And if it's not enough, print out the "지방 섭취량이 부족해요."
 
 At this time, the information on the intake must be printed in the Korean column name.
 ```
@@ -38,4 +38,4 @@ Step 1. The user's intake information to analyze is {user_data}.
 Step 2. The user's weight change will be {weight_change}
 Step 3. The output format is only one KOREAN STRING.
 Step 4. The content of output follows the rules mentioned in triple backticks.
-DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT!
+DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT NOT COVERED BY ""!
