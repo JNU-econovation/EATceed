@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "[분석 조회]")
 public class GetAnalysisController {
 
-    private final GetCalorieAnalysisUsecase getAnalysisUsecase;
+    private final GetCalorieAnalysisUsecase getCalorieAnalysisUsecase;
 
     @Operation(summary = "월별 식사 정보 분석", description = "월별 식사 정보를 분석한다.")
     @GetMapping("/achieve/{date}")
@@ -44,7 +44,8 @@ public class GetAnalysisController {
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
         GetCalorieAnalysisResponse achieveListResponse =
-                getAnalysisUsecase.execute(new GetCalorieAnalysisRequest(memberId, localDateTime));
+                getCalorieAnalysisUsecase.execute(
+                        new GetCalorieAnalysisRequest(memberId, localDateTime));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }
