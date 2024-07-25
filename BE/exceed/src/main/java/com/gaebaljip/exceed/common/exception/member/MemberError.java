@@ -22,7 +22,7 @@ public enum MemberError implements BaseError {
     INVALID_WEIGHT(400, "4445", "몸무게가 음수일 수 없습니다."),
     MAIL_SEND_FAIL(400, "7002", "메일 전송에 실패하였습니다."),
     INVALID_MEMBER(400, "4448", "존재하지 않는 회원입니다."),
-    ;
+    HISTORY_NOT_FOUND(500, "5555", "첫 온보딩하기 전입니다.");
     private final Integer status;
     private final String code;
     private final String reason;

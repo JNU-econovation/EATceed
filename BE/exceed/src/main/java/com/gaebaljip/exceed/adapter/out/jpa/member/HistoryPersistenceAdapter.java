@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.adapter.out.jpa.member;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import com.gaebaljip.exceed.application.domain.member.HistoryEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
@@ -21,7 +22,7 @@ public class HistoryPersistenceAdapter implements HistoryPort {
     }
 
     @Override
-    public HistoryEntity findMostRecentFutureMember(Long memberId, LocalDateTime date) {
+    public Optional<HistoryEntity> findMostRecentFutureMember(Long memberId, LocalDateTime date) {
         return historyRepository.findMostRecentFutureMember(memberId, date);
     }
 

@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.adapter.out.jpa.member.custom;
 import static com.gaebaljip.exceed.application.domain.member.QHistoryEntity.historyEntity;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -22,17 +23,19 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public HistoryEntity findMostRecentFutureMember(Long memberId, LocalDateTime date) {
-        return queryFactory
-                .selectFrom(historyEntity)
-                .where(
-                        historyEntity
-                                .memberEntity
-                                .id
-                                .eq(memberId)
-                                .and(checkFutureDate(historyEntity, date)))
-                .orderBy(historyEntity.id.asc())
-                .fetchFirst();
+    public Optional<HistoryEntity> findMostRecentFutureMember(Long memberId, LocalDateTime date) {
+        HistoryEntity result =
+                queryFactory
+                        .selectFrom(historyEntity)
+                        .where(
+                                historyEntity
+                                        .memberEntity
+                                        .id
+                                        .eq(memberId)
+                                        .and(checkFutureDate(historyEntity, date)))
+                        .orderBy(historyEntity.id.asc())
+                        .fetchFirst();
+        return Optional.ofNullable(result);
     }
 
     private BooleanExpression checkFutureDate(QHistoryEntity historyEntity, LocalDateTime date) {

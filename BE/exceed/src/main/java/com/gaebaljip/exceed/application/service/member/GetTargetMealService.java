@@ -13,6 +13,7 @@ import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.TargetMealDTO;
+import com.gaebaljip.exceed.common.exception.member.NotFoundHistoryException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,8 +52,11 @@ public class GetTargetMealService implements GetTargetMealUsecase {
             Member member = memberConverter.toModel(memberEntity.get());
             return toTargetMeal(member);
         } else {
+
             HistoryEntity lastestHistoryEntity =
-                    historyPort.findMostRecentFutureMember(memberId, date);
+                    historyPort
+                            .findMostRecentFutureMember(memberId, date)
+                            .orElseThrow(() -> NotFoundHistoryException.EXECPTION);
             Member member = memberConverter.toModel(lastestHistoryEntity);
             return toTargetMeal(member);
         }

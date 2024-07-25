@@ -22,7 +22,7 @@ class CustomHistoryRepositoryImplTest extends DatabaseTest {
     void when_findMostRecentFutureMemberWeight_expected_72() {
         LocalDateTime dateTime = LocalDateTime.of(2023, 12, 04, 12, 00);
         HistoryEntity historyEntity =
-                customHistoryRepository.findMostRecentFutureMember(1L, dateTime);
+                customHistoryRepository.findMostRecentFutureMember(1L, dateTime).get();
         assertEquals(historyEntity.getWeight(), 72.0);
     }
 }
