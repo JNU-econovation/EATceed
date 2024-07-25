@@ -47,7 +47,7 @@ public class GetMealController {
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
     private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
-    private final ValidateBeforeSignUpUsecase validateDateBeforeSignUpUsecase;
+    private final ValidateBeforeSignUpUsecase validateBeforeSignUpUsecase;
 
     /** 오늘 먹은 식사 정보(단,탄,지 및 칼로리) 조회 */
     @Operation(summary = "오늘 먹은 식사 정보 조회", description = "오늘 먹은 식사 정보(단,탄,지 및 칼로리)를 조회한다.")
@@ -70,7 +70,7 @@ public class GetMealController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
-        validateDateBeforeSignUpUsecase.execute(memberId, localDateTime);
+        validateBeforeSignUpUsecase.execute(memberId, localDateTime);
         MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
         TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
