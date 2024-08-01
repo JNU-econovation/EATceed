@@ -62,12 +62,12 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("2023-12-01 08:00:00에 회원가입한 회원이 2023-11월의 월별 달성률을 보려고할 때 예외 발생")
+    @DisplayName("2023-11-01 08:00:00에 회원가입한 회원이 2023-10월의 월별 달성률을 보려고할 때 예외 발생")
     @Transactional
     @WithMockUser
     void when_getAchieves_fail() throws Exception {
         // given
-        LocalDate testData = LocalDate.of(2023, 11, 6);
+        LocalDate testData = LocalDate.of(2023, 10, 6);
 
         // when
         ResultActions resultActions =
