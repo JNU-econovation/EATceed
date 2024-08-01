@@ -13,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ValidateBeforeSignupDateServiceDate implements ValidateBeforeSignUpDateUsecase {
+public class ValidateBeforeSignupDateService implements ValidateBeforeSignUpDateUsecase {
 
     private final MemberPersistenceAdapter memberPersistenceAdapter;
 
     @Override
     public void execute(Long memberId, LocalDateTime dateTime) {
         MemberEntity memberEntity = memberPersistenceAdapter.query(memberId);
-        if (memberEntity.checkIfBeforeSignUp(dateTime)) {
+        if (memberEntity.checkIfBeforeSignUpDate(dateTime)) {
             throw InValidDateFoundException.EXECPTION;
         }
     }
