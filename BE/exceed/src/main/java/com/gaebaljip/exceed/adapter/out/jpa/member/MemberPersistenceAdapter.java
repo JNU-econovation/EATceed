@@ -87,7 +87,7 @@ public class MemberPersistenceAdapter implements MemberPort {
         } else {
             HistoryEntity lastestHistoryEntity =
                     historyRepository
-                            .findMostRecentFutureMember(memberId, dateTime)
+                            .findRecentFutureMember(memberId, dateTime)
                             .orElseThrow(() -> NotFoundHistoryException.EXECPTION);
             return memberConverter.toModel(lastestHistoryEntity);
         }

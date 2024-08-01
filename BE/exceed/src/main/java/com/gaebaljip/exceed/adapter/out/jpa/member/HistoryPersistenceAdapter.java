@@ -22,11 +22,6 @@ public class HistoryPersistenceAdapter implements HistoryPort {
     }
 
     @Override
-    public Optional<HistoryEntity> findMostRecentFutureMember(Long memberId, LocalDateTime date) {
-        return historyRepository.findMostRecentFutureMember(memberId, date);
-    }
-
-    @Override
     public List<HistoryEntity> findByMemberEntity(MemberEntity memberEntity) {
         return historyRepository.findByMemberEntity(memberEntity);
     }

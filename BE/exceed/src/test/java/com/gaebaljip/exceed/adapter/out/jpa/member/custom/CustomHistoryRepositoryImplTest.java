@@ -19,10 +19,10 @@ class CustomHistoryRepositoryImplTest extends DatabaseTest {
     @DisplayName(
             "회원 1L : 2023-12-03 11:00:00, 2023-12-05 09:00:00, 그리고 2023-12-07 09:00:00에 회원 수정"
                     + "2023-12-04의 회원 정보를 열람할 경우 2023-12-05 09:00:00 에 저장된 회원 정보를 조회해야한다.")
-    void when_findMostRecentFutureMemberWeight_expected_72() {
+    void when_findRecentFutureMemberWeight_expected_72() {
         LocalDateTime dateTime = LocalDateTime.of(2023, 12, 04, 12, 00);
         HistoryEntity historyEntity =
-                customHistoryRepository.findMostRecentFutureMember(1L, dateTime).get();
+                customHistoryRepository.findRecentFutureMember(1L, dateTime).get();
         assertEquals(historyEntity.getWeight(), 72.0);
     }
 }

@@ -23,7 +23,7 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<HistoryEntity> findMostRecentFutureMember(Long memberId, LocalDateTime date) {
+    public Optional<HistoryEntity> findRecentFutureMember(Long memberId, LocalDateTime date) {
         HistoryEntity result =
                 queryFactory
                         .selectFrom(historyEntity)

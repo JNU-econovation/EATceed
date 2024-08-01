@@ -12,8 +12,6 @@ import com.gaebaljip.exceed.common.annotation.Port;
 public interface HistoryPort {
     HistoryEntity command(HistoryEntity historyEntity);
 
-    Optional<HistoryEntity> findMostRecentFutureMember(Long memberId, LocalDateTime date);
-
     List<HistoryEntity> findByMemberEntity(MemberEntity memberEntity);
 
     void deleteByAllByIdInQuery(List<Long> ids);
