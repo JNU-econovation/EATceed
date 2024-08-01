@@ -7,5 +7,5 @@ import com.gaebaljip.exceed.common.annotation.UseCase;
 @UseCase
 public interface ValidateSignUpBeforeMonthUsecase {
 
-    void execute(Long memberId, LocalDate localDate);
+    void execute(Long memberId, LocalDate targetDate);
 }

@@ -20,10 +20,9 @@ public class ValidateSignUpBeforeMonthService implements ValidateSignUpBeforeMon
 
     @Override
     @Transactional(readOnly = true)
-    public void execute(Long memberId, LocalDate localDate) {
+    public void execute(Long memberId, LocalDate targetDate) {
         MemberEntity memberEntity = memberPersistenceAdapter.query(memberId);
-        LocalDate comparisonDate = memberEntity.getCreatedDate().toLocalDate().withDayOfMonth(1);
-        if (memberEntity.checkIfBeforeSignUpMonth(localDate,comparisonDate)) {
+        if (memberEntity.checkIfBeforeSignUpMonth(targetDate, memberEntity.getCreatedDate())) {
             throw InValidDateFoundException.EXECPTION;
         }
     }
