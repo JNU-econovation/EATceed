@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.application.domain.member.HistoryEntity;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.application.service.member.MemberConverter;
 import com.gaebaljip.exceed.common.exception.auth.MemberNotCheckedException;
 import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
+import com.gaebaljip.exceed.common.exception.member.NotFoundHistoryException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberPersistenceAdapter implements MemberPort {
 
     private final MemberRepository memberRepository;
+    private final HistoryRepository historyRepository;
     private final MemberConverter memberConverter;
 
     @Override
@@ -72,12 +75,25 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
-    public Optional<MemberEntity> findMemberBeforeDate(Long memberId, LocalDateTime date) {
-        return memberRepository.findMemberBeforeDate(memberId, date);
+    public void delete(MemberEntity memberEntity) {
+        memberRepository.delete(memberEntity);
     }
 
     @Override
-    public void delete(MemberEntity memberEntity) {
-        memberRepository.delete(memberEntity);
+    public Member findMemberByDate(Long memberId, LocalDateTime dateTime) {
+        Optional<MemberEntity> memberEntity = findMemberBeforeDate(memberId, dateTime);
+        if (memberEntity.isPresent()) {
+            return memberConverter.toModel(memberEntity.get());
+        } else {
+            HistoryEntity lastestHistoryEntity =
+                    historyRepository
+                            .findMostRecentFutureMember(memberId, dateTime)
+                            .orElseThrow(() -> NotFoundHistoryException.EXECPTION);
+            return memberConverter.toModel(lastestHistoryEntity);
+        }
+    }
+
+    private Optional<MemberEntity> findMemberBeforeDate(Long memberId, LocalDateTime date) {
+        return memberRepository.findMemberBeforeDate(memberId, date);
     }
 }
