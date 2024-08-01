@@ -62,7 +62,7 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalys
     @MockBean(GetCurrentMealQuery.class),
     @MockBean(GetSpecificMealQuery.class),
     @MockBean(GetAllCalorieAnalysisService.class),
-    @MockBean(ValidateBeforeSignUpUsecase.class),
+    @MockBean(ValidateBeforeSignUpDateUsecase.class),
     @MockBean(OnBoardingMemberService.class),
     @MockBean(UpdateMemberUsecase.class),
     @MockBean(UpdateWeightUsecase.class),
