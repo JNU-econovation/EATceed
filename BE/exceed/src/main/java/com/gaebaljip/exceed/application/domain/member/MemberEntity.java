@@ -106,8 +106,7 @@ public class MemberEntity extends BaseEntity {
         return checkDateTime.isBefore(comparisonDate);
     }
 
-    public boolean checkIfBeforeSignUpMonth(LocalDate checkDate) {
-        LocalDate comparisonDate = this.getCreatedDate().toLocalDate().withDayOfMonth(1);
+    public boolean checkIfBeforeSignUpMonth(LocalDate checkDate, LocalDate comparisonDate) {
         return checkDate.isBefore(comparisonDate);
     }
 }
