@@ -20,7 +20,7 @@ public class ValidateBeforeSignupDateService implements ValidateBeforeSignUpDate
     @Override
     public void execute(Long memberId, LocalDateTime dateTime) {
         MemberEntity memberEntity = memberPersistenceAdapter.query(memberId);
-        if (memberEntity.checkIfBeforeSignUpDate(dateTime)) {
+        if (memberEntity.checkIfBeforeSignUpDate(dateTime, memberEntity.getCreatedDate())) {
             throw InValidDateFoundException.EXECPTION;
         }
     }

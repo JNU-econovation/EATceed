@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.domain.member;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -101,7 +102,12 @@ public class MemberEntity extends BaseEntity {
                 && this.getTargetWeight() != null;
     }
 
-    public boolean checkIfBeforeSignUpDate(LocalDateTime checkDateTime) {
-        return checkDateTime.isBefore(this.getCreatedDate());
+    public boolean checkIfBeforeSignUpDate(LocalDateTime checkDateTime, LocalDateTime comparisonDate) {
+        return checkDateTime.isBefore(comparisonDate);
+    }
+
+    public boolean checkIfBeforeSignUpMonth(LocalDate checkDate) {
+        LocalDate comparisonDate = this.getCreatedDate().toLocalDate().withDayOfMonth(1);
+        return checkDate.isBefore(comparisonDate);
     }
 }
