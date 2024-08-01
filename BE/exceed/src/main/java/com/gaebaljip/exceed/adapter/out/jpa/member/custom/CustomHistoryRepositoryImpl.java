@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.adapter.out.jpa.member.custom;
 import static com.gaebaljip.exceed.application.domain.member.QHistoryEntity.historyEntity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -40,5 +41,19 @@ public class CustomHistoryRepositoryImpl implements CustomHistoryRepository {
 
     private BooleanExpression checkFutureDate(QHistoryEntity historyEntity, LocalDateTime date) {
         return historyEntity.createdDate.after(date);
+    }
+
+    @Override
+    public List<HistoryEntity> findMembersBetweenDate(
+            Long memberId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return queryFactory
+                .selectFrom(historyEntity)
+                .where(
+                        historyEntity
+                                .memberEntity
+                                .id
+                                .eq(memberId)
+                                .and(historyEntity.createdDate.between(startDateTime, endDateTime)))
+                .fetch();
     }
 }
