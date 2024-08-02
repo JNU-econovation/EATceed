@@ -9,7 +9,7 @@ import com.gaebaljip.exceed.common.exception.meal.NotSameDateException;
 import lombok.*;
 
 /**
- * 하루에 먹은 식사들을 분석하여 칼로리,단,탄,지를 계산
+ * 하루에 먹은 식사들의 칼로리,단,탄,지를 계산
  *
  * @author hwangdaesun
  * @version 1.0
