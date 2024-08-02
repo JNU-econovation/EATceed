@@ -15,10 +15,10 @@ import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.member.Member;
-import com.gaebaljip.exceed.application.domain.nutritionist.CalorieAnalyzer;
-import com.gaebaljip.exceed.application.domain.nutritionist.CalorieAnalyzerFactory;
+import com.gaebaljip.exceed.application.domain.nutritionist.DailyCalorieAnalyzer;
+import com.gaebaljip.exceed.application.domain.nutritionist.DailyCalorieAnalyzerFactory;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
-import com.gaebaljip.exceed.application.port.out.member.MemberPort;
+import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
@@ -33,11 +33,11 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUsecase {
+public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
 
     public static final int FIRST_DAY = 1;
     private final MonthlyMealPort monthlyMealPort;
-    private final MemberPort memberPort;
+    private final HistoryPort historyPort;
 
     /**
      * CalorieAnalyzer 도메인이 특정 날짜에 목표 칼로리를 달성했는 지를 판단하여 달성했을 경우 true를 반환
@@ -52,16 +52,16 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
         List<Meal> meals =
                 monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
         Map<LocalDate, DailyMeal> dailyMealMap = groupByDate(meals);
-        Member member = memberPort.query(request.memberId(), request.date());
+        Map<LocalDate, Member> membersOfDate =
+                historyPort.findMembersByMonth(request.memberId(), request.date());
         List<CalorieAnalysisDTO> analyses =
                 getStartDate(request)
-                        .datesUntil(getLastDate(request).plusDays(1))
-                        .map(date -> createAnalysisForDay(date, dailyMealMap, member))
+                        .datesUntil(getLastDate(request.date().toLocalDate()).plusDays(1))
+                        .map(date -> createAnalysisForDay(date, dailyMealMap, membersOfDate))
                         .toList();
         return new GetCalorieAnalysisResponse(analyses);
     }
 
-    @Timer
     private Map<LocalDate, DailyMeal> groupByDate(List<Meal> meals) {
         return meals.stream()
                 .collect(
@@ -74,24 +74,25 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
         return LocalDate.from(request.date().withDayOfMonth(FIRST_DAY));
     }
 
-    private LocalDate getLastDate(GetCalorieAnalysisRequest request) {
-        LocalDate date = request.date().toLocalDate(); // LocalDateTime을 LocalDate로 변환
+    private LocalDate getLastDate(LocalDate date) {
         return date.withDayOfMonth(date.lengthOfMonth()); // 그 달의 마지막 날짜를 설정
     }
 
-    @Timer
     private CalorieAnalysisDTO createAnalysisForDay(
-            LocalDate day, Map<LocalDate, DailyMeal> dailyMealMap, Member member) {
+            LocalDate day,
+            Map<LocalDate, DailyMeal> dailyMealMap,
+            Map<LocalDate, Member> membersOfDate) {
         return Optional.ofNullable(dailyMealMap.get(day))
                 .map(
                         dailyMeal -> {
-                            CalorieAnalyzer calorieAnalyzer =
-                                    CalorieAnalyzerFactory.getInstance()
-                                            .createAnalyzer(dailyMeal, member);
+                            Member memberByDate = getMemberByDate(day, membersOfDate);
+                            DailyCalorieAnalyzer dailyCalorieAnalyzer =
+                                    DailyCalorieAnalyzerFactory.getInstance()
+                                            .createAnalyzer(dailyMeal, memberByDate);
                             return CalorieAnalysisDTO.builder()
                                     .date(day)
                                     .isVisited(true)
-                                    .isCalorieAchieved(calorieAnalyzer.analyze())
+                                    .isCalorieAchieved(dailyCalorieAnalyzer.analyze())
                                     .build();
                         })
                 .orElseGet(
@@ -101,5 +102,13 @@ public class GetCalorieCalorieAnalysisService implements GetCalorieAnalysisUseca
                                         .isVisited(false)
                                         .isCalorieAchieved(false)
                                         .build());
+    }
+
+    private Member getMemberByDate(LocalDate day, Map<LocalDate, Member> membersOfDate) {
+        return membersOfDate.entrySet().stream()
+                .filter(entry -> entry.getKey().isAfter(day) || entry.getKey().equals(day))
+                .min(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .orElse(membersOfDate.get(getLastDate(day)));
     }
 }
