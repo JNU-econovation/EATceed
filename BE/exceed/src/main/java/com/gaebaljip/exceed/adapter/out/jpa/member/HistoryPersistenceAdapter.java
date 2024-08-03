@@ -10,6 +10,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.service.member.MemberConverter;
 import com.gaebaljip.exceed.common.annotation.PersistenceAdapter;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class HistoryPersistenceAdapter implements HistoryPort {
     }
 
     @Override
+    @Timer
     public Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDateTime dateTime) {
         Map<LocalDate, Member> members = new HashMap<>();
 
