@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.application.domain.nutritionist;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.member.Member;
+
 /**
  * DailyCarbohydrateAnalyzer 만드는 팩토리 클래스
  *

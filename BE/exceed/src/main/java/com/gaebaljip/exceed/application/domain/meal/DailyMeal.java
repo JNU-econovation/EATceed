@@ -59,4 +59,8 @@ public class DailyMeal {
         }
         return true;
     }
+
+    public boolean isEmptyMeals() {
+        return this.meals.isEmpty();
+    }
 }
