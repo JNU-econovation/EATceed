@@ -18,7 +18,8 @@ class CalorieDailyMealAnalyzerTest {
     void when_meals_size_0_expected_false() {
         List<Meal> meals = MealsFixtureFactory.create(LocalDate.now(), LocalDate.now(), 0);
         Member member = MemberFixtureFactory.create(1);
-        DailyCalorieAnalyzerFactory dailyCalorieAnalyzerFactory = DailyCalorieAnalyzerFactory.getInstance();
+        DailyCalorieAnalyzerFactory dailyCalorieAnalyzerFactory =
+                DailyCalorieAnalyzerFactory.getInstance();
         DailyCalorieAnalyzer dailyCalorieAnalyzer =
                 dailyCalorieAnalyzerFactory.createAnalyzer(new DailyMeal(meals), member);
         boolean analyze = dailyCalorieAnalyzer.analyze();
