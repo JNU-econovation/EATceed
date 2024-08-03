@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.common.docs.nutritionist;
 
 import com.gaebaljip.exceed.common.exception.EatCeedException;
+import com.gaebaljip.exceed.common.exception.meal.InValidDateFoundException;
 import com.gaebaljip.exceed.common.exception.meal.InsufficientMealsException;
 import com.gaebaljip.exceed.common.exception.meal.NotSameDateException;
 import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
@@ -18,4 +19,7 @@ public class GetAnalysisExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("회원이 존재하지 않을 때")
     public EatCeedException 회원이_없을_때 = MemberNotFoundException.EXECPTION;
+
+    @ExplainError("분석 조회시 회원가입하기 전의 월의 기록을 보려고 할 때")
+    public EatCeedException 회원가입_전의_월의_기록_열람시 = InValidDateFoundException.EXECPTION;
 }

@@ -5,6 +5,7 @@ import com.gaebaljip.exceed.common.exception.meal.InValidDateFoundException;
 import com.gaebaljip.exceed.common.exception.meal.NotSameDateException;
 import com.gaebaljip.exceed.common.exception.member.InvalidGenderException;
 import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
+import com.gaebaljip.exceed.common.exception.member.NotFoundHistoryException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
 import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
@@ -22,4 +23,7 @@ public class GetMealFoodExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("켈린더 상세 조회시 회원가입 전의 기록을 보려고 할 때")
     public EatCeedException 회원가입_전의_기록_열람시 = InValidDateFoundException.EXECPTION;
+
+    @ExplainError("켈린더 상세 조회시 해당 날짜에 회원에대한 기록이 없을 경우")
+    public EatCeedException 회원에대한_기록이_없을_경우 = NotFoundHistoryException.EXECPTION;
 }
