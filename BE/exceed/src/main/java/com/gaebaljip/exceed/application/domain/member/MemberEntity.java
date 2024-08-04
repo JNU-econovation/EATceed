@@ -15,7 +15,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 @Entity
 @Table(name = MemberEntity.ENTITY_PREFIX + "_TB")
 @Builder(toBuilder = true)
@@ -110,5 +109,38 @@ public class MemberEntity extends BaseEntity {
     public boolean checkIfBeforeSignUpMonth(LocalDate checkDate, LocalDateTime createdDateTime) {
         LocalDate comparisonDate = createdDateTime.toLocalDate().withDayOfMonth(1);
         return checkDate.isBefore(comparisonDate);
+    }
+
+    @Override
+    public String toString() {
+        return "MemberEntity{"
+                + "id="
+                + id
+                + ", height="
+                + height
+                + ", gender="
+                + gender
+                + ", age="
+                + age
+                + ", email='"
+                + email
+                + '\''
+                + ", password='"
+                + password
+                + '\''
+                + ", checked="
+                + checked
+                + ", etc='"
+                + etc
+                + '\''
+                + ", activity="
+                + activity
+                + ", role="
+                + role
+                + ", weight="
+                + weight
+                + ", targetWeight="
+                + targetWeight
+                + '}';
     }
 }
