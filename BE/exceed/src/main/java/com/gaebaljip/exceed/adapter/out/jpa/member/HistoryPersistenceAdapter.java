@@ -45,7 +45,6 @@ public class HistoryPersistenceAdapter implements HistoryPort {
 
         List<HistoryEntity> historyEntities =
                 historyRepository.findMembersBetweenDate(memberId, startDateTime, endDateTime);
-        HistoryEntity pastHistoryEntity = historyEntities.get(historyEntities.size() - 1);
         if (historyEntities.isEmpty()) {
             MemberEntity memberEntity =
                     memberRepository
@@ -60,7 +59,7 @@ public class HistoryPersistenceAdapter implements HistoryPort {
                                     members.put(
                                             historyEntity.getCreatedDate().toLocalDate(),
                                             memberConverter.toModel(historyEntity)));
-
+            HistoryEntity pastHistoryEntity = historyEntities.get(historyEntities.size() - 1);
             Optional<HistoryEntity> recentFutureMember =
                     historyRepository.findRecentFutureMember(
                             memberId, pastHistoryEntity.getCreatedDate());
