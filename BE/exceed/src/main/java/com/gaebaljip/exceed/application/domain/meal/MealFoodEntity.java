@@ -16,7 +16,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 @Entity
 @Table(name = MealFoodEntity.ENTITY_PREFIX + "_TB")
 @Builder(toBuilder = true)
@@ -65,5 +64,10 @@ public class MealFoodEntity extends BaseEntity {
                                                 .build())
                         .toList();
         return mealFoodEntities;
+    }
+
+    @Override
+    public String toString() {
+        return "MealFoodEntity{" + "id=" + id + ", multiple=" + multiple + ", g=" + g + '}';
     }
 }

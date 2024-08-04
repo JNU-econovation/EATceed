@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.domain.member;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -14,7 +15,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 @Entity
 @Table(name = MemberEntity.ENTITY_PREFIX + "_TB")
 @Builder(toBuilder = true)
@@ -101,7 +101,46 @@ public class MemberEntity extends BaseEntity {
                 && this.getTargetWeight() != null;
     }
 
-    public boolean checkIfBeforeSignUp(LocalDateTime checkDateTime) {
-        return checkDateTime.isBefore(this.getCreatedDate());
+    public boolean checkIfBeforeSignUpDate(
+            LocalDateTime checkDateTime, LocalDateTime comparisonDate) {
+        return checkDateTime.isBefore(comparisonDate);
+    }
+
+    public boolean checkIfBeforeSignUpMonth(LocalDate checkDate, LocalDateTime createdDateTime) {
+        LocalDate comparisonDate = createdDateTime.toLocalDate().withDayOfMonth(1);
+        return checkDate.isBefore(comparisonDate);
+    }
+
+    @Override
+    public String toString() {
+        return "MemberEntity{"
+                + "id="
+                + id
+                + ", height="
+                + height
+                + ", gender="
+                + gender
+                + ", age="
+                + age
+                + ", email='"
+                + email
+                + '\''
+                + ", password='"
+                + password
+                + '\''
+                + ", checked="
+                + checked
+                + ", etc='"
+                + etc
+                + '\''
+                + ", activity="
+                + activity
+                + ", role="
+                + role
+                + ", weight="
+                + weight
+                + ", targetWeight="
+                + targetWeight
+                + '}';
     }
 }

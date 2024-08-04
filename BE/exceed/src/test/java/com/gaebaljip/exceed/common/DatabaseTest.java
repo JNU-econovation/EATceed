@@ -5,10 +5,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.gaebaljip.exceed.adapter.out.jpa.member.HistoryPersistenceAdapter;
+import com.gaebaljip.exceed.application.service.member.MemberConverter;
 import com.gaebaljip.exceed.config.QueryDslConfig;
 
 @Sql("classpath:db/testData.sql")
-@Import(QueryDslConfig.class)
+@Import({QueryDslConfig.class, MemberConverter.class, HistoryPersistenceAdapter.class})
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class DatabaseTest extends ContainerTest {}

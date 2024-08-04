@@ -1,6 +1,7 @@
 package com.gaebaljip.exceed.application.service.member;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.adapter.in.member.response.GetWeightResponse;
 import com.gaebaljip.exceed.application.domain.member.Member;
@@ -17,6 +18,7 @@ public class GetWeightService implements GetWeightUseCase {
     private final MemberConverter memberConverter;
 
     @Override
+    @Transactional(readOnly = true)
     public GetWeightResponse execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);

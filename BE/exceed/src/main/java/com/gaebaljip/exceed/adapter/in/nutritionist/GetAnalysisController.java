@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
 import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GetAnalysisController {
 
     private final GetCalorieAnalysisUsecase getCalorieAnalysisUsecase;
+    private final ValidateSignUpBeforeMonthUsecase validateSignUpBeforeMonthUsecase;
 
     @Operation(summary = "월별 식사 정보 분석", description = "월별 식사 정보를 분석한다.")
     @GetMapping("/achieve/{date}")
@@ -43,6 +45,7 @@ public class GetAnalysisController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
+        validateSignUpBeforeMonthUsecase.execute(memberId, localDateTime.toLocalDate());
         GetCalorieAnalysisResponse achieveListResponse =
                 getCalorieAnalysisUsecase.execute(
                         new GetCalorieAnalysisRequest(memberId, localDateTime));

@@ -3,8 +3,14 @@ package com.gaebaljip.exceed.application.domain.nutritionist;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.member.Member;
 
-public class CarbohydrateAnalyzer extends Analyzer {
-    public CarbohydrateAnalyzer(DailyMeal dailyMeal, Member member) {
+/**
+ * DailyMeal과 Member를 이용하여 하루치 탄수화물 달성률을 확인
+ *
+ * @author hwangdaesun
+ * @version 1.0
+ */
+public class DailyCarbohydrateAnalyzer extends DailyMealAnalyzer {
+    public DailyCarbohydrateAnalyzer(DailyMeal dailyMeal, Member member) {
         super(dailyMeal, member);
     }
 

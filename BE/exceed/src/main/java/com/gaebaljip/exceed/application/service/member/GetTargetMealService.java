@@ -1,19 +1,15 @@
 package com.gaebaljip.exceed.application.service.member;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.application.domain.member.HistoryEntity;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
-import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.TargetMealDTO;
-import com.gaebaljip.exceed.common.exception.member.NotFoundHistoryException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class GetTargetMealService implements GetTargetMealUsecase {
 
     private final MemberPort memberPort;
-    private final HistoryPort historyPort;
     private final MemberConverter memberConverter;
 
     /**
@@ -46,20 +41,8 @@ public class GetTargetMealService implements GetTargetMealUsecase {
     }
 
     @Override
-    public TargetMealDTO execute(Long memberId, LocalDateTime date) {
-        Optional<MemberEntity> memberEntity = memberPort.findMemberBeforeDate(memberId, date);
-        if (memberEntity.isPresent()) {
-            Member member = memberConverter.toModel(memberEntity.get());
-            return toTargetMeal(member);
-        } else {
-
-            HistoryEntity lastestHistoryEntity =
-                    historyPort
-                            .findMostRecentFutureMember(memberId, date)
-                            .orElseThrow(() -> NotFoundHistoryException.EXECPTION);
-            Member member = memberConverter.toModel(lastestHistoryEntity);
-            return toTargetMeal(member);
-        }
+    public TargetMealDTO execute(Long memberId, LocalDateTime dateTime) {
+        return toTargetMeal(memberPort.findMemberByDate(memberId, dateTime));
     }
 
     private TargetMealDTO toTargetMeal(Member member) {

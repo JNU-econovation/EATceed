@@ -9,7 +9,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 @Entity
 @Table(name = FoodEntity.ENTITY_PREFIX + "_TB")
 @Builder(toBuilder = true)
@@ -52,4 +51,31 @@ public class FoodEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_FK")
     private MemberEntity memberEntity;
+
+    @Override
+    public String toString() {
+        return "FoodEntity{"
+                + "id="
+                + id
+                + ", sugars="
+                + sugars
+                + ", dietaryFiber="
+                + dietaryFiber
+                + ", sodium="
+                + sodium
+                + ", name='"
+                + name
+                + '\''
+                + ", calorie="
+                + calorie
+                + ", carbohydrate="
+                + carbohydrate
+                + ", protein="
+                + protein
+                + ", fat="
+                + fat
+                + ", servingSize="
+                + servingSize
+                + '}';
+    }
 }

@@ -15,7 +15,7 @@ import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
-import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpUsecase;
+import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpDateUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
@@ -47,7 +47,7 @@ public class GetMealController {
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
     private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
-    private final ValidateBeforeSignUpUsecase validateBeforeSignUpUsecase;
+    private final ValidateBeforeSignUpDateUsecase validateBeforeSignUpDateUsecase;
 
     /** 오늘 먹은 식사 정보(단,탄,지 및 칼로리) 조회 */
     @Operation(summary = "오늘 먹은 식사 정보 조회", description = "오늘 먹은 식사 정보(단,탄,지 및 칼로리)를 조회한다.")
@@ -70,7 +70,7 @@ public class GetMealController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
-        validateBeforeSignUpUsecase.execute(memberId, localDateTime);
+        validateBeforeSignUpDateUsecase.execute(memberId, localDateTime);
         MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
         TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
