@@ -29,6 +29,7 @@ public class UpdateMemberService implements UpdateMemberUsecase {
                         .height(member.getHeight())
                         .gender(member.getGender())
                         .weight(member.getWeight())
+                        .targetWeight(member.getTargetWeight())
                         .age(member.getAge())
                         .activity(member.getActivity())
                         .memberEntity(member)

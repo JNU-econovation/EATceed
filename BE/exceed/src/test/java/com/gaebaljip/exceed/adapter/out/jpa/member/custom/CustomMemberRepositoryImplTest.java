@@ -18,25 +18,25 @@ class CustomMemberRepositoryImplTest extends DatabaseTest {
 
     @Test
     @DisplayName(
-            "회원 1L : 2023년 11월 20일에 회원가입"
-                    + " 2023년 12월 01일에 회원 수정하신 경우"
-                    + " 2024년 07월 22일에 조회하면 2023년 12월 1일의 회원이 조회되야한다. ")
+            "회원 1L : 2023년 11월 13일에 회원가입"
+                    + " 2024년 07월 02일에 회원 수정한 경우"
+                    + " 2024년 07월 22일에 조회하면 회원 1L이 조회되어야한다. ")
     void when_findByIdAndDate_expected_memberEntity_1L() {
         LocalDateTime dateTime = LocalDateTime.of(2024, 07, 22, 12, 00);
         Optional<MemberEntity> memberEntity =
                 customMemberRepository.findMemberBeforeDate(1L, dateTime);
         assertAll(
-                () -> assertEquals(70.0, memberEntity.get().getWeight()),
+                () -> assertEquals(76.0, memberEntity.get().getWeight()),
                 () -> assertEquals(175.0, memberEntity.get().getHeight()));
     }
 
     @Test
     @DisplayName(
-            "회원 1L : 2023년 11월 20일에 회원가입"
-                    + " 2023년 12월 01일에 회원 수정하신 경우"
-                    + " 2023년 11월 24일 기준으로 조회하면, 회원이 조회되지 않는다. ")
+            "회원 1L : 2023년 11월 13일에 회원가입"
+                    + " 22024년 07월 02일에 회원 수정한 경우"
+                    + " 2024년 7월 1일 기준으로 조회하면, 회원이 조회되지 않는다. ")
     void when_findByIdAndDate_expected_memberEntity_null() {
-        LocalDateTime dateTime = LocalDateTime.of(2023, 11, 24, 12, 00);
+        LocalDateTime dateTime = LocalDateTime.of(2024, 7, 1, 12, 00);
         Optional<MemberEntity> memberEntity =
                 customMemberRepository.findMemberBeforeDate(1L, dateTime);
         assertAll(() -> assertTrue(memberEntity.isEmpty()));

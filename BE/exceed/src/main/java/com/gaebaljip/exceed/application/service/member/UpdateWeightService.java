@@ -28,6 +28,7 @@ public class UpdateWeightService implements UpdateWeightUsecase {
                         .height(memberEntity.getHeight())
                         .gender(memberEntity.getGender())
                         .weight(memberEntity.getWeight())
+                        .targetWeight(memberEntity.getTargetWeight())
                         .age(memberEntity.getAge())
                         .activity(memberEntity.getActivity())
                         .memberEntity(memberEntity)

@@ -34,6 +34,7 @@ import com.gaebaljip.exceed.application.port.in.member.UpdateMemberUsecase;
 import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.application.port.in.notify.ConnectEmitterUseCase;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
@@ -62,12 +63,13 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalys
     @MockBean(GetCurrentMealQuery.class),
     @MockBean(GetSpecificMealQuery.class),
     @MockBean(GetAllCalorieAnalysisService.class),
-    @MockBean(ValidateBeforeSignUpUsecase.class),
+    @MockBean(ValidateBeforeSignUpDateUsecase.class),
     @MockBean(OnBoardingMemberService.class),
     @MockBean(UpdateMemberUsecase.class),
     @MockBean(UpdateWeightUsecase.class),
     @MockBean(GetCalorieAnalysisUsecase.class),
-    @MockBean(ConnectEmitterUseCase.class)
+    @MockBean(ConnectEmitterUseCase.class),
+    @MockBean(ValidateSignUpBeforeMonthUsecase.class)
 })
 public abstract class ControllerTest {
 

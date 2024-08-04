@@ -32,6 +32,9 @@ public class HistoryEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_WEIGHT", nullable = false)
     private double weight;
 
+    @Column(name = ENTITY_PREFIX + "_TARGET_WEIGHT", nullable = false)
+    private double targetWeight;
+
     @Column(name = ENTITY_PREFIX + "_AGE", nullable = false)
     private Integer age;
 
