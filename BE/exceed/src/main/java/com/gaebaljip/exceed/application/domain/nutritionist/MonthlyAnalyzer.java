@@ -7,6 +7,7 @@ import java.util.Map;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.nutritionist.MinimumMemberRequiredException;
+
 /**
  * 한달치 달성률을 계산
  *
