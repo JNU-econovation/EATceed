@@ -20,8 +20,8 @@ public interface MealRepository extends JpaRepository<MealEntity, Long> {
 
     @Timer
     @Query(
-            "select m from MealEntity m join fetch m.mealFoodEntity mf join fetch mf.foodEntity where m.createdDate >= :startOfMonth and m.createdDate < :endOfMonth and m.memberEntity.id = :memberId")
-    List<MealEntity> findMealsByMemberAndMonth(
+            "select m.id from MealEntity m where m.memberEntity.id = :memberId and m.createdDate >= :startOfMonth and m.createdDate < :endOfMonth")
+    List<Long> findMealsByMemberAndMonth(
             LocalDateTime startOfMonth, LocalDateTime endOfMonth, Long memberId);
 
     void deleteByMemberEntity(MemberEntity memberEntity);
