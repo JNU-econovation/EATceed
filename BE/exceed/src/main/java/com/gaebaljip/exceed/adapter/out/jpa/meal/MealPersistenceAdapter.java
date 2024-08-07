@@ -14,6 +14,7 @@ import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
 import com.gaebaljip.exceed.application.domain.meal.Meal;
 import com.gaebaljip.exceed.application.domain.meal.MealEntity;
+import com.gaebaljip.exceed.application.domain.meal.MealFoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
@@ -30,6 +31,8 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
 
     private final MealRepository mealRepository;
     private final MealConverter mealConverter;
+    private final MealFoodConverter mealFoodConverter;
+    private final MealFoodRepository mealFoodRepository;
 
     @Override
     public MealEntity command(MealEntity mealEntity) {
@@ -52,10 +55,12 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
         LocalDateTime startOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
         LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
 
-        List<MealEntity> mealEntities =
+        List<Long> mealIds =
                 mealRepository.findMealsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMealDTO.memberId());
-        List<Meal> meals = mealConverter.toMeals(mealEntities);
+        List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
+
+        List<Meal> meals = mealFoodConverter.toMeals(mealFoodEntities);
         Map<LocalDate, DailyMeal> monthlyMeal =
                 meals.stream()
                         .collect(
