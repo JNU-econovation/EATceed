@@ -32,6 +32,15 @@ public class HistoryPersistenceAdapter implements HistoryPort {
         return historyRepository.findByMemberEntity(memberEntity);
     }
 
+    /**
+     * 특정 월의 회원 기록을 찾는다. HISTORY_TB에서 특정 월의 기록이 있을 경우, HISTORY_TB에서 특정 월의 기록을 찾는다.(historyEntities).
+     * 그리고, HISTORY_TB에서 특정 월의 가장 최신 기록(recentHistory)과 비교하여 가장 최신에 있는 기록을 찾는다. 만약 없을 경우 가장 최신 기록인
+     * MEMBER_TB의 정보를 사용한다. / HISTORY_TB에서 특정 월의 기록이 없을 경우 가장 최신 기록인 MEMBER_TB의 정보를 사용한다.
+     *
+     * @param memberId
+     * @param dateTime
+     * @return
+     */
     @Override
     @Timer
     public Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDateTime dateTime) {
@@ -59,11 +68,11 @@ public class HistoryPersistenceAdapter implements HistoryPort {
                                     members.put(
                                             historyEntity.getCreatedDate().toLocalDate(),
                                             memberConverter.toModel(historyEntity)));
-            HistoryEntity pastHistoryEntity = historyEntities.get(historyEntities.size() - 1);
-            Optional<HistoryEntity> recentFutureMember =
+            HistoryEntity recentHistory = historyEntities.get(historyEntities.size() - 1);
+            Optional<HistoryEntity> recentFutureHistory =
                     historyRepository.findRecentFutureMember(
-                            memberId, pastHistoryEntity.getCreatedDate());
-            if (recentFutureMember.isEmpty()) {
+                            memberId, recentHistory.getCreatedDate());
+            if (recentFutureHistory.isEmpty()) {
                 MemberEntity memberEntity =
                         memberRepository
                                 .findById(memberId)
@@ -72,7 +81,7 @@ public class HistoryPersistenceAdapter implements HistoryPort {
             } else {
                 members.put(
                         endDateTime.toLocalDate(),
-                        memberConverter.toModel(recentFutureMember.get()));
+                        memberConverter.toModel(recentFutureHistory.get()));
             }
         }
         return members;
