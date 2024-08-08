@@ -43,6 +43,13 @@ public class MonthlyAnalyzer {
         return calorieAchievements;
     }
 
+    /**
+     * day와 비교해 가장 가까운 미래를 찾는다. 단, members의 size가 1인 경우는 day가 속한 달보다 과거의 날이다.
+     *
+     * @param day
+     * @param members
+     * @return
+     */
     private Member getMemberByDate(LocalDate day, Map<LocalDate, Member> members) {
         if (members.size() == 1) {
             return members.entrySet().stream().findFirst().map(Map.Entry::getValue).get();
