@@ -17,7 +17,9 @@ import com.gaebaljip.exceed.common.factory.MonthlyMealFixtureFactory;
 
 class MonthlyAnalyzerTest {
     @Test
-    @DisplayName("MonthlyAnalyzer의 members 필드가 1개일 경우" + "membersMap의 key의 날짜가 now보다 40일전, 즉 무조건 한달 뒤를 보장")
+    @DisplayName(
+            "MonthlyAnalyzer의 members 필드가 1개일 경우"
+                    + "membersMap의 key의 날짜가 now보다 40일전, 즉 무조건 한달 뒤를 보장")
     void when_isCalorieAchievementByDate_expected_success() {
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime startDateTime = date.with(TemporalAdjusters.firstDayOfMonth());
