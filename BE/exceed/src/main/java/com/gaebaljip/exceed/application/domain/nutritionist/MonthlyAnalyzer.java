@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.common.annotation.Timer;
+import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
 import com.gaebaljip.exceed.common.exception.nutritionist.MinimumMemberRequiredException;
 
 /**
@@ -43,15 +44,14 @@ public class MonthlyAnalyzer {
     }
 
     private Member getMemberByDate(LocalDate day, Map<LocalDate, Member> members) {
+        if (members.size() == 1) {
+            return members.entrySet().stream().findFirst().map(Map.Entry::getValue).get();
+        }
         return members.entrySet().stream()
                 .filter(entry -> entry.getKey().isAfter(day) || entry.getKey().equals(day))
                 .min(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
-                .orElse(members.get(getLastDate(day)));
-    }
-
-    private LocalDate getLastDate(LocalDate date) {
-        return date.withDayOfMonth(date.lengthOfMonth());
+                .orElseThrow(() -> MemberNotFoundException.EXECPTION);
     }
 
     private void validateAtLeastOneMember(Map<LocalDate, Member> members) {
