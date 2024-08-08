@@ -44,7 +44,7 @@ public class MonthlyAnalyzer {
     }
 
     /**
-     * day와 비교해 가장 가까운 미래를 찾는다. 단, members의 size가 1인 경우는 day가 속한 달보다 과거의 날이다.
+     * day와 비교해 가장 가까운 미래를 찾는다. 단, members의 size가 1인 경우는 day가 속한 달보다 미래이다.
      *
      * @param day
      * @param members
