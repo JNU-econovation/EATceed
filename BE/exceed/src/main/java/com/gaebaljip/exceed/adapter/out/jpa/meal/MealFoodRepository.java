@@ -20,6 +20,7 @@ public interface MealFoodRepository extends JpaRepository<MealFoodEntity, Long> 
     @Query("select mf from MealFoodEntity mf where mf.mealEntity.memberEntity = :memberEntity")
     List<MealFoodEntity> findByMemberEntity(MemberEntity memberEntity);
 
-    @Query("select mft from MealFoodEntity mft join fetch mft.foodEntity where mft.id in :ids")
+    @Query(
+            "select mft from MealFoodEntity mft join fetch mft.foodEntity where mft.mealEntity.id in :ids")
     List<MealFoodEntity> findMFTByIdInQuery(List<Long> ids);
 }
