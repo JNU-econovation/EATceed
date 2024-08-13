@@ -63,7 +63,7 @@ public class UpdateWeightEventListener {
     }
 
     private Trigger createTrigger(UpdateWeightEvent event, JobDetail jobDetail) {
-        LocalDateTime triggerDateTime = event.getLocalDateTime().plusDays(7);
+        LocalDateTime triggerDateTime = event.getLocalDateTime().plusMinutes(1);
         Date triggerDate = Date.from(triggerDateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant());
         TriggerBuilder<Trigger> triggerTriggerBuilder = TriggerBuilder.newTrigger();
         triggerTriggerBuilder.withIdentity("UPDATE_WEIGHT_TRIGGER", "group1");
