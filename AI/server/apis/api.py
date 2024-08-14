@@ -59,8 +59,8 @@ def weight_predict(user_data: dict) -> str:
         logger.error(f"Error in weight_predict function: {e}")
         raise UserDataError("유저 데이터 에러입니다")
 
-# 식습관 조언 함수
-def analyze_diet(prompt_type, user_data):
+# 식습관 조언 함수 (조언 프롬프트)
+def analyze_advice(prompt_type, user_data):
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
         prompt = read_prompt(prompt_file)
@@ -84,7 +84,7 @@ def analyze_diet(prompt_type, user_data):
         logger.error(f"Error in analyze_diet function: {e}")
         raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
-# 식습관 분석 함수
+# 식습관 분석 함수 (판단 프롬프트)
 def analyze_diet(prompt_type, user_data): # prompt_type, user_data 넣고 ㄱㄱ
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
@@ -140,8 +140,12 @@ def full_analysis(db: Session, member_id: int):
         prompt_types = ['health_advice', 'weight_carbo', 'weight_fat', 'weight_protein']
         analysis_results = {}
         for prompt_type in prompt_types:
-            result = analyze_diet(prompt_type, user_data, weight_result)
-            analysis_results[prompt_type] = result
+            if prompt_type == 'health_advice': # 조언 프롬프트는 analyze_advice 함수
+                result = analyze_advice(prompt_type, user_data)
+                analysis_results[prompt_type] = result
+            else:
+                result = analyze_diet(prompt_type, user_data)
+                analysis_results[prompt_type] = result['output']
 
         # DB에 결과값 저장
         create_eat_habits(
