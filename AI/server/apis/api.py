@@ -9,6 +9,9 @@ from db.crud import create_eat_habits, get_user_data, update_flag, get_all_membe
 from apscheduler.schedulers.background import BackgroundScheduler
 from errors.custom_exceptions import UserDataError, AnalysisError
 
+from langchain.agents.agent_types import AgentType
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+from langchain_openai import ChatOpenAI
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG,
@@ -30,7 +33,7 @@ def read_prompt(filename):
 # Chatgpt API 사용
 client = OpenAI(api_key = OPENAI_API_KEY)
 
-def get_completion(prompt, model="gpt-3.5-turbo"):
+def get_completion(prompt, model="gpt-4o-mini"):
     messages = [{"role": "user", "content": prompt}]
     response = client.chat.completions.create(
         model=model,
