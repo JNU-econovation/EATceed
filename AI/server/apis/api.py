@@ -105,13 +105,13 @@ def analyze_diet(prompt_type, user_data):
         prompt = prompt.format(성별=성별, 나이=나이, 신장=신장, 체중=체중, 신체활동지수=신체활동지수,
                                탄수화물=탄수화물, 단백질=단백질, 지방=지방)
         
-        # agent에 전해 줄 데이터 설정
+        # agent에 전달할 데이터 설정
         if weight_change == '증가':
             df = df[df['체중변화'] < 0] # 데이터에서 체중이 감소한 경우
         else:
             df = df[df['체중변화'] > 0] # 데이터에서 체중이 증가한 경우
         
-        # langchain create_pandas_dataframe_agent 사용
+        # langchain의 create_pandas_dataframe_agent 사용
         agent = create_pandas_dataframe_agent(
         ChatOpenAI(temperature=0, model="gpt-4o-mini", openai_api_key=OPENAI_API_KEY),
         df=df,
@@ -143,7 +143,7 @@ def full_analysis(db: Session, member_id: int):
             if prompt_type == 'health_advice': # 조언 프롬프트는 analyze_advice 함수
                 result = analyze_advice(prompt_type, user_data)
                 analysis_results[prompt_type] = result
-            else:
+            else: # 판단 프롬프트는 analyze_diet 함수
                 result = analyze_diet(prompt_type, user_data)
                 analysis_results[prompt_type] = result['output']
 
