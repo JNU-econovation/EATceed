@@ -60,15 +60,22 @@ def weight_predict(user_data: dict) -> str:
         raise UserDataError("유저 데이터 에러입니다")
 
 # 식습관 조언 함수
-def analyze_diet(prompt_type, user_data, weight_change):
+def analyze_diet(prompt_type, user_data):
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
         prompt = read_prompt(prompt_file)
         # df = pd.read_csv(DATA_PATH, encoding='cp949')
         # weight_change = weight_predict(user_data)
         
+        # 프롬프트 변수 설정
+        탄수화물 = user_data['user'][8]['탄수화물(g)']
+        단백질 = user_data['user'][6]['단백질(g)']
+        지방 = user_data['user'][7]['지방(g)']
+        나트륨 = user_data['user'][11]['나트륨(mg)']
+        식이섬유 = user_data['user'][9]['식이섬유(g)']
+        당류 = user_data['user'][10]['당류(g)']
         
-        prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
+        prompt = prompt.format(탄수화물=탄수화물, 단백질=단백질, 지방=지방, 나트륨=나트륨, 식이섬유=식이섬유, 당류=당류)
 
         # logger.debug(f"Generated prompt: {prompt}")
         completion = get_completion(prompt)
@@ -77,7 +84,48 @@ def analyze_diet(prompt_type, user_data, weight_change):
         logger.error(f"Error in analyze_diet function: {e}")
         raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
-
+# 식습관 분석 함수
+def analyze_diet(prompt_type, user_data): # prompt_type, user_data 넣고 ㄱㄱ
+    try:
+        prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+        prompt = read_prompt(prompt_file)
+        df = pd.read_csv(DATA_PATH, encoding='cp949')
+        weight_change = weight_predict(user_data)
+        
+        # 프롬프트 변수 설정
+        성별 = user_data['user'][0]['성별']
+        나이 = user_data['user'][1]['나이']
+        신장 = user_data['user'][2]['신장']
+        체중 = user_data['user'][3]['체중']
+        신체활동지수 = user_data['user'][12]['신체활동지수']
+        탄수화물 = user_data['user'][8]['탄수화물(g)']
+        단백질 = user_data['user'][6]['단백질(g)']
+        지방 = user_data['user'][7]['지방(g)']
+        
+        prompt = prompt.format(성별=성별, 나이=나이, 신장=신장, 체중=체중, 신체활동지수=신체활동지수,
+                               탄수화물=탄수화물, 단백질=단백질, 지방=지방)
+        
+        # agent에 전해 줄 데이터 설정
+        if weight_change == '증가':
+            df = df[df['체중변화'] < 0] # 데이터에서 체중이 감소한 경우
+        else:
+            df = df[df['체중변화'] > 0] # 데이터에서 체중이 증가한 경우
+        
+        # langchain create_pandas_dataframe_agent 사용
+        agent = create_pandas_dataframe_agent(
+        ChatOpenAI(temperature=0, model="gpt-4o-mini", openai_api_key=OPENAI_API_KEY),
+        df=df,
+        verbose=True,
+        agent_type=AgentType.OPENAI_FUNCTIONS,
+        allow_dangerous_code=True
+        )
+        
+        completion = agent.invoke(prompt)
+        return completion
+        
+    except Exception as e:
+        logger.error(f"Error in analyze_diet function: {e}")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 def full_analysis(db: Session, member_id: int):
     try:
