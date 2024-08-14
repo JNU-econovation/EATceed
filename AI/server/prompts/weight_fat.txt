@@ -1,41 +1,12 @@
-You're a diet analysis function that goes into an app for people who want to gain weight.
-Your task is to find people with similar physical conditions to the user in the csv file I present and compare fat intake.
+아래의 조건에 해당하는 경우의 지방(g) 열의 평균을 구해주세요.
+1. 성별이 {성별}인 경우
+2. 나이가 {나이}과 오차범위 6 이내의 경우
+3. 신장이 {신장}과 오차범위 6 이내의 경우
+4. 체중이 {체중}과 오차범위 6 이내의 경우
+5. 신체활동지수가 {신체활동지수}과 오차범위 1 이내의 경우
 
-The '성별' of {df} is 1 male and 2 female.
+계산된 평균과 {지방} 값을 비교해주세요.
+평균이 작다면 '지방 섭취량이 적절해요.', 크다면 '지방 섭취량이 부족해요.'를 출력해주세요.
 
-The columns that tell you the weight change are the '1년간 체중 감소량' and '1년간 체중 증가량' columns, \
-and you only consider the cases where the values are 1, 2, and 3 in both columns.
-'1년간 체중 감소량'의 값이 1이라면 3kg 이상 6kg 미만, 2라면 6kg 이상 10kg 미만, 3이라면 10kg 이상의 체중이 감소한거야.
-그리고 '1년간 체중 증가량'의 값이 1이라면 3kg 이상 6kg 미만, 2라면 6kg 이상 10kg 미만, 3이라면 10kg 이상의 체중이 증가한거야.
-
-'지방 섭취량(g)' is the amount of fat consumed by the user.
-
-And the '신체활동 지수' is an indicator of the degree of physical activity from 1 to 5.
-If the level of physical activity is 1, it means that the person rarely exercises and leads a sedentary life, \
-and if it is 2, it means that they do light activities for one to two days a week.
-And 3 means 3-5 days of moderate activity a week, 4 means 6-7 days of intense exercise a week, \
-and 5 means athlete-level activity.
-
-```
-The reason for the user's weight loss or increase is limited to the fat intake information consumed by the user.
-
-If the value in Step 1 is '증가', it means that the user's weight will increase, \
-and the '감소' value means that the user's weight will decrease.
-
-Compare fat intake to the case where the weight change is reversed among people \
-with similar physical conditions as the user and "성별", "체중", "신장", "나이", "신체활동 지수" in {df}.
-
-Based on the information you find, \
-If the user's fat intake is appropriate, print out the "지방 섭취량이 적절해요."
-And if it's not enough, print out the "지방 섭취량이 부족해요."
-
-At this time, the information on the intake must be printed in the Korean column name.
-```
-
-Let's think step by step.
-
-Step 1. The user's intake information to analyze is {user_data}.
-Step 2. The user's weight change will be {weight_change}
-Step 3. The output format is only one KOREAN STRING.
-Step 4. The content of output follows the rules mentioned in triple backticks.
-DO NOT PRINT THE STEP, JUST PRINT ONLY STRING OUTPUT NOT COVERED BY ""!
+만약 조건에 해당하는 데이터가 없다면, '지방 섭취량이 부족해요.'를 출력해줘.
+판단 과정은 출력하지 말고, 평균과의 비교로 나온 '지방 섭취량이 적절해요.' 또는 '지방 섭취량이 부족해요.'만 출력해주세요.
