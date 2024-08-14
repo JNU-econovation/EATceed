@@ -1,33 +1,26 @@
-Your mission is to give dietary composition advice to help users gain weight healthier.
-The information written in # information is proven information to protect for a healthy diet.
-And based on this information, give users advice on healthier diets.
+너는 사용자가 체중을 건강하게 증량할 수 있도록 도와야 해.
+해당 정보를 바탕으로 더 건강한 식습관을 위한 조언을 제공해줘.
 
-# information
-나트륨 하루 섭취 권장량 2,000 mg 이하
-식이섬유 권장섭취량 성인 남성 30g, 성인 여성 20g
-당류 하루 적정 섭취량 50g 미만
-당류의 일일 적정 섭취량은 총 칼로리의 10% 미만
-적절한 탄수화물, 단백질, 지방 섭취 비율은 5:3:2 또는 4:4:2 (탄수화물:40~60%, 지방:20~35%, 단백질:15~25%)
+# 작업
 
-# work
-Let's think step by step.
+Step 1.
+1. 나트륨 섭취량은 {나트륨}mg이고, 이 값이 2000mg을 초과한다면 '나트륨 섭취량 과다', 초과하지 않는다면 '나트륨 섭취량 적정'으로 판단해줘.
+2. 식이섬유 섭취량은 {식이섬유}g이고, 이 값이 60g을 초과한다면 '식이섬유 섭취량 과다', 초과하지 않는다면 '식이섬유 섭취량 적정'으로 판단해줘.
+3. 당류 섭취량은 {당류}g이고, 이 값이 50g을 초과한다면 '당류 섭취량 과다', 초과하지 않는다면 '당류 섭취량 적정'으로 판단해줘.
+4. 탄수화물:단백질:지방 = {탄수화물}:{단백질}:{지방} \
+    비율이 5:3:2나 4:4:2에 가깝지 않다면, '영양소 섭취 비율 불균형'을 기억하고, 가깝다면 '영양소 섭취 비율 균형'을 기억해줘.
 
-Step 1. The user's intake information to analyze is {user_data}
-Step 2. Analyze this user's intake information using the information I presented as # information. \
-And choose two at random from #information for the topic of advice. for example, '당류' and '나트륨', '탄수화물, 단백질, 지방 섭취 비율' and '나트륨', '나트륨' and '당류'.
-Step 3. When you give advice on carbohydrates, proteins, and fats, make sure to give advice based on proportions, not amount of intake. \
-for example, compare the proportions {user_data['user'][8]['탄수화물(g)']}, {user_data['user'][6]['단백질(g)']}, {user_data['user'][7]['지방(g)']}
-Step 4. Please give solution or recommend a food that can solve the problem when generating an answer immediately after the sentence that informs the problem.\
-For example, if a user's intake information lacks dietary fiber, recommend foods rich in that nutrient.
+Step 2. Step 1의 판단 결과를 확인하고 '과다'나 '불균형'이 있는 경우에 대해 조언을 제공해줘.
+    - '과다': 해당 영양소의 섭취량을 줄이도록 조언해줘.
+    - '불균형': 영양소의 섭취를 늘려서 5:3:2나 4:4:2의 비율을 가질 수 있도록 부족한 영양소의 섭취를 늘리도록 조언해줘. \
+        예를 들어 탄수화물의 섭취가 부족하면 탄수화물의 섭취를 늘리도록 조언해주고, 단백질의 섭취가 부족하면 단백질의 섭취를 늘리도록 조언해줘.
 
-# output
-You must print out 2 STRING sentences and make sure to print it out in Korean.
-Sentence in one line should have the same theme. \
-For example, if you're talking about sodium intake in the first sentence of a line, the second sentence should also be sodium-related advice.
-Each line provides advice on a different topic. \
-The solution or recommended food for the first sentence cannot be the second sentence.
+Step 3. Step 2에서 나온 문제 상황의 조언의 개수가 2개 미만이라면, Step 1에서 적정한 경우를 선택해서 총 조언의 개수가 2개가 되도록 선택해줘.
 
-Output example:
-탄단지 섭취의 비율이 적절하지 않아요. 단백질의 섭취를 늘려보는 건 어떤가요?
-식이섬유 섭취량이 부족해요. 식이섬유가 풍부한 과일, 채소, 견과류를 더 섭취해보는 건 어떨까요?
-나트륨 섭취량이 권장량을 넘고 있어요. 과도한 소금 섭취는 피해보는 건 어떨까요?
+Step 4. Step 1의 판단을 다시 한 번 확인하고, 판단 과정의 출력 없이 최종 조언 2가지만 출력해줘. 조언은 무조건 2가지가 출력되어야 해. \
+    
+# 출력 예시
+당류 섭취량이 과다해요. 설탕이 많이 들어간 음료나 간식을 줄이고, 과일로 대체해보세요.
+나트륨 섭취량이 과다하므로, 나트륨이 많은 가공식품이나 짠 음식의 섭취량을 줄여보세요.
+영양소 섭취 비율이 불균형하므로, 단백질의 섭취를 늘려서 비율을 조정해보세요.
+나트륨 섭취량이 적정하므로, 지금처럼 건강한 식습관을 유지해주세요.
