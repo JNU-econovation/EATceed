@@ -9,6 +9,9 @@ from db.crud import create_eat_habits, get_user_data, update_flag, get_all_membe
 from apscheduler.schedulers.background import BackgroundScheduler
 from errors.custom_exceptions import UserDataError, AnalysisError
 
+from langchain.agents.agent_types import AgentType
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+from langchain_openai import ChatOpenAI
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG,
@@ -30,7 +33,7 @@ def read_prompt(filename):
 # Chatgpt API 사용
 client = OpenAI(api_key = OPENAI_API_KEY)
 
-def get_completion(prompt, model="gpt-3.5-turbo"):
+def get_completion(prompt, model="gpt-4o-mini"):
     messages = [{"role": "user", "content": prompt}]
     response = client.chat.completions.create(
         model=model,
@@ -56,14 +59,23 @@ def weight_predict(user_data: dict) -> str:
         logger.error(f"Error in weight_predict function: {e}")
         raise UserDataError("유저 데이터 에러입니다")
 
-# 식습관 분석 함수
-def analyze_diet(prompt_type, user_data, weight_change):
+# 식습관 조언 함수 (조언 프롬프트)
+def analyze_advice(prompt_type, user_data):
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
         prompt = read_prompt(prompt_file)
-        df = pd.read_csv(DATA_PATH, encoding='cp949')
-        weight_change = weight_predict(user_data)
-        prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
+        # df = pd.read_csv(DATA_PATH, encoding='cp949')
+        # weight_change = weight_predict(user_data)
+        
+        # 프롬프트 변수 설정
+        탄수화물 = user_data['user'][8]['탄수화물(g)']
+        단백질 = user_data['user'][6]['단백질(g)']
+        지방 = user_data['user'][7]['지방(g)']
+        나트륨 = user_data['user'][11]['나트륨(mg)']
+        식이섬유 = user_data['user'][9]['식이섬유(g)']
+        당류 = user_data['user'][10]['당류(g)']
+        
+        prompt = prompt.format(탄수화물=탄수화물, 단백질=단백질, 지방=지방, 나트륨=나트륨, 식이섬유=식이섬유, 당류=당류)
 
         # logger.debug(f"Generated prompt: {prompt}")
         completion = get_completion(prompt)
@@ -72,7 +84,48 @@ def analyze_diet(prompt_type, user_data, weight_change):
         logger.error(f"Error in analyze_diet function: {e}")
         raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
-
+# 식습관 분석 함수 (판단 프롬프트)
+def analyze_diet(prompt_type, user_data):
+    try:
+        prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+        prompt = read_prompt(prompt_file)
+        df = pd.read_csv(DATA_PATH, encoding='cp949')
+        weight_change = weight_predict(user_data)
+        
+        # 프롬프트 변수 설정
+        성별 = user_data['user'][0]['성별']
+        나이 = user_data['user'][1]['나이']
+        신장 = user_data['user'][2]['신장']
+        체중 = user_data['user'][3]['체중']
+        신체활동지수 = user_data['user'][12]['신체활동지수']
+        탄수화물 = user_data['user'][8]['탄수화물(g)']
+        단백질 = user_data['user'][6]['단백질(g)']
+        지방 = user_data['user'][7]['지방(g)']
+        
+        prompt = prompt.format(성별=성별, 나이=나이, 신장=신장, 체중=체중, 신체활동지수=신체활동지수,
+                               탄수화물=탄수화물, 단백질=단백질, 지방=지방)
+        
+        # agent에 전달할 데이터 설정
+        if weight_change == '증가':
+            df = df[df['체중변화'] < 0] # 데이터에서 체중이 감소한 경우
+        else:
+            df = df[df['체중변화'] > 0] # 데이터에서 체중이 증가한 경우
+        
+        # langchain의 create_pandas_dataframe_agent 사용
+        agent = create_pandas_dataframe_agent(
+        ChatOpenAI(temperature=0, model="gpt-4o-mini", openai_api_key=OPENAI_API_KEY),
+        df=df,
+        verbose=True,
+        agent_type=AgentType.OPENAI_FUNCTIONS,
+        allow_dangerous_code=True
+        )
+        
+        completion = agent.invoke(prompt)
+        return completion
+        
+    except Exception as e:
+        logger.error(f"Error in analyze_diet function: {e}")
+        raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 def full_analysis(db: Session, member_id: int):
     try:
@@ -87,8 +140,12 @@ def full_analysis(db: Session, member_id: int):
         prompt_types = ['health_advice', 'weight_carbo', 'weight_fat', 'weight_protein']
         analysis_results = {}
         for prompt_type in prompt_types:
-            result = analyze_diet(prompt_type, user_data, weight_result)
-            analysis_results[prompt_type] = result
+            if prompt_type == 'health_advice': # 조언 프롬프트는 analyze_advice 함수
+                result = analyze_advice(prompt_type, user_data)
+                analysis_results[prompt_type] = result
+            else: # 판단 프롬프트는 analyze_diet 함수
+                result = analyze_diet(prompt_type, user_data)
+                analysis_results[prompt_type] = result['output']
 
         # DB에 결과값 저장
         create_eat_habits(
