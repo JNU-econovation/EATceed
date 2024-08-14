@@ -85,7 +85,7 @@ def analyze_advice(prompt_type, user_data):
         raise AnalysisError("식습관 분석을 실행할 수 없습니다")
 
 # 식습관 분석 함수 (판단 프롬프트)
-def analyze_diet(prompt_type, user_data): # prompt_type, user_data 넣고 ㄱㄱ
+def analyze_diet(prompt_type, user_data):
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
         prompt = read_prompt(prompt_file)
