@@ -59,13 +59,15 @@ def weight_predict(user_data: dict) -> str:
         logger.error(f"Error in weight_predict function: {e}")
         raise UserDataError("유저 데이터 에러입니다")
 
-# 식습관 분석 함수
+# 식습관 조언 함수
 def analyze_diet(prompt_type, user_data, weight_change):
     try:
         prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
         prompt = read_prompt(prompt_file)
-        df = pd.read_csv(DATA_PATH, encoding='cp949')
-        weight_change = weight_predict(user_data)
+        # df = pd.read_csv(DATA_PATH, encoding='cp949')
+        # weight_change = weight_predict(user_data)
+        
+        
         prompt = prompt.format(user_data=user_data, df=df, weight_change=weight_change)
 
         # logger.debug(f"Generated prompt: {prompt}")
