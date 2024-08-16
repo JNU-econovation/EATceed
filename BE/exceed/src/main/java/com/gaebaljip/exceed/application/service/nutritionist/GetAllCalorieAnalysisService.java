@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 
 import java.util.List;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,7 @@ public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
      */
     @Override
     @Transactional(readOnly = true)
+    @Timer
     public AllAnalysisDTO execute(GetAllAnalysisRequest request) {
         List<Meal> meals =
                 dailyMealPort.query(new DailyMealDTO(request.memberId(), request.dateTime()));

@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.service.member;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class ValidateEmailService implements ValidateEmailUsecase {
 
     @Override
     @Transactional
+    @Timer
     public void execute(ValidateEmailCommand command) {
         if (memberPort.existsByEmail(command.email())) {
             throw AlreadySignUpMemberException.EXECPTION;
