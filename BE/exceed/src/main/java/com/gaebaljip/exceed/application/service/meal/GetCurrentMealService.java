@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.application.service.meal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
      */
     @Override
     @Transactional(readOnly = true)
+    @Timer
     public CurrentMealDTO execute(Long memberId) {
         List<Meal> meals = dailyMealPort.query(new DailyMealDTO(memberId, LocalDateTime.now()));
         DailyMeal dailyMeal = new DailyMeal(meals);

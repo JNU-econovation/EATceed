@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.service.member;
 
+import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class CreateMemberService implements CreateMemberUsecase {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    @Timer
     @Transactional
     public void execute(SignUpMemberRequest signUpMemberRequest) {
         if (!memberPort.existsByEmail(signUpMemberRequest.email())) {
