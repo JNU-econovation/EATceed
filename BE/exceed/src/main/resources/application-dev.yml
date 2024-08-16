@@ -76,7 +76,7 @@ logging:
       hibernate:
         type:
           descriptor:
-            sql: trace
+            sql: info
 
 org:
   quartz:
