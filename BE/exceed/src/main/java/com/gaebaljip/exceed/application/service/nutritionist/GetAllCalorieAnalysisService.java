@@ -2,7 +2,6 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 
 import java.util.List;
 
-import com.gaebaljip.exceed.common.annotation.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,7 @@ import com.gaebaljip.exceed.application.domain.nutritionist.*;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetAllAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 

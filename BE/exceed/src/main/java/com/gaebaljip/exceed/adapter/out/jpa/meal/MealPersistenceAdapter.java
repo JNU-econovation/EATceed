@@ -43,7 +43,9 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     public List<Meal> query(DailyMealDTO dailyMealDTO) {
         LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);
-        List<Long> mealIds = mealRepository.findMealIdsByMemberAndDaily(today, tomorrow, dailyMealDTO.memberId());
+        List<Long> mealIds =
+                mealRepository.findMealIdsByMemberAndDaily(
+                        today, tomorrow, dailyMealDTO.memberId());
         List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
         return mealFoodConverter.toMeals(mealFoodEntities);
     }

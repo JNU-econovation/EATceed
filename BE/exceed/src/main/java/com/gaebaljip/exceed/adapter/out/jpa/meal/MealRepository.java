@@ -16,9 +16,8 @@ public interface MealRepository extends JpaRepository<MealEntity, Long> {
 
     @Query(
             "select m.id from MealEntity m where m.memberEntity.id = :memberId and m.createdDate >= :today and m.createdDate < :tomorrow")
-    List<Long> findMealIdsByMemberAndDaily(LocalDateTime today, LocalDateTime tomorrow, Long memberId);
-
-
+    List<Long> findMealIdsByMemberAndDaily(
+            LocalDateTime today, LocalDateTime tomorrow, Long memberId);
 
     @Timer
     @Query(
