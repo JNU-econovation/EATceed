@@ -30,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyMealPort {
 
     private final MealRepository mealRepository;
-    private final MealConverter mealConverter;
     private final MealFoodConverter mealFoodConverter;
     private final MealFoodRepository mealFoodRepository;
 
@@ -44,9 +43,11 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     public List<Meal> query(DailyMealDTO dailyMealDTO) {
         LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);
-        List<MealEntity> mealEntities =
-                mealRepository.findAllTodayMeal(today, tomorrow, dailyMealDTO.memberId());
-        return mealConverter.toMeals(mealEntities);
+        List<Long> mealIds =
+                mealRepository.findMealIdsByMemberAndDaily(
+                        today, tomorrow, dailyMealDTO.memberId());
+        List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
+        return mealFoodConverter.toMeals(mealFoodEntities);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
         LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
 
         List<Long> mealIds =
-                mealRepository.findMealsByMemberAndMonth(
+                mealRepository.findMealIdsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMealDTO.memberId());
         List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
 
