@@ -15,8 +15,10 @@ import com.gaebaljip.exceed.common.annotation.Timer;
 public interface MealRepository extends JpaRepository<MealEntity, Long> {
 
     @Query(
-            "select m from MealEntity m join fetch m.mealFoodEntity mf join fetch mf.foodEntity where m.createdDate >= :today and m.createdDate < :tomorrow and m.memberEntity.id = :memberId")
-    List<MealEntity> findAllTodayMeal(LocalDateTime today, LocalDateTime tomorrow, Long memberId);
+            "select m.id from MealEntity m where m.memberEntity.id = :memberId and m.createdDate >= :today and m.createdDate < :tomorrow")
+    List<Long> findMealIdsByMemberAndDaily(LocalDateTime today, LocalDateTime tomorrow, Long memberId);
+
+
 
     @Timer
     @Query(
