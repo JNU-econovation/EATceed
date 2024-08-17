@@ -57,7 +57,7 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
         LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
 
         List<Long> mealIds =
-                mealRepository.findMealsByMemberAndMonth(
+                mealRepository.findMealIdsByMemberAndMonth(
                         startOfMonth, endOfMonth, monthlyMealDTO.memberId());
         List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
 
