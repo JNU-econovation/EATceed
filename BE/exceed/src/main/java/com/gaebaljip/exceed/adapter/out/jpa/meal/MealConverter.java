@@ -21,7 +21,7 @@ public class MealConverter {
                 .id(mealEntity.getId())
                 .mealType(mealEntity.getMealType())
                 .mealDateTime(mealEntity.getCreatedDate())
-                .consumedFoods(converter.toConsumedFoods(mealEntity.getMealFoodEntity()))
+                .consumedFoods(converter.toConsumedFoods(mealEntity.getMealFoodEntities()))
                 .build();
     }
 
