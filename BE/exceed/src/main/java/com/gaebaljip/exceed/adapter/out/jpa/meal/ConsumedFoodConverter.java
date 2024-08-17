@@ -21,10 +21,9 @@ public class ConsumedFoodConverter {
         return ConsumedFood.builder()
                 .food(foodConverter.toModel(mealFoodEntity.getFoodEntity()))
                 .unit(
-                        Unit.builder()
-                                .g(mealFoodEntity.getG())
-                                .multiple(mealFoodEntity.getMultiple())
-                                .build())
+                        new Unit(
+                                mealFoodEntity.getUnit().getG(),
+                                mealFoodEntity.getUnit().getMultiple()))
                 .build();
     }
 

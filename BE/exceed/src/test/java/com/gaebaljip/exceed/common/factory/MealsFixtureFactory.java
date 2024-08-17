@@ -24,7 +24,7 @@ public class MealsFixtureFactory {
     private static class UnitRandomizer implements Randomizer<Unit> {
         @Override
         public Unit getRandomValue() {
-            Unit unit = Unit.builder().g(null).multiple(1.0).build();
+            Unit unit = new Unit(null, 1.0);
             return unit;
         }
     }
