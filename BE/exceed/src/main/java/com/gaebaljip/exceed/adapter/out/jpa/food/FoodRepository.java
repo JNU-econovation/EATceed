@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 
 public interface FoodRepository extends JpaRepository<FoodEntity, Long> {

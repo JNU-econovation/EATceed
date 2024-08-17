@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.application.domain.food.Food;
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 
 @Component
 public class FoodConverter {

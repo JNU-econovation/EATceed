@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.common.exception.food.FoodNotFoundException;

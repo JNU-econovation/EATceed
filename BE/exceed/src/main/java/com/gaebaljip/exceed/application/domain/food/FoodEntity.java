@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.adapter.out.jpa.food;
+package com.gaebaljip.exceed.application.domain.food;
 
 import javax.persistence.*;
 
