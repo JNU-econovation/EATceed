@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 
 import javax.persistence.*;
 
-import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.common.BaseEntity;
 import com.gaebaljip.exceed.common.dto.EatMealFoodDTO;
 import com.gaebaljip.exceed.common.exception.food.FoodNotFoundException;
@@ -36,11 +36,7 @@ public class MealFoodEntity extends BaseEntity {
     @JoinColumn(name = "FOOD_FK", referencedColumnName = "FOOD_PK")
     private FoodEntity foodEntity;
 
-    @Column(name = ENTITY_PREFIX + "_MULTIPLE")
-    private Double multiple;
-
-    @Column(name = ENTITY_PREFIX + "_G")
-    private Integer g;
+    @Embedded private Unit unit;
 
     public static List<MealFoodEntity> createMealFoods(
             List<FoodEntity> foodEntities,
@@ -57,8 +53,10 @@ public class MealFoodEntity extends BaseEntity {
                         .mapToObj(
                                 i ->
                                         MealFoodEntity.builder()
-                                                .g(eatMealFoodDTOS.get(i).g())
-                                                .multiple(eatMealFoodDTOS.get(i).multiple())
+                                                .unit(
+                                                        new Unit(
+                                                                eatMealFoodDTOS.get(i).g(),
+                                                                eatMealFoodDTOS.get(i).multiple()))
                                                 .foodEntity(foodEntities.get(i))
                                                 .mealEntity(mealEntity)
                                                 .build())
@@ -68,6 +66,29 @@ public class MealFoodEntity extends BaseEntity {
 
     @Override
     public String toString() {
-        return "MealFoodEntity{" + "id=" + id + ", multiple=" + multiple + ", g=" + g + '}';
+        return "MealFoodEntity{"
+                + "id="
+                + id
+                + ", multiple="
+                + unit.getMultiple()
+                + ", g="
+                + unit.getG()
+                + '}';
+    }
+
+    public double getAdjustedCalorie() {
+        return this.unit.getStrategy().measure(this.foodEntity.getCalorie(), unit);
+    }
+
+    public double getAdjustedCarbohydrate() {
+        return unit.getStrategy().measure(this.foodEntity.getCarbohydrate(), unit);
+    }
+
+    public double getAdjustedProtein() {
+        return unit.getStrategy().measure(this.foodEntity.getProtein(), unit);
+    }
+
+    public double getAdjustedFat() {
+        return unit.getStrategy().measure(this.foodEntity.getFat(), unit);
     }
 }
