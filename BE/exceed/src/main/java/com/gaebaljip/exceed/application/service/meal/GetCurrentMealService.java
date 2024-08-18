@@ -1,13 +1,11 @@
 package com.gaebaljip.exceed.application.service.meal;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
@@ -40,12 +38,12 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Transactional(readOnly = true)
     @Timer
     public CurrentMealDTO execute(Long memberId) {
-        List<Meal> meals = dailyMealPort.query(new DailyMealDTO(memberId, LocalDateTime.now()));
-        DailyMeal dailyMeal = new DailyMeal(meals);
+        DailyMealFoods dailyMealFoods =
+                dailyMealPort.queryDailyMealFoods(new DailyMealDTO(memberId, LocalDateTime.now()));
         return CurrentMealDTO.of(
-                dailyMeal.calculateCurrentCalorie(),
-                dailyMeal.calculateCurrentCarbohydrate(),
-                dailyMeal.calculateCurrentProtein(),
-                dailyMeal.calculateCurrentFat());
+                dailyMealFoods.calculateCurrentCalorie(),
+                dailyMealFoods.calculateCurrentCarbohydrate(),
+                dailyMealFoods.calculateCurrentProtein(),
+                dailyMealFoods.calculateCurrentFat());
     }
 }
