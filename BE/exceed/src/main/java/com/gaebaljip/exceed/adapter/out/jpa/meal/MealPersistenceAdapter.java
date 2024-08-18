@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.application.domain.meal.MealFoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyMealPort {
 
     private final MealRepository mealRepository;
-    private final MealFoodConverter mealFoodConverter;
     private final MealFoodRepository mealFoodRepository;
 
     @Override
@@ -47,7 +45,22 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
                 mealRepository.findMealIdsByMemberAndDaily(
                         today, tomorrow, dailyMealDTO.memberId());
         List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
-        return mealFoodConverter.toMeals(mealFoodEntities);
+        return new DailyMealFoods(mealFoodEntities);
+    }
+
+    @Override
+    public List<MealEntity> queryMeals(DailyMealDTO dailyMealDTO) {
+        LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
+        LocalDateTime tomorrow = today.plusDays(1);
+        List<MealEntity> mealEntities =
+                mealRepository.findMealsByMemberAndDaily(today, tomorrow, dailyMealDTO.memberId());
+        return mealEntities;
+    }
+
+    @Override
+    public DailyMealFoods queryMealFoods(List<Long> mealIds) {
+        List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
+        return new DailyMealFoods(mealFoodEntities);
     }
 
     @Override

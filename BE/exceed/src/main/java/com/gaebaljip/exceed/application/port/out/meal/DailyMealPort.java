@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.application.port.out.meal;
 
 import java.util.List;
 
+import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
@@ -12,4 +13,6 @@ public interface DailyMealPort {
     DailyMealFoods queryDailyMealFoods(DailyMealDTO dailyMealDTO);
 
     DailyMealFoods queryMealFoods(List<Long> mealIds);
+
+    List<MealEntity> queryMeals(DailyMealDTO dailyMealDTO);
 }
