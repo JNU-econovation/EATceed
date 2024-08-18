@@ -46,5 +46,4 @@ public class MealEntity extends BaseEntity {
     public String toString() {
         return "MealEntity{" + "id=" + id + ", mealType=" + mealType + '}';
     }
-
 }

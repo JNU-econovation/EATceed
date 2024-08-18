@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.common.annotation.Timer;
 
 /**
@@ -26,8 +26,8 @@ public class VisitChecker {
         monthlyMeal.getMonthlyMeal().keySet().stream()
                 .forEach(
                         date -> {
-                            DailyMeal dailyMeal = monthlyMeal.getMonthlyMeal().get(date);
-                            dateVisitStatus.put(date, !dailyMeal.isEmptyMeals());
+                            DailyMealFoods dailyMealFoods = monthlyMeal.getMonthlyMeal().get(date);
+                            dateVisitStatus.put(date, !dailyMealFoods.isEmptyMeals());
                         });
         return dateVisitStatus;
     }

@@ -1,15 +1,15 @@
 package com.gaebaljip.exceed.application.domain.nutritionist;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 
 public abstract class DailyMealAnalyzer implements Analyzable {
 
-    protected DailyMeal dailyMeal;
+    protected DailyMealFoods dailyMealFoods;
     protected Member member;
 
-    public DailyMealAnalyzer(DailyMeal dailyMeal, Member member) {
-        this.dailyMeal = dailyMeal;
+    public DailyMealAnalyzer(DailyMealFoods dailyMealFoods, Member member) {
+        this.dailyMealFoods = dailyMealFoods;
         this.member = member;
     }
 }
