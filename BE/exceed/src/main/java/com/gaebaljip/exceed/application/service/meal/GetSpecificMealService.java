@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
+import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.PresignedUrlPort;
@@ -43,31 +43,33 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
     @Override
     @Transactional(readOnly = true)
     public SpecificMealDTO execute(Long memberId, LocalDateTime date) {
-        List<Meal> meals = dailyMealPort.query(new DailyMealDTO(memberId, date));
-        DailyMeal dailyMeal = new DailyMeal(meals);
+        List<MealEntity> mealEntities = dailyMealPort.queryMeals(new DailyMealDTO(memberId, date));
         List<MealRecordDTO> mealRecordDTOS =
-                meals.stream().map(meal -> createMealRecord(meal, memberId)).toList();
+                mealEntities.stream().map(meal -> createMea4lRecord(meal, memberId)).toList();
+        DailyMealFoods dailyMealFoods =
+                dailyMealPort.queryMealFoods(
+                        mealEntities.stream().map(meal -> meal.getId()).toList());
         CurrentMealDTO currentMealDTO =
                 CurrentMealDTO.of(
-                        dailyMeal.calculateCurrentCalorie(),
-                        dailyMeal.calculateCurrentCarbohydrate(),
-                        dailyMeal.calculateCurrentProtein(),
-                        dailyMeal.calculateCurrentFat());
+                        dailyMealFoods.calculateCurrentCalorie(),
+                        dailyMealFoods.calculateCurrentCarbohydrate(),
+                        dailyMealFoods.calculateCurrentProtein(),
+                        dailyMealFoods.calculateCurrentFat());
         return SpecificMealDTO.of(currentMealDTO, mealRecordDTOS);
     }
 
-    private MealRecordDTO createMealRecord(Meal meal, Long memberId) {
+    private MealRecordDTO createMea4lRecord(MealEntity mealEntity, Long memberId) {
         return MealRecordDTO.builder()
-                .mealType(meal.getMealType())
-                .time(meal.getMealDateTime().toLocalTime())
-                .imageUri(presignedUrlPort.query(memberId, meal.getId()))
+                .mealType(mealEntity.getMealType())
+                .time(mealEntity.getCreatedDate().toLocalTime())
+                .imageUri(presignedUrlPort.query(memberId, mealEntity.getId()))
                 .foodDTOS(
-                        meal.getConsumedFoods().stream()
+                        mealEntity.getMealFoodEntities().stream()
                                 .map(
-                                        consumedFood ->
+                                        mealFood ->
                                                 FoodDTO.builder()
-                                                        .id(consumedFood.getFood().getId())
-                                                        .name(consumedFood.getFood().getName())
+                                                        .id(mealFood.getFoodEntity().getId())
+                                                        .name(mealFood.getFoodEntity().getName())
                                                         .build())
                                 .collect(Collectors.toList()))
                 .build();
