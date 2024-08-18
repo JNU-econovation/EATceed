@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.common.DatabaseTest;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
@@ -22,11 +21,9 @@ class MealPersistenceAdapterTest extends DatabaseTest {
     @Test
     void when_queryForDaily_expected_success() {
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 10, 11, 11);
-        List<Meal> meals = mealPersistenceAdapter.query(new DailyMealDTO(1L, dateTime));
-        assertAll(
-                () -> assertEquals(2, meals.size()),
-                () -> assertEquals(1, meals.get(0).getConsumedFoods().size()),
-                () -> assertEquals(1, meals.get(1).getConsumedFoods().size()));
+        DailyMealFoods dailyMealFoods =
+                mealPersistenceAdapter.queryDailyMealFoods(new DailyMealDTO(1L, dateTime));
+        assertAll(() -> assertEquals(2, dailyMealFoods.getMealFoods().size()));
     }
 
     @Test
@@ -51,7 +48,7 @@ class MealPersistenceAdapterTest extends DatabaseTest {
                                 monthlyMeal
                                         .getMonthlyMeal()
                                         .get(dateTime.toLocalDate())
-                                        .getMeals()
+                                        .getMealFoods()
                                         .size()),
                 () ->
                         assertEquals(
@@ -59,7 +56,7 @@ class MealPersistenceAdapterTest extends DatabaseTest {
                                 monthlyMeal
                                         .getMonthlyMeal()
                                         .get(plusDateTime.toLocalDate())
-                                        .getMeals()
+                                        .getMealFoods()
                                         .size()));
     }
 }
