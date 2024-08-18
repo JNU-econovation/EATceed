@@ -2,10 +2,10 @@ package com.gaebaljip.exceed.application.port.out.meal;
 
 import java.util.List;
 
-import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
+import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 
 @Component
