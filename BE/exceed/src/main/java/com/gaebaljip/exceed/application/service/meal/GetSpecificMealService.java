@@ -45,7 +45,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
     public SpecificMealDTO execute(Long memberId, LocalDateTime date) {
         List<MealEntity> mealEntities = dailyMealPort.queryMeals(new DailyMealDTO(memberId, date));
         List<MealRecordDTO> mealRecordDTOS =
-                mealEntities.stream().map(meal -> createMea4lRecord(meal, memberId)).toList();
+                mealEntities.stream().map(meal -> createMealRecord(meal, memberId)).toList();
         DailyMealFoods dailyMealFoods =
                 dailyMealPort.queryMealFoods(
                         mealEntities.stream().map(meal -> meal.getId()).toList());
@@ -58,7 +58,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
         return SpecificMealDTO.of(currentMealDTO, mealRecordDTOS);
     }
 
-    private MealRecordDTO createMea4lRecord(MealEntity mealEntity, Long memberId) {
+    private MealRecordDTO createMealRecord(MealEntity mealEntity, Long memberId) {
         return MealRecordDTO.builder()
                 .mealType(mealEntity.getMealType())
                 .time(mealEntity.getCreatedDate().toLocalTime())
