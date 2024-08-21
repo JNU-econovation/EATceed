@@ -19,6 +19,11 @@ public interface MealRepository extends JpaRepository<MealEntity, Long> {
     List<Long> findMealIdsByMemberAndDaily(
             LocalDateTime today, LocalDateTime tomorrow, Long memberId);
 
+    @Query(
+            "select m from MealEntity m where m.memberEntity.id = :memberId and m.createdDate >= :today and m.createdDate < :tomorrow")
+    List<MealEntity> findMealsByMemberAndDaily(
+            LocalDateTime today, LocalDateTime tomorrow, Long memberId);
+
     @Timer
     @Query(
             "select m.id from MealEntity m where m.memberEntity.id = :memberId and m.createdDate >= :startOfMonth and m.createdDate < :endOfMonth")

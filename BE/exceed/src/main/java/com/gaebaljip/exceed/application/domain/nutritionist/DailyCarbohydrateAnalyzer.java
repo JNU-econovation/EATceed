@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.application.domain.nutritionist;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 
 /**
@@ -10,12 +10,13 @@ import com.gaebaljip.exceed.application.domain.member.Member;
  * @version 1.0
  */
 public class DailyCarbohydrateAnalyzer extends DailyMealAnalyzer {
-    public DailyCarbohydrateAnalyzer(DailyMeal dailyMeal, Member member) {
-        super(dailyMeal, member);
+    public DailyCarbohydrateAnalyzer(DailyMealFoods dailyMealFoods, Member member) {
+        super(dailyMealFoods, member);
     }
 
     @Override
     public boolean analyze() {
-        return member.measureTargetCarbohydrate() - dailyMeal.calculateCurrentCarbohydrate() <= 0;
+        return member.measureTargetCarbohydrate() - dailyMealFoods.calculateCurrentCarbohydrate()
+                <= 0;
     }
 }

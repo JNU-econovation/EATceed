@@ -1,9 +1,8 @@
 package com.gaebaljip.exceed.common.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 
 public record AllAnalysisDTO(
         Boolean isVisited,
@@ -14,14 +13,14 @@ public record AllAnalysisDTO(
         boolean isCarbohydrateAchieved) {
 
     public static AllAnalysisDTO of(
-            List<Meal> meals,
+            DailyMealFoods dailyMealFoods,
             LocalDate date,
             boolean isCalorieAchieved,
             boolean isProteinAchieved,
             boolean isFatAchieved,
             boolean isCarbohydrateAchieved) {
         return new AllAnalysisDTO(
-                meals.isEmpty() ? false : true,
+                dailyMealFoods.getMealFoods().isEmpty() ? false : true,
                 date,
                 isCalorieAchieved,
                 isProteinAchieved,

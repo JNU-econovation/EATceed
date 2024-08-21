@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.common.exception.nutritionist.MonthDaysSizeMismatchException;
 import com.gaebaljip.exceed.common.exception.nutritionist.SameYearAndMonthException;
 
@@ -20,15 +20,15 @@ import lombok.Getter;
  */
 @Getter
 public class MonthlyMeal {
-    private Map<LocalDate, DailyMeal> monthlyMeal;
+    private Map<LocalDate, DailyMealFoods> monthlyMeal;
 
-    public MonthlyMeal(Map<LocalDate, DailyMeal> monthlyMeal) {
+    public MonthlyMeal(Map<LocalDate, DailyMealFoods> monthlyMeal) {
         validateSameYearMonth(monthlyMeal);
         validateMonthlyMealSize(monthlyMeal);
         this.monthlyMeal = monthlyMeal;
     }
 
-    private void validateSameYearMonth(Map<LocalDate, DailyMeal> monthlyMeal) {
+    private void validateSameYearMonth(Map<LocalDate, DailyMealFoods> monthlyMeal) {
         if (!monthlyMeal.isEmpty()) {
             LocalDate date = monthlyMeal.keySet().stream().findFirst().get();
             int year = date.getYear();
@@ -43,7 +43,7 @@ public class MonthlyMeal {
         }
     }
 
-    private void validateMonthlyMealSize(Map<LocalDate, DailyMeal> monthlyMeal) {
+    private void validateMonthlyMealSize(Map<LocalDate, DailyMealFoods> monthlyMeal) {
         Optional<LocalDate> date = monthlyMeal.keySet().stream().findFirst();
         if (date.isPresent()) {
             if (monthlyMeal.size() != date.get().lengthOfMonth()) {

@@ -2,35 +2,43 @@ package com.gaebaljip.exceed.common.factory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 
 public class MonthlyMealFixtureFactory {
+
+    /**
+     * startDate ~ endDate (양 끝 포함)를 가진 DailyMealFoods를 사용해 MonthlyMeal 생성
+     *
+     * @param startDateTime
+     * @param endDateTime
+     * @return
+     */
     public static MonthlyMeal create(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<Meal> meals =
-                MealsFixtureFactory.create(
-                        startDateTime.toLocalDate(), endDateTime.toLocalDate(), 40);
-        Map<LocalDate, DailyMeal> dailyMealMap =
-                meals.stream()
+
+        LocalDate startDate = startDateTime.toLocalDate();
+        LocalDate endDate = endDateTime.toLocalDate();
+        List<DailyMealFoods> dailyMealFoodsList =
+                startDate
+                        .datesUntil(endDate.plusDays(1))
+                        .map(date -> DailyMealFoodsFixtureFactory.create(date, date, 3))
+                        .toList();
+        Map<LocalDate, DailyMealFoods> dateDailyMealFoodsMap =
+                dailyMealFoodsList.stream()
                         .collect(
-                                Collectors.groupingBy(
-                                        meal -> meal.getMealDateTime().toLocalDate(),
-                                        Collectors.collectingAndThen(
-                                                Collectors.toList(), DailyMeal::new)));
-
-        List<Meal> emptyMeal = new ArrayList<>();
-        startDateTime
-                .toLocalDate()
-                .datesUntil(endDateTime.toLocalDate())
-                .forEach(day -> dailyMealMap.putIfAbsent(day, new DailyMeal(emptyMeal)));
-
-        MonthlyMeal monthlyMeal = new MonthlyMeal(dailyMealMap);
+                                Collectors.toMap(
+                                        dailyMealFoods ->
+                                                dailyMealFoods
+                                                        .getMealFoods()
+                                                        .get(0)
+                                                        .getCreatedDate()
+                                                        .toLocalDate(),
+                                        dailyMealFoods -> dailyMealFoods));
+        MonthlyMeal monthlyMeal = new MonthlyMeal(dateDailyMealFoodsMap);
         return monthlyMeal;
     }
 }

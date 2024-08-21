@@ -27,7 +27,7 @@ public class MealEntity extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "mealEntity")
-    private List<MealFoodEntity> mealFoodEntity = new ArrayList<>();
+    private List<MealFoodEntity> mealFoodEntities = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_FK")

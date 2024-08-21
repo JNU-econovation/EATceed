@@ -1,13 +1,10 @@
 package com.gaebaljip.exceed.application.service.nutritionist;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.*;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetAllAnalysisUsecase;
@@ -42,17 +39,18 @@ public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
     @Transactional(readOnly = true)
     @Timer
     public AllAnalysisDTO execute(GetAllAnalysisRequest request) {
-        List<Meal> meals =
-                dailyMealPort.query(new DailyMealDTO(request.memberId(), request.dateTime()));
+
+        DailyMealFoods dailyMealFoods =
+                dailyMealPort.queryDailyMealFoods(
+                        new DailyMealDTO(request.memberId(), request.dateTime()));
         Member member = memberPort.query(request.memberId(), request.dateTime());
-        DailyMeal dailyMeal = new DailyMeal(meals);
-        DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMeal);
-        DailyProteinAnalyzer dailyProteinAnalyzer = getProteinAnalyzer(member, dailyMeal);
+        DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);
+        DailyProteinAnalyzer dailyProteinAnalyzer = getProteinAnalyzer(member, dailyMealFoods);
         DailyCarbohydrateAnalyzer dailyCarbohydrateAnalyzer =
-                getCarbohydrateAnalyzer(member, dailyMeal);
-        DailyFatAnalyzer dailyFatAnalyzer = getFatAnalyzer(member, dailyMeal);
+                getCarbohydrateAnalyzer(member, dailyMealFoods);
+        DailyFatAnalyzer dailyFatAnalyzer = getFatAnalyzer(member, dailyMealFoods);
         return AllAnalysisDTO.of(
-                meals,
+                dailyMealFoods,
                 request.dateTime().toLocalDate(),
                 dailyCalorieAnalyzer.analyze(),
                 dailyProteinAnalyzer.analyze(),
@@ -60,19 +58,21 @@ public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
                 dailyFatAnalyzer.analyze());
     }
 
-    private static DailyFatAnalyzer getFatAnalyzer(Member member, DailyMeal dailyMeal) {
-        return DailyFatAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    private static DailyFatAnalyzer getFatAnalyzer(Member member, DailyMealFoods dailyMealFoods) {
+        return DailyFatAnalyzerFactory.getInstance().createAnalyzer(dailyMealFoods, member);
     }
 
-    private DailyCarbohydrateAnalyzer getCarbohydrateAnalyzer(Member member, DailyMeal dailyMeal) {
-        return DailyCarbohydrateAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    private DailyCarbohydrateAnalyzer getCarbohydrateAnalyzer(
+            Member member, DailyMealFoods dailyMealFoods) {
+        return DailyCarbohydrateAnalyzerFactory.getInstance()
+                .createAnalyzer(dailyMealFoods, member);
     }
 
-    private DailyProteinAnalyzer getProteinAnalyzer(Member member, DailyMeal dailyMeal) {
-        return DailyProteinAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    private DailyProteinAnalyzer getProteinAnalyzer(Member member, DailyMealFoods dailyMealFoods) {
+        return DailyProteinAnalyzerFactory.getInstance().createAnalyzer(dailyMealFoods, member);
     }
 
-    private DailyCalorieAnalyzer getCalorieAnalyzer(Member member, DailyMeal dailyMeal) {
-        return DailyCalorieAnalyzerFactory.getInstance().createAnalyzer(dailyMeal, member);
+    private DailyCalorieAnalyzer getCalorieAnalyzer(Member member, DailyMealFoods dailyMealFoods) {
+        return DailyCalorieAnalyzerFactory.getInstance().createAnalyzer(dailyMealFoods, member);
     }
 }
