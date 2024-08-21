@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.common.factory;
 
+import static org.jeasy.random.FieldPredicates.named;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -7,24 +9,37 @@ import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.api.Randomizer;
 
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
+import com.gaebaljip.exceed.application.domain.meal.MealFoodEntity;
 import com.gaebaljip.exceed.application.domain.meal.Unit;
 
-public class MealsFixtureFactory {
-    public static List<Meal> create(LocalDate startDate, LocalDate endDate, int mealSize) {
+public class DailyMealFoodsFixtureFactory {
+
+    /**
+     * startDate ~ endDate(양 끝 포함)한 MealFoodEntity를 사용해 DailyMealFoods 생성
+     *
+     * @param startDate
+     * @param endDate
+     * @param size
+     * @return
+     */
+    public static DailyMealFoods create(LocalDate startDate, LocalDate endDate, int size) {
         EasyRandomParameters easyRandomParameters =
                 new EasyRandomParameters()
                         .scanClasspathForConcreteTypes(true)
                         .dateRange(startDate, endDate)
+                        .excludeField(named("updatedDate"))
                         .randomize(Unit.class, new UnitRandomizer());
         EasyRandom easyRandom = new EasyRandom(easyRandomParameters);
-        return easyRandom.objects(Meal.class, mealSize).toList();
+        List<MealFoodEntity> mealFoodEntities =
+                easyRandom.objects(MealFoodEntity.class, size).toList();
+        return new DailyMealFoods(mealFoodEntities);
     }
 
     private static class UnitRandomizer implements Randomizer<Unit> {
         @Override
         public Unit getRandomValue() {
-            Unit unit = Unit.builder().g(null).multiple(1.0).build();
+            Unit unit = new Unit(null, 1.0);
             return unit;
         }
     }

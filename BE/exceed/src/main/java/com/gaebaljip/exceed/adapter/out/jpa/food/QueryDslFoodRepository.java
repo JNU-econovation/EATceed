@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
+import com.gaebaljip.exceed.application.domain.food.QFoodEntity;
 import com.gaebaljip.exceed.common.dto.PageableFoodDTO;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

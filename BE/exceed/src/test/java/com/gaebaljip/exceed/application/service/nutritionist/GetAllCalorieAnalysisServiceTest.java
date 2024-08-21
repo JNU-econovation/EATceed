@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,13 +12,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
-import com.gaebaljip.exceed.application.domain.meal.Meal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
-import com.gaebaljip.exceed.common.factory.MealsFixtureFactory;
+import com.gaebaljip.exceed.common.factory.DailyMealFoodsFixtureFactory;
 import com.gaebaljip.exceed.common.factory.MemberFixtureFactory;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,14 +30,18 @@ class GetAllCalorieAnalysisServiceTest {
     @InjectMocks private GetAllCalorieAnalysisService getAllCalorieAnalysisService;
 
     @Test
-    void when_meal_is_0_expected_isVisited_false_and_allAchieved_false() {
+    void when_mealFood_is_0_expected_isVisited_false_and_allAchieved_false() {
 
         // given
         LocalDateTime now = LocalDateTime.now();
         Member member = MemberFixtureFactory.create(1);
         GetAllAnalysisRequest request = getGetAllAnalysisRequest(now);
-        given(dailyMealPort.query(new DailyMealDTO(request.memberId(), request.dateTime())))
-                .willReturn(List.of());
+        DailyMealFoods dailyMealFoods =
+                DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 0);
+        given(
+                        dailyMealPort.queryDailyMealFoods(
+                                new DailyMealDTO(request.memberId(), request.dateTime())))
+                .willReturn(dailyMealFoods);
         given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
 
         // when
@@ -55,15 +58,18 @@ class GetAllCalorieAnalysisServiceTest {
     }
 
     @Test
-    void when_meal_is_3_expected_isVisited_false_and_allAchieved_false() {
+    void when_mealFood_is_3_expected_isVisited_false_and_allAchieved_false() {
 
         // given
         LocalDateTime now = LocalDateTime.now();
         Member member = MemberFixtureFactory.create(1);
         GetAllAnalysisRequest request = getGetAllAnalysisRequest(now);
-        List<Meal> meals = MealsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 3);
-        given(dailyMealPort.query(new DailyMealDTO(request.memberId(), request.dateTime())))
-                .willReturn(meals);
+        DailyMealFoods dailyMealFoods =
+                DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 3);
+        given(
+                        dailyMealPort.queryDailyMealFoods(
+                                new DailyMealDTO(request.memberId(), request.dateTime())))
+                .willReturn(dailyMealFoods);
         given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
 
         // when

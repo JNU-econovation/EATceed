@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.application.domain.nutritionist;
 
-import com.gaebaljip.exceed.application.domain.meal.DailyMeal;
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 
 /**
@@ -23,7 +23,7 @@ public class DailyProteinAnalyzerFactory extends AbstractAnalyzerFactory {
     }
 
     @Override
-    public DailyProteinAnalyzer createAnalyzer(DailyMeal dailyMeal, Member member) {
-        return new DailyProteinAnalyzer(dailyMeal, member);
+    public DailyProteinAnalyzer createAnalyzer(DailyMealFoods dailyMealFoods, Member member) {
+        return new DailyProteinAnalyzer(dailyMealFoods, member);
     }
 }

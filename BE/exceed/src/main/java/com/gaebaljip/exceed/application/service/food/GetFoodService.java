@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gaebaljip.exceed.adapter.in.food.response.GetFoodResponse;
 import com.gaebaljip.exceed.adapter.in.food.response.GetFoodsAutoResponse;
-import com.gaebaljip.exceed.adapter.out.jpa.food.FoodEntity;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
+import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.application.port.in.food.GetFoodQuery;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.common.EatCeedStaticMessage;
