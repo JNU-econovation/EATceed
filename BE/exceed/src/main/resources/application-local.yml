@@ -75,6 +75,11 @@ management:
         include: "*"
         exclude: "env, beans"
 
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
 logging:
   level:
     org:
