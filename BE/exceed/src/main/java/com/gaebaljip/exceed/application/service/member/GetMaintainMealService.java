@@ -9,6 +9,7 @@ import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.MaintainMealDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class GetMaintainMealService implements GetMaintainMealUsecase {
      */
     @Override
     @Transactional(readOnly = true)
+    @Timer
     public MaintainMealDTO execute(Long memberId) {
         MemberEntity memberEntity = memberPort.query(memberId);
         Member member = memberConverter.toModel(memberEntity);
