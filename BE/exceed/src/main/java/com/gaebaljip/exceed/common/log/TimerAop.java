@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.common;
+package com.gaebaljip.exceed.common.log;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
