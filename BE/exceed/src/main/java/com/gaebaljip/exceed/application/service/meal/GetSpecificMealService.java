@@ -12,6 +12,7 @@ import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.PresignedUrlPort;
+import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.CurrentMealDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 import com.gaebaljip.exceed.common.dto.FoodDTO;
@@ -42,6 +43,7 @@ public class GetSpecificMealService implements GetSpecificMealQuery {
      */
     @Override
     @Transactional(readOnly = true)
+    @Timer
     public SpecificMealDTO execute(Long memberId, LocalDateTime date) {
         List<MealEntity> mealEntities = dailyMealPort.queryMeals(new DailyMealDTO(memberId, date));
         List<MealRecordDTO> mealRecordDTOS =
