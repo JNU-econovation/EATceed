@@ -4,18 +4,16 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.application.port.out.member.TimeOutPort;
+import com.gaebaljip.exceed.application.port.out.member.CodePort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class RedisAdapter implements TimeOutPort {
+public class RedisAdapter implements CodePort {
 
     private final RedisUtils redisUtils;
-
-    private Long expiredTime = 600000L;
 
     @Override
     public void saveWithExpiration(String email, String code, Long expiredTime) {
