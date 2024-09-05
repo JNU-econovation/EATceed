@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
 import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
+import com.gaebaljip.exceed.common.exception.member.InvalidCodeException;
 
 @Component
 public class Encryption {
@@ -58,6 +60,13 @@ public class Encryption {
         } catch (Exception e) {
             throw DecryptionErrorException.EXECPTION;
         }
+    }
+
+    public Boolean match(final String decrypt, final String value) {
+        if (!Objects.equals(decrypt, value)) {
+            throw InvalidCodeException.EXECPTION;
+        }
+        return true;
     }
 
     @PostConstruct
