@@ -32,6 +32,7 @@ cloud:
 
 exceed:
   url : http://localhost:8080
+  deepLink : eatceed://deeplink
 
 
 encryption:

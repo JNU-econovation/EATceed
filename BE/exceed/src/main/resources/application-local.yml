@@ -41,7 +41,8 @@ jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
 
 exceed:
-  url : http://localhost:8080
+  url : https://eatceed.net
+  deepLink : eatceed://deeplink
 
 # swagger
 springdoc:

@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface TimeOutPort {
-    void command(String email, String code);
+public interface CodePort {
+    void saveWithExpiration(String email, String code, Long expiredTime);
 
     Optional<String> query(String email);
 }
