@@ -13,6 +13,7 @@ import com.gaebaljip.exceed.application.port.in.member.GetCodeUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,11 @@ public class CheckMemberEmailController {
     @Value("${exceed.deepLink}")
     private String deepLink;
 
-    @GetMapping("/members/checked")
+
+    @Operation(summary = "이메일 코드 확인", description = "해당 이메일의 인증 코드인지 확인한다.(딥링크로 들어간 화면에서 사용)")
+    @PatchMapping("/members/checked")
     public ApiResponse<ApiResponse.CustomBody<Void>> checkMemberEmail(
-            @ModelAttribute @Valid CheckMemberRequest checkMemberRequest) {
+            @RequestBody @Valid CheckMemberRequest checkMemberRequest) {
         checkCodeUsecase.execute(checkMemberRequest);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
