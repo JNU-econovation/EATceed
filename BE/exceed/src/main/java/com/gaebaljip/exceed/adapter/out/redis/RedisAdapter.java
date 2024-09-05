@@ -18,7 +18,7 @@ public class RedisAdapter implements TimeOutPort {
     private Long expiredTime = 600000L;
 
     @Override
-    public void command(String email, String code) {
+    public void saveWithExpiration(String email, String code, Long expiredTime) {
         redisUtils.setData(email, code, expiredTime);
     }
 
