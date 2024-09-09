@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
 import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
-import com.gaebaljip.exceed.common.exception.member.InvalidCodeException;
+import com.gaebaljip.exceed.common.exception.member.ExpiredCodeException;
 
 @Component
 public class Encryption {
@@ -64,7 +64,7 @@ public class Encryption {
 
     public Boolean match(final String decrypt, final String value) {
         if (!Objects.equals(decrypt, value)) {
-            throw InvalidCodeException.EXECPTION;
+            throw ExpiredCodeException.EXECPTION;
         }
         return true;
     }
