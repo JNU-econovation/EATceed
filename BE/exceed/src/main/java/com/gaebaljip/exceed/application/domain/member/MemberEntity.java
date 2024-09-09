@@ -66,6 +66,10 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_TARGET_WEIGHT")
     private Double targetWeight;
 
+    public static MemberEntity createMember(String email, String password) {
+        return MemberEntity.builder().email(email).password(password).build();
+    }
+
     public void updateChecked() {
         this.checked = true;
     }

@@ -29,10 +29,9 @@ public class CreateMemberService implements CreateMemberUsecase {
     public void execute(SignUpMemberRequest signUpMemberRequest) {
         if (!memberPort.existsByEmail(signUpMemberRequest.email())) {
             MemberEntity memberEntity =
-                    MemberEntity.builder()
-                            .email(signUpMemberRequest.email())
-                            .password(bCryptPasswordEncoder.encode(signUpMemberRequest.password()))
-                            .build();
+                    MemberEntity.createMember(
+                            signUpMemberRequest.email(),
+                            bCryptPasswordEncoder.encode(signUpMemberRequest.password()));
             memberPort.command(memberEntity);
             Events.raise(SignUpMemberEvent.from(signUpMemberRequest.email()));
         }
