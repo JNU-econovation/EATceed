@@ -34,8 +34,9 @@ public class SignUpMemberController {
     @ApiErrorExceptionsExample(SignUpMemberExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> signUpMember(
             @RequestBody @Valid SignUpMemberRequest signUpMemberRequest) {
-        validateEmailUsecase.execute(new ValidateEmailCommand(signUpMemberRequest.email()));
-        sendEmailUsecase.execute(new SendEmailCommand(signUpMemberRequest.email()));
+        validateSignUpUsecase.execute(
+                new ValidateSignUpCommand(
+                        signUpMemberRequest.email(), signUpMemberRequest.password()));
         createMemberUsecase.execute(signUpMemberRequest);
         return ApiResponseGenerator.success(HttpStatus.CREATED);
     }
