@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.Error;
+import com.gaebaljip.exceed.common.exception.member.RedirectException;
 import com.gaebaljip.exceed.common.security.exception.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    // 이메일에 보여지는 것이기 때문에 응답 메시지만 전달
+    @ExceptionHandler(RedirectException.class)
+    protected String handleRedirectException(RedirectException e) {
+        return ApiResponseGenerator.fail(e.getMessage());
+    }
 
     @ExceptionHandler(ExpiredJwtException.class)
     protected ApiResponse<?> handleExpiredJwtAuthenticationException(ExpiredJwtException e) {
