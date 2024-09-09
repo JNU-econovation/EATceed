@@ -15,7 +15,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 
-class CheckMemberEmailIntegrationTest extends IntegrationTest {
+class VerifyEmailCheckedIntegrationTest extends IntegrationTest {
 
     @Autowired private MemberRepository memberRepository;
 

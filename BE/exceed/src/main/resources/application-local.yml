@@ -41,7 +41,7 @@ jwt:
   secret: secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse
 
 exceed:
-  url : https://eatceed.net
+  url : http://localhost:8080
   deepLink : eatceed://deeplink
 
 # swagger

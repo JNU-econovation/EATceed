@@ -10,7 +10,7 @@ import com.gaebaljip.exceed.application.port.out.member.CodePort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.Encryption;
 import com.gaebaljip.exceed.common.annotation.Timer;
-import com.gaebaljip.exceed.common.exception.member.InvalidCodeException;
+import com.gaebaljip.exceed.common.exception.member.ExpiredCodeException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class CheckCodeService implements CheckCodeUsecase {
     public void execute(CheckMemberRequest checkMemberRequest) {
         String code =
                 codePort.query(checkMemberRequest.email())
-                        .orElseThrow(() -> InvalidCodeException.EXECPTION);
+                        .orElseThrow(() -> ExpiredCodeException.EXECPTION);
         String decrypt = encryption.decrypt(checkMemberRequest.code());
         if (encryption.match(decrypt, code)) {
             MemberEntity member = memberPort.findMemberByEmail(checkMemberRequest.email());

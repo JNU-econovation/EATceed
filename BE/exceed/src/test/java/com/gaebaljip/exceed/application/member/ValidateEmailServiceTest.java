@@ -10,16 +10,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gaebaljip.exceed.application.port.in.member.ValidateEmailCommand;
+import com.gaebaljip.exceed.application.port.in.member.ValidateSignUpCommand;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.application.service.member.ValidateEmailService;
+import com.gaebaljip.exceed.application.service.member.ValidateSignUpService;
+import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
 import com.gaebaljip.exceed.common.exception.member.AlreadySignUpMemberException;
 
 @ExtendWith(MockitoExtension.class)
 class ValidateEmailServiceTest {
 
     @Mock private MemberPort memberPort;
-    @InjectMocks private ValidateEmailService validateEmailService;
+    @InjectMocks private ValidateSignUpService validateEmailService;
 
     @Test
     @DisplayName("이메일이 존재하지 않고, 이메일 인증을 수행하지 않았을 경우")
@@ -27,19 +28,34 @@ class ValidateEmailServiceTest {
 
         // given
         given(memberPort.existsByEmail(anyString())).willReturn(false);
-        ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
+        ValidateSignUpCommand command = new ValidateSignUpCommand(getEmail(), getPassword());
 
         // when, then
         Assertions.assertDoesNotThrow(() -> validateEmailService.execute(command));
     }
 
     @Test
-    @DisplayName("이메일이 존재하면, 예외가 발생해야 한다")
+    @DisplayName("회원가입을 시도하였으나 이메일 인증을 하지 못 한 경우")
     void when_existEmail_isNotChecked_then_exception() {
 
         // given
         given(memberPort.existsByEmail(anyString())).willReturn(true);
-        ValidateEmailCommand command = new ValidateEmailCommand(getEmail());
+        given(memberPort.isChecked(anyString())).willReturn(false);
+        ValidateSignUpCommand command = new ValidateSignUpCommand(getEmail(), getPassword());
+
+        // when, then
+        Assertions.assertThrows(
+                AlreadyEmailException.class, () -> validateEmailService.execute(command));
+    }
+
+    @Test
+    @DisplayName("이미 회원가입이 된 회원")
+    void when_already_signUp_then_exception() {
+
+        // given
+        given(memberPort.existsByEmail(anyString())).willReturn(true);
+        given(memberPort.isChecked(anyString())).willReturn(true);
+        ValidateSignUpCommand command = new ValidateSignUpCommand(getEmail(), getPassword());
 
         // when, then
         Assertions.assertThrows(
@@ -48,5 +64,9 @@ class ValidateEmailServiceTest {
 
     private String getEmail() {
         return "asadf1234!!@gmail.com";
+    }
+
+    private String getPassword() {
+        return "asadf1234!!";
     }
 }

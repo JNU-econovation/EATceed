@@ -13,13 +13,13 @@ import com.gaebaljip.exceed.application.port.out.member.CodePort;
 import com.gaebaljip.exceed.application.port.out.member.EmailPort;
 import com.gaebaljip.exceed.common.MailTemplate;
 import com.gaebaljip.exceed.common.annotation.Timer;
-import com.gaebaljip.exceed.common.event.SendEmailEvent;
+import com.gaebaljip.exceed.common.event.SignUpMemberEvent;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class SendEmailEventListener {
+public class SignUpMemberEventListener {
 
     private final EmailPort emailPort;
     private final CodePort codePort;
@@ -29,11 +29,11 @@ public class SendEmailEventListener {
 
     private Long expiredTime = 600000L;
 
-    @TransactionalEventListener(classes = SendEmailEvent.class)
+    @TransactionalEventListener(classes = SignUpMemberEvent.class)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Timer
     @Async
-    public void handle(SendEmailEvent event) {
+    public void handle(SignUpMemberEvent event) {
         codePort.saveWithExpiration(event.getEmail(), Code.create(), expiredTime);
         Context context = new Context();
         context.setVariable(
