@@ -5,10 +5,10 @@ import com.gaebaljip.exceed.common.exception.EatCeedException;
 import lombok.Getter;
 
 @Getter
-public class InvalidCodeException extends EatCeedException {
-    public static EatCeedException EXECPTION = new InvalidCodeException();
+public class ExpiredCodeException extends EatCeedException {
+    public static EatCeedException EXECPTION = new ExpiredCodeException();
 
-    private InvalidCodeException() {
+    private ExpiredCodeException() {
         super(MemberError.INVALID_CODE);
     }
 }

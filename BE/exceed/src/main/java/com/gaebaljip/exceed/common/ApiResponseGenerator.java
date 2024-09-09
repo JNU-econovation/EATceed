@@ -38,4 +38,8 @@ public class ApiResponseGenerator {
                         false, null, new Error(null, message, status.toString())),
                 status);
     }
+
+    public static String fail(String message) {
+        return message;
+    }
 }

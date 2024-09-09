@@ -19,7 +19,8 @@ import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.IntegrationTest;
-import com.gaebaljip.exceed.common.event.SendEmailEvent;
+import com.gaebaljip.exceed.common.event.IncompleteSignUpEvent;
+import com.gaebaljip.exceed.common.event.SignUpMemberEvent;
 import com.gaebaljip.exceed.common.exception.member.MemberError;
 
 @RecordApplicationEvents
@@ -54,7 +55,7 @@ class SignUpMemberIntegrationTest extends IntegrationTest {
         // then
         resultActions.andExpect(status().isCreated());
 
-        long count = events.stream(SendEmailEvent.class).count();
+        long count = events.stream(SignUpMemberEvent.class).count();
         assertAll(
                 () ->
                         assertEquals(
@@ -65,13 +66,17 @@ class SignUpMemberIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("회원가입 : 실패" + "이미 가입된 이메일인 경우")
-    void when_signUpMember_then_Fail() throws Exception {
+    @DisplayName("이메일 인증을 하지 않은 경우 회원가입 : 실패" + "이메일 재전송 이벤트 여부 확인" + "API 예외 메시지 확인")
+    void when_member_not_checkedEmail_then_Fail() throws Exception {
 
         // given
         SignUpMemberRequest request = getSignUpMemberRequest();
         MemberEntity memberEntity =
-                MemberEntity.builder().email(request.email()).password(request.password()).build();
+                MemberEntity.builder()
+                        .email(request.email())
+                        .password(request.password())
+                        .checked(false)
+                        .build();
         memberRepository.save(memberEntity);
 
         // when
@@ -80,11 +85,12 @@ class SignUpMemberIntegrationTest extends IntegrationTest {
                         MockMvcRequestBuilders.post("/v1/members")
                                 .content(om.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON));
-
+        long count = events.stream(IncompleteSignUpEvent.class).count();
         // then
         resultActions.andExpectAll(
                 status().isBadRequest(),
-                jsonPath("$.error.reason").value(MemberError.ALREADY_SIGN_UP_MEMBER.getReason()));
+                jsonPath("$.error.reason").value(MemberError.ALREADY_EMAIL.getReason()));
+        assertEquals(count, 1);
     }
 
     private SignUpMemberRequest getSignUpMemberRequest() {
