@@ -25,8 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "[회원가입]")
 public class SignUpMemberController {
 
-    private final ValidateEmailUsecase validateEmailUsecase;
-    private final SendEmailUsecase sendEmailUsecase;
+    private final ValidateSignUpUsecase validateSignUpUsecase;
     private final CreateMemberUsecase createMemberUsecase;
 
     @Operation(summary = "회원 가입", description = "회원 가입한다.")
