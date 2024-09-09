@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MemberError implements BaseError {
     ALREADY_SIGN_UP_MEMBER(400, "4449", "이미 회원가입이 된 이메일입니다."),
-    ALREADY_EMAIL(400, "4448", "이미 등록된 이메일입니다. 해당 이메일이 본인 소유임을 증명해주세요."),
+    ALREADY_EMAIL(400, "4448", "이미 해당 메일로 가입된 계정이 있습니다, 이메일 인증을 해주세요."),
     INVALID_AGE(400, "4446", "나이는 음수일 수 없습니다."),
     INVALID_CODE(400, "7003", "올바르지 않은 인증 코드이거나 만료된 인증코드입니다."),
     INVALID_GENDER(400, "4447", "성별은 1과 0으로만 표현됩니다."),
