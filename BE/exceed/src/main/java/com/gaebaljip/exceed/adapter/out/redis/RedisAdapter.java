@@ -23,6 +23,6 @@ public class RedisAdapter implements CodePort {
     @Override
     @Timer
     public Optional<String> query(String email) {
-        return Optional.of(redisUtils.getData(email));
+        return Optional.ofNullable(redisUtils.getData(email));
     }
 }
