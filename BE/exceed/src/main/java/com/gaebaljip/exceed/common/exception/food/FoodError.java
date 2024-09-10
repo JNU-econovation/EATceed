@@ -13,7 +13,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FoodError implements BaseError {
-    INVALID_FOOD(400, "4450", "존재하지 않는 음식입니다.");
+    INVALID_FOOD(400, "4450", "존재하지 않는 음식입니다."),
+    CANNOT_DELETE_OTHERS_FOOD(400, "4451", "다른 사람의 음식은 삭제할 수 없습니다."),
+    ;
 
     private final Integer status;
     private final String code;

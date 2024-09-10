@@ -23,4 +23,6 @@ public interface FoodPort {
     List<FoodEntity> findByMemberEntity(MemberEntity memberEntity);
 
     FoodEntity query(Long foodId);
+
+    void deleteById(Long foodId);
 }
