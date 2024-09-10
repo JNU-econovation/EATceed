@@ -51,4 +51,9 @@ public class FoodsPersistenceAdapter implements FoodPort {
     public FoodEntity query(Long foodId) {
         return foodRepository.findById(foodId).orElseThrow(() -> FoodNotFoundException.Exception);
     }
+
+    @Override
+    public void deleteById(Long foodId) {
+        foodRepository.deleteById(foodId);
+    }
 }
