@@ -1,11 +1,13 @@
 package com.gaebaljip.exceed.application.service.food;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gaebaljip.exceed.application.port.in.food.DeleteFoodUseCase;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
 import com.gaebaljip.exceed.common.exception.food.CannotDeleteOthersFoodException;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class DeleteFoodService implements DeleteFoodUseCase {
     }
 
     private void isOwnFood(Long foodId, Long memberId) {
-        if(!foodPort.query(foodId).getMemberEntity().getId().equals(memberId)) {
+        if (!foodPort.query(foodId).getMemberEntity().getId().equals(memberId)) {
             throw CannotDeleteOthersFoodException.Exception;
         }
     }
