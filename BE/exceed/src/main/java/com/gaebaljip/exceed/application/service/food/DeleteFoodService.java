@@ -17,11 +17,11 @@ public class DeleteFoodService implements DeleteFoodUseCase {
     @Override
     @Transactional
     public void deleteFood(Long foodId, Long memberId) {
-        isOwnFood(foodId, memberId);
+        validateIsOwnFood(foodId, memberId);
         foodPort.deleteById(foodId);
     }
 
-    private void isOwnFood(Long foodId, Long memberId) {
+    private void validateIsOwnFood(Long foodId, Long memberId) {
         if (!foodPort.query(foodId).getMemberEntity().getId().equals(memberId)) {
             throw CannotDeleteOthersFoodException.Exception;
         }
