@@ -33,6 +33,7 @@ public class CheckCodeService implements CheckCodeUsecase {
         if (encryption.match(decrypt, code)) {
             MemberEntity member = memberPort.findMemberByEmail(checkMemberRequest.email());
             member.updateChecked();
+            codePort.delete(checkMemberRequest.email());
         }
     }
 }
