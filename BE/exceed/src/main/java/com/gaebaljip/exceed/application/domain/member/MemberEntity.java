@@ -74,6 +74,10 @@ public class MemberEntity extends BaseEntity {
         this.checked = true;
     }
 
+    public boolean isSignUp() {
+        return checked;
+    }
+
     public void updateMember(
             double height,
             Gender gender,
