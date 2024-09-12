@@ -100,6 +100,10 @@ public class MemberEntity extends BaseEntity {
         this.targetWeight = targetWeight;
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     public boolean checkOnBoarding() {
         return this.getWeight() != null
                 && this.getHeight() != null
