@@ -3,8 +3,8 @@ package com.gaebaljip.exceed.common.docs.member;
 import com.gaebaljip.exceed.common.exception.DecryptionErrorException;
 import com.gaebaljip.exceed.common.exception.EatCeedException;
 import com.gaebaljip.exceed.common.exception.EncryptionErrorException;
-import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
 import com.gaebaljip.exceed.common.exception.member.AlreadySignUpMemberException;
+import com.gaebaljip.exceed.common.exception.member.EmailNotVerifiedException;
 import com.gaebaljip.exceed.common.exception.member.MailSendException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
 import com.gaebaljip.exceed.common.swagger.ExplainError;
@@ -17,7 +17,7 @@ public class SignUpMemberExceptionDocs implements SwaggerExampleExceptions {
     public EatCeedException 이미_회원가입된_회원일_때 = AlreadySignUpMemberException.EXECPTION;
 
     @ExplainError("이메일 인증을 하지 않았을 때")
-    public EatCeedException 이메일_인증을_하지_않았을_때 = AlreadyEmailException.EXECPTION;
+    public EatCeedException 이메일_인증을_하지_않았을_때 = EmailNotVerifiedException.EXECPTION;
 
     @ExplainError("암호화 실패 시")
     public EatCeedException 암호화_실패_시 = EncryptionErrorException.EXECPTION;

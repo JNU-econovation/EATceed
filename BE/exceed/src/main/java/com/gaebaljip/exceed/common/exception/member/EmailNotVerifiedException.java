@@ -5,11 +5,11 @@ import com.gaebaljip.exceed.common.exception.EatCeedException;
 import lombok.Getter;
 
 @Getter
-public class AlreadyEmailException extends EatCeedException {
+public class EmailNotVerifiedException extends EatCeedException {
 
-    public static EatCeedException EXECPTION = new AlreadyEmailException();
+    public static EatCeedException EXECPTION = new EmailNotVerifiedException();
 
-    public AlreadyEmailException() {
+    public EmailNotVerifiedException() {
         super(MemberError.ALREADY_EMAIL);
     }
 }
