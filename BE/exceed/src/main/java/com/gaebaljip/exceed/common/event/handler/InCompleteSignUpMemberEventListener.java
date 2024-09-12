@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
 import com.gaebaljip.exceed.application.domain.member.Code;
@@ -15,8 +13,10 @@ import com.gaebaljip.exceed.common.MailTemplate;
 import com.gaebaljip.exceed.common.event.IncompleteSignUpEvent;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class InCompleteSignUpMemberEventListener {
 
@@ -29,7 +29,6 @@ public class InCompleteSignUpMemberEventListener {
     private Long expiredTime = 600000L;
 
     @EventListener(classes = IncompleteSignUpEvent.class)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Async
     public void handle(IncompleteSignUpEvent event) {
         codePort.saveWithExpiration(event.getEmail(), Code.create(), expiredTime);
@@ -37,10 +36,15 @@ public class InCompleteSignUpMemberEventListener {
         context.setVariable(
                 MailTemplate.SIGN_UP_MAIL_CONTEXT, URL + MailTemplate.REPLY_TO_SIGN_UP_MAIL_URL);
         context.setVariable(MailTemplate.SIGN_UP_EMAIL, "?email=" + event.getEmail());
-        emailPort.sendEmail(
-                event.getEmail(),
-                MailTemplate.SIGN_UP_TITLE,
-                MailTemplate.SIGN_UP_TEMPLATE,
-                context);
+        try {
+            emailPort.sendEmail(
+                    event.getEmail(),
+                    MailTemplate.SIGN_UP_TITLE,
+                    MailTemplate.SIGN_UP_TEMPLATE,
+                    context);
+        } catch (Exception e) {
+            log.info("msg : {}", "메일 전송에 실패했습니다.");
+            codePort.delete(event.getEmail());
+        }
     }
 }
