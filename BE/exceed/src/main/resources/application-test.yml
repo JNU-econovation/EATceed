@@ -31,8 +31,10 @@ cloud:
       # mode: always
 
 exceed:
-  url : http://localhost:8080
-  deepLink : eatceed://deeplink
+  url : http://loaclhost:8080
+  deepLink :
+    signUp : eatceed://deeplink
+    updatePassword : eatceed://deeplink2
 
 
 encryption:
