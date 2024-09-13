@@ -41,8 +41,8 @@ jwt:
 exceed:
   url : https://eatceed.net
   deepLink :
-    signUp : eatceed://deeplink
-    updatePassword : eatceed://deeplink2
+    signUp: eatceed://checkemail
+    updatePassword: eatceed://changepw
 
 springdoc:
   api-docs:

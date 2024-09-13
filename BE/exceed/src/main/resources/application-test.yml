@@ -33,8 +33,8 @@ cloud:
 exceed:
   url : http://loaclhost:8080
   deepLink :
-    signUp : eatceed://deeplink
-    updatePassword : eatceed://deeplink2
+    signUp: eatceed://checkemail
+    updatePassword: eatceed://changepw
 
 
 encryption:
