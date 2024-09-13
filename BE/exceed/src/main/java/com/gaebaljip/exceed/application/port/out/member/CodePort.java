@@ -9,4 +9,6 @@ public interface CodePort {
     void saveWithExpiration(String email, String code, Long expiredTime);
 
     Optional<String> query(String email);
+
+    void delete(String email);
 }

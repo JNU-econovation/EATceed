@@ -9,8 +9,8 @@ import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.EventPublisherStatus;
 import com.gaebaljip.exceed.common.event.Events;
 import com.gaebaljip.exceed.common.event.IncompleteSignUpEvent;
-import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
 import com.gaebaljip.exceed.common.exception.member.AlreadySignUpMemberException;
+import com.gaebaljip.exceed.common.exception.member.EmailNotVerifiedException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +33,6 @@ public class ValidateSignUpService implements ValidateSignUpUsecase {
             throw AlreadySignUpMemberException.EXECPTION;
         }
         Events.raise(IncompleteSignUpEvent.from(command.email(), command.password()));
-        throw AlreadyEmailException.EXECPTION;
+        throw EmailNotVerifiedException.EXECPTION;
     }
 }

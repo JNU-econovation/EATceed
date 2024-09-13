@@ -74,6 +74,10 @@ public class MemberEntity extends BaseEntity {
         this.checked = true;
     }
 
+    public boolean isSignUp() {
+        return checked;
+    }
+
     public void updateMember(
             double height,
             Gender gender,
@@ -94,6 +98,10 @@ public class MemberEntity extends BaseEntity {
     public void updateWeight(Double weight, Double targetWeight) {
         this.weight = weight;
         this.targetWeight = targetWeight;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 
     public boolean checkOnBoarding() {

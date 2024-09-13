@@ -25,4 +25,9 @@ public class RedisAdapter implements CodePort {
     public Optional<String> query(String email) {
         return Optional.ofNullable(redisUtils.getData(email));
     }
+
+    @Override
+    public void delete(String email) {
+        redisUtils.deleteData(email);
+    }
 }
