@@ -7,6 +7,7 @@ import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
 import com.gaebaljip.exceed.common.swagger.ExceptionDoc;
 import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
+
 @ExceptionDoc
 public class UpdatePassword_updatePasswordExceptionDocs implements SwaggerExampleExceptions {
 
@@ -18,5 +19,4 @@ public class UpdatePassword_updatePasswordExceptionDocs implements SwaggerExampl
 
     @ExplainError("잘못된(혹은 만료된) 인증 코들일 경우")
     public EatCeedException 잘못된_인증코드일_경우 = ExpiredCodeException.EXECPTION;
-
 }
