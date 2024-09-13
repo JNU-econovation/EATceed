@@ -42,7 +42,9 @@ jwt:
 
 exceed:
   url : http://localhost:8080
-  deepLink : eatceed://deeplink
+  deepLink :
+    signUp : eatceed://checkemail
+    updatePassword : eatceed://changepw
 
 # swagger
 springdoc:

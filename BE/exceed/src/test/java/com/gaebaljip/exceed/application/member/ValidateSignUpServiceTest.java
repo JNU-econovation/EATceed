@@ -13,11 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gaebaljip.exceed.application.port.in.member.ValidateSignUpCommand;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.application.service.member.ValidateSignUpService;
-import com.gaebaljip.exceed.common.exception.member.AlreadyEmailException;
 import com.gaebaljip.exceed.common.exception.member.AlreadySignUpMemberException;
+import com.gaebaljip.exceed.common.exception.member.EmailNotVerifiedException;
 
 @ExtendWith(MockitoExtension.class)
-class ValidateEmailServiceTest {
+class ValidateSignUpServiceTest {
 
     @Mock private MemberPort memberPort;
     @InjectMocks private ValidateSignUpService validateEmailService;
@@ -45,7 +45,7 @@ class ValidateEmailServiceTest {
 
         // when, then
         Assertions.assertThrows(
-                AlreadyEmailException.class, () -> validateEmailService.execute(command));
+                EmailNotVerifiedException.class, () -> validateEmailService.execute(command));
     }
 
     @Test

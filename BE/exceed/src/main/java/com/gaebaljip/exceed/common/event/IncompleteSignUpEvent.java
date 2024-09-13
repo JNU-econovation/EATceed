@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class IncompleteSignUpEvent extends DomainEvent {
+public class IncompleteSignUpEvent extends InfraEvent {
     private String email;
     private String password;
 
