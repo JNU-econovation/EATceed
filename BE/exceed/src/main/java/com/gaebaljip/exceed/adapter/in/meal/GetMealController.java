@@ -16,8 +16,8 @@ import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisReques
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpDateUsecase;
-import com.gaebaljip.exceed.application.port.in.member.GetMaintainMealUsecase;
-import com.gaebaljip.exceed.application.port.in.member.GetTargetMealUsecase;
+import com.gaebaljip.exceed.application.port.in.member.GetMaintainNutritionUsecase;
+import com.gaebaljip.exceed.application.port.in.member.GetTargetNutritionUsecase;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
@@ -42,8 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "[식사 조회]")
 public class GetMealController {
 
-    private final GetMaintainMealUsecase getMaintainMealUsecase;
-    private final GetTargetMealUsecase getTargetMealUsecase;
+    private final GetMaintainNutritionUsecase getMaintainNutritionUsecase;
+    private final GetTargetNutritionUsecase getTargetNutritionUsecase;
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
     private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
@@ -55,8 +55,8 @@ public class GetMealController {
     @ApiErrorExceptionsExample(GetMealExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId);
-        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId);
+        MaintainMealDTO maintainMealDTO = getMaintainNutritionUsecase.execute(memberId);
+        TargetMealDTO targetMealDTO = getTargetNutritionUsecase.execute(memberId);
         CurrentMealDTO currentMealDTO = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
                 new GetMealResponse(maintainMealDTO, targetMealDTO, currentMealDTO), HttpStatus.OK);
@@ -71,8 +71,8 @@ public class GetMealController {
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
         validateBeforeSignUpDateUsecase.execute(memberId, localDateTime);
-        MaintainMealDTO maintainMealDTO = getMaintainMealUsecase.execute(memberId, localDateTime);
-        TargetMealDTO targetMealDTO = getTargetMealUsecase.execute(memberId, localDateTime);
+        MaintainMealDTO maintainMealDTO = getMaintainNutritionUsecase.execute(memberId, localDateTime);
+        TargetMealDTO targetMealDTO = getTargetNutritionUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
 
         AllAnalysisDTO allAnalysisDTO =
