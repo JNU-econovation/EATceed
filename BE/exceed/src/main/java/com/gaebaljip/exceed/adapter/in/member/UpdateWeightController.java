@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "[몸무게 수정]")
 public class UpdateWeightController {
     private final UpdateWeightUsecase updateWeightUsecase;
+    private final ApplicationEventPublisher publisher;
 
     @Operation(summary = "회원 몸무게 및 목표 몸무게 수정", description = "회원 몸무게 및 목표 몸무게를 수정한다.")
     @PatchMapping("/members/weight")
@@ -42,6 +44,7 @@ public class UpdateWeightController {
         UpdateWeightResponse response =
                 updateWeightUsecase.execute(
                         UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId));
+        Events.setPublisher(publisher);
         Events.raise(
                 UpdateWeightEvent.from(
                         memberId, servletRequest.getRequestURI(), LocalDateTime.now()));
