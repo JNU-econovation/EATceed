@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.gaebaljip.exceed.common.dto.TargetMealDTO;
 
 @Component
-public interface GetTargetMealUsecase {
+public interface GetTargetNutritionUsecase {
     TargetMealDTO execute(Long memberId);
 
     TargetMealDTO execute(Long memberId, LocalDateTime date);

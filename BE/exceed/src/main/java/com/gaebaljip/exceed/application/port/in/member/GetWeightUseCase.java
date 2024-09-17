@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.application.port.in.member;
 
-import com.gaebaljip.exceed.adapter.in.member.response.GetWeightResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.GetWeightDTO;
 
 public interface GetWeightUseCase {
-    GetWeightResponse execute(Long memberId);
+    GetWeightDTO execute(Long memberId);
 }

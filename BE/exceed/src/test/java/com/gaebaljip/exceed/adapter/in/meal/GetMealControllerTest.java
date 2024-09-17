@@ -28,8 +28,8 @@ class GetMealControllerTest extends ControllerTest {
         TargetMealDTO targetMealDTO = new TargetMealDTO(100.444, 100.444, 100.444, 100.444);
 
         // when
-        Mockito.when(getMaintainMealUsecase.execute(any())).thenReturn(maintainMealDTO);
-        Mockito.when(getTargetMealUsecase.execute(any())).thenReturn(targetMealDTO);
+        Mockito.when(getMaintainNutritionUsecase.execute(any())).thenReturn(maintainMealDTO);
+        Mockito.when(getTargetNutritionUsecase.execute(any())).thenReturn(targetMealDTO);
         Mockito.when(getCurrentMealQuery.execute(any())).thenReturn(currentMealDTO);
 
         ResultActions resultActions =
