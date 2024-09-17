@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.GetMealAndWeightResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.GetWeightDTO;
 import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpDateUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainNutritionUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetNutritionUsecase;
+import com.gaebaljip.exceed.application.port.in.member.GetWeightUseCase;
 import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
@@ -48,18 +51,22 @@ public class GetMealController {
     private final GetSpecificMealQuery getSpecificMealQuery;
     private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
     private final ValidateBeforeSignUpDateUsecase validateBeforeSignUpDateUsecase;
+    private final GetWeightUseCase getWeightUseCase;
 
     /** 오늘 먹은 식사 정보(단,탄,지 및 칼로리) 조회 */
     @Operation(summary = "오늘 먹은 식사 정보 조회", description = "오늘 먹은 식사 정보(단,탄,지 및 칼로리)를 조회한다.")
     @GetMapping("/meal")
     @ApiErrorExceptionsExample(GetMealExceptionDocs.class)
-    public ApiResponse<ApiResponse.CustomBody<GetMealResponse>> getMeal(
+    public ApiResponse<ApiResponse.CustomBody<GetMealAndWeightResponse>> getMeal(
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         MaintainMealDTO maintainMealDTO = getMaintainNutritionUsecase.execute(memberId);
         TargetMealDTO targetMealDTO = getTargetNutritionUsecase.execute(memberId);
+        GetWeightDTO getWeightDTO = getWeightUseCase.execute(memberId);
         CurrentMealDTO currentMealDTO = getCurrentMealQuery.execute(memberId);
         return ApiResponseGenerator.success(
-                new GetMealResponse(maintainMealDTO, targetMealDTO, currentMealDTO), HttpStatus.OK);
+                GetMealAndWeightResponse.of(
+                        maintainMealDTO, targetMealDTO, getWeightDTO, currentMealDTO),
+                HttpStatus.OK);
     }
 
     /** 특정 날짜의 식사 정보(단,탄,지 및 칼로지) 조회 */
@@ -71,7 +78,8 @@ public class GetMealController {
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         LocalDateTime localDateTime = date.atStartOfDay();
         validateBeforeSignUpDateUsecase.execute(memberId, localDateTime);
-        MaintainMealDTO maintainMealDTO = getMaintainNutritionUsecase.execute(memberId, localDateTime);
+        MaintainMealDTO maintainMealDTO =
+                getMaintainNutritionUsecase.execute(memberId, localDateTime);
         TargetMealDTO targetMealDTO = getTargetNutritionUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
 
