@@ -4,27 +4,23 @@ import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentReques
 import static com.gaebaljip.exceed.common.util.ApiDocumentUtil.getDocumentResponse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
-import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
+import com.gaebaljip.exceed.adapter.in.member.response.GetMealAndWeightResponse;
 import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.common.ApiResponse;
@@ -43,6 +39,9 @@ public class GetMealIntegrationTest extends IntegrationTest {
     @DisplayName("성공 : 오늘 먹은 식사 조회")
     @WithMockUser
     void when_getTodayMeal_expected_success() throws Exception {
+        // given
+        long memberId = 1L;
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -51,67 +50,23 @@ public class GetMealIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
+        MemberEntity member = memberRepository.findById(memberId).get();
+
         // then
-        ApiResponse.CustomBody<GetMealResponse> getMealResponseCustomBody =
+        ApiResponse.CustomBody<GetMealAndWeightResponse> getMealResponseCustomBody =
                 om.readValue(
                         responseBody,
-                        new TypeReference<ApiResponse.CustomBody<GetMealResponse>>() {});
+                        new TypeReference<ApiResponse.CustomBody<GetMealAndWeightResponse>>() {});
         Double maintainCalorie =
                 getMealResponseCustomBody.getResponse().maintainMealDTO().calorie();
         Double targetCalorie = getMealResponseCustomBody.getResponse().targetMealDTO().calorie();
 
-        Assertions.assertThat(maintainCalorie).isGreaterThan(0);
-        Assertions.assertThat(targetCalorie).isGreaterThan(maintainCalorie);
-        resultActions
-                .andExpect(status().isOk())
-                .andDo(
-                        document(
-                                "get-meal-success",
-                                getDocumentRequest(),
-                                getDocumentResponse(),
-                                responseFields(
-                                        fieldWithPath("success")
-                                                .type(JsonFieldType.BOOLEAN)
-                                                .description("성공 여부"),
-                                        fieldWithPath("response.maintainMealDTO.calorie")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("유지 칼로리"),
-                                        fieldWithPath("response.maintainMealDTO.carbohydrate")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("유지 탄수화물"),
-                                        fieldWithPath("response.maintainMealDTO.protein")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("유지 단백질"),
-                                        fieldWithPath("response.maintainMealDTO.fat")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("유지 지방"),
-                                        fieldWithPath("response.targetMealDTO.calorie")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("목표 칼로리"),
-                                        fieldWithPath("response.targetMealDTO.carbohydrate")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("목표 탄수화물"),
-                                        fieldWithPath("response.targetMealDTO.protein")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("목표 단백질"),
-                                        fieldWithPath("response.targetMealDTO.fat")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("목표 지방"),
-                                        fieldWithPath("response.currentMealDTO.calorie")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("현재 칼로리"),
-                                        fieldWithPath("response.currentMealDTO.carbohydrate")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("현재 탄수화물"),
-                                        fieldWithPath("response.currentMealDTO.protein")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("현재 단백질"),
-                                        fieldWithPath("response.currentMealDTO.fat")
-                                                .type(JsonFieldType.NUMBER)
-                                                .description("현재 지방"),
-                                        fieldWithPath("error")
-                                                .type(JsonFieldType.NULL)
-                                                .description("에러 정보"))));
+        assertAll(
+                () -> assertTrue(maintainCalorie > 0),
+                () -> assertTrue(targetCalorie > maintainCalorie),
+                () -> assertEquals(member.getWeight(), 76.0),
+                () -> assertEquals(member.getTargetWeight(), 78.0));
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
