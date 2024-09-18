@@ -25,8 +25,6 @@ RUN apt install zip unzip
 # create mar
 RUN bash /detect_model/src/create-mar.sh 
 
-ENV JWT_SECRET="secretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdsecretKeydlqslekdse"
-
 # start the server
 CMD ["torchserve", "--start", "--models", "all", "--ts-config", "/detect_model/src/config.properties", "--no-config-snapshots"]
 # ENTRYPOINT
