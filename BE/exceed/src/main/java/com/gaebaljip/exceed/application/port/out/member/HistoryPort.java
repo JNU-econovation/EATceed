@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.application.port.out.member;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public interface HistoryPort {
 
     List<HistoryEntity> findByMemberEntity(MemberEntity memberEntity);
 
-    Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDateTime dateTime);
+    Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDate date);
 
     void deleteByAllByIdInQuery(List<Long> ids);
 }

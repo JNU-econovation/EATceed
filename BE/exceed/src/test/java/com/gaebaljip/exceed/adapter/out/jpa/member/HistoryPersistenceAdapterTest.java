@@ -28,7 +28,7 @@ class HistoryPersistenceAdapterTest extends DatabaseTest {
         LocalDate endDate =
                 dateTime.withDayOfMonth(dateTime.toLocalDate().lengthOfMonth()).toLocalDate();
         Map<LocalDate, Member> membersByMonth =
-                historyPersistenceAdapter.findMembersByMonth(1L, dateTime);
+                historyPersistenceAdapter.findMembersByMonth(1L, dateTime.toLocalDate());
         Assertions.assertAll(
                 () -> assertEquals(4, membersByMonth.size()),
                 () -> assertEquals(membersByMonth.get(endDate).getWeight(), 74.0));
@@ -43,7 +43,7 @@ class HistoryPersistenceAdapterTest extends DatabaseTest {
         LocalDate endDate =
                 dateTime.withDayOfMonth(dateTime.toLocalDate().lengthOfMonth()).toLocalDate();
         Map<LocalDate, Member> membersByMonth =
-                historyPersistenceAdapter.findMembersByMonth(1L, dateTime);
+                historyPersistenceAdapter.findMembersByMonth(1L, dateTime.toLocalDate());
         Assertions.assertAll(
                 () -> assertEquals(2, membersByMonth.size()),
                 () -> assertEquals(membersByMonth.get(endDate).getWeight(), 71.0));

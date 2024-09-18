@@ -43,14 +43,11 @@ public class HistoryPersistenceAdapter implements HistoryPort {
      */
     @Override
     @Timer
-    public Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDateTime dateTime) {
+    public Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDate date) {
         Map<LocalDate, Member> members = new HashMap<>();
 
-        LocalDateTime startDateTime = dateTime.withDayOfMonth(1).toLocalDate().atStartOfDay();
-        LocalDateTime endDateTime =
-                dateTime.withDayOfMonth(dateTime.toLocalDate().lengthOfMonth())
-                        .toLocalDate()
-                        .atTime(23, 59, 59);
+        LocalDateTime startDateTime = date.withDayOfMonth(1).atStartOfDay();
+        LocalDateTime endDateTime = date.withDayOfMonth(date.lengthOfMonth()).atTime(23, 59, 59);
 
         List<HistoryEntity> historyEntities =
                 historyRepository.findMembersBetweenDate(memberId, startDateTime, endDateTime);

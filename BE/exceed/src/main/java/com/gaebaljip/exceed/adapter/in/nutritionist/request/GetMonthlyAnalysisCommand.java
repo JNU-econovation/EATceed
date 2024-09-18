@@ -1,11 +1,11 @@
 package com.gaebaljip.exceed.adapter.in.nutritionist.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
 import com.gaebaljip.exceed.common.ValidationMessage;
 
-public record GetCalorieAnalysisRequest(
+public record GetMonthlyAnalysisCommand(
         @NotNull(message = "memberId을" + ValidationMessage.NOT_NULL) Long memberId,
-        @NotNull(message = "날짜를 " + ValidationMessage.NOT_NULL) LocalDateTime date) {}
+        @NotNull(message = "날짜를 " + ValidationMessage.NOT_NULL) LocalDate date) {}
