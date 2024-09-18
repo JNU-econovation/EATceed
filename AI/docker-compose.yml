@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - /home/ubuntu/.env
     depends_on:
       - food_classification
 
@@ -17,4 +17,4 @@ services:
     ports:
       - "8070:8070"
     env_file:
-      - .env
+      - /home/ubuntu/.env
