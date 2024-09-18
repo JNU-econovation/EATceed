@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 
-public record GetCalorieAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysisDTOS) {
+public record GetMonthlyAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysisDTOS) {
 
-    public static GetCalorieAnalysisResponse of(
+    public static GetMonthlyAnalysisResponse of(
             Map<LocalDate, Boolean> calorieAchievementByDate, Map<LocalDate, Boolean> visitByDate) {
         List<CalorieAnalysisDTO> analysisDTOList =
                 calorieAchievementByDate.keySet().stream()
@@ -20,6 +20,6 @@ public record GetCalorieAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysi
                                                 date,
                                                 calorieAchievementByDate.get(date)))
                         .toList();
-        return new GetCalorieAnalysisResponse(analysisDTOList);
+        return new GetMonthlyAnalysisResponse(analysisDTOList);
     }
 }

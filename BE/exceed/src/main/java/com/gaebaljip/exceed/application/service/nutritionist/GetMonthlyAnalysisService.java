@@ -6,14 +6,14 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyAnalyzer;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.application.domain.nutritionist.VisitChecker;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
+public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
 
     private final MonthlyMealPort monthlyMealPort;
     private final HistoryPort historyPort;
@@ -42,7 +42,7 @@ public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
     @Override
     @Timer
     @Transactional(readOnly = true)
-    public GetCalorieAnalysisResponse execute(GetCalorieAnalysisRequest request) {
+    public GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand request) {
         MonthlyMeal monthlyMeal =
                 monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
         Map<LocalDate, Member> members =
@@ -50,6 +50,6 @@ public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
         Map<LocalDate, Boolean> calorieAchievementByDate =
                 new MonthlyAnalyzer(monthlyMeal, members).isCalorieAchievementByDate();
         Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();
-        return GetCalorieAnalysisResponse.of(calorieAchievementByDate, visitByDate);
+        return GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate);
     }
 }

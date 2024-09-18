@@ -16,7 +16,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
@@ -43,10 +43,10 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
-        ApiResponse.CustomBody<GetCalorieAnalysisResponse> getAchieveListResponseCustomBody =
+        ApiResponse.CustomBody<GetMonthlyAnalysisResponse> getAchieveListResponseCustomBody =
                 om.readValue(
                         responseBody,
-                        new TypeReference<ApiResponse.CustomBody<GetCalorieAnalysisResponse>>() {});
+                        new TypeReference<ApiResponse.CustomBody<GetMonthlyAnalysisResponse>>() {});
 
         int comparedSize =
                 getAnalysisDTOS(getAchieveListResponseCustomBody).stream().toList().size();
@@ -91,10 +91,10 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
-        ApiResponse.CustomBody<GetCalorieAnalysisResponse> getAchieveListResponseCustomBody =
+        ApiResponse.CustomBody<GetMonthlyAnalysisResponse> getAchieveListResponseCustomBody =
                 om.readValue(
                         responseBody,
-                        new TypeReference<ApiResponse.CustomBody<GetCalorieAnalysisResponse>>() {});
+                        new TypeReference<ApiResponse.CustomBody<GetMonthlyAnalysisResponse>>() {});
 
         int comparedSize =
                 getAnalysisDTOS(getAchieveListResponseCustomBody).stream().toList().size();
@@ -114,7 +114,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     }
 
     private List<CalorieAnalysisDTO> getAnalysisDTOS(
-            ApiResponse.CustomBody<GetCalorieAnalysisResponse> getAchieveListResponseCustomBody) {
+            ApiResponse.CustomBody<GetMonthlyAnalysisResponse> getAchieveListResponseCustomBody) {
         return getAchieveListResponseCustomBody.getResponse().calorieAnalysisDTOS();
     }
 

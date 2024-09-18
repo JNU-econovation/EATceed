@@ -30,7 +30,7 @@ import com.gaebaljip.exceed.adapter.in.nutritionist.GetAnalysisController;
 import com.gaebaljip.exceed.application.port.in.meal.*;
 import com.gaebaljip.exceed.application.port.in.member.*;
 import com.gaebaljip.exceed.application.port.in.notify.ConnectEmitterUseCase;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
@@ -65,7 +65,7 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisSer
     @MockBean(OnBoardingMemberService.class),
     @MockBean(UpdateMemberUsecase.class),
     @MockBean(UpdateWeightUsecase.class),
-    @MockBean(GetCalorieAnalysisUsecase.class),
+    @MockBean(GetMonthlyAnalysisUsecase.class),
     @MockBean(ConnectEmitterUseCase.class),
     @MockBean(ValidateSignUpBeforeMonthUsecase.class)
 })

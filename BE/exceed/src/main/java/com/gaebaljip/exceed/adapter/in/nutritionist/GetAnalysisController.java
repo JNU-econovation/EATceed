@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.adapter.in.nutritionist;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
@@ -35,20 +34,19 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "[분석 조회]")
 public class GetAnalysisController {
 
-    private final GetCalorieAnalysisUsecase getCalorieAnalysisUsecase;
+    private final GetMonthlyAnalysisUsecase getMonthlyAnalysisUsecase;
     private final ValidateSignUpBeforeMonthUsecase validateSignUpBeforeMonthUsecase;
 
     @Operation(summary = "월별 식사 정보 분석", description = "월별 식사 정보를 분석한다.")
     @GetMapping("/achieve/{date}")
     @ApiErrorExceptionsExample(GetAnalysisExceptionDocs.class)
-    public ApiResponse<ApiResponse.CustomBody<GetCalorieAnalysisResponse>> getAnalysis(
+    public ApiResponse<ApiResponse.CustomBody<GetMonthlyAnalysisResponse>> getAnalysis(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
-        LocalDateTime localDateTime = date.atStartOfDay();
-        validateSignUpBeforeMonthUsecase.execute(memberId, localDateTime.toLocalDate());
-        GetCalorieAnalysisResponse achieveListResponse =
-                getCalorieAnalysisUsecase.execute(
-                        new GetCalorieAnalysisRequest(memberId, localDateTime));
+        LocalDate startDate = date.atStartOfDay().toLocalDate();
+        validateSignUpBeforeMonthUsecase.execute(memberId, startDate);
+        GetMonthlyAnalysisResponse achieveListResponse =
+                getMonthlyAnalysisUsecase.execute(new GetMonthlyAnalysisCommand(memberId, date));
         return ApiResponseGenerator.success(achieveListResponse, HttpStatus.OK);
     }
 }
