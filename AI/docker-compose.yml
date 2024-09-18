@@ -15,6 +15,6 @@ services:
     build:
       context: ./food_classification
     ports:
-      - "8080:8080"
+      - "8070:8070"
     env_file:
       - .env
