@@ -3,15 +3,16 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.*;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetAllAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.DailyAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -24,21 +25,21 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class GetAllCalorieAnalysisService implements GetAllAnalysisUsecase {
+public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
 
     private final DailyMealPort dailyMealPort;
     private final MemberPort memberPort;
 
     /**
-     * CalorieAnalyzer 도메인이 특정 날짜에 목표 칼로리를 달성했는 지를 판단하여 달성했을 경우 true를 반환
+     * 특정 날짜에 각 영양소 기준치를 달성했는 지를 판단하여 달성했을 경우 true를 반환
      *
      * @param request : 회원 PK와 날짜
-     * @return GetAnalysisResponse : 날짜별 칼로리 달성 여부
+     * @return AllAnalysisDTO : 영양소 달성 여부 및 방문 여부
      */
     @Override
     @Transactional(readOnly = true)
     @Timer
-    public AllAnalysisDTO execute(GetAllAnalysisRequest request) {
+    public AllAnalysisDTO executeToAllNutrition(GetDailyAnalysisCommand request) {
 
         DailyMealFoods dailyMealFoods =
                 dailyMealPort.queryDailyMealFoods(

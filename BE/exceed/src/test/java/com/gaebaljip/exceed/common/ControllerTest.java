@@ -35,7 +35,7 @@ import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBefor
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
-import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
+import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisService;
 
 @ActiveProfiles("test")
 @ExtendWith({RestDocumentationExtension.class})
@@ -60,7 +60,7 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalys
     @MockBean(GetWeightUseCase.class),
     @MockBean(GetCurrentMealQuery.class),
     @MockBean(GetSpecificMealQuery.class),
-    @MockBean(GetAllCalorieAnalysisService.class),
+    @MockBean(GetDailyAnalysisService.class),
     @MockBean(ValidateBeforeSignUpDateUsecase.class),
     @MockBean(OnBoardingMemberService.class),
     @MockBean(UpdateMemberUsecase.class),

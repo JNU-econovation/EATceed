@@ -49,7 +49,7 @@ public class GetMealController {
     private final GetTargetNutritionUsecase getTargetNutritionUsecase;
     private final GetCurrentMealQuery getCurrentMealQuery;
     private final GetSpecificMealQuery getSpecificMealQuery;
-    private final GetAllCalorieAnalysisService getAllCalorieAnalysisService;
+    private final GetDailyAnalysisService getDailyAnalysisService;
     private final ValidateBeforeSignUpDateUsecase validateBeforeSignUpDateUsecase;
     private final GetWeightUseCase getWeightUseCase;
 
