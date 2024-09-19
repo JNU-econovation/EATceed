@@ -36,17 +36,17 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
     /**
      * CalorieAnalyzer 도메인이 특정 날짜에 목표 칼로리를 달성했는 지를 판단하여 달성했을 경우 true를 반환
      *
-     * @param request : 회원 PK와 날짜
+     * @param command : 회원 PK와 날짜(특정 월의 첫째날)
      * @return GetAnalysisResponse : 날짜별 칼로리 달성 여부
      */
     @Override
     @Timer
     @Transactional(readOnly = true)
-    public GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand request) {
+    public GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand command) {
         MonthlyMeal monthlyMeal =
-                monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
+                monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
         Map<LocalDate, Member> members =
-                historyPort.findMembersByMonth(request.memberId(), request.date());
+                historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
                 new MonthlyAnalyzer(monthlyMeal, members).isCalorieAchievementByDate();
         Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();

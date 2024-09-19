@@ -7,5 +7,5 @@ import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisR
 
 @Component
 public interface GetMonthlyAnalysisUsecase {
-    GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand getMonthAnalysisRequest);
+    GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand command);
 }
