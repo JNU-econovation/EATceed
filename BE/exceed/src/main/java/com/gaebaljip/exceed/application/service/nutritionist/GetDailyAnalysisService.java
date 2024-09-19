@@ -12,7 +12,7 @@ import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
-import com.gaebaljip.exceed.common.dto.DailyAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -57,6 +57,18 @@ public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
                 dailyProteinAnalyzer.analyze(),
                 dailyCarbohydrateAnalyzer.analyze(),
                 dailyFatAnalyzer.analyze());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CalorieAnalysisDTO executeToCalorie(GetDailyAnalysisCommand request) {
+        DailyMealFoods dailyMealFoods =
+                dailyMealPort.queryDailyMealFoods(
+                        new DailyMealDTO(request.memberId(), request.dateTime()));
+        Member member = memberPort.query(request.memberId(), request.dateTime());
+        DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);
+        return CalorieAnalysisDTO.of(
+                dailyMealFoods, request.dateTime().toLocalDate(), dailyCalorieAnalyzer.analyze());
     }
 
     private static DailyFatAnalyzer getFatAnalyzer(Member member, DailyMealFoods dailyMealFoods) {

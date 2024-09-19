@@ -14,14 +14,14 @@ import com.gaebaljip.exceed.adapter.in.meal.response.GetMealFoodResponse;
 import com.gaebaljip.exceed.adapter.in.meal.response.GetMealResponse;
 import com.gaebaljip.exceed.adapter.in.member.response.GetMealAndWeightResponse;
 import com.gaebaljip.exceed.adapter.in.member.response.GetWeightDTO;
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.meal.GetCurrentMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.GetSpecificMealQuery;
 import com.gaebaljip.exceed.application.port.in.meal.ValidateBeforeSignUpDateUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetMaintainNutritionUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetTargetNutritionUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetWeightUseCase;
-import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
+import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisService;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
@@ -82,10 +82,9 @@ public class GetMealController {
                 getMaintainNutritionUsecase.execute(memberId, localDateTime);
         TargetMealDTO targetMealDTO = getTargetNutritionUsecase.execute(memberId, localDateTime);
         SpecificMealDTO specificMealDTO = getSpecificMealQuery.execute(memberId, localDateTime);
-
         AllAnalysisDTO allAnalysisDTO =
-                getAllCalorieAnalysisService.execute(
-                        GetAllAnalysisRequest.of(memberId, localDateTime));
+                getDailyAnalysisService.executeToAllNutrition(
+                        GetDailyAnalysisCommand.of(memberId, localDateTime));
         return ApiResponseGenerator.success(
                 new GetMealFoodResponse(
                         GetMealResponse.of(
