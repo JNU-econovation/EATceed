@@ -35,6 +35,7 @@ import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBefor
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
+import com.gaebaljip.exceed.application.service.nutritionist.GetAnalysisService;
 import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisService;
 
 @ActiveProfiles("test")
@@ -67,7 +68,8 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisSer
     @MockBean(UpdateWeightUsecase.class),
     @MockBean(GetMonthlyAnalysisUsecase.class),
     @MockBean(ConnectEmitterUseCase.class),
-    @MockBean(ValidateSignUpBeforeMonthUsecase.class)
+    @MockBean(ValidateSignUpBeforeMonthUsecase.class),
+    @MockBean(GetAnalysisService.class)
 })
 public abstract class ControllerTest {
 
@@ -81,6 +83,7 @@ public abstract class ControllerTest {
     @Autowired protected GetCurrentMealQuery getCurrentMealQuery;
     @Autowired protected ConnectEmitterUseCase connectEmitterUseCase;
     @Autowired protected GetWeightUseCase getWeightUseCase;
+    @Autowired protected GetAnalysisService getAnalysisService;
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider restDocumentation) {
