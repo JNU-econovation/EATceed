@@ -66,6 +66,11 @@ springdoc:
 
 ableAutoComplete: true
 
+scheduler:
+  nutrition:
+    cache:
+      update : 0 0 0 * * *
+
 management:
   endpoints:
     web:
