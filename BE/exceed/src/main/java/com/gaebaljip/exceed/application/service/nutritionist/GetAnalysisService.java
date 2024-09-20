@@ -30,12 +30,14 @@ public class GetAnalysisService implements GetAnalysisUsecase {
             return GetMonthlyAnalysisResponse.initFalse(command.date());
         }
         if (isBeforeYearMonth(command.date(), nowDate)) {
-            return getMonthlyAnalysisUsecase.execute(
-                    GetMonthlyAnalysisCommand.of(command.memberId(), command.date()));
+            return GetMonthlyAnalysisResponse.read(
+                    getMonthlyAnalysisUsecase.execute(
+                            GetMonthlyAnalysisCommand.of(command.memberId(), command.date())));
         }
         GetMonthlyAnalysisResponse getMonthlyAnalysisResponse =
-                getMonthlyAnalysisUsecase.execute(
-                        GetMonthlyAnalysisCommand.of(command.memberId(), command.date()));
+                GetMonthlyAnalysisResponse.read(
+                        getMonthlyAnalysisUsecase.execute(
+                                GetMonthlyAnalysisCommand.of(command.memberId(), command.date())));
         CalorieAnalysisDTO calorieAnalysisDTO =
                 getDailyAnalysisUsecase.executeToCalorie(
                         GetDailyAnalysisCommand.of(
