@@ -44,7 +44,7 @@ public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
         DailyMealFoods dailyMealFoods =
                 dailyMealPort.queryDailyMealFoods(
                         new DailyMealDTO(request.memberId(), request.dateTime()));
-        Member member = memberPort.query(request.memberId(), request.dateTime());
+        Member member = memberPort.findMemberByDate(request.memberId(), request.dateTime());
         DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);
         DailyProteinAnalyzer dailyProteinAnalyzer = getProteinAnalyzer(member, dailyMealFoods);
         DailyCarbohydrateAnalyzer dailyCarbohydrateAnalyzer =
@@ -65,7 +65,7 @@ public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
         DailyMealFoods dailyMealFoods =
                 dailyMealPort.queryDailyMealFoods(
                         new DailyMealDTO(request.memberId(), request.dateTime()));
-        Member member = memberPort.query(request.memberId(), request.dateTime());
+        Member member = memberPort.findMemberByDate(request.memberId(), request.dateTime());
         DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);
         return CalorieAnalysisDTO.of(
                 dailyMealFoods, request.dateTime().toLocalDate(), dailyCalorieAnalyzer.analyze());

@@ -42,7 +42,8 @@ class GetDailyAnalysisServiceTest {
                         dailyMealPort.queryDailyMealFoods(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
-        given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
+        given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
+                .willReturn(member);
 
         // when
         AllAnalysisDTO allAnalysisDTO = getDailyAnalysisService.executeToAllNutrition(request);
@@ -70,7 +71,8 @@ class GetDailyAnalysisServiceTest {
                         dailyMealPort.queryDailyMealFoods(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
-        given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
+        given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
+                .willReturn(member);
 
         // when
         AllAnalysisDTO allAnalysisDTO = getDailyAnalysisService.executeToAllNutrition(request);
