@@ -5,8 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public record GetMonthlyAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysisDTOS) {
 
     public static GetMonthlyAnalysisResponse of(
@@ -54,5 +60,29 @@ public record GetMonthlyAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysi
         }
 
         return new GetMonthlyAnalysisResponse(updatedList);
+    }
+
+    public static String write(GetMonthlyAnalysisResponse response) {
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        String value = "";
+        try {
+            value = om.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            log.error("Object -> String 파싱 에러 : {}", e.getMessage());
+        }
+        return value;
+    }
+
+    public static GetMonthlyAnalysisResponse read(String value) {
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        GetMonthlyAnalysisResponse response = null;
+        try {
+            response = om.readValue(value, GetMonthlyAnalysisResponse.class);
+        } catch (JsonProcessingException e) {
+            log.error("Object -> String 파싱 에러 : {}", e.getMessage());
+        }
+        return response;
     }
 }

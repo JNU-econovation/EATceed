@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import java.time.LocalDate;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,8 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
     @Override
     @Timer
     @Transactional(readOnly = true)
-    public GetMonthlyAnalysisResponse execute(GetMonthlyAnalysisCommand command) {
+    @Cacheable(cacheNames = "analysis", key = "#command.memberId + '_' + #command.date")
+    public String execute(GetMonthlyAnalysisCommand command) {
         MonthlyMeal monthlyMeal =
                 monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
         Map<LocalDate, Member> members =
@@ -50,6 +52,7 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
         Map<LocalDate, Boolean> calorieAchievementByDate =
                 new MonthlyAnalyzer(monthlyMeal, members).isCalorieAchievementByDate();
         Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();
-        return GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate);
+        return GetMonthlyAnalysisResponse.write(
+                GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
     }
 }
