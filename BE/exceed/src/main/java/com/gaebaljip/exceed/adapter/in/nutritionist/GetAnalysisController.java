@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetAnalysisUsecase;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
@@ -35,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "[분석 조회]")
 public class GetAnalysisController {
 
-    private final GetMonthlyAnalysisUsecase getMonthlyAnalysisUsecase;
     private final ValidateSignUpBeforeMonthUsecase validateSignUpBeforeMonthUsecase;
     private final GetAnalysisUsecase getAnalysisUsecase;
 
