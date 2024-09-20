@@ -1,10 +1,14 @@
 package com.gaebaljip.exceed.adapter.out.redis;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,15 @@ public class RedisUtils {
 
     public void deleteData(String key) {
         redisTemplate.delete(key);
+    }
+
+    public Set<String> scanKeys(String pattern, long count) {
+        Set<String> keys = new HashSet<>();
+        RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();
+        ScanOptions options = ScanOptions.scanOptions().match(pattern).count(count).build();
+        Cursor<byte[]> cursor = connection.scan(options);
+        cursor.forEachRemaining(key -> keys.add(new String(key)));
+        return keys;
     }
 
     public Boolean zAdd(String key, Object value, Double score) {
