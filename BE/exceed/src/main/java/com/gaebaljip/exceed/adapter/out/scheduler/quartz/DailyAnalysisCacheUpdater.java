@@ -21,12 +21,17 @@ public class DailyAnalysisCacheUpdater {
     /** 특정 회원의 특정 날짜의 칼로리 달성 여부 조회 결과(CalorieAnalysisDTO)를 사용해 해당 월의 분석 결과 update */
     public void updateCacheForKey(String key, CalorieAnalysisDTO calorieAnalysisDTO) {
         try {
-            log.info("cacheKeyProcessor 실행, key : {}", key);
-            GetMonthlyAnalysisResponse response =
+            log.info(
+                    "DailyAnalysisCacheUpdater 실행, key : {} calorieAnalysisDTO : {}",
+                    key,
+                    calorieAnalysisDTO);
+            String original = redisUtils.getData(key);
+            GetMonthlyAnalysisResponse overWrite =
                     GetMonthlyAnalysisResponse.overWrite(
-                            GetMonthlyAnalysisResponse.read(redisUtils.getData(key)),
-                            calorieAnalysisDTO);
-            redisUtils.setData(key, GetMonthlyAnalysisResponse.write(response), ANALYSIS_CACHE_TTL);
+                            GetMonthlyAnalysisResponse.read(original), calorieAnalysisDTO);
+            log.info("original : {}, overWrite 완료 : {}", original, overWrite);
+            redisUtils.setData(
+                    key, GetMonthlyAnalysisResponse.write(overWrite), ANALYSIS_CACHE_TTL);
         } catch (Exception e) {
             log.error("Error processing key: {}, message: {}", key, e.getMessage());
         }
