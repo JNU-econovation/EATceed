@@ -26,22 +26,24 @@ public class GetAnalysisService implements GetAnalysisUsecase {
     @Override
     public GetMonthlyAnalysisResponse execute(GetAnalysisCommand command) {
         LocalDate nowDate = LocalDate.now();
-        if (isAfterYearMonth(command.date(), nowDate)) {
-            return GetMonthlyAnalysisResponse.initFalse(command.date());
+        if (isAfterYearMonth(command.requestDate(), nowDate)) {
+            return GetMonthlyAnalysisResponse.initFalse(command.requestDate());
         }
-        if (isBeforeYearMonth(command.date(), nowDate)) {
+        if (isBeforeYearMonth(command.requestDate(), nowDate)) {
             return GetMonthlyAnalysisResponse.read(
                     getMonthlyAnalysisUsecase.execute(
-                            GetMonthlyAnalysisCommand.of(command.memberId(), command.date())));
+                            GetMonthlyAnalysisCommand.of(
+                                    command.memberId(), command.requestDate())));
         }
         GetMonthlyAnalysisResponse getMonthlyAnalysisResponse =
                 GetMonthlyAnalysisResponse.read(
                         getMonthlyAnalysisUsecase.execute(
-                                GetMonthlyAnalysisCommand.of(command.memberId(), command.date())));
+                                GetMonthlyAnalysisCommand.of(
+                                        command.memberId(), command.requestDate())));
         CalorieAnalysisDTO calorieAnalysisDTO =
                 getDailyAnalysisUsecase.executeToCalorie(
                         GetDailyAnalysisCommand.of(
-                                command.memberId(), command.date().atTime(LocalTime.now())));
+                                command.memberId(), command.requestDate().atTime(LocalTime.now())));
         return GetMonthlyAnalysisResponse.overWrite(getMonthlyAnalysisResponse, calorieAnalysisDTO);
     }
 

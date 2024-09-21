@@ -79,7 +79,7 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
                         .orElseThrow(
                                 () ->
                                         new IllegalStateException(
-                                                "No CalorieAnalysisDTO found for date: "
+                                                "No CalorieAnalysisDTO found for requestDate: "
                                                         + testDate));
 
         assertAll(
