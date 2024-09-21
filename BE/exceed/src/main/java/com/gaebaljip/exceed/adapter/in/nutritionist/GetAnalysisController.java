@@ -50,7 +50,7 @@ public class GetAnalysisController {
             @Parameter(hidden = true) @AuthenticationMemberId Long memberId) {
         validateSignUpBeforeMonthUsecase.execute(memberId, date);
         GetMonthlyAnalysisResponse response =
-                getAnalysisUsecase.execute(GetAnalysisCommand.of(date, memberId));
+                getAnalysisUsecase.execute(GetAnalysisCommand.of(date, memberId, LocalDate.now()));
         return ApiResponseGenerator.success(response, HttpStatus.OK);
     }
 }

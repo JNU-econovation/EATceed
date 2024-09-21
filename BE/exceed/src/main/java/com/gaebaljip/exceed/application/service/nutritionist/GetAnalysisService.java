@@ -25,11 +25,10 @@ public class GetAnalysisService implements GetAnalysisUsecase {
 
     @Override
     public GetMonthlyAnalysisResponse execute(GetAnalysisCommand command) {
-        LocalDate nowDate = LocalDate.now();
-        if (isAfterYearMonth(command.requestDate(), nowDate)) {
+        if (isAfterYearMonth(command.requestDate(), command.nowDate())) {
             return GetMonthlyAnalysisResponse.initFalse(command.requestDate());
         }
-        if (isBeforeYearMonth(command.requestDate(), nowDate)) {
+        if (isBeforeYearMonth(command.requestDate(), command.nowDate())) {
             return GetMonthlyAnalysisResponse.read(
                     getMonthlyAnalysisUsecase.execute(
                             GetMonthlyAnalysisCommand.of(
