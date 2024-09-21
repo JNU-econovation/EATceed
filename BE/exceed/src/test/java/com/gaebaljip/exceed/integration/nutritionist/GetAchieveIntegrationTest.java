@@ -27,6 +27,7 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     @Test
     @DisplayName(
             "2023-12-01 08:00:00에 회원가입한 회원이 2023-12월의 월별 달성률 볼 경우"
+                    + "2023-12월에 먹은 식사 기록이 없기 때문에"
                     + "모든 isVisited는 false"
                     + "모든 isCalorieAchieved는 false")
     @WithMockUser
@@ -76,7 +77,9 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("2023-12-01 08:00:00에 회원가입한 회원이 2024-6월의 월별 달성률 볼 경우")
+    @DisplayName(
+            "2023-12-01 08:00:00에 회원가입한 회원이 2024-6월의 월별 달성률 볼 경우"
+                    + "응답이 2024-06-01 ~ 2024-06-30까지 존재하는 지 확인")
     @WithMockUser
     void when_getAchieves_success() throws Exception {
         // given
@@ -99,16 +102,6 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
         int comparedSize =
                 getAnalysisDTOS(getAchieveListResponseCustomBody).stream().toList().size();
 
-        List<Boolean> isCalorieAchievedList =
-                getAnalysisDTOS(getAchieveListResponseCustomBody).stream()
-                        .map(calorieAnalysisDTO -> calorieAnalysisDTO.isCalorieAchieved())
-                        .toList();
-
-        List<Boolean> isVisitedList =
-                getAnalysisDTOS(getAchieveListResponseCustomBody).stream()
-                        .map(calorieAnalysisDTO -> calorieAnalysisDTO.isVisited())
-                        .toList();
-
         assertAll(() -> assertTrue(comparedSize == testData.lengthOfMonth()));
         resultActions.andExpect(status().isOk());
     }
@@ -119,7 +112,9 @@ public class GetAchieveIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("2023-11-01 08:00:00에 회원가입한 회원이 2023-10월의 월별 달성률을 보려고할 때 예외 발생")
+    @DisplayName(
+            "2023-11-01 08:00:00에 회원가입한 회원이 2023-10월의 월별 달성률을 보려고할 경우"
+                    + "회원가입 하기 전 기록은 존재하지 않기 때문에 예외 메시지 응답")
     @WithMockUser
     void when_getAchieves_fail() throws Exception {
         // given
