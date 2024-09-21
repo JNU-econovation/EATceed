@@ -3,8 +3,6 @@ package com.gaebaljip.exceed.common.event.handler;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
@@ -20,7 +18,6 @@ public class DeleteMemberCacheListener {
     private final RedisUtils redisUtils;
 
     @TransactionalEventListener(classes = DeleteMemberEvent.class)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(DeleteMemberEvent event) {
         String pattern =
                 RedisScanPattern.getPrefixAnalysisPattern(
