@@ -42,7 +42,7 @@ public class GetAnalysisService implements GetAnalysisUsecase {
         CalorieAnalysisDTO calorieAnalysisDTO =
                 getDailyAnalysisUsecase.executeToCalorie(
                         GetDailyAnalysisCommand.of(
-                                command.memberId(), command.requestDate().atTime(LocalTime.now())));
+                                command.memberId(), command.nowDate().atTime(LocalTime.now())));
         return GetMonthlyAnalysisResponse.overWrite(getMonthlyAnalysisResponse, calorieAnalysisDTO);
     }
 
