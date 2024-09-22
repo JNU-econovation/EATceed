@@ -16,4 +16,12 @@ public record CalorieAnalysisDTO(Boolean isVisited, LocalDate date, boolean isCa
         return new CalorieAnalysisDTO(
                 dailyMealFoods.getMealFoods().isEmpty() ? false : true, date, isCalorieAchieved);
     }
+
+    public static CalorieAnalysisDTO from(LocalDate date) {
+        return CalorieAnalysisDTO.builder()
+                .isCalorieAchieved(false)
+                .date(date)
+                .isVisited(false)
+                .build();
+    }
 }

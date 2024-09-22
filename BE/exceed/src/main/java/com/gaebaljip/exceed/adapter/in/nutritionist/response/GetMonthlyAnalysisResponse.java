@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,19 +32,13 @@ public record GetMonthlyAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysi
     }
 
     public static GetMonthlyAnalysisResponse initFalse(LocalDate date) {
-        List<CalorieAnalysisDTO> calorieAnalysisDTOS = new ArrayList<>();
-        for (int day = 1; day <= date.lengthOfMonth(); day++) {
-            LocalDate currentDate = LocalDate.of(date.getYear(), date.getMonth(), day);
-            CalorieAnalysisDTO dto =
-                    CalorieAnalysisDTO.builder()
-                            .isVisited(false)
-                            .date(currentDate)
-                            .isCalorieAchieved(false)
-                            .build();
-            calorieAnalysisDTOS.add(dto);
-        }
-
-        return new GetMonthlyAnalysisResponse(calorieAnalysisDTOS);
+        return new GetMonthlyAnalysisResponse(
+                IntStream.rangeClosed(1, date.lengthOfMonth())
+                        .mapToObj(
+                                day ->
+                                        CalorieAnalysisDTO.from(
+                                                LocalDate.of(date.getYear(), date.getMonth(), day)))
+                        .toList());
     }
 
     public static GetMonthlyAnalysisResponse overWrite(
