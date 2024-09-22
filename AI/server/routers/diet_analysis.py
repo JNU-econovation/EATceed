@@ -5,7 +5,7 @@ from db.database import get_db
 from db.crud import get_latest_eat_habits, get_user_data
 from auth.decoded_token import get_current_member
 import logging
-from errors.custom_exceptions import TokenError, UserDataError
+from errors.custom_exceptions import InvalidJWT, ExpiredJWT, UserDataError
 
 # 로그 메시지
 logging.basicConfig(level=logging.DEBUG,
@@ -22,7 +22,7 @@ analysis = APIRouter(
 def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     # 인증 확인
     if not member_id:
-            raise TokenError("유효하지 않은 인증입니다")
+            raise InvalidJWT()
 
     latest_eat_habits = get_latest_eat_habits(db, member_id)
     if not latest_eat_habits:
