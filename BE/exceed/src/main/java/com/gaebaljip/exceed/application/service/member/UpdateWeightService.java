@@ -1,7 +1,7 @@
 package com.gaebaljip.exceed.application.service.member;
 
-import com.gaebaljip.exceed.common.event.Events;
-import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +12,10 @@ import com.gaebaljip.exceed.application.port.in.member.UpdateWeightCommand;
 import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
+import com.gaebaljip.exceed.common.event.Events;
+import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
 
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +40,7 @@ public class UpdateWeightService implements UpdateWeightUsecase {
         historyPort.command(history);
         memberEntity.updateWeight(command.weight(), command.targetWeight());
         Events.raise(
-                UpdateWeightEvent.from(
-                        command.memberId(), command.uri(), LocalDateTime.now()));
+                UpdateWeightEvent.from(command.memberId(), command.uri(), LocalDateTime.now()));
         return UpdateWeightResponse.of(memberEntity.getWeight(), memberEntity.getTargetWeight());
     }
 }
