@@ -23,6 +23,6 @@ public class DeleteMemberCacheListener {
                 RedisScanPattern.getPrefixAnalysisPattern(
                         String.valueOf(event.getMemberEntity().getId()));
         Set<String> keys = redisUtils.scanKeys(pattern, 10);
-        keys.stream().forEach(key -> redisUtils.deleteData(key));
+        redisUtils.deleteDateWithPipeline(keys);
     }
 }
