@@ -43,11 +43,7 @@ public class UpdateWeightController {
             @AuthenticationMemberId Long memberId) {
         UpdateWeightResponse response =
                 updateWeightUsecase.execute(
-                        UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId));
-        Events.setPublisher(publisher);
-        Events.raise(
-                UpdateWeightEvent.from(
-                        memberId, servletRequest.getRequestURI(), LocalDateTime.now()));
+                        UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId, servletRequest.getRequestURI()));
         return ApiResponseGenerator.success(response, HttpStatus.OK);
     }
 }
