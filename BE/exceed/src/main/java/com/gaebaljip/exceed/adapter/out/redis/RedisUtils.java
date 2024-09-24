@@ -1,8 +1,10 @@
 package com.gaebaljip.exceed.adapter.out.redis;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
@@ -38,6 +40,19 @@ public class RedisUtils {
         Cursor<byte[]> cursor = connection.scan(options);
         cursor.forEachRemaining(key -> keys.add(new String(key)));
         return keys;
+    }
+
+    public void deleteDateWithPipeline(Set<String> keys) {
+        Set<byte[]> keyBytes =
+                keys.stream()
+                        .map(key -> key.getBytes(StandardCharsets.UTF_8)) // UTF-8로 문자열을 바이트 배열로 변환
+                        .collect(Collectors.toSet());
+        redisTemplate.executePipelined(
+                (RedisCallback<Object>)
+                        connection -> {
+                            keyBytes.stream().forEach(key -> connection.del(key));
+                            return null;
+                        });
     }
 
     public Boolean zAdd(String key, Object value, Double score) {
