@@ -1,5 +1,7 @@
 package com.gaebaljip.exceed.application.service.auth;
 
+import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
+import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ import com.gaebaljip.exceed.common.exception.auth.PasswordMismatchException;
 import com.gaebaljip.exceed.common.security.domain.JwtManager;
 
 import lombok.RequiredArgsConstructor;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +33,11 @@ public class AuthService implements AuthUsecase {
         if (!bCryptPasswordEncoder.matches(request.password(), member.getPassword())) {
             throw PasswordMismatchException.EXECPTION;
         }
-        return LoginResponseDTO.builder()
+        LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
                 .accessToken(jwtManager.generateAccessToken(member.getId()))
                 .refreshToken(jwtManager.generateRefreshToken(member.getId()))
                 .build();
+        jwtManager.saveRefreshToken(request.email(), loginResponseDTO.refreshToken());
+        return loginResponseDTO;
     }
 }

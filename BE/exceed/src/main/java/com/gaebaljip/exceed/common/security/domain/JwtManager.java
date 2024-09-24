@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -25,10 +27,12 @@ public class JwtManager {
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 3; // 3일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key key;
+    private  RedisAdapter redisAdapter;
 
-    public JwtManager(@Value("${jwt.secret}") String secretKey) {
+    public JwtManager(@Value("${jwt.secret}") String secretKey, RedisAdapter redisAdapter) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.redisAdapter = redisAdapter;
     }
 
     public String generateAccessToken(Long memberId) {
@@ -151,5 +155,9 @@ public class JwtManager {
                     e.getMessage());
         }
         return false;
+    }
+
+    public void saveRefreshToken(String email, String refreshToken) {
+        redisAdapter.saveWithExpiration(email, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
     }
 }
