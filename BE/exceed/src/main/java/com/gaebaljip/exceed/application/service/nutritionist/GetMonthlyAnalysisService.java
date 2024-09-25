@@ -3,17 +3,18 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import java.time.LocalDate;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetCalorieAnalysisRequest;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetCalorieAnalysisResponse;
+import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
+import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyAnalyzer;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.application.domain.nutritionist.VisitChecker;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
+public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
 
     private final MonthlyMealPort monthlyMealPort;
     private final HistoryPort historyPort;
@@ -36,20 +37,22 @@ public class GetCalorieAnalysisService implements GetCalorieAnalysisUsecase {
     /**
      * CalorieAnalyzer 도메인이 특정 날짜에 목표 칼로리를 달성했는 지를 판단하여 달성했을 경우 true를 반환
      *
-     * @param request : 회원 PK와 날짜
+     * @param command : 회원 PK와 날짜(특정 월의 첫째날)
      * @return GetAnalysisResponse : 날짜별 칼로리 달성 여부
      */
     @Override
     @Timer
     @Transactional(readOnly = true)
-    public GetCalorieAnalysisResponse execute(GetCalorieAnalysisRequest request) {
+    @Cacheable(cacheNames = "analysis", key = "#command.memberId + '_' + #command.date")
+    public String execute(GetMonthlyAnalysisCommand command) {
         MonthlyMeal monthlyMeal =
-                monthlyMealPort.query(new MonthlyMealDTO(request.memberId(), request.date()));
+                monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
         Map<LocalDate, Member> members =
-                historyPort.findMembersByMonth(request.memberId(), request.date());
+                historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
                 new MonthlyAnalyzer(monthlyMeal, members).isCalorieAchievementByDate();
         Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();
-        return GetCalorieAnalysisResponse.of(calorieAchievementByDate, visitByDate);
+        return GetMonthlyAnalysisResponse.write(
+                GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
     }
 }

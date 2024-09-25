@@ -12,7 +12,7 @@ import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.application.domain.food.FoodEntity;
 import com.gaebaljip.exceed.application.port.in.food.GetFoodQuery;
 import com.gaebaljip.exceed.application.port.out.food.FoodPort;
-import com.gaebaljip.exceed.common.EatCeedStaticMessage;
+import com.gaebaljip.exceed.common.RedisKeys;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,8 +37,8 @@ public class GetFoodService implements GetFoodQuery {
     }
 
     private Set<Object> getAutoComplete(String prefix) {
-        Long index = redisUtils.zRank(EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY, prefix);
-        return redisUtils.zRange(EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY, index, index + 10);
+        Long index = redisUtils.zRank(RedisKeys.AUTO_COMPLETE_KEY, prefix);
+        return redisUtils.zRange(RedisKeys.AUTO_COMPLETE_KEY, index, index + 10);
     }
 
     private boolean checkPrefixAndPostfix(Object o, String prefix, String postfix) {

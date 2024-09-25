@@ -30,7 +30,7 @@ class MealPersistenceAdapterTest extends DatabaseTest {
     void when_queryForMonth_expected_success() {
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 20, 23, 22);
         LocalDateTime plusDateTime = dateTime.plusDays(1);
-        MonthlyMealDTO monthlyMealDTO = new MonthlyMealDTO(1L, dateTime);
+        MonthlyMealDTO monthlyMealDTO = new MonthlyMealDTO(1L, dateTime.toLocalDate());
         MonthlyMeal monthlyMeal = mealPersistenceAdapter.query(monthlyMealDTO);
 
         assertAll(
