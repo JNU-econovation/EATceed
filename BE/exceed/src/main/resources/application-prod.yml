@@ -69,7 +69,7 @@ ableAutoComplete: true
 scheduler:
   nutrition:
     cache:
-      update : 0 0 0 * * *
+      update : ${SCHEDULER_NUTRITION_CACHE_UPDATE}
 
 management:
   endpoints:
