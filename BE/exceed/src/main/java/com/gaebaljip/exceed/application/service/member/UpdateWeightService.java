@@ -2,6 +2,7 @@ package com.gaebaljip.exceed.application.service.member;
 
 import java.time.LocalDateTime;
 
+import com.gaebaljip.exceed.common.annotation.EventPublisherStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class UpdateWeightService implements UpdateWeightUsecase {
 
     @Override
     @Transactional
+    @EventPublisherStatus
     public UpdateWeightResponse execute(UpdateWeightCommand command) {
         MemberEntity memberEntity = memberPort.query(command.memberId());
         HistoryEntity history =
