@@ -3,7 +3,7 @@ from fastapi import Depends, Header
 from jose import JWTError, jwt, ExpiredSignatureError
 import logging
 import base64
-from errors.custom_exceptions import TokenError
+from errors.custom_exceptions import InvalidJWT, ExpiredJWT, SignatureJWT, TokenError
 
 
 try:
@@ -28,7 +28,7 @@ JWT_SECRET = base64.urlsafe_b64decode(settings.JWT_SECRET)
 def get_token_from_header(authorization: str = Header(...)):
     if not authorization:
         logger.debug("Token not corret format")
-        raise TokenError("유효하지 않은 인증입니다")
+        raise InvalidJWT()
     token = authorization.split("Bearer ")[1]
     return token
 
@@ -44,24 +44,24 @@ async def get_current_member(token: str = Depends(get_token_from_header)):
         
         if not isinstance(decoded_payload, dict) or "sub" not in decoded_payload:
             logger.debug("Invalid payload format")
-            raise TokenError("유효하지 않은 인증입니다")
+            raise InvalidJWT()
 
         member_id: int = decoded_payload.get("sub")
         if member_id is None:
             logger.debug("Member Id not found in decoded token")
-            raise TokenError("유효하지 않은 인증입니다")
+            raise InvalidJWT()
         
         logger.debug(f"Decoded memberId from token: {member_id}")
         return member_id
 
     except ExpiredSignatureError:
         logger.error(f"Token expired: {token}")
-        raise TokenError("유효하지 않은 인증입니다")
+        raise ExpiredJWT()
 
     except JWTError as e:
         logger.error(f"JWTError occurred: {e}. Token: {token}, JWT_SECRET: {JWT_SECRET}")
-        raise TokenError("유효하지 않은 인증입니다.")
+        raise InvalidJWT()
 
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        raise TokenError("유효하지 않은 인증입니다")
+        raise InvalidJWT()
