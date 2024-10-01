@@ -1,6 +1,6 @@
 # pytorch/torchserve 이미지는 아래 코드를 통해 다운로드 가능
 # $ sudo docker pull pytorch/torchserve:latest
-FROM pytorch/torchserve:latest
+FROM pytorch/torchserve:0.10.0-cpu
 
 # setting workdir in the container
 WORKDIR /detect_model
