@@ -1,9 +1,8 @@
 package com.gaebaljip.exceed.adapter.in.member;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +16,6 @@ import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.common.event.Events;
-import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "[몸무게 수정]")
 public class UpdateWeightController {
     private final UpdateWeightUsecase updateWeightUsecase;
+    private final ApplicationEventPublisher publisher;
 
     @Operation(summary = "회원 몸무게 및 목표 몸무게 수정", description = "회원 몸무게 및 목표 몸무게를 수정한다.")
     @PatchMapping("/members/weight")
@@ -41,10 +39,11 @@ public class UpdateWeightController {
             @AuthenticationMemberId Long memberId) {
         UpdateWeightResponse response =
                 updateWeightUsecase.execute(
-                        UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId));
-        Events.raise(
-                UpdateWeightEvent.from(
-                        memberId, servletRequest.getRequestURI(), LocalDateTime.now()));
+                        UpdateWeightCommand.of(
+                                request.weight(),
+                                request.targetWeight(),
+                                memberId,
+                                servletRequest.getRequestURI()));
         return ApiResponseGenerator.success(response, HttpStatus.OK);
     }
 }
