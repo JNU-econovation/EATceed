@@ -8,6 +8,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # APP_ENV 환경 변수에 따라 개발 / 운영 환경 설정
+"""
+개발 환경 : export APP_ENV=dev
+운영 환경 : export APP_ENV=prod
+"""
 env_file = f".env.{os.getenv('APP_ENV', 'dev')}"
 
 load_dotenv()
