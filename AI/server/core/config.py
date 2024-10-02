@@ -7,6 +7,9 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+# APP_ENV 환경 변수에 따라 개발 / 운영 환경 설정
+env_file = f".env.{os.getenv('APP_ENV', 'dev')}"
+
 load_dotenv()
 
 class Settings:
