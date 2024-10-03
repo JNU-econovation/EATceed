@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.adapter.out.scheduler.quartz;
 
-import static com.gaebaljip.exceed.common.RedisKeys.ANALYSIS_CACHE_KEY;
+import static com.gaebaljip.exceed.common.RedisKeys.NOW_ANALYSIS_CACHE_KEY;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -51,9 +51,12 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
         Long memberId = 1L;
         StringBuilder sb = new StringBuilder();
         String key =
-                sb.append(ANALYSIS_CACHE_KEY).append(memberId).append("_").append(date).toString();
-        GetMonthlyAnalysisResponse before =
-                GetMonthlyAnalysisResponse.read(redisUtils.getData(key));
+                sb.append(NOW_ANALYSIS_CACHE_KEY)
+                        .append(memberId)
+                        .append("_")
+                        .append(date)
+                        .toString();
+        NowMonthAnalysisCache before = NowMonthAnalysisCache.read(redisUtils.getData(key));
 
         LocalDate testDate = LocalDate.of(2024, 07, 07);
         CalorieAnalysisDTO calorieAnalysisDTO =

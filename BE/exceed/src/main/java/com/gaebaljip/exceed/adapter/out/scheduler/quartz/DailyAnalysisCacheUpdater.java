@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.adapter.out.scheduler.quartz;
 
-import static com.gaebaljip.exceed.common.RedisKeys.ANALYSIS_CACHE_TTL;
+import static com.gaebaljip.exceed.common.RedisKeys.NOW_ANALYSIS_CACHE_TTL;
 
 import org.springframework.stereotype.Component;
 
