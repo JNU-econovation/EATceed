@@ -64,7 +64,6 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    @Timer
     public MonthlyMeal query(MonthlyMealDTO monthlyMealDTO) {
         LocalDateTime date = monthlyMealDTO.date().atStartOfDay();
         LocalDateTime startOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
