@@ -38,11 +38,10 @@ public class HistoryPersistenceAdapter implements HistoryPort {
      * MEMBER_TB의 정보를 사용한다. / HISTORY_TB에서 특정 월의 기록이 없을 경우 가장 최신 기록인 MEMBER_TB의 정보를 사용한다.
      *
      * @param memberId
-     * @param dateTime
+     * @param date
      * @return
      */
     @Override
-    @Timer
     public Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDate date) {
         Map<LocalDate, Member> members = new HashMap<>();
 
