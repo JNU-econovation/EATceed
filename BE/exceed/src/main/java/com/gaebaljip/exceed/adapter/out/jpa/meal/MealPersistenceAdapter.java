@@ -20,7 +20,8 @@ import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.MealPort;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
-import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.common.dto.DaysMealRecordDTO;
+import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -88,7 +89,8 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public MonthlyMeal query(MonthlyMealDTO monthlyMealDTO) {
+    public MonthlyMealRecordDTO query(
+           MonthlyMealDTO monthlyMealDTO) {
         LocalDateTime date = monthlyMealDTO.date().atStartOfDay();
         LocalDateTime startOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
         LocalDateTime endOfMonth = date.with(TemporalAdjusters.firstDayOfNextMonth());
@@ -109,7 +111,7 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
                 .toLocalDate()
                 .datesUntil(endOfMonth.toLocalDate())
                 .forEach(day -> monthlyMeal.putIfAbsent(day, new DailyMealFoods(emptyMealFood)));
-        return new MonthlyMeal(monthlyMeal);
+        return new MonthlyMealRecordDTO(monthlyMeal);
     }
 
     @Override

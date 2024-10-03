@@ -18,7 +18,8 @@ public class MonthlyMealFixtureFactory {
      * @param endDateTime
      * @return
      */
-    public static MonthlyMeal create(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public static MonthlyMealRecordDTO create(
+            LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         LocalDate startDate = startDateTime.toLocalDate();
         LocalDate endDate = endDateTime.toLocalDate();
@@ -38,7 +39,7 @@ public class MonthlyMealFixtureFactory {
                                                         .getCreatedDate()
                                                         .toLocalDate(),
                                         dailyMealFoods -> dailyMealFoods));
-        MonthlyMeal monthlyMeal = new MonthlyMeal(dateDailyMealFoodsMap);
-        return monthlyMeal;
+        MonthlyMealRecordDTO monthlyMealRecordDTO = new MonthlyMealRecordDTO(dateDailyMealFoodsMap);
+        return monthlyMealRecordDTO;
     }
 }

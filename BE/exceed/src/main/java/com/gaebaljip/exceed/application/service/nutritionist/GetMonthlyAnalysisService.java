@@ -3,6 +3,7 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import java.time.LocalDate;
 import java.util.Map;
 
+import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,22 +51,30 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
         Map<LocalDate, Member> members =
                 historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
-                new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), members).isCalorieAchievementByDate();
-        Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal.getMonthlyMeal()).check();
-        return GetMonthlyAnalysisResponse.write(GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
+                new MealFoodsAnalyzer(monthlyMealRecordDTO.mealFoodsByDate(), members)
+                        .isCalorieAchievementByDate();
+        Map<LocalDate, Boolean> visitByDate =
+                new VisitChecker(monthlyMealRecordDTO.mealFoodsByDate()).check();
+        return GetMonthlyAnalysisResponse.write(
+                GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = RedisKeys.NOW_ANALYSIS_CACHE_NAME, key = "#command.memberId + '_' + #command.date")
     public String executeToNow(GetMonthlyAnalysisCommand command) {
-        MonthlyMeal monthlyMeal =
-                monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
+        MonthlyMealRecordDTO monthlyMealRecordDTO =
+                monthlyMealPort.query(
+                        new MonthlyMealDTO(
+                                command.memberId(), command.date()));
         Map<LocalDate, Member> members =
                 historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
-                new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), members).isCalorieAchievementByDate();
-        Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal.getMonthlyMeal()).check();
-        return NowMonthAnalysisCache.write(NowMonthAnalysisCache.of(LocalDate.now(), calorieAchievementByDate, visitByDate));
+                new MealFoodsAnalyzer(monthlyMealRecordDTO.mealFoodsByDate(), members)
+                        .isCalorieAchievementByDate();
+        Map<LocalDate, Boolean> visitByDate =
+                new VisitChecker(monthlyMealRecordDTO.mealFoodsByDate()).check();
+        return NowMonthAnalysisCache.write(
+                NowMonthAnalysisCache.of(LocalDate.now(), calorieAchievementByDate, visitByDate));
     }
 }

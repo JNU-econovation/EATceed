@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gaebaljip.exceed.application.domain.member.Member;
+import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 import com.gaebaljip.exceed.common.factory.MemberFixtureFactory;
 import com.gaebaljip.exceed.common.factory.MonthlyMealFixtureFactory;
 
@@ -24,11 +25,13 @@ class MealFoodsAnalyzerTest {
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime startDateTime = date.with(TemporalAdjusters.firstDayOfMonth());
         LocalDateTime endOfDateTime = date.with(TemporalAdjusters.lastDayOfMonth());
-        MonthlyMeal monthlyMeal = MonthlyMealFixtureFactory.create(startDateTime, endOfDateTime);
+        MonthlyMealRecordDTO monthlyMealRecordDTO =
+                MonthlyMealFixtureFactory.create(startDateTime, endOfDateTime);
         Member member = MemberFixtureFactory.create(1);
         Map<LocalDate, Member> membersMap = new HashMap<>();
         membersMap.put(startDateTime.toLocalDate().minusDays(40), member);
-        MealFoodsAnalyzer mealFoodsAnalyzer = new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), membersMap);
+        MealFoodsAnalyzer mealFoodsAnalyzer =
+                new MealFoodsAnalyzer(monthlyMealRecordDTO.mealFoodsByDate(), membersMap);
         assertDoesNotThrow(() -> mealFoodsAnalyzer.isCalorieAchievementByDate());
     }
 }
