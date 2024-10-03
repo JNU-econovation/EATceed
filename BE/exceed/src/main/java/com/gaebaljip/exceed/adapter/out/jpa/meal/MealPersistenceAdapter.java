@@ -48,6 +48,31 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
+    public DaysMealRecordDTO queryMealFoodsForDays(
+            com.gaebaljip.exceed.common.dto.DaysMealDTO daysMealDTO) {
+        List<Long> mealIds =
+                mealRepository.findMealIdsByMemberAndMonth(
+                        daysMealDTO.startDateTime(),
+                        daysMealDTO.endDateTime(),
+                        daysMealDTO.memberId());
+        List<MealFoodEntity> mealFoodEntities = mealFoodRepository.findMFTByIdInQuery(mealIds);
+        Map<LocalDate, DailyMealFoods> daysMeal =
+                mealFoodEntities.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        mealFood -> mealFood.getCreatedDate().toLocalDate(),
+                                        Collectors.collectingAndThen(
+                                                Collectors.toList(), DailyMealFoods::new)));
+        List<MealFoodEntity> emptyMealFood = new ArrayList<>();
+        daysMealDTO
+                .startDateTime()
+                .toLocalDate()
+                .datesUntil(daysMealDTO.endDateTime().toLocalDate())
+                .forEach(day -> daysMeal.putIfAbsent(day, new DailyMealFoods(emptyMealFood)));
+        return new DaysMealRecordDTO(daysMeal);
+    }
+
+    @Override
     public List<MealEntity> queryMeals(DailyMealDTO dailyMealDTO) {
         LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);

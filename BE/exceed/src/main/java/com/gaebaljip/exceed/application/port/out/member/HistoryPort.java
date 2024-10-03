@@ -17,5 +17,7 @@ public interface HistoryPort {
 
     Map<LocalDate, Member> findMembersByMonth(Long memberId, LocalDate date);
 
+    Map<LocalDate, Member> findMembersByDays(Long memberId, LocalDate startDate, LocalDate endDate);
+
     void deleteByAllByIdInQuery(List<Long> ids);
 }
