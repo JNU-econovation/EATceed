@@ -39,7 +39,7 @@ class GetDailyAnalysisServiceTest {
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 0);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
         given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
@@ -68,7 +68,7 @@ class GetDailyAnalysisServiceTest {
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 3);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
         given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))

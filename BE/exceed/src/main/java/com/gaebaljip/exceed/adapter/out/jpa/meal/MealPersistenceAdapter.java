@@ -37,7 +37,7 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public DailyMealFoods queryDailyMealFoods(DailyMealDTO dailyMealDTO) {
+    public DailyMealFoods queryMealFoodsForDay(DailyMealDTO dailyMealDTO) {
         LocalDateTime today = dailyMealDTO.date().toLocalDate().atStartOfDay();
         LocalDateTime tomorrow = today.plusDays(1);
         List<Long> mealIds =

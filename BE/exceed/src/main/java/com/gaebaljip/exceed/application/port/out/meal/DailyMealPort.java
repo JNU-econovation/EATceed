@@ -10,7 +10,7 @@ import com.gaebaljip.exceed.common.dto.DailyMealDTO;
 
 @Component
 public interface DailyMealPort {
-    DailyMealFoods queryDailyMealFoods(DailyMealDTO dailyMealDTO);
+    DailyMealFoods queryMealFoodsForDay(DailyMealDTO dailyMealDTO);
 
     DailyMealFoods queryMealFoods(List<Long> mealIds);
 

@@ -22,7 +22,7 @@ class MealPersistenceAdapterTest extends DatabaseTest {
     void when_queryForDaily_expected_success() {
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 10, 11, 11);
         DailyMealFoods dailyMealFoods =
-                mealPersistenceAdapter.queryDailyMealFoods(new DailyMealDTO(1L, dateTime));
+                mealPersistenceAdapter.queryMealFoodsForDay(new DailyMealDTO(1L, dateTime));
         assertAll(() -> assertEquals(2, dailyMealFoods.getMealFoods().size()));
     }
 
