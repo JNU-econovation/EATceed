@@ -8,25 +8,25 @@ import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.common.annotation.Timer;
 
 /**
- * 방문 여부를 확인
+ * 특정 기간의 식사 여부를 확인
  *
  * @author hwangdaesun
  * @version 1.0
  */
 public class VisitChecker {
-    private MonthlyMeal monthlyMeal;
+    private  Map<LocalDate, DailyMealFoods> mealFoodsByDate;
 
-    public VisitChecker(MonthlyMeal monthlyMeal) {
-        this.monthlyMeal = monthlyMeal;
+    public VisitChecker(Map<LocalDate, DailyMealFoods> mealFoodsByDate) {
+        this.mealFoodsByDate = mealFoodsByDate;
     }
 
     @Timer
     public Map<LocalDate, Boolean> check() {
         Map<LocalDate, Boolean> dateVisitStatus = new HashMap<>();
-        monthlyMeal.getMonthlyMeal().keySet().stream()
+        mealFoodsByDate.keySet().stream()
                 .forEach(
                         date -> {
-                            DailyMealFoods dailyMealFoods = monthlyMeal.getMonthlyMeal().get(date);
+                            DailyMealFoods dailyMealFoods = mealFoodsByDate.get(date);
                             dateVisitStatus.put(date, !dailyMealFoods.isEmptyMeals());
                         });
         return dateVisitStatus;

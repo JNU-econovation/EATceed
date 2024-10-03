@@ -51,8 +51,21 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
                 historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
                 new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), members).isCalorieAchievementByDate();
-        Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();
-        return GetMonthlyAnalysisResponse.write(
-                GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
+        Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal.getMonthlyMeal()).check();
+        return GetMonthlyAnalysisResponse.write(GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = RedisKeys.NOW_ANALYSIS_CACHE_NAME, key = "#command.memberId + '_' + #command.date")
+    public String executeToNow(GetMonthlyAnalysisCommand command) {
+        MonthlyMeal monthlyMeal =
+                monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
+        Map<LocalDate, Member> members =
+                historyPort.findMembersByMonth(command.memberId(), command.date());
+        Map<LocalDate, Boolean> calorieAchievementByDate =
+                new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), members).isCalorieAchievementByDate();
+        Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal.getMonthlyMeal()).check();
+        return NowMonthAnalysisCache.write(NowMonthAnalysisCache.of(LocalDate.now(), calorieAchievementByDate, visitByDate));
     }
 }
