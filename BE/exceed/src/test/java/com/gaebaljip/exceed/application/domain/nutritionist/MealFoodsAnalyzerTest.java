@@ -15,7 +15,7 @@ import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.common.factory.MemberFixtureFactory;
 import com.gaebaljip.exceed.common.factory.MonthlyMealFixtureFactory;
 
-class MonthlyAnalyzerTest {
+class MealFoodsAnalyzerTest {
     @Test
     @DisplayName(
             "MonthlyAnalyzer의 members 필드가 1개일 경우"
@@ -28,7 +28,7 @@ class MonthlyAnalyzerTest {
         Member member = MemberFixtureFactory.create(1);
         Map<LocalDate, Member> membersMap = new HashMap<>();
         membersMap.put(startDateTime.toLocalDate().minusDays(40), member);
-        MonthlyAnalyzer monthlyAnalyzer = new MonthlyAnalyzer(monthlyMeal, membersMap);
-        assertDoesNotThrow(() -> monthlyAnalyzer.isCalorieAchievementByDate());
+        MealFoodsAnalyzer mealFoodsAnalyzer = new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), membersMap);
+        assertDoesNotThrow(() -> mealFoodsAnalyzer.isCalorieAchievementByDate());
     }
 }

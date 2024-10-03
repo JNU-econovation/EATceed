@@ -50,7 +50,7 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
         Map<LocalDate, Member> members =
                 historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
-                new MonthlyAnalyzer(monthlyMeal, members).isCalorieAchievementByDate();
+                new MealFoodsAnalyzer(monthlyMeal.getMonthlyMeal(), members).isCalorieAchievementByDate();
         Map<LocalDate, Boolean> visitByDate = new VisitChecker(monthlyMeal).check();
         return GetMonthlyAnalysisResponse.write(
                 GetMonthlyAnalysisResponse.of(calorieAchievementByDate, visitByDate));
