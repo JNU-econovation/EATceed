@@ -13,12 +13,13 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
-analysis = APIRouter(
-    prefix="/v1"
+router = APIRouter(
+    prefix="/v1/ai/diet_analysis",
+    tags=["식습관 분석"]
 )
 
 # 전체 분석 라우터
-@analysis.get("/analyze_diet", tags=['analysis'])
+@router.get("/analyze_diet")
 def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     # 인증 확인
     if not member_id:
