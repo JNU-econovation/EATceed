@@ -19,7 +19,7 @@ router = APIRouter(
 )
 
 # 전체 분석 라우터
-@router.get("/analyze_diet")
+@router.get("/")
 def full_analysis_route(db: Session = Depends(get_db), member_id: int = Depends(get_current_member)):
     # 인증 확인
     if not member_id:

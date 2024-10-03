@@ -50,6 +50,9 @@ register_exception_handlers(app)
 # diet_analysis.py
 app.include_router(diet_analysis.router)
 
+# food_image_analysis.py
+app.include_router(food_image_analysis.router)
+
 # API Server Test
 @app.get("/", status_code=status.HTTP_200_OK)
 async def read_root():
