@@ -1,9 +1,9 @@
 package com.gaebaljip.exceed.adapter.in.nutritionist.response;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,18 +42,13 @@ public record GetMonthlyAnalysisResponse(List<CalorieAnalysisDTO> calorieAnalysi
     }
 
     public static GetMonthlyAnalysisResponse overWrite(
-            GetMonthlyAnalysisResponse getMonthlyAnalysisResponse,
-            CalorieAnalysisDTO calorieAnalysisDTO) {
-        List<CalorieAnalysisDTO> updatedList = new ArrayList<>();
-
-        for (CalorieAnalysisDTO dto : getMonthlyAnalysisResponse.calorieAnalysisDTOS()) {
-            if (dto.date().equals(calorieAnalysisDTO.date())) {
-                updatedList.add(calorieAnalysisDTO); // 덮어씌우기
-            } else {
-                updatedList.add(dto); // 기존 값 유지
-            }
-        }
-
+            List<CalorieAnalysisDTO> original, List<CalorieAnalysisDTO> overWrite) {
+        Map<LocalDate, CalorieAnalysisDTO> overWriteMap =
+                overWrite.stream().collect(Collectors.toMap(CalorieAnalysisDTO::date, dto -> dto));
+        List<CalorieAnalysisDTO> updatedList =
+                original.stream()
+                        .map(dto -> overWriteMap.getOrDefault(dto.date(), dto))
+                        .collect(Collectors.toList());
         return new GetMonthlyAnalysisResponse(updatedList);
     }
 
