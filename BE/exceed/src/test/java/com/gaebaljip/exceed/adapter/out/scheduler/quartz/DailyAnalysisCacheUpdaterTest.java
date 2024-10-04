@@ -19,6 +19,7 @@ import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisU
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.RedisScanPattern;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.NowMonthAnalysisCache;
 
 class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
 
@@ -32,11 +33,8 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
     void setUp() {
         LocalDate date = LocalDate.of(2024, 07, 01);
         Long memberId = 1L;
-        String response = getMonthlyAnalysisUsecase.execute(GetMonthlyAnalysisCommand.of(1L, date));
-        StringBuilder sb = new StringBuilder();
-        String key =
-                sb.append(ANALYSIS_CACHE_KEY).append(memberId).append("_").append(date).toString();
-        redisUtils.setData(key, response, 100000L);
+        String response =
+                getMonthlyAnalysisUsecase.executeToNow(GetMonthlyAnalysisCommand.of(1L, date));
     }
 
     @AfterEach

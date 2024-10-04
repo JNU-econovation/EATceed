@@ -3,23 +3,22 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import java.time.LocalDate;
 import java.util.Map;
 
-import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
 import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
 import com.gaebaljip.exceed.application.domain.member.Member;
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyAnalyzer;
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
+import com.gaebaljip.exceed.application.domain.nutritionist.MealFoodsAnalyzer;
 import com.gaebaljip.exceed.application.domain.nutritionist.VisitChecker;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
-import com.gaebaljip.exceed.common.annotation.Timer;
+import com.gaebaljip.exceed.common.RedisKeys;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
+import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
+import com.gaebaljip.exceed.common.dto.NowMonthAnalysisCache;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,11 +42,12 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
      * @return GetAnalysisResponse : 날짜별 칼로리 달성 여부
      */
     @Override
-    @Timer
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "analysis", key = "#command.memberId + '_' + #command.date")
-    public String execute(GetMonthlyAnalysisCommand command) {
-        MonthlyMeal monthlyMeal =
+    @Cacheable(
+            cacheNames = RedisKeys.PAST_ANALYSIS_CACHE_NAME,
+            key = "#command.memberId + '_' + #command.date")
+    public String executeToPast(GetMonthlyAnalysisCommand command) {
+        MonthlyMealRecordDTO monthlyMealRecordDTO =
                 monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
         Map<LocalDate, Member> members =
                 historyPort.findMembersByMonth(command.memberId(), command.date());
@@ -62,12 +62,12 @@ public class GetMonthlyAnalysisService implements GetMonthlyAnalysisUsecase {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = RedisKeys.NOW_ANALYSIS_CACHE_NAME, key = "#command.memberId + '_' + #command.date")
+    @Cacheable(
+            cacheNames = RedisKeys.NOW_ANALYSIS_CACHE_NAME,
+            key = "#command.memberId + '_' + #command.date")
     public String executeToNow(GetMonthlyAnalysisCommand command) {
         MonthlyMealRecordDTO monthlyMealRecordDTO =
-                monthlyMealPort.query(
-                        new MonthlyMealDTO(
-                                command.memberId(), command.date()));
+                monthlyMealPort.query(new MonthlyMealDTO(command.memberId(), command.date()));
         Map<LocalDate, Member> members =
                 historyPort.findMembersByMonth(command.memberId(), command.date());
         Map<LocalDate, Boolean> calorieAchievementByDate =
