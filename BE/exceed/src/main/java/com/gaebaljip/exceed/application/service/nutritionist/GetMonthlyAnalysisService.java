@@ -15,6 +15,7 @@ import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyAnalyzer;
 import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.application.domain.nutritionist.VisitChecker;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.member.HistoryPort;
 import com.gaebaljip.exceed.common.annotation.Timer;

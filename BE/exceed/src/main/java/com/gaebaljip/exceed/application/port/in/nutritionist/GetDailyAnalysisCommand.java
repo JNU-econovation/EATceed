@@ -1,4 +1,4 @@
-package com.gaebaljip.exceed.adapter.in.nutritionist.request;
+package com.gaebaljip.exceed.application.port.in.nutritionist;
 
 import java.time.LocalDateTime;
 
