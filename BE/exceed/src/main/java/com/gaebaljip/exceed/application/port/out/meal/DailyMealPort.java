@@ -7,10 +7,14 @@ import org.springframework.stereotype.Component;
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.meal.MealEntity;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
+import com.gaebaljip.exceed.common.dto.DaysMealRecordDTO;
 
 @Component
 public interface DailyMealPort {
-    DailyMealFoods queryDailyMealFoods(DailyMealDTO dailyMealDTO);
+    DailyMealFoods queryMealFoodsForDay(DailyMealDTO dailyMealDTO);
+
+    DaysMealRecordDTO queryMealFoodsForDays(
+            com.gaebaljip.exceed.common.dto.DaysMealDTO daysMealDTO);
 
     DailyMealFoods queryMealFoods(List<Long> mealIds);
 

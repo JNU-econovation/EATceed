@@ -3,14 +3,13 @@ package com.gaebaljip.exceed.application.service.nutritionist;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.application.domain.nutritionist.*;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
-import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
@@ -38,11 +37,9 @@ public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
      */
     @Override
     @Transactional(readOnly = true)
-    @Timer
     public AllAnalysisDTO executeToAllNutrition(GetDailyAnalysisCommand request) {
-
         DailyMealFoods dailyMealFoods =
-                dailyMealPort.queryDailyMealFoods(
+                dailyMealPort.queryMealFoodsForDay(
                         new DailyMealDTO(request.memberId(), request.dateTime()));
         Member member = memberPort.findMemberByDate(request.memberId(), request.dateTime());
         DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);
@@ -63,7 +60,7 @@ public class GetDailyAnalysisService implements GetDailyAnalysisUsecase {
     @Transactional(readOnly = true)
     public CalorieAnalysisDTO executeToCalorie(GetDailyAnalysisCommand request) {
         DailyMealFoods dailyMealFoods =
-                dailyMealPort.queryDailyMealFoods(
+                dailyMealPort.queryMealFoodsForDay(
                         new DailyMealDTO(request.memberId(), request.dateTime()));
         Member member = memberPort.findMemberByDate(request.memberId(), request.dateTime());
         DailyCalorieAnalyzer dailyCalorieAnalyzer = getCalorieAnalyzer(member, dailyMealFoods);

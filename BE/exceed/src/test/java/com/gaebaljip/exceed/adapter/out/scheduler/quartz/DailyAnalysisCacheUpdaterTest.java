@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.adapter.out.scheduler.quartz;
 
-import static com.gaebaljip.exceed.common.RedisKeys.ANALYSIS_CACHE_KEY;
+import static com.gaebaljip.exceed.common.RedisKeys.NOW_ANALYSIS_CACHE_KEY;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -11,13 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.RedisScanPattern;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.NowMonthAnalysisCache;
 
 class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
 
@@ -31,11 +31,8 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
     void setUp() {
         LocalDate date = LocalDate.of(2024, 07, 01);
         Long memberId = 1L;
-        String response = getMonthlyAnalysisUsecase.execute(GetMonthlyAnalysisCommand.of(1L, date));
-        StringBuilder sb = new StringBuilder();
-        String key =
-                sb.append(ANALYSIS_CACHE_KEY).append(memberId).append("_").append(date).toString();
-        redisUtils.setData(key, response, 100000L);
+        String response =
+                getMonthlyAnalysisUsecase.executeToNow(GetMonthlyAnalysisCommand.of(1L, date));
     }
 
     @AfterEach
@@ -45,15 +42,17 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
 
     @Test
     void test() {
-
         // given
         LocalDate date = LocalDate.of(2024, 07, 01);
         Long memberId = 1L;
         StringBuilder sb = new StringBuilder();
         String key =
-                sb.append(ANALYSIS_CACHE_KEY).append(memberId).append("_").append(date).toString();
-        GetMonthlyAnalysisResponse before =
-                GetMonthlyAnalysisResponse.read(redisUtils.getData(key));
+                sb.append(NOW_ANALYSIS_CACHE_KEY)
+                        .append(memberId)
+                        .append("_")
+                        .append(date)
+                        .toString();
+        NowMonthAnalysisCache before = NowMonthAnalysisCache.read(redisUtils.getData(key));
 
         LocalDate testDate = LocalDate.of(2024, 07, 07);
         CalorieAnalysisDTO calorieAnalysisDTO =
@@ -71,7 +70,7 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
                 keys.stream().findAny().get(), calorieAnalysisDTO);
 
         // then
-        GetMonthlyAnalysisResponse after = GetMonthlyAnalysisResponse.read(redisUtils.getData(key));
+        NowMonthAnalysisCache after = NowMonthAnalysisCache.read(redisUtils.getData(key));
         CalorieAnalysisDTO afterCalorieAnalysisDTO =
                 after.calorieAnalysisDTOS().stream()
                         .filter(dto -> dto.date().equals(testDate))

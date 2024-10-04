@@ -6,8 +6,8 @@ import java.util.Set;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisUsecase;
 import com.gaebaljip.exceed.common.RedisScanPattern;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
@@ -57,7 +57,7 @@ public class UpdateCacheScheduler {
      * @return memberId
      */
     private Long extractMemberId(String key) {
-        // 키 형식 ANALYSIS::memberId_yyyy-MM-dd
+        // 키 형식 *analysis::memberId_yyyy-MM-dd
         String[] parts = key.split("::")[1].split("_");
         return Long.valueOf(parts[0]);
     }

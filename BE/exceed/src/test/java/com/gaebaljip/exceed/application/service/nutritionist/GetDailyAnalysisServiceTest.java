@@ -11,9 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
@@ -39,7 +39,7 @@ class GetDailyAnalysisServiceTest {
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 0);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
         given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
@@ -68,7 +68,7 @@ class GetDailyAnalysisServiceTest {
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 3);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
         given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))

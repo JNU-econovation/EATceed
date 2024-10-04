@@ -1,7 +1,6 @@
 package com.gaebaljip.exceed.config;
 
-import static com.gaebaljip.exceed.common.RedisKeys.ANALYSIS_CACHE_NAME;
-import static com.gaebaljip.exceed.common.RedisKeys.ANALYSIS_CACHE_TTL;
+import static com.gaebaljip.exceed.common.RedisKeys.*;
 
 import java.time.Duration;
 
@@ -21,16 +20,32 @@ public class CacheConfig {
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) ->
                 builder.withCacheConfiguration(
-                        ANALYSIS_CACHE_NAME,
-                        RedisCacheConfiguration.defaultCacheConfig()
-                                .computePrefixWith(cacheName -> cacheName + "::")
-                                .entryTtl(Duration.ofMillis(ANALYSIS_CACHE_TTL))
-                                .disableCachingNullValues()
-                                .serializeKeysWith(
-                                        RedisSerializationContext.SerializationPair.fromSerializer(
-                                                new StringRedisSerializer()))
-                                .serializeValuesWith(
-                                        RedisSerializationContext.SerializationPair.fromSerializer(
-                                                new StringRedisSerializer())));
+                                PAST_ANALYSIS_CACHE_NAME,
+                                RedisCacheConfiguration.defaultCacheConfig()
+                                        .computePrefixWith(cacheName -> cacheName + "::")
+                                        .entryTtl(Duration.ofSeconds(PAST_ANALYSIS_CACHE_TTL))
+                                        .disableCachingNullValues()
+                                        .serializeKeysWith(
+                                                RedisSerializationContext.SerializationPair
+                                                        .fromSerializer(
+                                                                new StringRedisSerializer()))
+                                        .serializeValuesWith(
+                                                RedisSerializationContext.SerializationPair
+                                                        .fromSerializer(
+                                                                new StringRedisSerializer())))
+                        .withCacheConfiguration(
+                                NOW_ANALYSIS_CACHE_NAME,
+                                RedisCacheConfiguration.defaultCacheConfig()
+                                        .computePrefixWith(cacheName -> cacheName + "::")
+                                        .entryTtl(Duration.ofSeconds(NOW_ANALYSIS_CACHE_TTL))
+                                        .disableCachingNullValues()
+                                        .serializeKeysWith(
+                                                RedisSerializationContext.SerializationPair
+                                                        .fromSerializer(
+                                                                new StringRedisSerializer()))
+                                        .serializeValuesWith(
+                                                RedisSerializationContext.SerializationPair
+                                                        .fromSerializer(
+                                                                new StringRedisSerializer())));
     }
 }

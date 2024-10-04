@@ -4,31 +4,33 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
 import com.gaebaljip.exceed.common.annotation.Timer;
 import com.gaebaljip.exceed.common.exception.member.MemberNotFoundException;
 import com.gaebaljip.exceed.common.exception.nutritionist.MinimumMemberRequiredException;
 
 /**
- * 한달치 달성률을 계산
+ * 특정 기간의 식사들의 달성률을 계산
  *
  * @author hwangdaesun
  * @version 1.0
  */
-public class MonthlyAnalyzer {
-    private MonthlyMeal monthlyMeal;
+public class MealFoodsAnalyzer {
+    private Map<LocalDate, DailyMealFoods> mealFoodsByDate;
     private Map<LocalDate, Member> members;
 
-    public MonthlyAnalyzer(MonthlyMeal monthlyMeal, Map<LocalDate, Member> members) {
+    public MealFoodsAnalyzer(
+            Map<LocalDate, DailyMealFoods> mealFoodsByDate, Map<LocalDate, Member> members) {
         validateAtLeastOneMember(members);
-        this.monthlyMeal = monthlyMeal;
+        this.mealFoodsByDate = mealFoodsByDate;
         this.members = members;
     }
 
     @Timer
     public Map<LocalDate, Boolean> isCalorieAchievementByDate() {
         Map<LocalDate, Boolean> calorieAchievements = new HashMap<>();
-        monthlyMeal.getMonthlyMeal().entrySet().stream()
+        mealFoodsByDate.entrySet().stream()
                 .forEach(
                         dailyMealEntry -> {
                             Member memberByDate =

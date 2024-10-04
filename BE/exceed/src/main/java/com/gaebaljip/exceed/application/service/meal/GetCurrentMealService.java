@@ -39,7 +39,7 @@ public class GetCurrentMealService implements GetCurrentMealQuery {
     @Timer
     public CurrentMealDTO execute(Long memberId) {
         DailyMealFoods dailyMealFoods =
-                dailyMealPort.queryDailyMealFoods(new DailyMealDTO(memberId, LocalDateTime.now()));
+                dailyMealPort.queryMealFoodsForDay(new DailyMealDTO(memberId, LocalDateTime.now()));
         return CurrentMealDTO.of(
                 dailyMealFoods.calculateCurrentCalorie(),
                 dailyMealFoods.calculateCurrentCarbohydrate(),
