@@ -4,9 +4,9 @@ import static com.gaebaljip.exceed.common.RedisKeys.NOW_ANALYSIS_CACHE_TTL;
 
 import org.springframework.stereotype.Component;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.common.dto.CalorieAnalysisDTO;
+import com.gaebaljip.exceed.common.dto.NowMonthAnalysisCache;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +26,11 @@ public class DailyAnalysisCacheUpdater {
                     key,
                     calorieAnalysisDTO);
             String original = redisUtils.getData(key);
-            GetMonthlyAnalysisResponse overWrite =
-                    GetMonthlyAnalysisResponse.overWrite(
-                            GetMonthlyAnalysisResponse.read(original), calorieAnalysisDTO);
+            NowMonthAnalysisCache overWrite =
+                    NowMonthAnalysisCache.overWrite(
+                            NowMonthAnalysisCache.read(original), calorieAnalysisDTO);
             log.info("original : {}, overWrite 완료 : {}", original, overWrite);
-            redisUtils.setData(
-                    key, GetMonthlyAnalysisResponse.write(overWrite), ANALYSIS_CACHE_TTL);
+            redisUtils.setData(key, NowMonthAnalysisCache.write(overWrite), NOW_ANALYSIS_CACHE_TTL);
         } catch (Exception e) {
             log.error("Error processing key: {}, message: {}", key, e.getMessage());
         }

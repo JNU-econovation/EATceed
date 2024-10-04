@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetMonthlyAnalysisCommand;
-import com.gaebaljip.exceed.adapter.in.nutritionist.response.GetMonthlyAnalysisResponse;
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
@@ -44,7 +42,6 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
 
     @Test
     void test() {
-
         // given
         LocalDate date = LocalDate.of(2024, 07, 01);
         Long memberId = 1L;
@@ -73,7 +70,7 @@ class DailyAnalysisCacheUpdaterTest extends IntegrationTest {
                 keys.stream().findAny().get(), calorieAnalysisDTO);
 
         // then
-        GetMonthlyAnalysisResponse after = GetMonthlyAnalysisResponse.read(redisUtils.getData(key));
+        NowMonthAnalysisCache after = NowMonthAnalysisCache.read(redisUtils.getData(key));
         CalorieAnalysisDTO afterCalorieAnalysisDTO =
                 after.calorieAnalysisDTOS().stream()
                         .filter(dto -> dto.date().equals(testDate))
