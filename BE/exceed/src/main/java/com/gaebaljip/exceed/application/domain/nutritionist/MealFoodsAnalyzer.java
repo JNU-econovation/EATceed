@@ -20,7 +20,8 @@ public class MealFoodsAnalyzer {
     private Map<LocalDate, DailyMealFoods> mealFoodsByDate;
     private Map<LocalDate, Member> members;
 
-    public MealFoodsAnalyzer(Map<LocalDate, DailyMealFoods> mealFoodsByDate, Map<LocalDate, Member> members) {
+    public MealFoodsAnalyzer(
+            Map<LocalDate, DailyMealFoods> mealFoodsByDate, Map<LocalDate, Member> members) {
         validateAtLeastOneMember(members);
         this.mealFoodsByDate = mealFoodsByDate;
         this.members = members;

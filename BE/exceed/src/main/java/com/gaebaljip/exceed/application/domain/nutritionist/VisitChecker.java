@@ -14,7 +14,7 @@ import com.gaebaljip.exceed.common.annotation.Timer;
  * @version 1.0
  */
 public class VisitChecker {
-    private  Map<LocalDate, DailyMealFoods> mealFoodsByDate;
+    private Map<LocalDate, DailyMealFoods> mealFoodsByDate;
 
     public VisitChecker(Map<LocalDate, DailyMealFoods> mealFoodsByDate) {
         this.mealFoodsByDate = mealFoodsByDate;

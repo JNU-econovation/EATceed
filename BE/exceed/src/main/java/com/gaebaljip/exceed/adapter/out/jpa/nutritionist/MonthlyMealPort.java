@@ -1,6 +1,5 @@
 package com.gaebaljip.exceed.adapter.out.jpa.nutritionist;
 
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
 import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 

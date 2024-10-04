@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
+import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 
 public class MonthlyMealFixtureFactory {
 

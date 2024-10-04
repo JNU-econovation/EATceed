@@ -5,14 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 
-import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
 import com.gaebaljip.exceed.common.DatabaseTest;
 import com.gaebaljip.exceed.common.dto.DailyMealDTO;
+import com.gaebaljip.exceed.common.dto.MonthlyMealDTO;
 import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 
 class MealPersistenceAdapterTest extends DatabaseTest {
