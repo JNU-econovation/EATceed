@@ -219,6 +219,7 @@ def food_image_analyze(prompt_type: str, image_url: str):
         temperature=0.0,
         max_tokens=150
     )
+    
+    result = response.choices[0].message.content
 
-    # 결과 반환
-    return response.choices[0].message.content
+    return result
