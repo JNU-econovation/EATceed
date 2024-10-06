@@ -6,12 +6,9 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - RDS_DATABASE_ENDPOINT=${RDS_DATABASE_ENDPOINT}
-      - RDS_PORT=${RDS_PORT}
-      - RDS_DB_NAME=${RDS_DB_NAME}
-      - RDS_DATABASE_USERNAME=${RDS_DATABASE_USERNAME}
-      - RDS_DATABASE_PASSWORD=${RDS_DATABASE_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=eatceed
+      - MYSQL_DATABASE=gaebaljip
+      - MYSQL_USER=gaebaljip-local
+      - MYSQL_PASSWORD=gaebaljip-local
     volumes:
       - ./db_data:/var/lib/mysql
-    env_file:
-      - .env.dev
