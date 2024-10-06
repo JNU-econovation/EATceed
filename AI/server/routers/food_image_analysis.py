@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 from apis.api import food_image_analyze
 from auth.decoded_token import get_current_member
 from db.database import get_db
@@ -19,7 +19,7 @@ async def food_image_analysis_test():
 
 # 리팩토링 과정에서 pydantic 위치 변경 진행할 예정
 class ImageAnalysisRequest(BaseModel):
-    image_url: str
+    image_url: HttpUrl
 
 
 # 음식 이미지 분석 API
