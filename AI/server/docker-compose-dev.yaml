@@ -13,3 +13,5 @@ services:
       - RDS_DATABASE_PASSWORD=${RDS_DATABASE_PASSWORD}
     volumes:
       - ./db_data:/var/lib/mysql
+    env_file:
+      - .env.dev
