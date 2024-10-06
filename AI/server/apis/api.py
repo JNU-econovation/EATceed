@@ -200,17 +200,16 @@ scheduler.start()
 
 # 음식 이미지 분석 API: prompt_type은 함수명과 동일
 def food_image_analyze(image_url: str):
-    
 
+    print(f"Analyzing image URL: {image_url}")
 
     # prompt 타입 설정
-    prompt_type = "food_image_analyze"
-    prompt_file = os.path.join(PROMPT_PATH, f"{prompt_type}.txt")
+    prompt_file = os.path.join(PROMPT_PATH, "food_image_analyze.txt")
     prompt = read_prompt(prompt_file)
 
     # OpenAI API 호출
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": [
