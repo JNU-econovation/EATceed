@@ -4,7 +4,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import HTMLResponse, UJSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 # from routers.test import *
-from routers.diet_analysis import *
+from routers import diet_analysis, food_image_analysis
 from core.config import settings
 from errors.error_hanlder import register_exception_handlers
 
@@ -48,7 +48,10 @@ register_exception_handlers(app)
 # app.include_router(test) 
 
 # diet_analysis.py
-app.include_router(analysis)
+app.include_router(diet_analysis.router)
+
+# food_image_analysis.py
+app.include_router(food_image_analysis.router)
 
 # API Server Test
 @app.get("/", status_code=status.HTTP_200_OK)

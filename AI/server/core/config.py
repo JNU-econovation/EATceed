@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 """
 env_file = f".env.{os.getenv('APP_ENV', 'dev')}"
 
-load_dotenv()
+load_dotenv(dotenv_path=env_file)
 
 class Settings:
 

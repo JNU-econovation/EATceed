@@ -196,3 +196,32 @@ scheduler = BackgroundScheduler()
 # 실제 기능 수행 시간 설정
 scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
 scheduler.start()
+
+
+# 음식 이미지 분석 API: prompt_type은 함수명과 동일
+def food_image_analyze(image_url: str):
+
+    print(f"Analyzing image URL: {image_url}")
+
+    # prompt 타입 설정
+    prompt_file = os.path.join(PROMPT_PATH, "food_image_analyze.txt")
+    prompt = read_prompt(prompt_file)
+
+    # OpenAI API 호출
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": [
+                {"type": "image_url", 
+                 "image_url": {
+                     "url": image_url}}
+            ]}
+        ],
+        temperature=0.0,
+        max_tokens=150
+    )
+    
+    result = response.choices[0].message.content
+
+    return result
