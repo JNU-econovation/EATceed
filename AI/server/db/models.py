@@ -111,6 +111,22 @@ class History(Base):
 
     member = relationship("Member", back_populates="histories")
 
+# NOTIFY_TB 구성
+class Notify(Base):
+    __tablename__ = "NOTIFY_TB"
+
+    NOTIFY_PK = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
+    CREATED_DATE = Column(DateTime(6), nullable=False)
+    UPDATED_DATE = Column(DateTime(6), nullable=False)
+    NOTIFY_URL = Column(String(255), nullable=False)
+    NOTIFY_IS_READ = Column(Boolean, nullable=False)  # bit(1) -> Boolean으로 매핑
+    NOTIFY_CONTENT = Column(String(255), nullable=False)
+    NOTIFY_TYPE = Column(String(255), nullable=False)
+    MEMBER_FK = Column(BigInteger, ForeignKey('MEMBER_TB.MEMBER_PK'), nullable=True)
+
+    # Relationships
+    member = relationship("Member", back_populates="notifications")
+
 # 테이블을 생성하고 매퍼를 추가
 Base.metadata.create_all(bind=engine)
 
