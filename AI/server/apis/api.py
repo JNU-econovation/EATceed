@@ -198,7 +198,7 @@ scheduler.add_job(scheduled_task, 'cron', day_of_week='mon', hour=0, minute=0)
 scheduler.start()
 
 
-# 음식 이미지 분석 API
+# 음식 이미지 분석 API: prompt_type은 함수명과 동일
 def food_image_analyze(prompt_type: str, image_url: str):
     
     # prompt 타입 설정
