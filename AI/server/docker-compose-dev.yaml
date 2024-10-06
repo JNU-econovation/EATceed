@@ -6,9 +6,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - RDS_DATABASE_ENDPOINT=${RDS_DATABASE_ENDPOINT}
+      - RDS_PORT=${RDS_PORT}
+      - RDS_DB_NAME=${RDS_DB_NAME}
+      - RDS_DATABASE_USERNAME=${RDS_DATABASE_USERNAME}
+      - RDS_DATABASE_PASSWORD=${RDS_DATABASE_PASSWORD}
     volumes:
       - ./db_data:/var/lib/mysql
