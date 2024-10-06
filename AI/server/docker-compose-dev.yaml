@@ -12,3 +12,4 @@ services:
       - MYSQL_PASSWORD=gaebaljip-local
     volumes:
       - ./db_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql  
