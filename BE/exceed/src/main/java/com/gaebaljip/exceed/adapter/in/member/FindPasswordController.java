@@ -51,7 +51,7 @@ public class FindPasswordController {
     }
 
     @Operation(summary = "링크 클릭시 리다이렉트", description = "AOS는 몰라도 되는 API")
-    @GetMapping("/updatePassword-redirect")
+    @GetMapping("/findPassword-redirect")
     public void redirect(@RequestParam String email, HttpServletResponse response) {
         StringBuilder sb = new StringBuilder();
         String code = getCodeUsecase.execute(email);
