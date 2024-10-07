@@ -2,13 +2,12 @@ package com.gaebaljip.exceed.common.security.domain;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
+import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
+import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.common.security.exception.InvalidJwtException;
 import com.gaebaljip.exceed.common.security.exception.UnSupportedJwtException;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -159,5 +158,13 @@ public class JwtManager {
 
     public void saveRefreshToken(String email, String refreshToken) {
         redisAdapter.saveWithExpiration(email, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
+    }
+
+    public Claims parseClaims(String Token) {
+        try {
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(Token).getBody();
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 }
