@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
-@Tag(name = "[비밀번호 변경]")
+@Tag(name = "[비밀번호 찾기]")
 public class UpdatePasswordController {
 
     private final PasswordValidationUsecase passwordValidationUsecase;
@@ -40,8 +40,8 @@ public class UpdatePasswordController {
     private final UpdatePasswordUsecase updatePasswordUsecase;
 
     @Operation(
-            summary = "비밀번호 변경 전 이메일 검증 및 메일 전송",
-            description = "비밀번호 변경하기 전, 이메일 검증 및 이메일을 재전송한다.")
+            summary = "비밀번호 찾기 전 이메일 검증 및 메일 전송",
+            description = "비밀번호 찾기 전, 이메일 검증 및 이메일을 재전송한다.")
     @PostMapping("/email")
     @ApiErrorExceptionsExample(UpdatePassword_validateEmailExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> validateEmail(
@@ -61,8 +61,8 @@ public class UpdatePasswordController {
     }
 
     @Operation(
-            summary = "비밀번호 찾기 및 변경",
-            description = "비밀번호 변경시 사용하고, 비밀번호를 찾을 시에도 무조건 비밀번호를 변경한다.")
+            summary = "비밀번호 찾기",
+            description = "비밀번호를 찾을 때 사용한다. 단, 비밀번호 찾기 버튼을 누르는 것이지 실제로는 새로운 비밀번호로 수정한다.")
     @PatchMapping("/members/password")
     @ApiErrorExceptionsExample(UpdatePassword_updatePasswordExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> updatePassword(
