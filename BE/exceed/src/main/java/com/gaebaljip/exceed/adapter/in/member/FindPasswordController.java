@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.gaebaljip.exceed.adapter.in.member.request.SendEmailRequest;
 import com.gaebaljip.exceed.adapter.in.member.request.FindPasswordRequest;
+import com.gaebaljip.exceed.adapter.in.member.request.SendEmailRequest;
 import com.gaebaljip.exceed.application.port.in.member.CheckCodeUsecase;
 import com.gaebaljip.exceed.application.port.in.member.GetCodeUsecase;
 import com.gaebaljip.exceed.application.port.in.member.PasswordValidationUsecase;
@@ -67,7 +67,6 @@ public class FindPasswordController {
     @ApiErrorExceptionsExample(FindPassword_updatePasswordExceptionDocs.class)
     public ApiResponse<CustomBody<Void>> findPassword(
             @RequestBody @Valid FindPasswordRequest request) {
-        passwordValidationUsecase.execute(request.email());
         checkCodeUsecase.execute(request.email(), request.code());
         updatePasswordUsecase.execute(request.email(), request.newPassword());
         return ApiResponseGenerator.success(HttpStatus.OK);
