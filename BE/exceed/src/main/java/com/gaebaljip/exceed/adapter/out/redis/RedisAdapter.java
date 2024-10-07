@@ -16,8 +16,8 @@ public class RedisAdapter implements CodePort {
     private final RedisUtils redisUtils;
 
     @Override
-    public void saveWithExpiration(String email, String code, Long expiredTime) {
-        redisUtils.setData(email, code, expiredTime);
+    public void saveWithExpiration(String key, String code, Long expiredTime) {
+        redisUtils.setData(key, code, expiredTime);
     }
 
     @Override

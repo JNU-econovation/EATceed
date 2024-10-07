@@ -156,8 +156,8 @@ public class JwtManager {
         return false;
     }
 
-    public void saveRefreshToken(String email, String refreshToken) {
-        redisAdapter.saveWithExpiration(email, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
+    public void saveRefreshToken(String memberId, String refreshToken) {
+        redisAdapter.saveWithExpiration(memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
     }
 
     public Claims parseClaims(String Token) {
