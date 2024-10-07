@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.gaebaljip.exceed.common.dto.*;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.jpa.nutritionist.MonthlyMealPort;
@@ -18,6 +17,7 @@ import com.gaebaljip.exceed.application.domain.meal.MealFoodEntity;
 import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.meal.MealPort;
+import com.gaebaljip.exceed.common.dto.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,8 +45,7 @@ public class MealPersistenceAdapter implements MealPort, DailyMealPort, MonthlyM
     }
 
     @Override
-    public DaysMealRecordDTO queryMealFoodsForDays(
-            DaysMealDTO daysMealDTO) {
+    public DaysMealRecordDTO queryMealFoodsForDays(DaysMealDTO daysMealDTO) {
         List<Long> mealIds =
                 mealRepository.findMealIdsByMemberAndMonth(
                         daysMealDTO.startDateTime(),
