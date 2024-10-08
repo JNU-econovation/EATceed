@@ -18,7 +18,7 @@ import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
-import com.gaebaljip.exceed.common.docs.auth.AuthExceptionDocs;
+import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
 import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
 import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
@@ -39,7 +39,7 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "로그인")
     @PostMapping("/auth/login")
-    @ApiErrorExceptionsExample(AuthExceptionDocs.class)
+    @ApiErrorExceptionsExample(LoginExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> login(
             @RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
         LoginResponseDTO loginResponseDTO = authUsecase.execute(loginRequest);
