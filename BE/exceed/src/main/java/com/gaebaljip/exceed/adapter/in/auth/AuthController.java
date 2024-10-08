@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.gaebaljip.exceed.common.EatCeedStaticMessage;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,7 +70,7 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "로그아웃 한다.")
     @PostMapping("/auth/logout")
     public ApiResponse<ApiResponse.CustomBody<Void>> logout(
-            @AuthenticationMemberId Long memberId, HttpServletResponse response) {
+            @Parameter(hidden = true) @AuthenticationMemberId Long memberId, HttpServletResponse response) {
         authUsecase.logout(memberId.toString());
         deleteRefreshCookie(response);
         return ApiResponseGenerator.success(HttpStatus.OK);
