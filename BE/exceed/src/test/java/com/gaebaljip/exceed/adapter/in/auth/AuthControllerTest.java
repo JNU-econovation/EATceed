@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.ValidationMessage;
-import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.TokenDTO;
 
 public class AuthControllerTest extends ControllerTest {
 
@@ -53,8 +53,8 @@ public class AuthControllerTest extends ControllerTest {
             "로그인 성공" + "Authoriztion 헤더에 accessToken이 존재" + "refreshToken 쿠키에 refreshToken이 존재")
     void when_login_expected_success() throws Exception {
         LoginRequest loginRequest = new LoginRequest("abcd1111!@gmail.com", "Abc@123");
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO("accessToken", "refreshToken");
-        given(authService.execute(loginRequest)).willReturn(loginResponseDTO);
+        TokenDTO tokenDTO = new TokenDTO("accessToken", "refreshToken");
+        given(authService.execute(loginRequest)).willReturn(tokenDTO);
 
         ResultActions resultActions =
                 mockMvc.perform(
@@ -65,6 +65,6 @@ public class AuthControllerTest extends ControllerTest {
         resultActions.andExpectAll(
                 status().isOk(),
                 header().exists("Authorization"),
-                cookie().value("refreshToken", loginResponseDTO.refreshToken()));
+                cookie().value("refreshToken", tokenDTO.refreshToken()));
     }
 }

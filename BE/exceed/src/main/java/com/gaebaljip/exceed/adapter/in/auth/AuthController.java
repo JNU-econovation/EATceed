@@ -18,7 +18,7 @@ import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
 import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
-import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.TokenDTO;
 import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.AuthConstants;
@@ -43,9 +43,9 @@ public class AuthController {
     @ApiErrorExceptionsExample(LoginExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> login(
             @RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
-        LoginResponseDTO loginResponseDTO = authUsecase.execute(loginRequest);
-        response.setHeader(AuthConstants.AUTH_HEADER.getValue(), loginResponseDTO.accessToken());
-        setCookie(response, loginResponseDTO.refreshToken());
+        TokenDTO tokenDTO = authUsecase.execute(loginRequest);
+        response.setHeader(AuthConstants.AUTH_HEADER.getValue(), tokenDTO.accessToken());
+        setCookie(response, tokenDTO.refreshToken());
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 

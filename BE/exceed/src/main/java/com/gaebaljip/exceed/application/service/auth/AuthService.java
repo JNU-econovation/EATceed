@@ -9,7 +9,7 @@ import com.gaebaljip.exceed.application.domain.member.MemberEntity;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
-import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.TokenDTO;
 import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.PasswordMismatchException;
 import com.gaebaljip.exceed.common.security.domain.JwtManager;
@@ -27,18 +27,18 @@ public class AuthService implements AuthUsecase {
     private final JwtManager jwtManager;
 
     @Override
-    public LoginResponseDTO execute(LoginRequest request) {
+    public TokenDTO execute(LoginRequest request) {
         MemberEntity member = memberPort.findCheckedMemberByEmail(request.email());
         if (!bCryptPasswordEncoder.matches(request.password(), member.getPassword())) {
             throw PasswordMismatchException.EXECPTION;
         }
-        LoginResponseDTO loginResponseDTO =
-                LoginResponseDTO.builder()
+        TokenDTO tokenDTO =
+                TokenDTO.builder()
                         .accessToken(jwtManager.generateAccessToken(member.getId()))
                         .refreshToken(jwtManager.generateRefreshToken(member.getId()))
                         .build();
-        jwtManager.saveRefreshToken(member.getId().toString(), loginResponseDTO.refreshToken());
-        return loginResponseDTO;
+        jwtManager.saveRefreshToken(member.getId().toString(), tokenDTO.refreshToken());
+        return tokenDTO;
     }
 
     @Override
