@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -175,7 +176,7 @@ public class JwtManager {
         String accessTokenMemberId = parseClaims(accessToken).getSubject();
         String refreshToken =
                 redisAdapter
-                        .query(accessTokenMemberId)
+                        .query(EatCeedStaticMessage.REDIS_REFRESH_TOKEN_KEY + accessTokenMemberId)
                         .orElseThrow(() -> NotFoundRefreshTokenException.EXECPTION);
         String refreshTokenMemberId = parseClaims(refreshToken).getSubject();
 

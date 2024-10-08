@@ -1,5 +1,6 @@
 package com.gaebaljip.exceed.application.service.auth;
 
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class AuthService implements AuthUsecase {
                         .accessToken(jwtManager.generateAccessToken(member.getId()))
                         .refreshToken(jwtManager.generateRefreshToken(member.getId()))
                         .build();
-        jwtManager.saveRefreshToken(member.getId().toString(), tokenDTO.refreshToken());
+        jwtManager.saveRefreshToken(EatCeedStaticMessage.REDIS_REFRESH_TOKEN_KEY + member.getId().toString(), tokenDTO.refreshToken());
         return tokenDTO;
     }
 
