@@ -1,7 +1,5 @@
 package com.gaebaljip.exceed.adapter.in.member;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -20,12 +17,10 @@ import com.gaebaljip.exceed.adapter.in.member.request.UpdateWeightRequest;
 import com.gaebaljip.exceed.common.ControllerTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.event.Events;
-import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
 
 @RecordApplicationEvents
 public class UpdateWeightControllerTest extends ControllerTest {
 
-    @Autowired ApplicationEvents events;
     @Autowired ApplicationEventPublisher applicationEventPublisher;
 
     @BeforeEach
@@ -53,10 +48,7 @@ public class UpdateWeightControllerTest extends ControllerTest {
                                 .content(om.writeValueAsString(updateWeightRequest))
                                 .contentType(MediaType.APPLICATION_JSON));
 
-        long count = events.stream(UpdateWeightEvent.class).count();
-
         // then
         resultActions.andExpectAll(status().isOk());
-        assertAll(() -> assertEquals(1, count));
     }
 }

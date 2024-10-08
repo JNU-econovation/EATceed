@@ -50,6 +50,11 @@ jwt:
 
 ableAutoComplete: false
 
+scheduler:
+  nutrition:
+    cache:
+      update : 0 0 0 * * *
+
 logging:
   level:
     org:

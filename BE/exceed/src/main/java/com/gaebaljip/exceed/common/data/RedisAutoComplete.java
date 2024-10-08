@@ -1,6 +1,6 @@
 package com.gaebaljip.exceed.common.data;
 
-import static com.gaebaljip.exceed.common.EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY;
+import static com.gaebaljip.exceed.common.RedisKeys.AUTO_COMPLETE_KEY;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class RedisAutoComplete implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
         try {
-            redisUtils.deleteData(REDIS_AUTO_COMPLETE_KEY); // 기존 데이터 클리어
+            redisUtils.deleteData(AUTO_COMPLETE_KEY); // 기존 데이터 클리어
 
             // CSV 파일에서 식품명 열 데이터 로드
             String csvPath = args.getSourceArgs()[0];
@@ -60,8 +60,8 @@ public class RedisAutoComplete implements ApplicationRunner {
         // 음식 이름에 대한 모든 접두사를 Redis sorted set에 추가
         for (int i = 1; i <= foodName.length(); i++) {
             String prefix = foodName.substring(0, i);
-            redisUtils.zAdd(REDIS_AUTO_COMPLETE_KEY, prefix, 0D);
+            redisUtils.zAdd(AUTO_COMPLETE_KEY, prefix, 0D);
         }
-        redisUtils.zAdd(REDIS_AUTO_COMPLETE_KEY, foodName + ":" + pk + ";", 0D); // 완전한 단어를 표시
+        redisUtils.zAdd(AUTO_COMPLETE_KEY, foodName + ":" + pk + ";", 0D); // 완전한 단어를 표시
     }
 }

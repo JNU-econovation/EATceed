@@ -66,6 +66,11 @@ springdoc:
 
 ableAutoComplete: true
 
+scheduler:
+  nutrition:
+    cache:
+      update : ${SCHEDULER_NUTRITION_CACHE_UPDATE}
+
 management:
   endpoints:
     web:

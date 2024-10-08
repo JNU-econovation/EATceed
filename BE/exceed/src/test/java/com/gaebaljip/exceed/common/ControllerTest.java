@@ -30,12 +30,13 @@ import com.gaebaljip.exceed.adapter.in.nutritionist.GetAnalysisController;
 import com.gaebaljip.exceed.application.port.in.meal.*;
 import com.gaebaljip.exceed.application.port.in.member.*;
 import com.gaebaljip.exceed.application.port.in.notify.ConnectEmitterUseCase;
-import com.gaebaljip.exceed.application.port.in.nutritionist.GetCalorieAnalysisUsecase;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetMonthlyAnalysisUsecase;
 import com.gaebaljip.exceed.application.port.in.nutritionist.ValidateSignUpBeforeMonthUsecase;
 import com.gaebaljip.exceed.application.service.auth.AuthService;
 import com.gaebaljip.exceed.application.service.food.CreateFoodService;
 import com.gaebaljip.exceed.application.service.member.OnBoardingMemberService;
-import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalysisService;
+import com.gaebaljip.exceed.application.service.nutritionist.GetAnalysisService;
+import com.gaebaljip.exceed.application.service.nutritionist.GetDailyAnalysisService;
 
 @ActiveProfiles("test")
 @ExtendWith({RestDocumentationExtension.class})
@@ -60,14 +61,15 @@ import com.gaebaljip.exceed.application.service.nutritionist.GetAllCalorieAnalys
     @MockBean(GetWeightUseCase.class),
     @MockBean(GetCurrentMealQuery.class),
     @MockBean(GetSpecificMealQuery.class),
-    @MockBean(GetAllCalorieAnalysisService.class),
+    @MockBean(GetDailyAnalysisService.class),
     @MockBean(ValidateBeforeSignUpDateUsecase.class),
     @MockBean(OnBoardingMemberService.class),
     @MockBean(UpdateMemberUsecase.class),
     @MockBean(UpdateWeightUsecase.class),
-    @MockBean(GetCalorieAnalysisUsecase.class),
+    @MockBean(GetMonthlyAnalysisUsecase.class),
     @MockBean(ConnectEmitterUseCase.class),
-    @MockBean(ValidateSignUpBeforeMonthUsecase.class)
+    @MockBean(ValidateSignUpBeforeMonthUsecase.class),
+    @MockBean(GetAnalysisService.class)
 })
 public abstract class ControllerTest {
 
@@ -81,6 +83,7 @@ public abstract class ControllerTest {
     @Autowired protected GetCurrentMealQuery getCurrentMealQuery;
     @Autowired protected ConnectEmitterUseCase connectEmitterUseCase;
     @Autowired protected GetWeightUseCase getWeightUseCase;
+    @Autowired protected GetAnalysisService getAnalysisService;
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider restDocumentation) {

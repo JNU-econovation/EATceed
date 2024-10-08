@@ -82,7 +82,7 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members", "/v1/email")
                 .permitAll()
-                .antMatchers(HttpMethod.POST, "/v1/auth/login")
+                .antMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/refresh")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

@@ -11,9 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gaebaljip.exceed.adapter.in.nutritionist.request.GetAllAnalysisRequest;
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
 import com.gaebaljip.exceed.application.domain.member.Member;
+import com.gaebaljip.exceed.application.port.in.nutritionist.GetDailyAnalysisCommand;
 import com.gaebaljip.exceed.application.port.out.meal.DailyMealPort;
 import com.gaebaljip.exceed.application.port.out.member.MemberPort;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
@@ -22,12 +22,12 @@ import com.gaebaljip.exceed.common.factory.DailyMealFoodsFixtureFactory;
 import com.gaebaljip.exceed.common.factory.MemberFixtureFactory;
 
 @ExtendWith(MockitoExtension.class)
-class GetAllCalorieAnalysisServiceTest {
+class GetDailyAnalysisServiceTest {
 
     @Mock private DailyMealPort dailyMealPort;
     @Mock private MemberPort memberPort;
 
-    @InjectMocks private GetAllCalorieAnalysisService getAllCalorieAnalysisService;
+    @InjectMocks private GetDailyAnalysisService getDailyAnalysisService;
 
     @Test
     void when_mealFood_is_0_expected_isVisited_false_and_allAchieved_false() {
@@ -35,17 +35,18 @@ class GetAllCalorieAnalysisServiceTest {
         // given
         LocalDateTime now = LocalDateTime.now();
         Member member = MemberFixtureFactory.create(1);
-        GetAllAnalysisRequest request = getGetAllAnalysisRequest(now);
+        GetDailyAnalysisCommand request = getGetDailyAnalysisCommand(now);
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 0);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
-        given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
+        given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
+                .willReturn(member);
 
         // when
-        AllAnalysisDTO allAnalysisDTO = getAllCalorieAnalysisService.execute(request);
+        AllAnalysisDTO allAnalysisDTO = getDailyAnalysisService.executeToAllNutrition(request);
 
         // then
         assertAll(
@@ -63,17 +64,18 @@ class GetAllCalorieAnalysisServiceTest {
         // given
         LocalDateTime now = LocalDateTime.now();
         Member member = MemberFixtureFactory.create(1);
-        GetAllAnalysisRequest request = getGetAllAnalysisRequest(now);
+        GetDailyAnalysisCommand request = getGetDailyAnalysisCommand(now);
         DailyMealFoods dailyMealFoods =
                 DailyMealFoodsFixtureFactory.create(now.toLocalDate(), now.toLocalDate(), 3);
         given(
-                        dailyMealPort.queryDailyMealFoods(
+                        dailyMealPort.queryMealFoodsForDay(
                                 new DailyMealDTO(request.memberId(), request.dateTime())))
                 .willReturn(dailyMealFoods);
-        given(memberPort.query(request.memberId(), request.dateTime())).willReturn(member);
+        given(memberPort.findMemberByDate(request.memberId(), request.dateTime()))
+                .willReturn(member);
 
         // when
-        AllAnalysisDTO allAnalysisDTO = getAllCalorieAnalysisService.execute(request);
+        AllAnalysisDTO allAnalysisDTO = getDailyAnalysisService.executeToAllNutrition(request);
 
         // then
         assertAll(
@@ -81,7 +83,7 @@ class GetAllCalorieAnalysisServiceTest {
                 () -> assertEquals(request.dateTime().toLocalDate(), now.toLocalDate()));
     }
 
-    private GetAllAnalysisRequest getGetAllAnalysisRequest(LocalDateTime localDateTime) {
-        return new GetAllAnalysisRequest(1L, localDateTime);
+    private GetDailyAnalysisCommand getGetDailyAnalysisCommand(LocalDateTime localDateTime) {
+        return new GetDailyAnalysisCommand(1L, localDateTime);
     }
 }

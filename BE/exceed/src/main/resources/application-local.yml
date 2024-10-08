@@ -69,6 +69,12 @@ springdoc:
 
 
 ableAutoComplete: true
+
+scheduler:
+  nutrition:
+    cache:
+      update : 0 0 0 * * *
+
 # Actuator
 
 management:
