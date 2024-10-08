@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.gaebaljip.exceed.common.EatCeedStaticMessage;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +15,7 @@ import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
 import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
@@ -27,6 +26,7 @@ import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +70,8 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "로그아웃 한다.")
     @PostMapping("/auth/logout")
     public ApiResponse<ApiResponse.CustomBody<Void>> logout(
-            @Parameter(hidden = true) @AuthenticationMemberId Long memberId, HttpServletResponse response) {
+            @Parameter(hidden = true) @AuthenticationMemberId Long memberId,
+            HttpServletResponse response) {
         authUsecase.logout(memberId.toString());
         deleteRefreshCookie(response);
         return ApiResponseGenerator.success(HttpStatus.OK);
