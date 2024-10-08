@@ -199,9 +199,7 @@ scheduler.start()
 
 
 # 음식 이미지 분석 API: prompt_type은 함수명과 동일
-def food_image_analyze(image_url: str):
-
-    print(f"Analyzing image URL: {image_url}")
+def food_image_analyze(image_base64: str):
 
     # prompt 타입 설정
     prompt_file = os.path.join(PROMPT_PATH, "food_image_analyze.txt")
@@ -212,14 +210,22 @@ def food_image_analyze(image_url: str):
         model="gpt-4o",
         messages=[
             {"role": "system", "content": prompt},
-            {"role": "user", "content": [
-                {"type": "image_url", 
-                 "image_url": {
-                     "url": image_url}}
-            ]}
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{image_base64}"
+                            # 검증 필요
+                            # "detail": "high"
+                        }
+                    }
+                ]
+            }
         ],
         temperature=0.0,
-        max_tokens=150
+        max_tokens=300
     )
     
     result = response.choices[0].message.content
