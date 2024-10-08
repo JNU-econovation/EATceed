@@ -74,11 +74,12 @@ public class SecurityConfig {
                         "/actuator/**",
                         "/v1/health",
                         "/v1//findPassword-redirect",
-                        "/v1/signUp-redirect")
+                        "/v1/signUp-redirect",
+                        "/v1/members/password")
                 .permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/members/email/confirmed")
                 .permitAll()
-                .antMatchers(HttpMethod.PATCH, "/v1/members/checked", "/v1/members/password")
+                .antMatchers(HttpMethod.PATCH, "/v1/members/checked")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/members", "/v1/email")
                 .permitAll()

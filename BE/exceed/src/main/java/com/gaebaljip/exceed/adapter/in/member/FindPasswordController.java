@@ -63,10 +63,9 @@ public class FindPasswordController {
     @Operation(
             summary = "비밀번호 찾기",
             description = "비밀번호를 찾을 때 사용한다. 단, 비밀번호 찾기 버튼을 누르는 것이지 실제로는 새로운 비밀번호로 수정한다.")
-    @PatchMapping("/members/password")
+    @GetMapping("/members/password")
     @ApiErrorExceptionsExample(FindPassword_updatePasswordExceptionDocs.class)
-    public ApiResponse<CustomBody<Void>> findPassword(
-            @RequestBody @Valid FindPasswordRequest request) {
+    public ApiResponse<CustomBody<Void>> findPassword(@Valid FindPasswordRequest request) {
         checkCodeUsecase.execute(request.email(), request.code());
         updatePasswordUsecase.execute(request.email(), request.newPassword());
         return ApiResponseGenerator.success(HttpStatus.OK);
