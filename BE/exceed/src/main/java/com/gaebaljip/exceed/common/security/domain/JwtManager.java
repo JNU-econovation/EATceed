@@ -6,12 +6,12 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
 import com.gaebaljip.exceed.common.dto.TokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtManager {
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60; // 3일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key key;
     private RedisAdapter redisAdapter;
@@ -162,30 +162,5 @@ public class JwtManager {
 
     public void saveRefreshToken(String memberId, String refreshToken) {
         redisAdapter.saveWithExpiration(memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
-    }
-
-    public Claims parseClaims(String Token) {
-        try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(Token).getBody();
-        } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            return e.getClaims();
-        }
-    }
-
-    public TokenDTO reissueToken(String accessToken) {
-        String accessTokenMemberId = parseClaims(accessToken).getSubject();
-        String refreshToken =
-                redisAdapter
-                        .query(EatCeedStaticMessage.REDIS_REFRESH_TOKEN_KEY + accessTokenMemberId)
-                        .orElseThrow(() -> NotFoundRefreshTokenException.EXECPTION);
-        String refreshTokenMemberId = parseClaims(refreshToken).getSubject();
-
-        if (accessTokenMemberId.equals(refreshTokenMemberId)) {
-            return TokenDTO.builder()
-                    .accessToken(generateAccessToken(Long.parseLong(accessTokenMemberId)))
-                    .refreshToken(generateRefreshToken(Long.parseLong(refreshTokenMemberId)))
-                    .build();
-        }
-        throw InvalidJwtException.EXECPTION;
     }
 }
