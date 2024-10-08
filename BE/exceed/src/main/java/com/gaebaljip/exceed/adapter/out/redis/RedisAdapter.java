@@ -22,12 +22,12 @@ public class RedisAdapter implements CodePort {
 
     @Override
     @Timer
-    public Optional<String> query(String email) {
-        return Optional.ofNullable(redisUtils.getData(email));
+    public Optional<String> query(String key) {
+        return Optional.ofNullable(redisUtils.getData(key));
     }
 
     @Override
-    public void delete(String email) {
-        redisUtils.deleteData(email);
+    public void delete(String key) {
+        redisUtils.deleteData(key);
     }
 }
