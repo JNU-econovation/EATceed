@@ -13,7 +13,7 @@ public class ReissueTokenExceptionDocs implements SwaggerExampleExceptions {
     public EatCeedException 리프레시_토큰이_존재_하지_않을_때 = NotFoundRefreshTokenException.EXECPTION;
 
     @ExplainError("토큰이 유효 하지 않을 때 ")
-    public EatCeedException 토큰이_유혀_하지_않을_때 = new EatCeedException(SecurityErrorCode.INVALID_JWT);
+    public EatCeedException 토큰이_유효_하지_않을_때 = new EatCeedException(SecurityErrorCode.INVALID_JWT);
 
     @ExplainError("리프레시 토큰이 만료 되었을 때")
     public EatCeedException 리프레시_토큰이_만료_되었을_때 = new EatCeedException(SecurityErrorCode.EXPIRED_JWT);
