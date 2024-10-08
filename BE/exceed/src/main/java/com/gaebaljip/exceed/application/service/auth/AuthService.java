@@ -76,4 +76,9 @@ public class AuthService implements AuthUsecase {
         }
         throw InvalidJwtException.EXECPTION;
     }
+
+    @Override
+    public void logout(String memberId) {
+        redisAdapter.delete(EatCeedStaticMessage.REDIS_REFRESH_TOKEN_KEY + memberId);
+    }
 }

@@ -15,6 +15,7 @@ import com.gaebaljip.exceed.adapter.in.auth.request.LoginRequest;
 import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
+import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
 import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
 import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
@@ -64,10 +65,25 @@ public class AuthController {
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃 한다.")
+    @PostMapping("/auth/logout")
+    public ApiResponse<ApiResponse.CustomBody<Void>> logout(
+            @AuthenticationMemberId Long memberId, HttpServletResponse response) {
+        authUsecase.logout(memberId.toString());
+        deleteRefreshCookie(response);
+        return ApiResponseGenerator.success(HttpStatus.OK);
+    }
+
     private void setCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
+        response.addCookie(cookie);
+    }
+
+    private void deleteRefreshCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
 
