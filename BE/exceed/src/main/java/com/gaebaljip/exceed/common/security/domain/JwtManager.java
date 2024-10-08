@@ -6,13 +6,13 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.gaebaljip.exceed.common.dto.TokenDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
+import com.gaebaljip.exceed.common.dto.TokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.common.security.exception.InvalidJwtException;

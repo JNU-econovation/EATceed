@@ -10,6 +10,5 @@ import com.gaebaljip.exceed.common.dto.TokenDTO;
 public interface AuthUsecase {
     TokenDTO execute(LoginRequest request);
 
-    TokenDTO reIssueToken(
-            String accessToken, String refreshToken, HttpRequestDTO requestDTO);
+    TokenDTO reIssueToken(String accessToken, String refreshToken, HttpRequestDTO requestDTO);
 }
