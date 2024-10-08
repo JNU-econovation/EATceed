@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisUtils;
-import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import com.gaebaljip.exceed.common.IntegrationTest;
+import com.gaebaljip.exceed.common.RedisKeys;
 import com.gaebaljip.exceed.common.data.RedisAutoComplete;
 import com.gaebaljip.exceed.common.exception.food.FoodError;
 
@@ -40,7 +40,7 @@ public class GetFoodIntegrationTest extends IntegrationTest {
 
     @AfterEach
     void tearDown() {
-        redisUtils.deleteData(EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY);
+        redisUtils.deleteData(RedisKeys.AUTO_COMPLETE_KEY);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class GetFoodIntegrationTest extends IntegrationTest {
     void when_getFoodsAuto_expected_success() throws Exception {
         // given
         String prefix = "감";
-        Long size = redisUtils.zSize(EatCeedStaticMessage.REDIS_AUTO_COMPLETE_KEY);
+        Long size = redisUtils.zSize(RedisKeys.AUTO_COMPLETE_KEY);
 
         ResultActions resultActions =
                 mockMvc.perform(

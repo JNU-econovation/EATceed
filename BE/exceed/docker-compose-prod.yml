@@ -32,6 +32,7 @@ services:
       - ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM}
       - SPRING_REDIS_HOST=gaebaljip-redis
       - SPRING_REDIS_PORT=6379
+      - SCHEDULER_NUTRITION_CACHE_UPDATE=${SCHEDULER_NUTRITION_CACHE_UPDATE}
     networks:
       - gaebaljip-network
     restart:  "always"

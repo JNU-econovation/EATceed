@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.gaebaljip.exceed.application.domain.meal.DailyMealFoods;
-import com.gaebaljip.exceed.application.domain.nutritionist.MonthlyMeal;
+import com.gaebaljip.exceed.common.dto.MonthlyMealRecordDTO;
 
 public class MonthlyMealFixtureFactory {
 
@@ -18,7 +18,8 @@ public class MonthlyMealFixtureFactory {
      * @param endDateTime
      * @return
      */
-    public static MonthlyMeal create(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public static MonthlyMealRecordDTO create(
+            LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         LocalDate startDate = startDateTime.toLocalDate();
         LocalDate endDate = endDateTime.toLocalDate();
@@ -38,7 +39,7 @@ public class MonthlyMealFixtureFactory {
                                                         .getCreatedDate()
                                                         .toLocalDate(),
                                         dailyMealFoods -> dailyMealFoods));
-        MonthlyMeal monthlyMeal = new MonthlyMeal(dateDailyMealFoodsMap);
-        return monthlyMeal;
+        MonthlyMealRecordDTO monthlyMealRecordDTO = new MonthlyMealRecordDTO(dateDailyMealFoodsMap);
+        return monthlyMealRecordDTO;
     }
 }

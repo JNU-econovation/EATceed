@@ -1,7 +1,5 @@
 package com.gaebaljip.exceed.adapter.in.member;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -17,8 +15,6 @@ import com.gaebaljip.exceed.application.port.in.member.UpdateWeightUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.annotation.AuthenticationMemberId;
-import com.gaebaljip.exceed.common.event.Events;
-import com.gaebaljip.exceed.common.event.UpdateWeightEvent;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -41,10 +37,11 @@ public class UpdateWeightController {
             @AuthenticationMemberId Long memberId) {
         UpdateWeightResponse response =
                 updateWeightUsecase.execute(
-                        UpdateWeightCommand.of(request.weight(), request.targetWeight(), memberId));
-        Events.raise(
-                UpdateWeightEvent.from(
-                        memberId, servletRequest.getRequestURI(), LocalDateTime.now()));
+                        UpdateWeightCommand.of(
+                                request.weight(),
+                                request.targetWeight(),
+                                memberId,
+                                servletRequest.getRequestURI()));
         return ApiResponseGenerator.success(response, HttpStatus.OK);
     }
 }
