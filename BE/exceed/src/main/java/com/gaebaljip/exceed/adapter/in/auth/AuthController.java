@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.gaebaljip.exceed.common.EatCeedStaticMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,21 +76,21 @@ public class AuthController {
     }
 
     private void setCookie(HttpServletResponse response, String refreshToken) {
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        Cookie cookie = new Cookie(EatCeedStaticMessage.REFRESH_TOKEN, refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         response.addCookie(cookie);
     }
 
     private void deleteRefreshCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("refreshToken", null);
+        Cookie cookie = new Cookie(EatCeedStaticMessage.REFRESH_TOKEN, null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
 
     private Cookie getCookie(Cookie[] cookies) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("refreshToken")) {
+            if (cookie.getName().equals(EatCeedStaticMessage.REFRESH_TOKEN)) {
                 return cookie;
             }
         }
