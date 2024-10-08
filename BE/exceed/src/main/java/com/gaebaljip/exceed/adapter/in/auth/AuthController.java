@@ -1,9 +1,13 @@
 package com.gaebaljip.exceed.adapter.in.auth;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
+import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
+import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,10 +48,31 @@ public class AuthController {
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
+    @Operation(summary = "엑세스 토큰 재발급", description = "엑세스 토큰 재발급 한다.")
+    @PostMapping("/auth/refresh")
+    public ApiResponse<ApiResponse.CustomBody<Void>> refresh(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken = request.getHeader(AuthConstants.AUTH_HEADER.getValue());
+        String refreshToken = getCookie(request.getCookies()).getValue();
+        HttpRequestDTO httpRequestDTO = HttpRequestDTO.of(request.getRequestURL().toString(), request.getMethod());
+        ReissueTokenDTO reissueTokenDTO = authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
+        response.setHeader(AuthConstants.AUTH_HEADER.getValue(), reissueTokenDTO.accessToken());
+        setCookie(response, reissueTokenDTO.refreshToken());
+        return ApiResponseGenerator.success(HttpStatus.OK);
+    }
+
     private void setCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         response.addCookie(cookie);
+    }
+
+    private Cookie getCookie(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("refreshToken")) {
+                return cookie;
+            }
+        }
+        throw NotFoundRefreshTokenException.EXECPTION;
     }
 }

@@ -167,4 +167,18 @@ public class JwtManager {
             return e.getClaims();
         }
     }
+
+    public ReissueTokenDTO reissueToken(String accessToken) {
+        String accessTokenMemberId = parseClaims(accessToken).getSubject();
+        String refreshToken = redisAdapter.query(accessTokenMemberId).orElseThrow(() -> NotFoundRefreshTokenException.EXECPTION);
+        String refreshTokenMemberId = parseClaims(refreshToken).getSubject();
+
+        if(accessTokenMemberId.equals(refreshTokenMemberId)) {
+            return ReissueTokenDTO.builder()
+                    .accessToken(generateAccessToken(Long.parseLong(accessTokenMemberId)))
+                    .refreshToken(generateRefreshToken(Long.parseLong(refreshTokenMemberId)))
+                    .build();
+        }
+        throw InvalidJwtException.EXECPTION;
+    }
 }
