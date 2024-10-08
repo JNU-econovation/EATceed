@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface CodePort {
-    void saveWithExpiration(String email, String code, Long expiredTime);
+    void saveWithExpiration(String key, String code, Long expiredTime);
 
-    Optional<String> query(String email);
+    Optional<String> query(String key);
 
-    void delete(String email);
+    void delete(String key);
 }

@@ -8,7 +8,7 @@ import com.gaebaljip.exceed.common.swagger.ExplainError;
 import com.gaebaljip.exceed.common.swagger.SwaggerExampleExceptions;
 
 @ExceptionDoc
-public class AuthExceptionDocs implements SwaggerExampleExceptions {
+public class LoginExceptionDocs implements SwaggerExampleExceptions {
 
     @ExplainError("비밀번호가 일치하지 않을 때")
     public EatCeedException 비밀번호가_일치하지_않을_때 = PasswordMismatchException.EXECPTION;
