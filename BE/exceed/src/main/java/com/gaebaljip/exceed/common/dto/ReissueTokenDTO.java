@@ -4,6 +4,5 @@ import lombok.Builder;
 
 public record ReissueTokenDTO(String accessToken, String refreshToken) {
     @Builder
-    public ReissueTokenDTO {
-    }
+    public ReissueTokenDTO {}
 }

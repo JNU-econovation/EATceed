@@ -5,10 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
-import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
-import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
-import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +16,11 @@ import com.gaebaljip.exceed.application.port.in.auth.AuthUsecase;
 import com.gaebaljip.exceed.common.ApiResponse;
 import com.gaebaljip.exceed.common.ApiResponseGenerator;
 import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
+import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
+import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
 import com.gaebaljip.exceed.common.dto.LoginResponseDTO;
+import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
+import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
 
@@ -52,11 +52,14 @@ public class AuthController {
     @Operation(summary = "토큰 재발급", description = "토큰 재발급 한다.")
     @PostMapping("/auth/refresh")
     @ApiErrorExceptionsExample(ReissueTokenExceptionDocs.class)
-    public ApiResponse<ApiResponse.CustomBody<Void>> refresh(HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse<ApiResponse.CustomBody<Void>> refresh(
+            HttpServletRequest request, HttpServletResponse response) {
         String accessToken = request.getHeader(AuthConstants.AUTH_HEADER.getValue());
         String refreshToken = getCookie(request.getCookies()).getValue();
-        HttpRequestDTO httpRequestDTO = HttpRequestDTO.of(request.getRequestURL().toString(), request.getMethod());
-        ReissueTokenDTO reissueTokenDTO = authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
+        HttpRequestDTO httpRequestDTO =
+                HttpRequestDTO.of(request.getRequestURL().toString(), request.getMethod());
+        ReissueTokenDTO reissueTokenDTO =
+                authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), reissueTokenDTO.accessToken());
         setCookie(response, reissueTokenDTO.refreshToken());
         return ApiResponseGenerator.success(HttpStatus.OK);

@@ -1,5 +1,15 @@
 package com.gaebaljip.exceed.common.security.domain;
 
+import java.security.Key;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
+
 import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
 import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
@@ -7,26 +17,19 @@ import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.common.security.exception.InvalidJwtException;
 import com.gaebaljip.exceed.common.security.exception.UnSupportedJwtException;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
-import java.security.Key;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Component
 @Slf4j
 public class JwtManager {
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 3; // 3일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60; // 3일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
     private final Key key;
-    private  RedisAdapter redisAdapter;
+    private RedisAdapter redisAdapter;
 
     public JwtManager(@Value("${jwt.secret}") String secretKey, RedisAdapter redisAdapter) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -170,10 +173,13 @@ public class JwtManager {
 
     public ReissueTokenDTO reissueToken(String accessToken) {
         String accessTokenMemberId = parseClaims(accessToken).getSubject();
-        String refreshToken = redisAdapter.query(accessTokenMemberId).orElseThrow(() -> NotFoundRefreshTokenException.EXECPTION);
+        String refreshToken =
+                redisAdapter
+                        .query(accessTokenMemberId)
+                        .orElseThrow(() -> NotFoundRefreshTokenException.EXECPTION);
         String refreshTokenMemberId = parseClaims(refreshToken).getSubject();
 
-        if(accessTokenMemberId.equals(refreshTokenMemberId)) {
+        if (accessTokenMemberId.equals(refreshTokenMemberId)) {
             return ReissueTokenDTO.builder()
                     .accessToken(generateAccessToken(Long.parseLong(accessTokenMemberId)))
                     .refreshToken(generateRefreshToken(Long.parseLong(refreshTokenMemberId)))
