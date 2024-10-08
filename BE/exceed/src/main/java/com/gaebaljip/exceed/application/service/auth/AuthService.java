@@ -32,7 +32,7 @@ public class AuthService implements AuthUsecase {
     private final RedisAdapter redisAdapter;
 
     @Override
-    public TokenDTO execute(LoginRequest request) {
+    public TokenDTO login(LoginRequest request) {
         MemberEntity member = memberPort.findCheckedMemberByEmail(request.email());
         if (!bCryptPasswordEncoder.matches(request.password(), member.getPassword())) {
             throw PasswordMismatchException.EXECPTION;

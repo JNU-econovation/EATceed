@@ -44,7 +44,7 @@ public class AuthController {
     @ApiErrorExceptionsExample(LoginExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> login(
             @RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
-        TokenDTO tokenDTO = authUsecase.execute(loginRequest);
+        TokenDTO tokenDTO = authUsecase.login(loginRequest);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), tokenDTO.accessToken());
         setCookie(response, tokenDTO.refreshToken());
         return ApiResponseGenerator.success(HttpStatus.OK);
