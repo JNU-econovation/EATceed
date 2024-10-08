@@ -19,7 +19,6 @@ import com.gaebaljip.exceed.common.docs.auth.LoginExceptionDocs;
 import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
 import com.gaebaljip.exceed.common.dto.TokenDTO;
-import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.AuthConstants;
 import com.gaebaljip.exceed.common.swagger.ApiErrorExceptionsExample;
@@ -58,7 +57,7 @@ public class AuthController {
         String refreshToken = getCookie(request.getCookies()).getValue();
         HttpRequestDTO httpRequestDTO =
                 HttpRequestDTO.of(request.getRequestURL().toString(), request.getMethod());
-        ReissueTokenDTO reissueTokenDTO =
+        TokenDTO reissueTokenDTO =
                 authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), reissueTokenDTO.accessToken());
         setCookie(response, reissueTokenDTO.refreshToken());

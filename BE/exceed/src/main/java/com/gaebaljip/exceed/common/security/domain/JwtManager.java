@@ -6,13 +6,13 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gaebaljip.exceed.common.dto.TokenDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.gaebaljip.exceed.adapter.out.redis.RedisAdapter;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
-import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
 import com.gaebaljip.exceed.common.security.exception.ExpiredJwtException;
 import com.gaebaljip.exceed.common.security.exception.InvalidJwtException;
@@ -171,7 +171,7 @@ public class JwtManager {
         }
     }
 
-    public ReissueTokenDTO reissueToken(String accessToken) {
+    public TokenDTO reissueToken(String accessToken) {
         String accessTokenMemberId = parseClaims(accessToken).getSubject();
         String refreshToken =
                 redisAdapter
@@ -180,7 +180,7 @@ public class JwtManager {
         String refreshTokenMemberId = parseClaims(refreshToken).getSubject();
 
         if (accessTokenMemberId.equals(refreshTokenMemberId)) {
-            return ReissueTokenDTO.builder()
+            return TokenDTO.builder()
                     .accessToken(generateAccessToken(Long.parseLong(accessTokenMemberId)))
                     .refreshToken(generateRefreshToken(Long.parseLong(refreshTokenMemberId)))
                     .build();
