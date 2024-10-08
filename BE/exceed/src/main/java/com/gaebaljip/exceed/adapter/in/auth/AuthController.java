@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.gaebaljip.exceed.common.docs.auth.ReissueTokenExceptionDocs;
 import com.gaebaljip.exceed.common.dto.HttpRequestDTO;
 import com.gaebaljip.exceed.common.dto.ReissueTokenDTO;
 import com.gaebaljip.exceed.common.exception.auth.NotFoundRefreshTokenException;
@@ -48,8 +49,9 @@ public class AuthController {
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
-    @Operation(summary = "엑세스 토큰 재발급", description = "엑세스 토큰 재발급 한다.")
+    @Operation(summary = "토큰 재발급", description = "토큰 재발급 한다.")
     @PostMapping("/auth/refresh")
+    @ApiErrorExceptionsExample(ReissueTokenExceptionDocs.class)
     public ApiResponse<ApiResponse.CustomBody<Void>> refresh(HttpServletRequest request, HttpServletResponse response) {
         String accessToken = request.getHeader(AuthConstants.AUTH_HEADER.getValue());
         String refreshToken = getCookie(request.getCookies()).getValue();
