@@ -8,11 +8,11 @@ import com.gaebaljip.exceed.common.annotation.Password;
 
 import lombok.Builder;
 
-public record UpdatePasswordRequest(
+public record FindPasswordRequest(
         @Email(message = ValidationMessage.INVALID_EMAIL) String email,
         @Password(message = ValidationMessage.INVALID_PASSWORD) String newPassword,
         @NotBlank(message = "인증 코드를  " + ValidationMessage.NOT_BLANK) String code) {
 
     @Builder
-    public UpdatePasswordRequest {}
+    public FindPasswordRequest {}
 }
