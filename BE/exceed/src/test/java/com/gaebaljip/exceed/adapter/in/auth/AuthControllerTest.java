@@ -54,7 +54,7 @@ public class AuthControllerTest extends ControllerTest {
     void when_login_expected_success() throws Exception {
         LoginRequest loginRequest = new LoginRequest("abcd1111!@gmail.com", "Abc@123");
         TokenDTO tokenDTO = new TokenDTO("accessToken", "refreshToken");
-        given(authService.execute(loginRequest)).willReturn(tokenDTO);
+        given(authService.login(loginRequest)).willReturn(tokenDTO);
 
         ResultActions resultActions =
                 mockMvc.perform(
