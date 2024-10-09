@@ -34,13 +34,13 @@ public class SendEmailEventListener {
         codePort.saveWithExpiration(event.getEmail(), Code.create(), expiredTime);
         Context context = new Context();
         context.setVariable(
-                MailTemplate.UPDATE_PASSWORD_MAIL_CONTEXT,
-                URL + MailTemplate.REPLY_TO_UPDATE_PASSWORD_MAIL_URL);
-        context.setVariable(MailTemplate.UPDATE_PASSWORD_EMAIL, "?email=" + event.getEmail());
+                MailTemplate.FIND_PASSWORD_MAIL_CONTEXT,
+                URL + MailTemplate.REPLY_TO_FIND_PASSWORD_MAIL_URL);
+        context.setVariable(MailTemplate.FIND_PASSWORD_EMAIL, "?email=" + event.getEmail());
         emailPort.sendEmail(
                 event.getEmail(),
-                MailTemplate.UPDATE_PASSWORD_TITLE,
-                MailTemplate.UPDATE_PASSWORD_TEMPLATE,
+                MailTemplate.FIND_PASSWORD_TITLE,
+                MailTemplate.FIND_PASSWORD_TEMPLATE,
                 context);
     }
 }
