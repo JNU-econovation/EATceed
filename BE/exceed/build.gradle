@@ -170,9 +170,7 @@ task copyDocument(type: Copy) {		//(8) from의 파일을 into로 복사
 build {        //(9) build 시 copyDocument 실행
 	dependsOn copyDocument
 }
-tasks.named('compileJava') {
-	dependsOn 'spotlessApply'
-}
+
 
 jar {
 	enabled = false

@@ -16,18 +16,18 @@ public class RedisAdapter implements CodePort {
     private final RedisUtils redisUtils;
 
     @Override
-    public void saveWithExpiration(String email, String code, Long expiredTime) {
-        redisUtils.setData(email, code, expiredTime);
+    public void saveWithExpiration(String key, String code, Long expiredTime) {
+        redisUtils.setData(key, code, expiredTime);
     }
 
     @Override
     @Timer
-    public Optional<String> query(String email) {
-        return Optional.ofNullable(redisUtils.getData(email));
+    public Optional<String> query(String key) {
+        return Optional.ofNullable(redisUtils.getData(key));
     }
 
     @Override
-    public void delete(String email) {
-        redisUtils.deleteData(email);
+    public void delete(String key) {
+        redisUtils.deleteData(key);
     }
 }

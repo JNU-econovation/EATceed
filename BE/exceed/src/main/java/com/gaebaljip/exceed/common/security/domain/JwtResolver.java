@@ -27,8 +27,12 @@ public class JwtResolver {
         return parseClaims(token).getSubject();
     }
 
-    private Claims parseClaims(String Token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(Token).getBody();
+    public Claims parseClaims(String Token) {
+        try {
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(Token).getBody();
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
     public String extractToken(String bearerToken) {
