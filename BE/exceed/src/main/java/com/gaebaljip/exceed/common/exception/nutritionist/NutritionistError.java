@@ -13,10 +13,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum NutritionistError implements BaseError {
-    INVALID_MEAL(400, "4451", "존재하지 않는 식사입니다."),
-    NOT_SAME_YEAR_MONTH(500, "4452", "모든 날짜의 연도와 월은 같아야합니다."),
-    NOT_SAME_SIZE(500, "4452", "해당 월의 일수와 size가 같아야합니다."),
-    NOT_REQUIRED_MINIMUM_MEMBER(500, "4452", "회원이 1개 이상 있어야합니다.");
+    INVALID_MEAL(400, "NUTRITIONIST_400_1", "존재하지 않는 식사입니다."),
+    NOT_SAME_YEAR_MONTH(500, "NUTRITIONIST_500_1", "모든 날짜의 연도와 월은 같아야합니다."),
+    NOT_SAME_SIZE(500, "NUTRITIONIST_500_2", "해당 월의 일수와 size가 같아야합니다."),
+    NOT_REQUIRED_MINIMUM_MEMBER(500, "NUTRITIONIST_500_3", "회원이 1개 이상 있어야합니다.");
 
     private final Integer status;
     private final String code;
