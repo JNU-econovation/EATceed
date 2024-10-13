@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.gaebaljip.exceed.adapter.out.jpa.member.MemberRepository;
 import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
+import com.gaebaljip.exceed.common.exception.member.MemberError;
 
 public class DeleteMemberIntegrationTest extends IntegrationTest {
     @Autowired private MemberRepository memberRepository;
@@ -50,6 +51,8 @@ public class DeleteMemberIntegrationTest extends IntegrationTest {
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         // then
-        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value("4448"));
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.code").value(MemberError.INVALID_MEMBER.getCode()));
     }
 }
