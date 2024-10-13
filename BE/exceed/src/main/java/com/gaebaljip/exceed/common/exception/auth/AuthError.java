@@ -13,9 +13,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum AuthError implements BaseError {
-    PASSWORD_MISMATCH(400, "5003", "비밀번호가 일치하지 않습니다."),
-    MEMBER_NOT_CHECKED(400, "5004", "해당 회원은 이메일 검증이 완료되지 않았습니다."),
-    NOT_FOUND_REFRESHTOKEN(400, "5005", "리프레시 토큰이 존재하지 않습니다.");
+    PASSWORD_MISMATCH(400, "6001", "비밀번호가 일치하지 않습니다."),
+    MEMBER_NOT_CHECKED(400, "6002", "해당 회원은 이메일 검증이 완료되지 않았습니다."),
+    NOT_FOUND_REFRESHTOKEN(400, "6003", "리프레시 토큰이 존재하지 않습니다.");
 
     private final Integer status;
     private final String code;
