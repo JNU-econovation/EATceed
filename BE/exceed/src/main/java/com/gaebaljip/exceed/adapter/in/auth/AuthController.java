@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthUsecase authUsecase;
+    private long maxAge = 1000 * 60 * 60 * 24 * 7; // 7일
 
     @Operation(summary = "로그인", description = "로그인")
     @PostMapping("/auth/login")
@@ -47,7 +49,7 @@ public class AuthController {
             @RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
         TokenDTO tokenDTO = authUsecase.login(loginRequest);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), tokenDTO.accessToken());
-        setCookie(response, tokenDTO.refreshToken());
+        setCookie(response, EatCeedStaticMessage.REFRESH_TOKEN, tokenDTO.refreshToken(), maxAge);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
@@ -63,7 +65,7 @@ public class AuthController {
         TokenDTO reissueTokenDTO =
                 authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), reissueTokenDTO.accessToken());
-        setCookie(response, reissueTokenDTO.refreshToken());
+        setCookie(response, EatCeedStaticMessage.REFRESH_TOKEN, reissueTokenDTO.refreshToken(), maxAge);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
@@ -77,11 +79,16 @@ public class AuthController {
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 
-    private void setCookie(HttpServletResponse response, String refreshToken) {
-        Cookie cookie = new Cookie(EatCeedStaticMessage.REFRESH_TOKEN, refreshToken);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
+    private void setCookie(HttpServletResponse response, String name, String value, long maxAge) {
+        ResponseCookie cookie =
+                ResponseCookie.from(name, value)
+                        .secure(true)
+                        .sameSite("None")
+                        .httpOnly(true)
+                        .maxAge(maxAge)
+                        .path("/")
+                        .build();
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     private void deleteRefreshCookie(HttpServletResponse response) {
