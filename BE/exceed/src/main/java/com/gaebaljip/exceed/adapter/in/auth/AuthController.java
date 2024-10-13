@@ -65,7 +65,11 @@ public class AuthController {
         TokenDTO reissueTokenDTO =
                 authUsecase.reIssueToken(accessToken, refreshToken, httpRequestDTO);
         response.setHeader(AuthConstants.AUTH_HEADER.getValue(), reissueTokenDTO.accessToken());
-        setCookie(response, EatCeedStaticMessage.REFRESH_TOKEN, reissueTokenDTO.refreshToken(), maxAge);
+        setCookie(
+                response,
+                EatCeedStaticMessage.REFRESH_TOKEN,
+                reissueTokenDTO.refreshToken(),
+                maxAge);
         return ApiResponseGenerator.success(HttpStatus.OK);
     }
 

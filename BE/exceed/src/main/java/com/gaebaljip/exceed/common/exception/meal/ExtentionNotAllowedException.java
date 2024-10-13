@@ -1,8 +1,8 @@
 package com.gaebaljip.exceed.common.exception.meal;
 
 import com.gaebaljip.exceed.common.exception.EatCeedException;
-
 import com.gaebaljip.exceed.common.exception.GlobalError;
+
 import lombok.Getter;
 
 @Getter
