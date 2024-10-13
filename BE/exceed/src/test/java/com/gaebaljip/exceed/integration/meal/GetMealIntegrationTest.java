@@ -29,6 +29,8 @@ import com.gaebaljip.exceed.common.IntegrationTest;
 import com.gaebaljip.exceed.common.WithMockUser;
 import com.gaebaljip.exceed.common.dto.AllAnalysisDTO;
 import com.gaebaljip.exceed.common.dto.MealRecordDTO;
+import com.gaebaljip.exceed.common.exception.meal.MealError;
+import com.gaebaljip.exceed.common.exception.member.MemberError;
 
 @InitializeS3Bucket
 public class GetMealIntegrationTest extends IntegrationTest {
@@ -166,7 +168,9 @@ public class GetMealIntegrationTest extends IntegrationTest {
                         RestDocumentationRequestBuilders.get("/v1/meal/" + testData)
                                 .contentType(MediaType.APPLICATION_JSON));
 
-        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value(2006));
+        resultActions.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("$.error.code").value(MealError.INVALID_DATE_FOUND.getCode()));
     }
 
     @Test
@@ -184,6 +188,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andExpectAll(
-                status().is5xxServerError(), jsonPath("$.error.code").value(1120));
+                status().is5xxServerError(),
+                jsonPath("$.error.code").value(MemberError.HISTORY_NOT_FOUND.getCode()));
     }
 }

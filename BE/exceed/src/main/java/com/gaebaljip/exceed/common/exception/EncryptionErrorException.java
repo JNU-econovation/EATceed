@@ -8,6 +8,6 @@ public class EncryptionErrorException extends EatCeedException {
     public static EatCeedException EXECPTION = new EncryptionErrorException();
 
     public EncryptionErrorException() {
-        super(EncryptionError.ENCRYPTION_FAIL);
+        super(GlobalError.ENCRYPTION_FAIL);
     }
 }

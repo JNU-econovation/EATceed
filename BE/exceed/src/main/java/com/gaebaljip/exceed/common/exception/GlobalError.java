@@ -11,9 +11,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum EncryptionError implements BaseError {
-    ENCRYPTION_FAIL(500, "8001", "암호화에 실패하였습니다."),
-    DECRYPTION_FAIL(500, "8002", "복호화에 실패하였습니다.");
+public enum GlobalError implements BaseError {
+    ENCRYPTION_FAIL(500, "ENCRYPTION_500_1", "암호화에 실패하였습니다."),
+    DECRYPTION_FAIL(500, "ENCRYPTION_500_2", "복호화에 실패하였습니다."),
+    EXTENTION_NOT_ALLOWED(400, "GLOBAL_400_1", "이미지의 확장자는 jpg, jpeg, png만 가능합니다."),
+    ;
 
     private final Integer status;
     private final String code;
