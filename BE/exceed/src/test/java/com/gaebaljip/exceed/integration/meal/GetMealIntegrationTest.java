@@ -166,7 +166,7 @@ public class GetMealIntegrationTest extends IntegrationTest {
                         RestDocumentationRequestBuilders.get("/v1/meal/" + testData)
                                 .contentType(MediaType.APPLICATION_JSON));
 
-        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value(6321));
+        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value(2006));
     }
 
     @Test
@@ -184,6 +184,6 @@ public class GetMealIntegrationTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andExpectAll(
-                status().is5xxServerError(), jsonPath("$.error.code").value(5555));
+                status().is5xxServerError(), jsonPath("$.error.code").value(1120));
     }
 }
