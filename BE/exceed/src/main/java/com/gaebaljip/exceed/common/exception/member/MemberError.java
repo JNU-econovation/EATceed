@@ -13,16 +13,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MemberError implements BaseError {
-    ALREADY_SIGN_UP_MEMBER(400, "4449", "이미 회원가입이 된 이메일입니다."),
-    ALREADY_EMAIL(400, "4448", "이메일 인증을 하지 않은 회원입니다."),
-    INVALID_AGE(400, "4446", "나이는 음수일 수 없습니다."),
-    INVALID_CODE(400, "7003", "올바르지 않은 인증 코드이거나 만료된 인증코드입니다. 이메일 재전송을 해주세요."),
-    INVALID_GENDER(400, "4447", "성별은 1과 0으로만 표현됩니다."),
-    INVALID_HEIGHT(400, "4444", "키는 음수일 수 없습니다."),
-    INVALID_WEIGHT(400, "4445", "몸무게가 음수일 수 없습니다."),
-    MAIL_SEND_FAIL(400, "7002", "메일 전송에 실패하였습니다."),
-    INVALID_MEMBER(400, "4448", "존재하지 않는 회원입니다."),
-    HISTORY_NOT_FOUND(500, "5555", "첫 온보딩하기 전입니다.");
+    ALREADY_SIGN_UP_MEMBER(400, "MEMBER_400_1", "이미 회원가입이 된 이메일입니다."),
+    ALREADY_EMAIL(400, "MEMBER_400_2", "이메일 인증을 하지 않은 회원입니다."),
+    INVALID_AGE(400, "MEMBER_400_3", "나이는 음수일 수 없습니다."),
+    INVALID_CODE(400, "MEMBER_400_4", "올바르지 않은 인증 코드이거나 만료된 인증코드입니다. 이메일 재전송을 해주세요."),
+    INVALID_GENDER(400, "MEMBER_400_5", "성별은 1과 0으로만 표현됩니다."),
+    INVALID_HEIGHT(400, "MEMBER_400_6", "키는 음수일 수 없습니다."),
+    INVALID_WEIGHT(400, "MEMBER_400_7", "몸무게가 음수일 수 없습니다."),
+    MAIL_SEND_FAIL(400, "MEMBER_400_8", "메일 전송에 실패하였습니다."),
+    INVALID_MEMBER(400, "MEMBER_400_9", "존재하지 않는 회원입니다."),
+    HISTORY_NOT_FOUND(500, "MEMBER_500_1", "첫 온보딩하기 전입니다.");
     private final Integer status;
     private final String code;
     private final String reason;
