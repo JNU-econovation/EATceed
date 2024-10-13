@@ -8,6 +8,6 @@ public class DecryptionErrorException extends EatCeedException {
     public static EatCeedException EXECPTION = new DecryptionErrorException();
 
     public DecryptionErrorException() {
-        super(EncryptionError.DECRYPTION_FAIL);
+        super(GlobalError.DECRYPTION_FAIL);
     }
 }
