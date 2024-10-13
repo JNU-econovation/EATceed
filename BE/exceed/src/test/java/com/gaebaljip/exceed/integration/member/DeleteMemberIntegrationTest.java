@@ -50,6 +50,6 @@ public class DeleteMemberIntegrationTest extends IntegrationTest {
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         // then
-        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value("4448"));
+        resultActions.andExpectAll(status().isBadRequest(), jsonPath("$.error.code").value("1119"));
     }
 }
